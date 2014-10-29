@@ -110,7 +110,7 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":hibernate:3.6.10.14"
+        runtime ":hibernate:3.6.10.17"
         // runtime ":hibernate:2.3.1"
 
         runtime ":jquery:1.11.0.2"
@@ -138,10 +138,12 @@ grails.project.dependency.resolution = {
         compile ":google-visualization:0.7"
         // compile ':cache-ehcache:1.0.0'
 
-        compile ':spring-security-core:2.0-RC4'
+        compile ":spring-security-core:2.0-RC4"
 
         compile ":mail:1.0.7"
 
         compile ":modaldynamix:0.2"
+        compile ":locale-configuration:1.0"
+
     }
 }
