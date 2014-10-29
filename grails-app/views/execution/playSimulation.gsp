@@ -541,7 +541,7 @@
                     <td width="100px"><span class="decSimu">Cars</span></td>
                 </tr>
                 <tr>
-                    <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"><span class="decSimu">Electric stations</span></canvas></td>
+                    <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"></canvas></td>
                     <td width="100px"><span class="decSimu">Electric stations</span></td>
                 </tr>
             </table>

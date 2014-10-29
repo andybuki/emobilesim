@@ -28,6 +28,10 @@
                         <li><g:link controller="configuration" action="help"><g:message code="layouts._topbar.help"/></g:link></li>
 
                         <li><g:link controller="configuration" action="contact"><g:message code="layouts._topbar.contact"/></g:link></li>
+                        <span class="registration2">
+                            <li class="flags"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'de']"><img width="20" src="${g.resource( dir: '/images', file: 'de.png' )}"></g:link></li>
+                            <li class="flags1"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'en']"><img width="20" src="${g.resource( dir: '/images', file: 'uk.png' )}"></g:link></li>
+                        </span>
                     </ul>
                     <div class="clearfix"></div>
                 </nav>

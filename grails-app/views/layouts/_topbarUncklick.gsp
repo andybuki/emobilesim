@@ -26,7 +26,10 @@
                             </g:if>
                             <span id='login'>
                                 <span class='inner'>
-
+                                    <span class="registration3">
+                                        <li class="flags"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'de']"><img width="20" src="${g.resource( dir: '/images', file: 'de.png' )}"></g:link></li>
+                                        <li class="flags1"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'en']"><img width="20" src="${g.resource( dir: '/images', file: 'uk.png' )}"></g:link></li>
+                                    </span>
                                     <span class="registration1">
                                     <form>
 

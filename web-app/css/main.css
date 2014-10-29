@@ -986,9 +986,20 @@ body.lightBoxBody{
  .registration1 {
      position: absolute;
      right: 5px;
-     align: right;
+     width: 250px;
 
  }
+
+.registration2 {
+    position: absolute;
+    right: -10px;
+}
+
+.registration3 {
+    position: absolute;
+    right: 10px;
+    width: 350px;
+}
 
  .regristrationText{
      position: relative;
@@ -2760,4 +2771,12 @@ a.olControlZoomOut {
 
 .decSimu {
 
+}
+
+.flags {
+
+}
+.flags1 {
+ right:20px;
+    position: relative;
 }
