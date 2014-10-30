@@ -319,7 +319,7 @@ grails.plugin.springsecurity.logout.handlerNames = [
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'de.dfki.gs.domain.users.PersistentLogin'
 
-grails.plugins.localeConfiguration.supportedLocales = [Locale.GERMAN, Locale.ENGLISH]
+grails.plugins.localeConfiguration.supportedLocales = [ Locale.ENGLISH, Locale.GERMAN]
 grails.plugins.localeConfiguration.defaultLocale = Locale.ENGLISH
 
 
