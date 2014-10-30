@@ -13,6 +13,6 @@
 </head>
 
 <body>
-<span class="construction">This page is under construction</span>
+<span class="construction"><g:message code="configuration.help.configuration"/></span>
 </body>
 </html>

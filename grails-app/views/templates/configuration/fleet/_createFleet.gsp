@@ -32,7 +32,7 @@
                                                           url="[action: 'updateFleetOfConfiguration']"
                                                           update="updateCar"
                                                           name="submit"
-                                                          value="Add to Fleet" />
+                                                          value="${message(code: 'templates.configuration.fleet._createFleet.addtofleet')}" />
                      </div>
                        <div class="clear"></div>
                     </div>
@@ -44,11 +44,12 @@
                         </div>
                         <div class="right80PX">
                              <g:hiddenField name="fleetStubId" value="${fleetStubId}"/>
-                            <g:submitButton name="createFleet" value="Create Fleet"/>
+                            <g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._createFleet.createdleet')}"/>
                         </div>
                         <div class="clear"></div>
                     </div>
             </div>
-        </g:form><a class="close" title="Close" href=""></a>
+        </g:form>
+        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
     </div>
 </div>

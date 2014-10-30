@@ -26,24 +26,25 @@
                             </g:if>
                             <span id='login'>
                                 <span class='inner'>
-                                    <span class="registration3">
-                                        <li class="flags"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'de']"><img width="20" src="${g.resource( dir: '/images', file: 'de.png' )}"></g:link></li>
-                                        <li class="flags1"><g:link controller="${params.controller}" action="${params.action}" params="[lang:'en']"><img width="20" src="${g.resource( dir: '/images', file: 'uk.png' )}"></g:link></li>
-                                    </span>
                                     <span class="registration1">
-                                    <form>
+                                        <form>
 
-                                    </form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
-                                            <span class="loggedIn">
-                                                <span class="loggedIndrin"><g:message code="layouts._topbar.logged"/>&nbsp;
-                                                    <b>
-                                                        <%-- ${welcome?.givenName} ${welcome?.familyName} --%>
-                                                        <es:welcomeLoggedInUser/>
-                                                    </b>
+                                        </form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+                                                <span class="loggedIn">
+                                                    <span class="flags">
+                                                        <g:link controller="${params.controller}" action="${params.action}" params="[lang:'de']"><img width="22" src="${g.resource( dir: '/images', file: 'de.png' )}"></g:link>&nbsp;
+                                                        <g:link controller="${params.controller}" action="${params.action}" params="[lang:'en']"><img width="22" src="${g.resource( dir: '/images', file: 'uk.png' )}"></g:link>
+                                                    </span>
+
+                                                    <span class="loggedIndrin"><g:message code="layouts._topbar.logged"/>&nbsp;
+                                                        <b>
+                                                            <%-- ${welcome?.givenName} ${welcome?.familyName} --%>
+                                                            <es:welcomeLoggedInUser/>
+                                                        </b>
+                                                    </span>
+                                                    <a class="logout" href="<g:createLink controller="login" action="logout" />"> <g:message code="layouts._topbar.logout2"/></a>
                                                 </span>
-                                                <a class="logout" href="<g:createLink controller="login" action="logout" />"> <g:message code="layouts._topbar.logout2"/></a>
-                                            </span>
-                                    </form>
+                                        </form>
 
                                     </span>
                                 </span>

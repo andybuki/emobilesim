@@ -7,12 +7,11 @@
         <div class="right211PX">
             <g:select name="stationTypeSelect" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
             &nbsp;&nbsp;
-
             <g:submitToRemote class="addButton"
                               url="[action: 'updateGroupOfConfiguration']"
                               update="updateFillingStation${uuid}"
                               name="submit"
-                              value="Add to Group" />
+                              value="${message(code: 'templates.configuration.fleet._anotherfillingstation.addgroup')}" />
         </div>
         <div class="clear"></div>
     </div>

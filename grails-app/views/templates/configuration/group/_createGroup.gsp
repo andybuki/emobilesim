@@ -6,8 +6,6 @@
                 <div class="rowUp">
                     <div class="leftbig"><b><%--<<g:message code="simulation.index.selectcarstype"/>--%>Select filling stations for group</b></div>
                 </div>
-
-
                 <div class="rowMiddle">
 
                     <div class="leftModal">
@@ -35,7 +33,7 @@
                                           url="[action: 'updateGroupOfConfiguration']"
                                           update="updateFillingStation"
                                           name="submit"
-                                          value="Add to Group" />
+                                          value="${message(code: 'templates.configuration.fleet._anotherfillingstation.addgroup')}" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -51,11 +49,12 @@
                     </div>
                     <div class="right90PX">
                         <g:hiddenField name="groupStubId" value="${groupStubId}"/>
-                        <g:submitButton name="createGroup" value="Create Group"/>
+                        <g:submitButton name="createGroup" value="${message(code: 'templates.configuration.group._createGroup.creategroup')}"/>
                     </div>
                     <div class="clear"></div>
                 </div>
             </div>
-        </g:form><a class="close" title="Close" href=""></a>
+        </g:form>
+        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
     </div>
 </div>

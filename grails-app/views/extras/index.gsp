@@ -7,7 +7,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Add new car type</title>
+    <title><g:message code="extras.index.addcar"/> </title>
     <meta name="layout" content="main" />
     <script>
         $(document).ready(function() {

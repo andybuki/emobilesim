@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Help</title>
+    <title><g:message code="layouts._topbar.help"/></title>
     <meta name="layout" content="main" />
 </head>
 
 <body>
-<span class="construction">This page is under construction</span>
+<span class="construction"><g:message code="configuration.help.configuration"/></span>
 </body>
 </html>

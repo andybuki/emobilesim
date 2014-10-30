@@ -24,38 +24,26 @@
                   url="[action: 'saveGasolineInfo']"
                   onComplete="saveGasolineInfos( '${gasolineId}', '${g.createLink( controller: 'mapView', action: 'retrieveTypeForGasoline' )}' )" >
 
-
         <g:hiddenField name="gasolineId" value="${gasolineId}" />
-
         <table class="lightboxselectiontable" >
-
             <tr>
                 <td>
                     <g:message code="de.dfki.gs.domain.GasolineStation.type" />
                 </td>
                 <td>
-                    <g:select title="Gasoline Type"
+                    <g:select title="${message(code: 'templates.configuration.stations.gasolinetype')}"
                               name="gasolineType"
                               from="${gasolineTypes}"
                               value="${selectedType}"
                     />
                 </td>
             </tr>
-
         </table>
-
         <div id="dksff" class="lightboxtasks">
-
             <button type="button" name="myButton" class="lightbox-submit-delete"
-                    onclick="${remoteFunction( action:'deleteGasolineStation', controller: 'mapView', params: [ gasolineId : gasolineId ] ) }; deleteGasolineStation( ${gasolineId} )">Delete</button>
-
-
-            <button type="submit" class="lightbox-submit-save"><i class="icon icon-warning-sign"></i>Save and Close</button>
-
+                    onclick="${remoteFunction( action:'deleteGasolineStation', controller: 'mapView', params: [ gasolineId : gasolineId ] ) }; deleteGasolineStation( ${gasolineId} )"><g:message code="templates.configuration.stations.delete"/> </button>
+            <button type="submit" class="lightbox-submit-save"><i class="icon icon-warning-sign"></i><g:message code="templates.configuration.stations.save&close"/> </button>
         </div>
-
-
     <%-- submit Button: onchange: close this div, see above --%>
-
     </g:formRemote>
 </div>

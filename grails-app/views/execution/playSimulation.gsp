@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html class="js">
 <head>
-    <title>Simulation</title>
+    <title><g:message code="configuration.executesim.simulation"/></title>
 
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <g:javascript library="jquery" />
@@ -55,7 +55,7 @@
 
         g_playing = !g_playing;
         var button = document.getElementById('button_play_pause');
-        button.innerHTML = "<b>Play</b>";
+        button.innerHTML = "<b>Play simulation</b>";
     }
 
     function play() {
@@ -495,7 +495,7 @@
                 <span class="infoBold">${routeCount}</span><span class="info"> <g:message code="execution.playsimulation.cars"/></span><br/>
                 <span class="infoBold">${stationCount}</span><span class="info"> <g:message code="execution.playsimulation.stations"/></span>
                 <div class="playButtons" id="the_buttons">
-                    <button class="playButton" id="button_play_pause" onClick="toggle_button_clicked()"><b>Play</b></button>
+                    <button class="playButton" id="button_play_pause" onClick="toggle_button_clicked()"><b><g:message code="execution.playsimulation.playsimulation"/></b></button>
 
                     <%--<g:form name="hua" controller="execution" >
                         <g:actionSubmit value="Stop Experiment" action="stopExperiment" />
@@ -505,7 +505,7 @@
                             id="button_stopp"
                             type="submit"
                             onclick="location.href='${createLink( controller: 'execution', action: 'stopExperiment', params: [ configurationId: configurationId, experimentRunResultId: experimentRunResultId ] ) }'">
-                        <i class="icon icon-warning-sign"></i>Stop</button>
+                        <i class="icon icon-warning-sign"></i><g:message code="execution.playsimulation.stop"/> </button>
 
                     <button class="playButtonStats"
                             id="button_show_stats"
@@ -513,7 +513,7 @@
                             onclick="location.href='${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}'"
                             value="disabled"
                             disabled="true"
-                    ><i class="icon icon-warning-sign"></i>Show Stats</button>
+                    ><i class="icon icon-warning-sign"></i><g:message code="execution.playsimulation.showstats"/> </button>
 
                     <%--
                     <button class="playButton"
@@ -534,15 +534,15 @@
                 </tr>
                 <tr>
                     <td width="1250px"><canvas id="experimentContainer" width="1200" height="500"></canvas></td>
-                    <td width="100px"><span class="decSimu">Simulation</span></td>
+                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.simulation"/> </span></td>
                 </tr>
                 <tr>
                     <td width="1250px"><canvas id="nameContainer" width="1200" height="50"></canvas></td>
-                    <td width="100px"><span class="decSimu">Cars</span></td>
+                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.carsdescription"/> </span></td>
                 </tr>
                 <tr>
                     <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"></canvas></td>
-                    <td width="100px"><span class="decSimu">Electric stations</span></td>
+                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.electricstations"/> </span></td>
                 </tr>
             </table>
             <g:render template="/layouts/footer" />

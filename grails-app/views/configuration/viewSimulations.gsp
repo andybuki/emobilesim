@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>View Results</title>
+    <title><g:message code="configuration.viewsimulation.result"/></title>
     <meta name="layout" content="main" />
 </head>
 
@@ -16,20 +16,20 @@
 <div class="pContainerResent">
     <div class="d1">
         <fieldset>
-            <legend> Executable Simulations </legend>
+            <legend> <g:message code="configuration.executesim.accomplishedsimulations"/> </legend>
             <div class="layoutResent">
                 <g:if test="${ configurations.size() > 0}">
                     <table>
                         <tr>
-                            <th>Number</th>
-                            <th>Description</th>
-                            <th>Execute Button</th>
+                            <th><g:message code="configuration.executesim.name"/> </th>
+                            <th><g:message code="configuration.executesim.description"/></th>
+                            <th><g:message code="configuration.executesim.executebutton"/></th>
                         </tr>
 
                     <g:each in="${configurations}" var="conf">
                         <tr>
-                            <td>${conf.configurationId} Simulation</td>
-                            <td>${conf.fleetInfo} Cars and  ${conf.stationsInfo} Filling Stations</td>
+                            <td>${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
+                            <td>${conf.fleetInfo} <g:message code="configuration.executesim.cars"/>   ${conf.stationsInfo} <g:message code="configuration.executesim.fillingstations"/></td>
                             <td>
                                 <g:form controller="execution" action="executeExperiment">
                                     <div class="layoutButton3">
@@ -37,7 +37,7 @@
                                         <g:hiddenField name="relativeSearchLimit" value="50" />
                                         <g:hiddenField name="configurationId" value="${conf.configurationId}"/>
                                         <span class="layoutButtonR3">
-                                            <g:submitButton name="send" value="VIEW"/>
+                                            <g:submitButton name="send" value="${message(code: 'configuration.viewsimulation.view')}"/>
                                         </span>
                                     </div>
                                 </g:form>
@@ -46,7 +46,7 @@
                     </g:each>
                 </g:if>
                 <g:if test="${configurations.size() == null}">
-                    <span class="simDesc">There is no available simulations</span>
+                    <span class="simDesc"><g:message code="configuration.executesim.avasim"/></span>
                 </g:if>
             </table>
 

@@ -14,8 +14,7 @@
 
 <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css' />
 <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css' />
-
-
+<title><g:message code="login.auth.title"/> </title>
 </head>
 
 <body>
@@ -40,7 +39,7 @@
         </g:if>
 
         <div class="pContainerAuth">
-            <fieldset>
+            <fieldset class="fieldsetAuth">
                 <legend><g:message code="login.auth.registrate" /> or <g:message code="login.auth.login"/></legend>
                 <div class="layout">
                     <div class="layoutLeft">
@@ -111,7 +110,7 @@
 
                                 <div class="rowDown">
                                     <div class="left"></div>
-                                    <div class="right"><g:submitButton name="signinButton" value="Sign Up" /></div>
+                                    <div class="right"><g:submitButton name="signinButton" value="${message(code: 'login.auth.registrate')}" /></div>
                                     <div class="clear"></div>
                                 </div>
                             </g:form>
@@ -143,13 +142,13 @@
                         </div>
 
                         <div class="contentAuth">
-                            <%--<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>--%>
+                            <g:form controller="login" action="fogotPassword" id='passForm' class='cssform' autocomplete='off'>
                                 <div class="rowUp">
                                     <div class="leftbig"><b><g:message code="login.auth.fogotPassword"/></b></div>
                                 </div>
                                 <div class="rowMiddle">
                                     <div class="left"><g:message code="login.auth.email"/></div>
-                                    <div class="right"><input type="text" size="20" name='j_username' id='' value=""></div>
+                                    <div class="right"><input type="text" size="20" name='signinUserName' id='signinUserName' value=""></div>
                                     <div class="clear"></div>
                                 </div>
 
@@ -158,7 +157,7 @@
                                     <div class="right"><input type="submit" value="<g:message code="login.auth.send"/>"></div>
                                     <div class="clear"></div>
                                 </div>
-                            <%--</form>--%>
+                            </g:form>
                         </div>
                     </div>
                     <%--<div class="layoutImage">
@@ -178,7 +177,7 @@
                     <span class="layoutButtonM"></span>
                     <span class="layoutButtonR"><g:submitButton name="send" value="SAVE"/></span>
                 </div>--%>
-                <span class="confirmationMessage">Confirmation will be sent to this address and invalidates shortly.</span>
+                <span class="confirmationMessage"><g:message code="login.auth.configuration"/></span>
 
             </fieldset>
         </div>

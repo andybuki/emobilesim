@@ -62,16 +62,14 @@
                             <li><a href="#tab-3"><g:message code="templates.configuration.group._distribution.file"/></a></li>
                         </ul>
                         <div class="tab">
-
                             <div id="tab-1" class="tab-content">
-
                                 <g:form controller="configuration" action="setDistributionForGroup">
                                     <div class="rowSpace">
                                         <div class="clear"></div>
                                     </div>
                                     <div class="contentLeft1">
                                         <div class="rowUp">
-                                            <div class="leftbig">Distribution settings:</div>
+                                            <div class="leftbig"><g:message code="templates.configuration.group._distribution.distributionsettings"/> </div>
                                         </div>
                                         <div class="rowMiddle">
                                             <div class="leftDistribution">
@@ -82,38 +80,32 @@
                                             </div>
                                             <div class="clear"></div>
                                         </div>
-
                                         <div class="rowMiddle">
 
                                             <div class="clear"></div>
                                         </div>
-
                                         <div class="clear"></div>
-
                                         <div class="rowDown">
                                             <div class="leftLongBold"></div>
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="groupId" value="${groupId}"/>
                                             <div class="right2-bottomed">
-                                                <g:submitButton name="setDistribution" value="Save Distribution for Group"/>
+                                                <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savedistributionforgroup')}"/>
                                             </div>
 
                                             <div class="clear"></div>
                                         </div>
                                     </div>
                                 </g:form>
-
                             </div>
-
                             <div id="tab-2" class="tab-content">
-
                             </div>
 
                             <div id="tab-3" class="tab-content">
                                 <br>
                                 <div class="contentLeft1">
                                     <div class="rowUp">
-                                        <div class="leftbig">Electric stations settings:</div>
+                                        <div class="leftbig"><g:message code="templates.configuration.group._distribution.electricstationssettings"/> </div>
                                     </div>
                                     <div class="rowMiddle">
                                         <div class="leftDistributionFile">
@@ -130,7 +122,7 @@
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:hiddenField name="groupId" value="${groupId}"/>
                                         <div class="right2-bottomed">
-                                            <g:submitButton name="setDistribution" value="Save stations from File"/>
+                                            <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savestationsfromfile')}"/>
                                         </div>
 
                                         <div class="clear"></div>
@@ -140,10 +132,11 @@
                         </div>
                     </div>
 
-                </div><a class="close" title="Close" href=""></a>
+                </div>
+                <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
+            </div>
         </fieldset>
     </div>
-
 </div>
 
 

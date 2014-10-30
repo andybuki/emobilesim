@@ -8,20 +8,13 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
-    <title>Front</title>
-    <meta name="layout" content="main" />
-</head>
-<body>
-
-<div>
-    <p id="startSimulation">Welcome - ${welcome.givenName} ${welcome.familyName}</p>
-</div>
-
-<div>
-
-</div>
-
-
-</body>
+    <head>
+        <title><g:message code="front.index.startpage"/> </title>
+        <meta name="layout" content="main" />
+    </head>
+    <body>
+        <div>
+            <p id="startSimulation"><g:message code="login.success.welcome"/> - ${welcome.givenName} ${welcome.familyName}</p>
+        </div>
+    </body>
 </html>

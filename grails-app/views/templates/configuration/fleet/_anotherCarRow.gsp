@@ -11,7 +11,7 @@
                   url="[action: 'updateFleetOfConfiguration']"
                   update="updateCar${uuid}"
                   name="submit${uuid}"
-                  value="Add to Fleet"
+                  value="${message(code: 'templates.configuration.fleet._createFleet.addtofleet')}"
                   id="submit${uuid}" />
 </div>
 <div class="clear"></div>

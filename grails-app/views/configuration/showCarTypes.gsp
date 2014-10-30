@@ -26,7 +26,7 @@
                     <div class="right0PX">
                         <g:form action="editCarTypeView">
                             <g:hiddenField name="carTypeId" value="${carType.carType.id}"/>
-                            <g:submitToRemote class="addButton" url="[ action: 'editCarTypeView' ]" update="updateMe" name="submit" value="edit" id="openModal"/>
+                            <g:submitToRemote class="addButton" url="[ action: 'editCarTypeView' ]" update="updateMe" name="submit" value="${message(code: 'configuration.showcar.edit')}" id="openModal"/>
                        </g:form>
                     </div>
                     <div class="clear"></div>
@@ -36,7 +36,7 @@
                 <g:form action="createCarTypeView">
                     <div></div>
                     <div class="rightOnlyButton">
-                        <g:submitToRemote class="addButton" url="[action: 'createCarTypeView']" update="updateMe" name="submit" value="create new car type" />
+                        <g:submitToRemote class="addButton" url="[action: 'createCarTypeView']" update="updateMe" name="submit" value="${message(code: 'configuration.showcar.createcar')}" />
                     </div>
                     <div class="clear"></div>
                 </g:form>
