@@ -123,7 +123,7 @@ img {
 	background: #abbf78;
 	color: #000;
 	clear: both;
-	font-size: 0.8em;
+	font-size: 8px;
 	margin-top: 1.5em;
 	padding: 1em;
 	min-height: 1em;
@@ -986,7 +986,7 @@ body.lightBoxBody{
  .registration1 {
      position: absolute;
      right: 5px;
-     width: 250px;
+     min-width: 250px;
 
  }
 
@@ -996,9 +996,10 @@ body.lightBoxBody{
 }
 
 .registration3 {
-    position: absolute;
-    right: 10px;
-    width: 350px;
+    position: relative;
+    width: 360px;
+    float:right;
+
 }
 
  .regristrationText{
@@ -1423,7 +1424,7 @@ td {
 
 }
 .layoutButtonR {
-    width: 9%;
+
     display: table-cell;
     border-radius: 6px;
     float:right;
@@ -1891,6 +1892,24 @@ fieldset {
 
 }
 
+.fieldsetAuth {
+    border-radius: 6px;
+    border: 1px solid #d4d4d1;
+    margin-bottom: 10px;
+    max-width: 1000px;
+    min-width: 700px;
+}
+
+.fieldsetConfiguration {
+
+    border-radius: 6px;
+    border: 1px solid #d4d4d1;
+    margin-bottom: 10px;
+    max-width: 1200px;
+    min-width: 1100px;
+
+}
+
 .fieldSet100Percent {
     border-radius: 6px;
     border: 1px solid #d4d4d1;
@@ -2019,9 +2038,11 @@ fieldset {
     border-radius: 6px
 }
 .layoutLeft {
-    width: 50%;
+    min-width: 400px;
+    max-width: 500px;
     vertical-align: top;
     display: table-cell;
+    max-width: 400px;
 }
 
 .layoutRight {
@@ -2767,6 +2788,8 @@ a.olControlZoomOut {
 
 .descriptionSim:target{
     display:block;
+    position: relative;
+    left:10px;
 }
 
 .decSimu {
@@ -2774,9 +2797,18 @@ a.olControlZoomOut {
 }
 
 .flags {
-
-}
-.flags1 {
- right:20px;
     position: relative;
+    vertical-align: middle;
+    padding: 5px;
+    bottom: 3px;
+}
+
+.flags1{
+    position: relative;
+    padding: 20px;
+    top: 15px;
+}
+
+#spinner {
+    background-image: url(../images/loader.gif);
 }
