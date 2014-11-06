@@ -281,7 +281,8 @@ class RouteService {
         try {
             Map<String,Object> params = new HashMap<String,Object>();
 
-            if ( Environment.current == 'development' ) {
+            //if ( Environment.current == 'development' ) {
+            if ( 1 == 2 ) {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
@@ -478,7 +479,7 @@ class RouteService {
 
     public List<List<org.geotools.graph.structure.Node>> createViaNodesWithRandomKm( List<Double> distances ) {
 
-        double distanceFactor = 1.3
+        double distanceFactor = 0.7
 
         List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = new ArrayList<List<org.geotools.graph.structure.Node>>()
 
