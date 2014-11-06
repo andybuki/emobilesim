@@ -14,7 +14,7 @@
 <div id="openModal" class="modalDialogRoutes">
     <div class="settingsWindowBig">
         <fieldset class="fieldSet100Percent">
-            <legend> <g:message code="templates.configuration.fleet._distribution.selectroutes"/> </legend>
+            <legend> <g:message code="templates.configuration.fleet._distribution.selectroutes"/></legend>
                 <div class="layout">
                     <div class="layoutLeftLittle">
                         <div class="contentLeft4">
@@ -62,7 +62,6 @@
                                 <li><a href="#tab-3"><g:message code="simulation.index.showonmap"/></a></li>
                             </ul>
                             <div class="tab">
-
                                     <div id="tab-1" class="tab-content">
                                         <g:form controller="configuration" action="setDistributionForFleet">
                                             <div class="rowSpace">
@@ -70,7 +69,7 @@
                                             </div>
                                             <div class="contentLeft1">
                                                 <div class="rowUp">
-                                                    <div class="leftbig">Distribution settings:</div>
+                                                    <div class="leftbig"><g:message code="templates.configuration.group._distribution.distributionsettings"/> </div>
                                                 </div>
                                                 <div class="rowMiddle">
                                                     <div class="leftDistribution">
@@ -106,7 +105,7 @@
                                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                     <g:hiddenField name="fleetId" value="${fleetId}"/>
                                                     <div class="right2-bottomed">
-                                                        <g:submitButton name="setDistribution" value="Save Distribution for Fleet"/>
+                                                        <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
                                                     </div>
 
                                                     <div class="clear"></div>
@@ -118,7 +117,7 @@
                                 <div id="tab-2" class="tab-content">
                                     <div class="contentLeft1">
                                         <div class="rowUp">
-                                            <div class="leftbig">Distribution settings:</div>
+                                            <div class="leftbig"><g:message code="templates.configuration.group._distribution.distributionsettings"/></div>
                                         </div>
                                         <div class="rowMiddle">
                                             <div class="leftDistributionFile">
@@ -135,7 +134,7 @@
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="fleetId" value="${fleetId}"/>
                                             <div class="right2-bottomed">
-                                                <g:submitButton name="setDistribution" value="Save Distribution for Fleet"/>
+                                                <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
                                             </div>
 
                                             <div class="clear"></div>
@@ -144,15 +143,15 @@
                                 </div>
                                 <div id="tab-3" class="tab-content">
                                     <div id="map" class="olMap" style="z-index:1">
-                                    <div id="gmap_div"></div>
+                                        <div id="gmap_div"></div>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
+                        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
                 </div>
-        </fieldset><a class="close" title="Close" href=""></a>
+        </fieldset>
     </div>
 </div>
 

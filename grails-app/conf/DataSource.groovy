@@ -80,27 +80,58 @@ environments {
             password = "f498236e"
             pooled = true
             properties = {
-                maxActive = 500
-                minEvictableIdleTimeMillis = 1800000
-                timeBetweenEvictionRunsMillis = 1800000
-                numTestsPerEvictionRun = 3
-                testOnBorrow = true
-                testWhileIdle = true
-                testOnReturn = true
-                validationQuery = "SELECT 1"
+                driverClassName = "com.mysql.jdbc.Driver"
+                jmxEnabled = true
+                maxActive = 50
+                initialSize = 5
+                minIdle = 5
+                maxIdle = 25
                 maxWait = 1000000
+                maxAge = 10 * 60000
+                timeBetweenEvictionRunsMillis =1800000
+                minEvictableIdleTimeMillis = 1800000
+                validationQuery = "SELECT 1"
+                validationQueryTimeout = 3
+                validationInterval = 15000
                 testOnBorrow = true
-                testOnReturn = false
-                testWhileIdle = false
-                timeBetweenEvictionRunsMillis =-1
-                numTestsPerEvictionRun =3
-                poolPreparedStatements=true
-                maxOpenPreparedStatements=25
-                accessToUnderlyingConnectionAllowed=false
-                removeAbandoned=false
-                removeAbandonedTimeout=300
-                logAbandoned=false
+                testOnReturn = true
+                testWhileIdle = true
+                ignoreExceptionOnPreLoad = true
+                abandonWhenPercentageFull = 100
+                removeAbandonedTimeout=120
+                removeAbandoned=true
+                logAbandoned = false
+                dbProperties {
+                    autoReconnect=true
+                    // truncation behaviour
+                    jdbcCompliantTruncation=false
+                    // mysql 0-date conversion
+                    zeroDateTimeBehavior='convertToNull'
+                    // Tomcat JDBC Pool's StatementCache is used instead, so disable mysql driver's cache
+                    cachePrepStmts=false
+                    cacheCallableStmts=false
+                    // Tomcat JDBC Pool's StatementFinalizer keeps track
+                    dontTrackOpenResources=true
+                    // performance optimization: reduce number of SQLExceptions thrown in mysql driver code
+                    holdResultsOpenOverStatementClose=true
+                    // enable MySQL query cache - using server prep stmts will disable query caching
+                    useServerPrepStmts=false
+                    // metadata caching
+                    cacheServerConfiguration=true
+                    cacheResultSetMetadata=true
+                    metadataCacheSize=100
+                    // timeouts for TCP/IP
+                    connectTimeout=15000
+                    socketTimeout=120000
+                    // timer tuning (disable)
+                    maintainTimeStats=false
+                    enableQueryTimeouts=false
+                    // misc tuning
+                    noDatetimeStringSync=true
+                }
+
             }
+
         }
 
     }

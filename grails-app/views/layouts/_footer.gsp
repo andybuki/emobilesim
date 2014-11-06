@@ -1,3 +1,3 @@
 <div id="footer">
-    <p>emobilesim</p>
+    <p><g:message code="layouts.footer.name"/> </p>
 </div>

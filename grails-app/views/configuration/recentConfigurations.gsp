@@ -10,7 +10,7 @@
 <html>
 
 <head>
-    <title>Open resent</title>
+    <title><g:message code="layouts._topbar.open"/> </title>
     <meta name="layout" content="main" />
 </head>
 
@@ -18,15 +18,15 @@
 <div class="pContainerResent">
     <div class="d1">
         <fieldset>
-            <legend> Open resent </legend>
+            <legend> Open </legend>
             <div class="layoutResent">
                 <table>
                     <g:if test="${ configurations.size() > 0}">
 
                                 <tr>
-                                    <th>Number</th>
-                                    <th>Description</th>
-                                    <th>Link</th>
+                                    <th><g:message code="configuration.executesim.name"/> </th>
+                                    <th><g:message code="configuration.executesim.description"/></th>
+                                    <th><g:message code="configuration.executesim.executebutton"/></th>
                                 </tr>
 
                         <g:each in="${configurations}" var="conf">
@@ -39,7 +39,7 @@
                         </g:each>
                     </g:if>
                     <g:if test="${configurations.size() == null}">
-                        <span class="simDesc">There is no available simulations</span>
+                        <span class="simDesc"><g:message code="configuration.executesim.avasim"/></span>
                     </g:if>
                 </table>
 

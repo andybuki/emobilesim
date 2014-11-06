@@ -1,14 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
-  User: glenn
-  Date: 01.07.14
-  Time: 16:43
+  User: anbu02
+  Date: 23.10.14
+  Time: 11:51
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<html>
 <head>
-    <title><g:message code="login.auth.successfulregistration"/> </title>
+    <title></title>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'prefix-free.js')}"></script>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'jquery-1.9.0.js')}"></script>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
@@ -23,17 +22,8 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css' />
 </head>
-
 <body>
-<g:render template="/login/topbar"/>
-    <span class="confirmEmail">
-        <p>
-            <g:message code="login.success.welcome"/> ${givenName} ${familyName}!
-            <br><br>
-            <g:message code="login.success.loginnow"/> <g:link uri="${loginLink}" url="${loginLink}"> <span class="loginName"><g:message code="login.success.login"/> </span></g:link>
-        </p>
-
-    </span>
+    <g:render template="/login/topbar"/>
 
 </body>
 </html>

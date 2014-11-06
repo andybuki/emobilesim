@@ -12,19 +12,18 @@
     <title><g:message code="configuration.index.newsimulation"/></title>
     <meta name="layout" content="mainConfiguration" />
     <g:javascript library="jquery-1.9.0" />
-
     <g:javascript src="application.js" />
-
     <g:javascript src="ol/OpenLayers.js" />
+    <g:javascript src="jquery.loading.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-
     <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <g:javascript>
 
-
+    </g:javascript>
 </head>
 <body>
 <div class="pContainerConfigure">
-<fieldset>
+<fieldset class="fieldsetConfiguration">
 <legend> <g:message code="configuration.index.configuresimulation"/> </legend>
 <div class="layout">
 <div class="layoutLeft">
@@ -56,7 +55,7 @@
                         <g:form controller="configuration" action="addExistentFleetToConfiguration">
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                            <g:submitButton name="add" value="Add Fleet to Simulation" />
+                            <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
                         </g:form>
                     </div>
                     <div class="clear"></div>
@@ -65,14 +64,14 @@
 
             <div class="rowMiddleWithoutBorder2">
                 <g:form action="createFleetView">
-                    <div class="leftCarTypes">Not enough Fleets?</div>
+                    <div class="leftCarTypes"><g:message code="configuration.index.enoughfleets"/></div>
                     <div class="rightOnlyButton">
                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                         <g:submitToRemote class="addButton"
                                           url="[action: 'createFleetView']"
                                           update="updateMe"
                                           name="submit"
-                                          value="Create New Fleet" />
+                                          value="${message(code: 'simulation.index.createnewfleet')}" />
                     </div>
                     <div class="clear"></div>
                 </g:form>
@@ -125,7 +124,7 @@
                                                       url="[action: 'showFleetRoutesOnMap']"
                                                       update="updateMe"
                                                       name="showRoutes"
-                                                      value="Show Routes" />
+                                                      value="${message(code: 'configuration.index.showroutes')}"/>
 
 
                                 </g:form>
@@ -142,7 +141,7 @@
                                                       url="[action: 'createRouteSelectorView']"
                                                       update="updateMe"
                                                       name="submit"
-                                                      value="Configure Routes" />
+                                                      value="${message(code: 'configuration.index.configureroutes')}" />
                                 </g:form>
                             </g:if>
                         </div>
@@ -194,7 +193,7 @@
                         <g:form controller="configuration" action="addExistentGroupToConfiguration">
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
-                            <g:submitButton name="add" value="Add Group to Simulation" />
+                            <g:submitButton name="add" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
                         </g:form>
                     </div>
                     <div class="clear"></div>
@@ -205,7 +204,7 @@
                     <div class="leftCarTypes"><g:message code="simulation.index.createnewgroup"/></div>
                     <div class="rightOnlyButton">
                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                        <g:submitToRemote class="addButton" url="[action: 'createGroupView']" update="updateMe" name="submit" value="Create New Group" />
+                        <g:submitToRemote class="addButton" url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
                         <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
                     </div>
                     <div class="clear"></div>
@@ -259,7 +258,7 @@
                             <div class="right65PX">
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <g:hiddenField name="groupId" value="${addedGroup.id}"/>
-                                <g:submitButton name="removeGroup" value="Unselect"/>
+                                <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
                             </div>
 
                             <div class="right100PX">
@@ -270,7 +269,7 @@
                                                           url="[action: 'showGroupStationsOnMap']"
                                                           update="updateMe"
                                                           name="showGroups"
-                                                          value="Show Stations" />
+                                                          value="${message(code: 'configuration.index.showstations')}" />
 
                                     </g:form>
                                 </g:if>
@@ -285,7 +284,7 @@
                                                           url="[action: 'createGroupSelectorView']"
                                                           update="updateMe"
                                                           name="submit"
-                                                          value="Configure Stations" />
+                                                          value="${message(code: 'configuration.index.configurestations')}" />
                                     </g:form>
                                 </g:if>
                             </div>
@@ -312,11 +311,11 @@
 
 <div class="layoutImage">
     <div class="contentRight">
-        <img width="30px"src="${g.resource( dir: '/images', file: 'weather.png' )}"><br><br>
-        <img width="30px"src="${g.resource( dir: '/images', file: 'settings.png' )}"><br><br><br><br>
-        <img width="30px"src="${g.resource( dir: '/images', file: 'car.png' )}"><br>
+        <%--<img width="30px"src="${g.resource( dir: '/images', file: 'weather.png' )}"><br><br>--%>
+        <a href="#descriptionButton"><img width="30px"src="${g.resource( dir: '/images', file: 'settings.png' )}"></a><br><br><br><br>
+        <%--<img width="30px"src="${g.resource( dir: '/images', file: 'car.png' )}"><br>
         <img width="44px"src="${g.resource( dir: '/images', file: 'station.png' )}"><br><br><br>
-        <a href="#descriptionButton"><img  width="22px"src="${g.resource( dir: '/images', file: 'plus.png' )}"></a>
+        <a href="#descriptionButton"><img  width="22px"src="${g.resource( dir: '/images', file: 'plus.png' )}"></a>--%>
 
     </div>
 </div>
@@ -325,16 +324,16 @@
 
 <g:form action="saveFinishedConfiguration">
     <div id="descriptionButton" class="descriptionSim">
-        <span class="simDesc">Please name your Simulation:</span>
+        <span class="simDesc"><g:message code="configuration.index.namesimulation"/></span>
         <g:textField name="configurationName" value="${configurationName}" />
-        <span class="simDesc">Please describe your Simulation:</span>
+        <span class="simDesc"><g:message code="configuration.index.describesim"/></span>
         <g:textArea name="configurationDescription" value="${configurationDescription}" rows="3" cols="20" />
     </div>
     <br><br><br>
 
     <div class="layoutButton">
         <span class="layoutButtonL">
-            <span class="addButtonCancel"><g:link controller="sim" action="">CANCEL</g:link></span>
+            <span class="addButtonCancel"><g:link controller="sim" action=""><g:message code="configuration.index.cancel"/></g:link></span>
             <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
         </span>
                     <g:if test="${(savedGroups >= 1 && savedFleets >= 1) ||
@@ -346,7 +345,7 @@
                     }">
                             <span class="layoutButtonM"></span>
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <span class="layoutButtonR"><g:submitButton name="send" value="SAVE"/></span>
+                            <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
                     </g:if>
     </div>
 </g:form>
@@ -358,7 +357,7 @@
                         <g:hiddenField name="relativeSearchLimit" value="50" />
                         <g:hiddenField name="configurationId" value="${configurationStubId}"/>
                         <span class="layoutButtonR">
-                            <g:submitButton name="send" value="EXECUTE"/>
+                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
                         </span>
                     </div>
     </g:if>
