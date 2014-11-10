@@ -105,7 +105,7 @@
                                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                     <g:hiddenField name="fleetId" value="${fleetId}"/>
                                                     <div class="right2-bottomed">
-                                                        <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
+                                                        <g:submitButton name="setDistribution" onclick="location.reload();" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
                                                     </div>
 
                                                     <div class="clear"></div>
@@ -134,7 +134,7 @@
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="fleetId" value="${fleetId}"/>
                                             <div class="right2-bottomed">
-                                                <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
+                                                <g:submitButton name="setDistribution" onclick="location.reload();" value="${message(code: 'templates.configuration.fleet._distribution.savedistributionforfleet')}"/>
                                             </div>
 
                                             <div class="clear"></div>
