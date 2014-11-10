@@ -8,9 +8,11 @@ import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.Fleet
+import de.dfki.gs.domain.users.Person
 import de.dfki.gs.simulation.SchedulerStatus
 import de.dfki.gs.utils.ResponseConstants
 import grails.converters.JSON
+import grails.plugin.springsecurity.SpringSecurityUtils
 import org.codehaus.groovy.grails.web.util.WebUtils
 
 class ExecutionController {

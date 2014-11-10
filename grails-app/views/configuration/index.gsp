@@ -17,9 +17,7 @@
     <g:javascript src="jquery.loading.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
     <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
-    <g:javascript>
 
-    </g:javascript>
 </head>
 <body>
 <div class="pContainerConfigure">
@@ -55,7 +53,7 @@
                         <g:form controller="configuration" action="addExistentFleetToConfiguration">
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                            <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
+                            <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addfleet')}" />
                         </g:form>
                     </div>
                     <div class="clear"></div>
@@ -193,7 +191,7 @@
                         <g:form controller="configuration" action="addExistentGroupToConfiguration">
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
-                            <g:submitButton name="add" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                            <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
                         </g:form>
                     </div>
                     <div class="clear"></div>
@@ -325,7 +323,7 @@
 <g:form action="saveFinishedConfiguration">
     <div id="descriptionButton" class="descriptionSim">
         <span class="simDesc"><g:message code="configuration.index.namesimulation"/></span>
-        <g:textField name="configurationName" value="${configurationName}" />
+        <g:textField name="simulationName" value="${simulationName}" />
         <span class="simDesc"><g:message code="configuration.index.describesim"/></span>
         <g:textArea name="configurationDescription" value="${configurationDescription}" rows="3" cols="20" />
     </div>
@@ -336,12 +334,15 @@
             <span class="addButtonCancel"><g:link controller="sim" action=""><g:message code="configuration.index.cancel"/></g:link></span>
             <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
         </span>
-                    <g:if test="${(savedGroups >= 1 && savedFleets >= 1) ||
-                                  ( configuredGroups >= 1 &&  savedFleets >= 1 ) ||
-                                  (configuredFleets >= 1 && savedGroups >= 1) ||
-                                  ( savedGroups >= 1 && savedFleets >= 1 && configuredGroups >= 1) ||
-                                  (savedGroups >= 1 && savedFleets >= 1 && configuredFleets >= 1 )
-
+                    <g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
+                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 1 && savedFleets == 0 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                  (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
                     }">
                             <span class="layoutButtonM"></span>
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
@@ -351,7 +352,7 @@
 </g:form>
 
 <g:form controller="execution" action="executeExperiment">
-    <g:if test="${(configuredGroups >= 1 && configuredFleets >= 1 )}">
+    <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
                     <div class="layoutButton">
                         <span class="layoutButtonM"></span>
                         <g:hiddenField name="relativeSearchLimit" value="50" />

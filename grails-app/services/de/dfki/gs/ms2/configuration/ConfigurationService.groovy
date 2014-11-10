@@ -205,13 +205,9 @@ class ConfigurationService {
         stub.fillingStationGroups.each { FillingStationGroup group ->
 
             configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus )
-            if (group.groupStatus==GroupStatus.CONFIGURED ){
+            if (configuredGroups.contains(GroupStatus.CONFIGURED))
                 groupExecutable = 1
-            } else {
-                groupExecutable = 0
-            }
         }
-
         return groupExecutable
     }
 
@@ -228,13 +224,10 @@ class ConfigurationService {
 
         List<Fleet> addedFleets = new ArrayList<Fleet>()
         stub.fleets.each { Fleet fleet ->
-
             addedFleets.add( Fleet.get( fleet.id ).fleetStatus )
-            if (fleet.fleetStatus == FleetStatus.CONFIGURED ) {
+
+            if (addedFleets.contains(FleetStatus.CONFIGURED))
                 fleetExecutable = 1
-            }else {
-                fleetExecutable = 0
-            }
         }
         return fleetExecutable
     }
@@ -254,17 +247,10 @@ class ConfigurationService {
         stub.fillingStationGroups.each { FillingStationGroup group ->
 
             configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus )
-            if (group.groupStatus==GroupStatus.SCHEDULED_FOR_CONFIGURING){
+            if (configuredGroups.contains(GroupStatus.SCHEDULED_FOR_CONFIGURING))
                 groupSaveable = 1
-            } else if (group.groupStatus==GroupStatus.NOT_CONFIGURED) {
-                groupSaveable = 0
-            }
-            else {
-                groupSaveable = 0
-            }
         }
         return groupSaveable
-
     }
 
     /**
@@ -280,15 +266,35 @@ class ConfigurationService {
 
         List<Fleet> addedFleets = new ArrayList<Fleet>()
         stub.fleets.each { Fleet fleet ->
+            addedFleets.add( Fleet.get( fleet.id ).fleetStatus )
+            if (addedFleets.contains(FleetStatus.SCHEDULED_FOR_CONFIGURING))
+                fleetExecutable = 1
+        }
+        return fleetExecutable
+    }
+
+    def getGroupsNotConfigured (Long configurationStubId) {
+        Configuration stub = Configuration.get( configurationStubId )
+        int groupSaveable = 0
+        List<FillingStationGroup> configuredGroups = new ArrayList<FillingStationGroup>()
+        stub.fillingStationGroups.each { FillingStationGroup group ->
+            configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus )
+            if (configuredGroups.contains(GroupStatus.NOT_CONFIGURED))
+                groupSaveable = 1
+        }
+        return groupSaveable
+
+    }
+    def getFleetsNotConfigured (Long configurationStubId){
+        Configuration stub = Configuration.get( configurationStubId )
+        int fleetExecutable = 0
+
+        List<Fleet> addedFleets = new ArrayList<Fleet>()
+        stub.fleets.each { Fleet fleet ->
 
             addedFleets.add( Fleet.get( fleet.id ).fleetStatus )
-            if (fleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING) {
+            if (addedFleets.contains(FleetStatus.NOT_CONFIGURED))
                 fleetExecutable = 1
-            }else  if (fleet.fleetStatus == FleetStatus.NOT_CONFIGURED){
-                fleetExecutable = 0
-            } else {
-                fleetExecutable = 0
-            }
         }
         return fleetExecutable
     }

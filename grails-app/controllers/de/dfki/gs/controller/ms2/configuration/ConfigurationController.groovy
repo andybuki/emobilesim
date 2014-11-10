@@ -32,6 +32,8 @@ import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.Fleet
+import de.dfki.gs.domain.simulation.SimulationRoute
+import de.dfki.gs.domain.simulation.Simulation
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
@@ -342,6 +344,11 @@ class ConfigurationController {
         // to know what we are talking about
         m.configurationStubId = configurationStubId
 
+
+
+        //simulation name
+        m.simulationName = Simulation.get(configurationStubId)
+
         // fleets
         m.availableFleets = configurationService.getFleetsForCompany( person, configurationStubId )
 
@@ -366,6 +373,9 @@ class ConfigurationController {
         // fleets that need to be saveble
         m.savedFleets = configurationService.getFleetsToBeSaved( configurationStubId )
 
+        m.notConfiguredFleets = configurationService.getFleetsNotConfigured (configurationStubId)
+
+        m.notConfiguredGroups = configurationService.getGroupsNotConfigured (configurationStubId)
 
         render view: 'index', model: m
     }
@@ -1136,9 +1146,24 @@ class ConfigurationController {
 
             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0 ) {
 
+                int routeCount = 0
+                configuration.fleets.each { Fleet fleet ->
+                    fleet = Fleet.get( fleet.id )
+                    routeCount += fleet.cars.size()
+                }
+
+                int stationCount = 0
+
+                configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                    fillingStation = FillingStationGroup.get( fillingStation.id )
+                    stationCount += fillingStation.fillingStations.size()
+                }
+
                 conf.configurationId = configuration.id
                 conf.fleetInfo = existedFleets.cars[0].size()
                 conf.stationsInfo = existedStations.fillingStations[0].size()
+                conf.routeCount = routeCount
+                conf.stationCount = stationCount
 
                         m.configurations << conf
             }
@@ -1241,11 +1266,24 @@ class ConfigurationController {
 
             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0 ) {
 
+                int routeCount = 0
+                configuration.fleets.each { Fleet fleet ->
+                    fleet = Fleet.get( fleet.id )
+                    routeCount += fleet.cars.size()
+                }
+
+                int stationCount = 0
+
+                configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                    fillingStation = FillingStationGroup.get( fillingStation.id )
+                    stationCount += fillingStation.fillingStations.size()
+                }
+
                 conf.configurationId = configuration.id
                 conf.fleetInfo = existedFleets.cars[0].size()
                 conf.stationsInfo = existedStations.fillingStations[0].size()
-
-                conf.experimentRunResultId = cmd.experimentRunResultId
+                conf.routeCount = routeCount
+                conf.stationCount = stationCount
 
                 m.configurations << conf
             }
@@ -1305,10 +1343,24 @@ class ConfigurationController {
 
             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0 ) {
 
+                int routeCount = 0
+                configuration.fleets.each { Fleet fleet ->
+                    fleet = Fleet.get( fleet.id )
+                    routeCount += fleet.cars.size()
+                }
+
+                int stationCount = 0
+
+                configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                    fillingStation = FillingStationGroup.get( fillingStation.id )
+                    stationCount += fillingStation.fillingStations.size()
+                }
+
                 conf.configurationId = configuration.id
                 conf.fleetInfo = existedFleets.cars[0].size()
                 conf.stationsInfo = existedStations.fillingStations[0].size()
-
+                conf.routeCount = routeCount
+                conf.stationCount = stationCount
 
                 m.configurations << conf
             }
