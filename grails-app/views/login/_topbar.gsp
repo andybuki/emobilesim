@@ -7,7 +7,7 @@
             <div class="wrap">
                 <nav>
                     <ul id="menu">
-                        <li><a href="#"><span></span> <g:message code="layouts._topbar.simulate"/></a>
+                        <li><g:link controller="configuration" action="index"><g:message code="layouts._topbar.simulate"/></g:link>
                             <%--<ul>
                                 <li><g:link controller="configuration" action="index"><g:message code="layouts._topbar.new"/> </g:link></li>
                                 <li><g:link controller="configuration" action="showRecentlyEditedConfiguration"><g:message code="layouts._topbar.open"/></g:link></li>
