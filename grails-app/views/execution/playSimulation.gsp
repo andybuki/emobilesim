@@ -12,8 +12,7 @@
     <title><g:message code="configuration.executesim.simulation"/></title>
 
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-    <g:javascript library="jquery" />
-    <g:javascript src="application.js" />
+
 
     <r:layoutResources/>
     <meta name="layout" content="main" />
@@ -487,7 +486,7 @@
 
 </script>
     <div class="pContainerConfigure">
-        <fieldset>
+        <fieldset class="fieldsetSimulation">
             <legend> <g:message code="execution.playsimulation.playsimulation"/> </legend>
             <div>
                 <br/>
@@ -515,6 +514,14 @@
                             disabled="true"
                     ><i class="icon icon-warning-sign"></i><g:message code="execution.playsimulation.showstats"/> </button>
 
+                    <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"><img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/></a>
+
+                    <div id="light" class="white_content">
+                        <img  src="${g.resource( dir: '/images', file: 'sim.jpg' )}"/>
+                        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
+
+                    </div>
+                    <div id="fade" class="black_overlay"></div>
                     <%--
                     <button class="playButton"
                             id="button_show_stats"
@@ -534,16 +541,17 @@
                 </tr>
                 <tr>
                     <td width="1250px"><canvas id="experimentContainer" width="1200" height="500"></canvas></td>
-                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.simulation"/> </span></td>
+                    <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.simulation"/> </span></td>--%>
                 </tr>
                 <tr>
                     <td width="1250px"><canvas id="nameContainer" width="1200" height="50"></canvas></td>
-                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.carsdescription"/> </span></td>
+                    <%-- <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.carsdescription"/> </span></td>--%>
+                 </tr>
+                 <tr>
+                     <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"></canvas></td>
+                     <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.electricstations"/> </span></td>--%>
                 </tr>
-                <tr>
-                    <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"></canvas></td>
-                    <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.electricstations"/> </span></td>
-                </tr>
+
             </table>
             <g:render template="/layouts/footer" />
 

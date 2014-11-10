@@ -3,21 +3,23 @@
   height: 44px;
   background: #585858;
   width: auto;
-  z-index:22;
+  z-index:20002;
 }
 #menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
   line-height: 1;
+  z-index: 1000;
 }
 #menu > ul {
+
   position: relative;
   display: block;
   background: #585858;
   height: 32px;
   width: 100%;
-  z-index: 500;
+  z-index: 1000;
 
 }
 #menu > ul > li {
@@ -26,6 +28,7 @@
     float: left;
     margin: 0;
     padding: 0;
+    z-index: 1000;
 }
 #menu > ul > #menu-button {
   display: none;
@@ -43,6 +46,7 @@
   font-weight: bold;
   padding: 15px 20px;
   color: #f7f9fa;
+
   text-transform: uppercase;
   -webkit-transition: color 0.25s ease-out;
   -moz-transition: color 0.25s ease-out;
@@ -139,6 +143,7 @@
   padding: 10px 20px;
   font-size: 12px;
   color: #000000;
+
   background: #fff;
   -webkit-transition: all .35s ease;
   -moz-transition: all .35s ease;
@@ -230,6 +235,7 @@
   #menu ul ul li:hover > a {
     background: none;
     color: #45aeff;
+
   }
   #menu ul ul ul a {
     padding: 8px 50px;
@@ -286,7 +292,7 @@
 }
 
 
-/*-----------------------for the first page  -------------------------*/
+/*-----------------------for the first page  -------------------------
 #menu1 {
     position: relative;
     height: 44px;
@@ -573,3 +579,4 @@
         border-color: #fff;
     }
 }
+*/
