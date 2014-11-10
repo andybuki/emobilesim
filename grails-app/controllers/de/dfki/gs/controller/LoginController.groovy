@@ -126,6 +126,14 @@ class LoginController {
         render view: "waiting"
     }
 
+    def fogotPassword = {
+
+        log.error( "params: ${params}" )
+
+
+
+    }
+
     /**
      * this method completes signing request of the user
      * next step is to allow user to log in
