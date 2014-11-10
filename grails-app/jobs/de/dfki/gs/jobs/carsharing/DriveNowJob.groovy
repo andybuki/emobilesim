@@ -8,15 +8,15 @@ class DriveNowJob {
     def driveNowFetcherService
 
     static triggers = {
-        simple name:'DriveNowJobTest', startDelay:0,repeatInterval: ( 5 * 60 * 1000 )
+        simple name:'DriveNowJobTest', startDelay:0,repeatInterval: ( 5000 * 60 * 1000 )
     }
     def group = "DriveNowGroup"
 
-    def execute() {
+    /*def execute() {
 
         driveNowFetcherService.fetchData( "https://www.drive-now.com/php/metropolis/json.vehicle_filter?cit=6099" )
 
         println "DriveNow job finished at ${new Date()}"
-    }
+    }*/
 
 }

@@ -5,7 +5,7 @@ class VattenfallJob {
     def vattenfallFetcherService
 
     static triggers = {
-        simple name:'VattenfallJobTest', startDelay:1000,repeatInterval: ( 15 *  60 * 1000 )
+        simple name:'VattenfallJobTest', startDelay:1000,repeatInterval: ( 150 *  60 * 1000 )
     }
     def group = "VattenfallGroup"
 
