@@ -41,7 +41,7 @@ grails.project.dependency.resolution = {
         //inherits true // Whether to inherit repository definitions from plugins
 
         mavenRepo "http://download.osgeo.org/webdav/geotools/"
-        mavenRepo "http://repo.opengeo.org"
+        mavenRepo "http://repo.boundlessgeo.com/main/"
         mavenRepo 'http://repo.spring.io/milestone'
 
         grailsPlugins()
@@ -64,26 +64,26 @@ grails.project.dependency.resolution = {
 
         runtime 'mysql:mysql-connector-java:5.1.26'
 
-        runtime ( "org.geotools:gt-shapefile:8-SNAPSHOT" ) {
+        runtime ( "org.geotools:gt-shapefile:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
 
 
-        runtime ( "org.geotools:gt-swing:8-SNAPSHOT" ) {
+        runtime ( "org.geotools:gt-swing:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
 
-        runtime ( "org.geotools:gt-epsg-hsql:8-SNAPSHOT" ) {
+        runtime ( "org.geotools:gt-epsg-hsql:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
 
-        runtime ( "org.geotools.jdbc:gt-jdbc-postgis:8-SNAPSHOT" ) {
+        runtime ( "org.geotools.jdbc:gt-jdbc-postgis:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
-        runtime ( "org.geotools:gt-jdbc:8-SNAPSHOT" ) {
+        runtime ( "org.geotools:gt-jdbc:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
-        runtime ( "org.geotools:gt-graph:8-SNAPSHOT" ) {
+        runtime ( "org.geotools:gt-graph:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
         }
 
@@ -91,13 +91,15 @@ grails.project.dependency.resolution = {
             excludes "xml-apis", "servlet-api", "junit"
         }
 
-        runtime( "org.apache.commons:commons-math3:3.2" )
+        runtime( "org.apache.commons:commons-math3:3.3" )
 
         runtime( "org.ccil.cowan.tagsoup:tagsoup:1.2" )
 
+        runtime ("org.elasticsearch:elasticsearch:0.90.7")
+
         // commented out! it seems, gpars is part of current groovy version, so it would cause errors during deployment
         //runtime( "org.codehaus.gpars:gpars:0.11" )
-
+        runtime ("org.elasticsearch:elasticsearch:0.19.10")
         /*
         compile ('com.vividsolutions:jts:1.8') {
             excludes 'xercesImpl'
@@ -110,14 +112,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":hibernate:3.6.10.17"
-        // runtime ":hibernate:2.3.1"
-
+        runtime ":hibernate:3.6.10.18"
+        //runtime ":hibernate:2.3.1"
         runtime ":jquery:1.11.0.2"
         //runtime ":resources:1.2.7"
         // compile ':asset-pipeline:1.8.3'
-
-
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -129,9 +128,9 @@ grails.project.dependency.resolution = {
         build ":tomcat:7.0.54"
         // build ":tomcat:2.3.1"
 
-        runtime ":database-migration:1.3.2"
+        runtime ":database-migration:1.4.0"
 
-        compile ":cache:1.1.1"
+        compile ":cache:1.1.8"
 
         compile ":quartz:1.0.1"
         compile ":calendar:1.2.1"

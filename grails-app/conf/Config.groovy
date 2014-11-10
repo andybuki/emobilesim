@@ -322,6 +322,10 @@ grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'de.df
 grails.plugins.localeConfiguration.supportedLocales = [ Locale.ENGLISH, Locale.GERMAN]
 grails.plugins.localeConfiguration.defaultLocale = Locale.ENGLISH
 
+elasticSearch {
+    disableAutoIndex = true
+}
+
 
 grails {
     mail {
