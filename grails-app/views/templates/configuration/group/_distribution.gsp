@@ -90,7 +90,7 @@
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="groupId" value="${groupId}"/>
                                             <div class="right2-bottomed">
-                                                <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savedistributionforgroup')}"/>
+                                                <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savedistributionforgroup')}" onclick="location.reload();"/>
                                             </div>
 
                                             <div class="clear"></div>
@@ -122,7 +122,7 @@
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:hiddenField name="groupId" value="${groupId}"/>
                                         <div class="right2-bottomed">
-                                            <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savestationsfromfile')}"/>
+                                            <g:submitButton name="setDistribution" value="${message(code: 'templates.configuration.group._distribution.savestationsfromfile')}" onclick="location.reload();"/>
                                         </div>
 
                                         <div class="clear"></div>
