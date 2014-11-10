@@ -1,50 +1,55 @@
 <%--
   Created by IntelliJ IDEA.
-  User: glenn
-  Date: 10.07.14
-  Time: 16:01
+  User: anbu02
+  Date: 15.10.14
+  Time: 10:08
 --%>
 
-<%@ page import="de.dfki.gs.domain.utils.GroupStatus; de.dfki.gs.domain.utils.FleetStatus"  contentType="text/html;charset=UTF-8" %>
-
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-
 <head>
-    <title><g:message code="layouts._topbar.open"/> </title>
+    <title><g:message code="layouts._topbar.open"/></title>
     <meta name="layout" content="main" />
 </head>
 
 <body>
-<div class="pContainerResent">
-    <div class="d1">
-        <fieldset>
-            <legend> Open </legend>
-            <div class="layoutResent">
-                <table>
-                    <g:if test="${ configurations.size() > 0}">
+<div class="pContainer">
+    <div class="simulationTypes">
+        <div class="rowUp">
+            <div class="leftBoldSim"><b><g:message code="layouts._topbar.open"/></b></div>
+            <div class="right0PX"></div>
+            <div class="clear"></div>
+        </div>
 
-                                <tr>
-                                    <th><g:message code="configuration.executesim.name"/> </th>
-                                    <th><g:message code="configuration.executesim.description"/></th>
-                                    <th><g:message code="configuration.executesim.executebutton"/></th>
-                                </tr>
-
-                        <g:each in="${configurations}" var="conf">
-                                <tr>
-                                    <td>${conf.configurationId} Simulation</td>
-                                    <td>${conf.fleetInfo} Cars and  ${conf.stationsInfo} Filling Stations</td>
-                                    <td> <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}">link</g:link></td>
-
-                                </tr>
-                        </g:each>
-                    </g:if>
-                    <g:if test="${configurations.size() == null}">
-                        <span class="simDesc"><g:message code="configuration.executesim.avasim"/></span>
-                    </g:if>
+        <div class="rowMiddle">
+            <g:if test="${ configurations.size() > 0}">
+                <table border="0">
+                    <tr class="tr30px" valign="middle">
+                        <th width="120px"><g:message code="configuration.executesim.name"/> </th>
+                        <th><g:message code="configuration.executesim.description"/></th>
+                        <th width="60px"><g:message code="configuration.executesim.executebutton"/></th>
+                    </tr>
                 </table>
-
-            </div>
-        </fieldset>
+            </g:if>
+        </div>
+        <div class="rowDown">
+            <g:if test="${ configurations.size() > 0}">
+                <table border="0">
+                    <g:each in="${configurations}" var="conf">
+                        <tr class="tr30px">
+                            <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
+                            <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
+                            <td width="70px">
+                                <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}">link</g:link>
+                            </td>
+                        </tr>
+                    </g:each>
+                </table>
+            </g:if>
+            <g:if test="${configurations.size() == null}">
+                <span class="simDesc"><g:message code="configuration.executesim.avasim"/></span>
+            </g:if>
+        </div>
     </div>
 </div>
 </body>
