@@ -2815,6 +2815,9 @@ a.olControlZoomOut {
 
 .simDesc {
     font-size: 12px;
+    padding:5px;
+    position: relative;
+    top:10px;
 }
 
 .descriptionSim {
@@ -2897,4 +2900,6 @@ a.olControlZoomOut {
 .tr30px {
     padding:10px 0px 0px 7px;
     min-height:34px;
+    position: relative;
+    top:4px;
 }
