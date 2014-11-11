@@ -21,17 +21,19 @@
             <div class="clear"></div>
         </div>
 
-        <div class="rowMiddle">
-            <g:if test="${ configurations.size() > 0}">
-                <table border="0">
-                    <tr class="tr30px" valign="middle">
-                        <th width="120px"><g:message code="configuration.executesim.name"/> </th>
-                        <th><g:message code="configuration.executesim.description"/></th>
-                        <th width="60px"><g:message code="configuration.executesim.executebutton"/></th>
-                    </tr>
-                </table>
-            </g:if>
-        </div>
+        <g:if test="${ configurations.size() > 0}">
+            <div class="rowMiddle">
+
+                    <table border="0">
+                        <tr class="tr30px" valign="middle">
+                            <th width="120px"><g:message code="configuration.executesim.name"/> </th>
+                            <th><g:message code="configuration.executesim.description"/></th>
+                            <th width="60px"><g:message code="configuration.executesim.executebutton"/></th>
+                        </tr>
+                    </table>
+
+            </div>
+        </g:if>
         <div class="rowDown">
             <g:if test="${ configurations.size() > 0}">
                 <table border="0">
@@ -55,9 +57,9 @@
                     </g:each>
                 </table>
             </g:if>
-            <g:if test="${configurations.size() == null}">
+            <g:else>
                 <span class="simDesc"><g:message code="configuration.executesim.avasim"/></span>
-            </g:if>
+            </g:else>
         </div>
     </div>
 </div>
