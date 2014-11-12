@@ -28,7 +28,7 @@ class Simulation {
      * the company of the person, who creates this simulation
      */
     Company company
-
+    Boolean stub
 
     static hasMany = [
             configurations : Configuration
