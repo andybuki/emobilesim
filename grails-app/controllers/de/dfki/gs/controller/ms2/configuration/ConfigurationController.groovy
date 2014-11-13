@@ -22,6 +22,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.ShowFleetRoutesCommandOb
 import de.dfki.gs.controller.ms2.configuration.commands.ShowGroupStationsCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
+
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
 import de.dfki.gs.domain.GasolineStation
 import de.dfki.gs.domain.GasolineStationType
@@ -34,6 +35,7 @@ import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.SimulationRoute
 import de.dfki.gs.domain.simulation.Simulation
+import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
@@ -202,6 +204,38 @@ class ConfigurationController {
         render view: "showCarTypes", model: m
     }
 
+    def showSimulation() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        // plug the model..
+        def m = [ : ]
+
+        m.simulationNames = [ ]
+
+        List<Simulation> simulationNames = configurationService.getAllSimulationsForCompany( person )
+        simulationNames.each { Simulation simulationName ->
+
+            def simulationTypeModel = [ : ]
+            simulationTypeModel.simulationName = simulationName
+            simulationTypeModel.lightboxlink = g.createLink( controller: 'configuration', action: 'editSimulationType', params: [ simulationTypeId: simulationType.id ] )
+
+            m.simulationNames << simulationTypeModel
+        }
+        m.lightboxlink = g.createLink( controller: 'configuration', action: 'createSimulationTypeView' )
+
+
+        render view: "showSimulation", model: m
+    }
+
+
+
     def removeFleetFromConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -328,26 +362,36 @@ class ConfigurationController {
 
         }
 
+
         Long configurationStubId = null
-
-        if ( cmd.configurationStubId == null ) {
-            configurationStubId = configurationService.createConfigurationStub( person ).id;
-        } else {
-            configurationStubId = cmd.configurationStubId
-        }
-
-
 
         // plug the model..
         def m = [ : ]
 
+        if ( cmd.configurationStubId == null ) {
+
+            configurationStubId = configurationService.createConfigurationStub( person ).id;
+
+        } else {
+
+            configurationStubId = cmd.configurationStubId
+
+
+        }
+
+        /*if (cmd.simulationName==null) {
+            String sim = "Simulation ${configurationStubId}"
+            m.simulationName = sim
+        } else {
+            simulationName = configurationService.createSimulationForCompany( person, cmd.simulationName )
+            m.simulationName = simulationName
+        }*/
+
         // to know what we are talking about
         m.configurationStubId = configurationStubId
 
-
-
-        //simulation name
-        m.simulationName = Simulation.get(configurationStubId)
+        //simulation
+        m.simulationName = configurationService.createSimulationForCompany( person, configurationStubId ).name
 
         // fleets
         m.availableFleets = configurationService.getFleetsForCompany( person, configurationStubId )
@@ -408,7 +452,6 @@ class ConfigurationController {
 
         redirect( controller: 'configuration', action: 'showCarTypes' )
     }
-
 
 
     def editCarTypeView() {
@@ -957,6 +1000,7 @@ class ConfigurationController {
 
     }
 
+
     def createFillingStationType() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1361,6 +1405,8 @@ class ConfigurationController {
                 conf.stationsInfo = existedStations.fillingStations[0].size()
                 conf.routeCount = routeCount
                 conf.stationCount = stationCount
+                conf.stationsConfiguration  = existedStations[0].groupsConfigured
+                conf.routesConfiguration  = existedFleets[0].routesConfigured
 
                 m.configurations << conf
             }
