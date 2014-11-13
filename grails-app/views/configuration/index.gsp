@@ -20,356 +20,333 @@
 
 </head>
 <body>
-<div class="pContainerConfigure">
-<fieldset class="fieldsetConfiguration">
-<legend> <g:message code="configuration.index.configuresimulation"/> </legend>
-<div class="layout">
-<div class="layoutLeft">
-    <div class="contentLeftBigConfiguration">
+
+    <div class="pContainerConfigure">
+
         <div class="rowUp">
-            <div class="leftBold"><g:message code="simulation.index.fleetconfiguration"/></div>
+            <div class="leftBoldBig1"><g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/></div>
             <div class="right0PX"></div>
             <div class="clear"></div>
         </div>
 
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
+        <div class="layout">
 
-        <div class="rowGroup">
-            <div class="rowBrightGrey">
-                <div class="leftConfigurationLong">
-                    <g:message code="configuration.index.selectfleets"/>
-                </div>
-                <div class="right0PX">
-                </div>
-                <div class="clear"></div>
-            </div>
-
-            <g:if test="${availableFleets != null && availableFleets.size() > 0}">
-                <div class="rowMiddleWithoutBorder">
-                    <div class="leftConfiguration"><g:message code="simulation.index.existentfleet"/></div>
-                    <div class="rightOnlyButton">
-                        <g:form controller="configuration" action="addExistentFleetToConfiguration">
-                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                            <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addfleet')}" />
-                        </g:form>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-            </g:if>
-
-            <div class="rowMiddleWithoutBorder2">
-                <g:form action="createFleetView">
-                    <div class="leftCarTypes"><g:message code="configuration.index.enoughfleets"/></div>
-                    <div class="rightOnlyButton">
-                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                        <g:submitToRemote class="addButton"
-                                          url="[action: 'createFleetView']"
-                                          update="updateMe"
-                                          name="submit"
-                                          value="${message(code: 'simulation.index.createnewfleet')}" />
-                    </div>
-                    <div class="clear"></div>
-                </g:form>
-            </div>
-        </div>
-
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-        <div class="rowGroup">
-            <div class="rowBrightGrey">
-                <div class="leftConfigurationLong">
-                    <g:message code="configuration.index.collectfleets"/>
-                </div>
-            </div>
-            <g:if test="${addedFleets != null && addedFleets.size() > 0}">
-                <g:each in="${addedFleets}" var="addedFleet">
-                <%--<g:message code="simulation.index.addedfleet"/>--%>
-                    <div class="rowMiddleWithoutBorder">
-                        <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
-                            <div class="leftCollectFleets">
-                                ${addedFleet.name} ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.allroutes"/></span>
-                            </div>
-                        </g:if>
-                        <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
-                            <div class="leftCollectFleets">
-                                ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.scheduleroute"/></span>
-                            </div>
-                        </g:if>
-
-                        <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
-                            <div class="leftCollectFleets">
-                                ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.routesconfigured"/></span>
-                            </div>
-                        </g:if>
-                        <div class="right65PX">
-                            <g:form controller="configuration" action="removeFleetFromConfiguration">
-                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                <g:submitButton name="removeFleet" value="Unselect"/>
-                            </g:form>
-                        </div>
-                        <div class="right100PX">
-                            <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
-                                <g:form action="showFleetRoutesOnMap">
-
-                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
-
-                                    <g:submitToRemote class="addButton"
-                                                      url="[action: 'showFleetRoutesOnMap']"
-                                                      update="updateMe"
-                                                      name="showRoutes"
-                                                      value="${message(code: 'configuration.index.showroutes')}"/>
-
-
-                                </g:form>
-
-                            </g:if>
-                            <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
-                                <g:message code="configuration.index.pleasewait"/>
-                            </g:if>
-                            <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
-                                <g:form action="createRouteSelectorView">
-                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                    <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                    <g:submitToRemote class="addButton"
-                                                      url="[action: 'createRouteSelectorView']"
-                                                      update="updateMe"
-                                                      name="submit"
-                                                      value="${message(code: 'configuration.index.configureroutes')}" />
-                                </g:form>
-                            </g:if>
-                        </div>
+            <div class="layoutLeft">
+                <div class="contentLeftBigConfiguration">
+                    <div class="rowUp">
+                        <div class="leftBold"><g:message code="simulation.index.fleetconfiguration"/></div>
+                        <div class="right0PX"></div>
                         <div class="clear"></div>
                     </div>
-                </g:each>
-            </g:if>
 
-            <div class="rowMiddleWithoutBorder2">
-                <div class="left0PX"></div>
-                <div class="right0PX"></div>
-                <div class="clear"></div>
-            </div>
-        </div>
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-    </div>
-</div>
-
-<div class="layoutRight">
-    <div class="contentRightBigConfiguration">
-        <div class="rowUp">
-            <div class="leftbig">
-                <g:message code="simulation.index.fillingconfiguration"/>
-            </div>
-            <div class="right0PX"></div>
-            <div class="clear"></div>
-        </div>
-
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-
-        <div class="rowGroup">
-            <div class="rowBrightGrey">
-                <div class="leftConfigurationLong">
-                    <g:message code="configuration.index.selectfillingstation"/>
-                </div>
-                <div class="right0PX">
-                </div>
-                <div class="clear"></div>
-            </div>
-
-            <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
-                <div class="rowMiddleWithoutBorder">
-                    <div class="leftConfiguration"><g:message code="simulation.index.selectgroup"/></div>
-                    <div class="rightOnlyButton">
-                        <g:form controller="configuration" action="addExistentGroupToConfiguration">
-                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
-                            <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
-                        </g:form>
+                    <div class="rowSpace">
+                        <div class="clear"></div>
                     </div>
-                    <div class="clear"></div>
-                </div>
-            </g:if>
-            <div class="rowMiddleWithoutBorder2">
-                <g:form action="createGroupView">
-                    <div class="leftCarTypes"><g:message code="simulation.index.createnewgroup"/></div>
-                    <div class="rightOnlyButton">
-                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                        <g:submitToRemote class="addButton" url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
-                        <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
-                    </div>
-                    <div class="clear"></div>
-                </g:form>
-            </div>
-        </div>
 
-
-
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-        <div class="rowGroup">
-            <div class="rowBrightGrey">
-                <div class="leftConfigurationLong">
-                    <g:message code="configuration.index.collectedfillingstation"/>
-                </div>
-                <div class="right0PX">
-                </div>
-                <div class="clear"></div>
-
-            </div>
-
-            <g:if test="${addedGroups != null && addedGroups.size() > 0}">
-                <g:each in="${addedGroups}" var="addedGroup">
-
-                    <g:form controller="configuration" action="removeGroupFromConfiguration">
-                    <%--<g:message code="simulation.index.addedfleet"/>--%>
-                        <div class="rowMiddleWithoutBorder">
-                        <%--<div class="leftCollectFleets">
-                            ${addedGroup.name} with ${addedGroup.fillingStations.size()*2} Filling Stations
-                        </div>--%>
-
-                            <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
-                                <div class="leftCollectFleets">
-                                    ${addedGroup.name} (${addedGroup.fillingStations.size()}) <span class="littleText"><g:message code="configuration.index.allstations"/></span>
-                                </div>
-                            </g:if>
-                            <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
-                                <div class="leftCollectFleets">
-                                    ${addedGroup.name} ( ${addedGroup.fillingStations.size()} ) <span class="littleText"><g:message code="configuration.index.schedulestation"/></span>
-                                </div>
-                            </g:if>
-
-                            <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
-                                <div class="leftCollectFleets">
-                                    ${addedGroup.name} ( ${addedGroup.fillingStations.size()} )  <span class="littleText"> <g:message code="configuration.index.stationsconfigured"/></span>
-                                </div>
-                            </g:if>
-
-                            <div class="right65PX">
-                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                <g:hiddenField name="groupId" value="${addedGroup.id}"/>
-                                <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
+                    <div class="rowGroup">
+                        <div class="rowBrightGrey">
+                            <div class="leftConfigurationLong">
+                                <g:message code="configuration.index.selectfleets"/>
                             </div>
+                            <div class="right0PX"></div>
+                            <div class="clear"></div>
+                        </div>
 
-                            <div class="right100PX">
-                                <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
-                                    <g:form action="showGroupStationsOnMap">
-                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
-                                        <g:submitToRemote class="addButton"
-                                                          url="[action: 'showGroupStationsOnMap']"
-                                                          update="updateMe"
-                                                          name="showGroups"
-                                                          value="${message(code: 'configuration.index.showstations')}" />
-
-                                    </g:form>
-                                </g:if>
-                                <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
-                                    <g:message code="configuration.index.pleasewait"/>
-                                </g:if>
-                                <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
-                                    <g:form action="createGroupSelectorView">
+                        <g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                            <div class="rowMiddleWithoutBorder">
+                                <div class="leftConfiguration"><g:message code="simulation.index.existentfleet"/></div>
+                                <div class="rightOnlyButton">
+                                    <g:form controller="configuration" action="addExistentFleetToConfiguration">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                        <g:hiddenField name="groupId" value="${addedGroup.id}"/>
-                                        <g:submitToRemote class="addButton"
-                                                          url="[action: 'createGroupSelectorView']"
-                                                          update="updateMe"
-                                                          name="submit"
-                                                          value="${message(code: 'configuration.index.configurestations')}" />
+                                        <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
+                                        <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addfleet')}" />
                                     </g:form>
-                                </g:if>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </g:if>
+
+                        <div class="rowMiddleWithoutBorder2">
+                            <g:form action="createFleetView">
+                                <div class="leftCarTypes"><g:message code="configuration.index.enoughfleets"/></div>
+                                <div class="rightOnlyButton">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:submitToRemote class="addButton"
+                                                      url="[action: 'createFleetView']"
+                                                      update="updateMe"
+                                                      name="submit"
+                                                      value="${message(code: 'simulation.index.createnewfleet')}" />
+                                </div>
+                                <div class="clear"></div>
+                            </g:form>
+                        </div>
+                    </div>
+
+                    <div class="rowSpace">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowGroup">
+                        <div class="rowBrightGrey">
+                            <div class="leftConfigurationLong">
+                                <g:message code="configuration.index.collectfleets"/>
+                            </div>
+                        </div>
+                        <g:if test="${addedFleets != null && addedFleets.size() > 0}">
+                            <g:each in="${addedFleets}" var="addedFleet">
+                            <%--<g:message code="simulation.index.addedfleet"/>--%>
+                                <div class="rowMiddleWithoutBorder">
+                                    <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
+                                        <div class="leftCollectFleets">
+                                            ${addedFleet.name} ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.allroutes"/></span>
+                                        </div>
+                                    </g:if>
+                                    <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
+                                        <div class="leftCollectFleets">
+                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.scheduleroute"/></span>
+                                        </div>
+                                    </g:if>
+
+                                    <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
+                                        <div class="leftCollectFleets">
+                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.routesconfigured"/></span>
+                                        </div>
+                                    </g:if>
+                                    <div class="right65PX">
+                                        <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                            <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
+                                            <g:submitButton name="removeFleet" value="Unselect"/>
+                                        </g:form>
+                                    </div>
+                                    <div class="right100PX">
+                                        <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
+                                            <g:form action="showFleetRoutesOnMap">
+                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
+                                                <g:submitToRemote class="addButton"
+                                                                  url="[action: 'showFleetRoutesOnMap']"
+                                                                  update="updateMe"
+                                                                  name="showRoutes"
+                                                                  value="${message(code: 'configuration.index.showroutes')}"/>
+
+                                            </g:form>
+                                        </g:if>
+                                        <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
+                                            <g:message code="configuration.index.pleasewait"/>
+                                        </g:if>
+                                        <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
+                                            <g:form action="createRouteSelectorView">
+                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                                <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
+                                                <g:submitToRemote class="addButton"
+                                                                  url="[action: 'createRouteSelectorView']"
+                                                                  update="updateMe"
+                                                                  name="submit"
+                                                                  value="${message(code: 'configuration.index.configureroutes')}" />
+                                            </g:form>
+                                        </g:if>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </g:each>
+                        </g:if>
+
+                        <div class="rowMiddleWithoutBorder2">
+                            <div class="left0PX"></div>
+                            <div class="right0PX"></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="rowSpace">
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layoutRight">
+                <div class="contentRightBigConfiguration">
+                    <div class="rowUp">
+                        <div class="leftbig">
+                            <g:message code="simulation.index.fillingconfiguration"/>
+                        </div>
+                        <div class="right0PX"></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="rowSpace">
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="rowGroup">
+                        <div class="rowBrightGrey">
+                            <div class="leftConfigurationLong">
+                                <g:message code="configuration.index.selectfillingstation"/>
+                            </div>
+                            <div class="right0PX">
                             </div>
                             <div class="clear"></div>
                         </div>
-                    </g:form>
 
-                </g:each>
-            </g:if>
-            <div class="rowMiddleWithoutBorder2">
-                <div class="left0PX"></div>
-                <div class="right0PX"></div>
-                <div class="clear"></div>
+                        <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
+                            <div class="rowMiddleWithoutBorder">
+                                <div class="leftConfiguration"><g:message code="simulation.index.selectgroup"/></div>
+                                <div class="rightOnlyButton">
+                                    <g:form controller="configuration" action="addExistentGroupToConfiguration">
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
+                                        <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                                    </g:form>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </g:if>
+                        <div class="rowMiddleWithoutBorder2">
+                            <g:form action="createGroupView">
+                                <div class="leftCarTypes"><g:message code="simulation.index.createnewgroup"/></div>
+                                <div class="rightOnlyButton">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:submitToRemote class="addButton" url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
+                                    <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
+                                </div>
+                                <div class="clear"></div>
+                            </g:form>
+                        </div>
+                    </div>
+
+
+
+                    <div class="rowSpace">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="rowGroup">
+                        <div class="rowBrightGrey">
+                            <div class="leftConfigurationLong">
+                                <g:message code="configuration.index.collectedfillingstation"/>
+                            </div>
+                            <div class="right0PX">
+                            </div>
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <g:if test="${addedGroups != null && addedGroups.size() > 0}">
+                            <g:each in="${addedGroups}" var="addedGroup">
+
+                                <g:form controller="configuration" action="removeGroupFromConfiguration">
+                                <%--<g:message code="simulation.index.addedfleet"/>--%>
+                                    <div class="rowMiddleWithoutBorder">
+                                    <%--<div class="leftCollectFleets">
+                                        ${addedGroup.name} with ${addedGroup.fillingStations.size()*2} Filling Stations
+                                    </div>--%>
+
+                                        <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
+                                            <div class="leftCollectFleets">
+                                                ${addedGroup.name} (${addedGroup.fillingStations.size()}) <span class="littleText"><g:message code="configuration.index.allstations"/></span>
+                                            </div>
+                                        </g:if>
+                                        <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
+                                            <div class="leftCollectFleets">
+                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} ) <span class="littleText"><g:message code="configuration.index.schedulestation"/></span>
+                                            </div>
+                                        </g:if>
+
+                                        <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
+                                            <div class="leftCollectFleets">
+                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} )  <span class="littleText"> <g:message code="configuration.index.stationsconfigured"/></span>
+                                            </div>
+                                        </g:if>
+
+                                        <div class="right65PX">
+                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                            <g:hiddenField name="groupId" value="${addedGroup.id}"/>
+                                            <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
+                                        </div>
+
+                                        <div class="right100PX">
+                                            <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
+                                                <g:form action="showGroupStationsOnMap">
+                                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
+                                                    <g:submitToRemote class="addButton"
+                                                                      url="[action: 'showGroupStationsOnMap']"
+                                                                      update="updateMe"
+                                                                      name="showGroups"
+                                                                      value="${message(code: 'configuration.index.showstations')}" />
+
+                                                </g:form>
+                                            </g:if>
+                                            <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
+                                                <g:message code="configuration.index.pleasewait"/>
+                                            </g:if>
+                                            <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
+                                                <g:form action="createGroupSelectorView">
+                                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                                    <g:hiddenField name="groupId" value="${addedGroup.id}"/>
+                                                    <g:submitToRemote class="addButton"
+                                                                      url="[action: 'createGroupSelectorView']"
+                                                                      update="updateMe"
+                                                                      name="submit"
+                                                                      value="${message(code: 'configuration.index.configurestations')}" />
+                                                </g:form>
+                                            </g:if>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </g:form>
+
+                            </g:each>
+                        </g:if>
+                        <div class="rowMiddleWithoutBorder2">
+                            <div class="left0PX"></div>
+                            <div class="right0PX"></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div class="rowSpace">
+                        <div class="clear"></div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
 
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-
-
+        <g:form action="saveFinishedConfiguration">
+            <br><br>
+                <div class="layoutButton">
+                    <span class="layoutButtonL">
+                        <span class="addButtonCancel"><g:link controller="sim" action=""><g:message code="configuration.index.cancel"/></g:link></span>
+                        <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
+                    </span>
+                                <g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
+                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 1 && savedFleets == 0 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
+                                              (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
+                                }">
+                                        <span class="layoutButtonM"></span>
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
+                                </g:if>
+                </div>
+        </g:form>
+        <g:form controller="execution" action="executeExperiment">
+                <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
+                                <div class="layoutButton">
+                                    <span class="layoutButtonM"></span>
+                                    <g:hiddenField name="relativeSearchLimit" value="50" />
+                                    <g:hiddenField name="configurationId" value="${configurationStubId}"/>
+                                    <span class="layoutButtonR">
+                                        <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
+                                    </span>
+                                </div>
+                </g:if>
+        </g:form>
+        <div id="updateMe"></div>
     </div>
-</div>
-
-<div class="layoutImage">
-    <div class="contentRight">
-        <%--<img width="30px"src="${g.resource( dir: '/images', file: 'weather.png' )}"><br><br>--%>
-        <a href="#descriptionButton"><img width="30px"src="${g.resource( dir: '/images', file: 'settings.png' )}"></a><br><br><br><br>
-        <%--<img width="30px"src="${g.resource( dir: '/images', file: 'car.png' )}"><br>
-        <img width="44px"src="${g.resource( dir: '/images', file: 'station.png' )}"><br><br><br>
-        <a href="#descriptionButton"><img  width="22px"src="${g.resource( dir: '/images', file: 'plus.png' )}"></a>--%>
-
-    </div>
-</div>
-
-</div>
-
-<g:form action="saveFinishedConfiguration">
-    <div id="descriptionButton" class="descriptionSim">
-        <span class="simDesc"><g:message code="configuration.index.namesimulation"/></span>
-        <g:textField name="simulationName" value="${simulationName}" />
-        <span class="simDesc"><g:message code="configuration.index.describesim"/></span>
-        <g:textArea name="configurationDescription" value="${configurationDescription}" rows="3" cols="20" />
-    </div>
-    <br><br><br>
-
-    <div class="layoutButton">
-        <span class="layoutButtonL">
-            <span class="addButtonCancel"><g:link controller="sim" action=""><g:message code="configuration.index.cancel"/></g:link></span>
-            <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
-        </span>
-                    <g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
-                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 1 && savedFleets == 0 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                  (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
-                    }">
-                            <span class="layoutButtonM"></span>
-                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
-                    </g:if>
-    </div>
-</g:form>
-
-<g:form controller="execution" action="executeExperiment">
-    <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
-                    <div class="layoutButton">
-                        <span class="layoutButtonM"></span>
-                        <g:hiddenField name="relativeSearchLimit" value="50" />
-                        <g:hiddenField name="configurationId" value="${configurationStubId}"/>
-                        <span class="layoutButtonR">
-                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
-                        </span>
-                    </div>
-    </g:if>
-</g:form>
-
-
-</fieldset>
-<div id="updateMe">
-
-</div>
-</div>
-
 </body>
+
 </html>

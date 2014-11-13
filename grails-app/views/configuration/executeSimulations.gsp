@@ -37,22 +37,24 @@
                         <g:if test="${ configurations.size() > 0}">
                             <table border="0">
                                 <g:each in="${configurations}" var="conf">
-                                    <tr class="tr30px">
-                                        <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
-                                        <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
-                                         <td width="70px">
-                                            <g:form controller="execution" action="executeExperiment">
-                                                    <div class="layoutButton3">
-                                                        <span class="layoutButtonM3"></span>
-                                                        <g:hiddenField name="relativeSearchLimit" value="50" />
-                                                        <g:hiddenField name="configurationId" value="${conf.configurationId}"/>
-                                                        <span class="layoutButtonR3">
-                                                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
-                                                        </span>
-                                                    </div>
-                                            </g:form>
-                                        </td>
-                                    </tr>
+                                    <g:if test="${conf.stationsConfiguration==true && conf.routesConfiguration==true}">
+                                        <tr class="tr30px">
+                                            <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
+                                            <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
+                                             <td width="70px">
+                                                <g:form controller="execution" action="executeExperiment">
+                                                        <div class="layoutButton3">
+                                                            <span class="layoutButtonM3"></span>
+                                                            <g:hiddenField name="relativeSearchLimit" value="50" />
+                                                            <g:hiddenField name="configurationId" value="${conf.configurationId}"/>
+                                                            <span class="layoutButtonR3">
+                                                                <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
+                                                            </span>
+                                                        </div>
+                                                </g:form>
+                                            </td>
+                                        </tr>
+                                    </g:if>
                                 </g:each>
                             </table>
                         </g:if>
