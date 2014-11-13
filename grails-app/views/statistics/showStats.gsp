@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<g:render template="/login/topbar"/>
+<g:render template="/layouts/topbar"/>
 <script type="text/javascript">
 
     function handleCheckBoxClick( cb ) {
@@ -138,14 +138,17 @@
 
 <div class="pContainerConfigure">
     <g:each in="${stats.fleets}" var="fleetStat" >
-        <fieldset>
-            <legend>
+        <div class="rowUp">
+            <div class="leftBoldBig">
                 <g:message code="templates.configuration.fleet._distribution.fleetname"/>: ${fleetStat.name}
                 <g:message code="templates.configuration.fleet._distribution.with"/> ${fleetStat.carResults.size()}
                 <g:message code="templates.configuration.fleet._distribution.car"/> |
                 <g:message code="templates.configuration.fleet._distribution.distribution"/>
                 ${fleetStat.distribution} from ${fleetStat.plannedFromKm} km to ${fleetStat.plannedToKm} km
-            </legend>
+            </div>
+            <div class="right0PX"></div>
+            <div class="clear"></div>
+        </div>
 
             <g:each in="${fleetStat.carTypes}" var="carType" >
                 <g:form id="allCarTypes" controller="statistics" action="showPicture">
@@ -362,7 +365,6 @@
 
                     </g:form>
                 </g:each>
-    </fieldset>
     </g:each>
 </div>
 
@@ -373,10 +375,15 @@
 <%-- HUA --%>
 <div class="pContainerConfigure">
 <g:each in="${stats.groups}" var="groupStat" >
-<fieldset>
-<legend>
-    <g:message code="stats.stats.groupname"/> ${groupStat.name}
-</legend>
+
+<div class="rowUp">
+    <div class="leftBoldBig">
+        <g:message code="stats.stats.groupname"/> ${groupStat.name}
+    </div>
+    <div class="right0PX"></div>
+    <div class="clear"></div>
+</div>
+
 
 <g:each in="${groupStat.stationTypes}" var="stationType" >
 <g:form id="allCarTypes2" controller="statistics" action="showStationPicture">
@@ -582,7 +589,6 @@
 </g:form>
 
 </g:each>
-</fieldset>
 </g:each>
 </div>
 
