@@ -415,6 +415,40 @@ class ConfigurationService {
     }
 
     /**
+     * creates a new Simulation name
+     * @param currentUser to save carType for currentUser's company
+     * @param simulationName
+     * @param simulationDescription
+     *
+     */
+    def createSimulationForCompany (Person currentUser,  Long configurationStubId) {
+
+        // getting the company
+        Company company = Company.get( currentUser.company.id )
+
+        if ( !company ) {
+            log.error( "no company found for user: ${currentUser.username}" )
+            return
+        }
+
+        String generatedSimulationName = "Simulation No. ${configurationStubId}"
+
+        Simulation simulationStub = new Simulation( company: company,
+                                                    name: generatedSimulationName,
+                                                    stub: true
+                                                  )
+
+        if ( !simulationStub.save( flush: true ) ) {
+            log.error( "failed to save simulation stub: ${simulationStub.errors}" )
+            return null
+        }
+
+        return simulationStub
+
+    }
+
+
+    /**
      * creates a new CarTyp
      *
      * @param currentUser to save carType for currentUser's company
@@ -532,6 +566,20 @@ class ConfigurationService {
 
         if ( !groupStub.save( flush: true ) ) {
             log.error( "failed to update group: ${groupStub.errors}" )
+        }
+
+
+    }
+
+
+    def addSimulation( Long configurationStubId, String nameForSimulation ) {
+
+        Simulation simulationStub = Simulation.get( configurationStubId )
+
+        simulationStub.name = nameForSimulation
+
+        if ( !simulationStub.save( flush: true ) ) {
+            log.error( "failed to update simulation: ${simulationStub.errors}" )
         }
 
 
@@ -707,6 +755,21 @@ class ConfigurationService {
         }
 
         return carTypes
+    }
+
+    def getAllSimulationsForCompany( Person currentUser ) {
+
+        Company company = Company.get( currentUser.company.id )
+        List<Simulation> simulationNames = Simulation.findAllByCompany( company )
+
+        if ( !company.name.equals( "dfki" ) ) {
+            Company dfkiCompany = Company.findByName( "dfki" )
+
+            simulationNames.addAll( Simulation.findAllByCompany( dfkiCompany ) )
+
+        }
+
+        return simulationNames
     }
 
     /**
