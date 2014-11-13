@@ -486,8 +486,14 @@
 
 </script>
     <div class="pContainerConfigure">
-        <fieldset class="fieldsetSimulation">
-            <legend> <g:message code="execution.playsimulation.playsimulation"/> </legend>
+
+            <div class="rowUp">
+                <div class="leftBoldBig"><g:message code="execution.playsimulation.playsimulation"/></div>
+                <div class="right0PX"></div>
+                <div class="clear"></div>
+            </div>
+
+        <div class="simulationTypesExecute">
             <div>
                 <br/>
                 <span class="infoBold"><g:message code="execution.playsimulation.info"/></span><br/>
@@ -556,7 +562,7 @@
             <g:render template="/layouts/footer" />
 
             <r:layoutResources></r:layoutResources>
-        </fieldset>
+        </div>
     </div>
 </body>
 </html>
