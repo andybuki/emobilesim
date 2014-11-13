@@ -1,7 +1,9 @@
 package de.dfki.gs.controller.ms2.configuration.commands
 
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.stats.ExperimentRunResult
 import grails.validation.Validateable
+import de.dfki.gs.domain.simulation.Simulation
 
 /**
  * Created by glenn on 09.07.14.
@@ -11,7 +13,14 @@ class EditConfigurationStubCommandObject {
 
     Long configurationStubId
 
+    String simulationName
+    String simulationDescription
+
     static constraints = {
+
+        simulationName nullable: true, blank: true
+
+        simulationDescription nullable: true
 
         configurationStubId nullable: true, validator: { val,obj ->
 
