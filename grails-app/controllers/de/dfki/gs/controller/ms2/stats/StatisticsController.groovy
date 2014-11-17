@@ -4,12 +4,15 @@ import de.dfki.gs.controller.ms2.stats.commands.ExperimentResultCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationStatsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStatsCommandObject
+import de.dfki.gs.domain.users.Person
+import grails.plugin.springsecurity.SpringSecurityUtils
 import org.apache.commons.io.FileUtils
 
 class StatisticsController {
 
     def statisticService
     def generateStatsPictureService
+    def springSecurityService
 
     /**
      * FIXED: after sim run, javascript never get back to controller,
@@ -19,6 +22,13 @@ class StatisticsController {
      * @return
      */
     def showStats() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
 
         ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
         bindData( cmd, params )
@@ -42,6 +52,13 @@ class StatisticsController {
     }
 
     def showPicture() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
 
         // log.error( "params: ${params}" )
 
@@ -121,6 +138,13 @@ class StatisticsController {
 
     def showStationPicture() {
 
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
         // log.error( "params: ${params}" )
 
         ShowStationStatsCommandObject cmd = new ShowStationStatsCommandObject()
@@ -199,6 +223,13 @@ class StatisticsController {
 
     def showDetailsPicture() {
 
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
         log.error( "params: ${params}" )
 
         String timeDistanceOption = ( params.time != null )?"time":"distance"
@@ -223,6 +254,13 @@ class StatisticsController {
     }
 
     def showStationsOnMap() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
 
         ShowStationsCommandObject cmd = new ShowStationsCommandObject()
         bindData( cmd, params )

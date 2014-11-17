@@ -19,8 +19,16 @@ class ExecutionController {
 
     def simulationExecutionService
     def statisticService
+    def springSecurityService
 
     def executeExperiment() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
 
         def m = [ : ]
 
@@ -75,6 +83,14 @@ class ExecutionController {
      * @return NOTHING!
      */
     def proceedExperiment() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
         def sessionId = WebUtils.retrieveGrailsWebRequest().session.id
 
         def m = [ : ]
@@ -149,6 +165,13 @@ class ExecutionController {
     }
 
     def stopExperiment() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
 
         log.debug( "params: ${params}" )
 

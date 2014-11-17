@@ -32,7 +32,19 @@ class GenerateStatsPictureService {
 
 
         final CategoryAxis xAxis = new CategoryAxis("Success Category");
-        final NumberAxis yAxis = new NumberAxis("time in [ h ], distance in [ km ], energy in [ kWh ] ");
+        final NumberAxis yAxis
+        int numberOfFeachersToShow =  featuresToShow.size()
+        for (int i=0; i<numberOfFeachersToShow; i++) {
+            if ( featuresToShow.get(i)=="realDistance" || featuresToShow.get(i)=="plannedDistance" ) {
+                 yAxis = new NumberAxis("Distance in [ km ]");
+            }
+            else if (featuresToShow.get(i)=="realDrivingTime" || featuresToShow.get(i)=="realTime" || featuresToShow.get(i)=="plannedTime" || featuresToShow.get(i)=="loadingTime") {
+                yAxis = new NumberAxis("Time in [ h ]");
+            } else if (featuresToShow.get(i)=="energyDemanded" || featuresToShow.get(i)=="energyLoaded") {
+                yAxis = new NumberAxis("Energy in [ kWh ]");
+            }
+        }
+
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
         renderer.setFillBox( true );
@@ -69,7 +81,17 @@ class GenerateStatsPictureService {
 
 
         final CategoryAxis xAxis = new CategoryAxis("Success Category");
-        final NumberAxis yAxis = new NumberAxis("time in [ h ], distance in [ km ], energy in [ kWh ] ");
+        final NumberAxis yAxis
+        int numberOfFeachersToShow =  featuresToShow.size()
+        for (int i=0; i<numberOfFeachersToShow; i++) {
+            if ( featuresToShow.get(i)=="timeLiving" || featuresToShow.get(i)=="timeInUse" ) {
+                yAxis = new NumberAxis("Time in [ h ]");
+            }
+            else if (featuresToShow.get(i)=="failedToRoute") {
+                yAxis = new NumberAxis("Number of cars");
+            }
+        }
+
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
         renderer.setFillBox( true );

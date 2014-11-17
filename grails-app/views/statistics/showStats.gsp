@@ -58,6 +58,7 @@
             // click was on a row
 
             var columnElements = document.getElementsByClassName( fleetName + "::" + carTypeName );
+            var columnElements1 = document.getElementsByClassName( groupStat + "::" + stationType );
             for ( var i = 0; i < columnElements.length; i++ ) {
 
                 var hua = columnElements[ i ];
@@ -70,6 +71,8 @@
                     var fieldElement = document.getElementById( columnName + "::" + fleetName + "::" + carTypeName + "::" + currentColumnName );
 
                     fieldElement.style.color = "#00AA00";
+                    fieldElement.style.fontWeight="bold";
+
 
                 } else {
                     // highlight normal!
@@ -79,7 +82,10 @@
 
                 }
 
+
             }
+
+
 
 
         } else {
@@ -89,13 +95,26 @@
             var successRowField = document.getElementById( fleetName + "::" + carTypeName + "::successful" );
             var failedRowField = document.getElementById( fleetName + "::" + carTypeName + "::failed" );
 
+
+            var plannedTime = document.getElementById( fleetName + "::" + carTypeName + "::" + "plannedTime" );
+            var realDrivingTime = document.getElementById( fleetName + "::" + carTypeName + "::" + "realDrivingTime" );
+            var realTime = document.getElementById( fleetName + "::" + carTypeName + "::" + "realTime" );
+            var loadingTime = document.getElementById( fleetName + "::" + carTypeName + "::" + "loadingTime" );
+            var plannedDistance = document.getElementById( fleetName + "::" + carTypeName + "::" + "plannedDistance" );
+            var realDistance = document.getElementById( fleetName + "::" + carTypeName + "::" + "realDistance" );
+            var energyLoaded = document.getElementById( fleetName + "::" + carTypeName + "::" + "energyLoaded" );
+            var energyDemanded = document.getElementById( fleetName + "::" + carTypeName + "::" + "energyDemanded" );
+
+
             var currentName = cb.name;
 
+            var littleCurrentName = currentName.match(/(::[a-z])\w+/g);
 
             if ( allRowField.checked && cb.checked ) {
 
                 var fieldElement = document.getElementById( "all::" + fleetName + "::" + carTypeName + "::" + columnName );
                 fieldElement.style.color = "#00AA00";
+
 
             } else {
 
@@ -109,6 +128,7 @@
                 var fieldElement = document.getElementById( "successful::" + fleetName + "::" + carTypeName + "::" + columnName );
                 fieldElement.style.color = "#00AA00";
 
+
             } else {
                 var fieldElement = document.getElementById( "successful::" + fleetName + "::" + carTypeName + "::" + columnName );
                 fieldElement.style.color = "black";
@@ -119,11 +139,43 @@
                 var fieldElement = document.getElementById( "failed::" + fleetName + "::" + carTypeName + "::" + columnName );
                 fieldElement.style.color = "#00AA00";
 
+
             } else {
                 var fieldElement = document.getElementById( "failed::" + fleetName + "::" + carTypeName + "::" + columnName );
                 fieldElement.style.color = "black";
             }
 
+            if (plannedTime.checked==true || realDrivingTime.checked==true || loadingTime.checked==true || realTime.checked==true && (energyDemanded.checked==false && energyLoaded.checked==false && plannedDistance.checked==false && realDistance.checked==false)) {
+                plannedDistance.disabled = true;
+                realDistance.disabled = true;
+                energyLoaded.disabled = true;
+                energyDemanded.disabled = true;
+            } else if (plannedDistance.checked==true || realDistance.checked==true && (plannedTime.checked==false && realDrivingTime.checked==false && loadingTime.checked==false && realTime.checked==false && energyDemanded.checked==false && energyLoaded.checked==false) ) {
+                plannedTime.disabled = true;
+                realDrivingTime.disabled = true;
+                realTime.disabled = true;
+                loadingTime.disabled = true;
+                energyLoaded.disabled = true;
+                energyDemanded.disabled = true;
+            } else if (energyDemanded.checked==true || energyLoaded.checked==true && (plannedTime.checked==false && realDrivingTime.checked==false && loadingTime.checked==false && realTime.checked==false && plannedDistance.checked==false && realDistance.checked==false)) {
+                plannedDistance.disabled = true;
+                realDistance.disabled = true;
+                plannedTime.disabled = true;
+                realDrivingTime.disabled = true;
+                realTime.disabled = true;
+                loadingTime.disabled = true;
+
+            } else {
+                plannedDistance.disabled = false;
+                realDistance.disabled = false;
+                plannedTime.disabled = false;
+                realDrivingTime.disabled = false;
+                realTime.disabled = false;
+                loadingTime.disabled = false;
+                energyLoaded.disabled = false;
+                energyDemanded.disabled = false;
+
+            }
 
         }
 
@@ -134,6 +186,8 @@
         for each fleet in stats map print out a tabl
         #e
     --%>
+
+
 
 
 <div class="pContainerConfigure">
@@ -166,70 +220,92 @@
                             </div>
                         </div>
 
-
-
                         <table class="table">
                             <tr class="table" align="center">
                                         <td width="100px" class="shiebenTitle">
                                             <g:message code="stats.stats.succsesscategory"/>
                                         </td>
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::plannedTime"
-                                                        id="${fleetStat.name}::${carType.name}::plannedTime"
-                                                        class="${fleetStat.name}::${carType.name}"
-                                                        onclick="handleCheckBoxClick(this);" />
-                                            <g:message code="stats.stats.planedtime"/>
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::plannedTime"
+                                                            id="${fleetStat.name}::${carType.name}::plannedTime"
+                                                            class="${fleetStat.name}::${carType.name}"
+                                                            onclick="handleCheckBoxClick(this);"/>
+                                                <span></span>
+                                            </label>
+                                                <g:message code="stats.stats.planedtime"/>
                                         </td>
 
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::realDrivingTime"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realDrivingTime"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::realDrivingTime" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.realdrivingtime"/>
                                         </td>
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::realTime"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realTime"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::realTime" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.realtime"/>
                                         </td>
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::loadingTime"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::loadingTime"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::loadingTime" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.loadingtime"/>
                                         </td>
 
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::plannedDistance"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::plannedDistance"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::plannedDistance" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.planneddistance"/>
                                         </td>
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::realDistance"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realDistance"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::realDistance" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.realdistance"/>
                                         </td>
 
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::energyLoaded"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::energyLoaded"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::energyLoaded" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.energyloaded"/>
                                         </td>
                                         <td width="100px" class="shiebenTitle">
-                                            <g:checkBox name="${fleetStat.name}::${carType.name}::energyDemanded"
+                                            <label class="checkbox">
+                                                <g:checkBox name="${fleetStat.name}::${carType.name}::energyDemanded"
                                                         class="${fleetStat.name}::${carType.name}"
                                                         onclick="handleCheckBoxClick(this);"
                                                         id="${fleetStat.name}::${carType.name}::energyDemanded" />
+                                                <span></span>
+                                            </label>
                                             <g:message code="stats.stats.energydemanded"/>
                                         </td>
 
@@ -238,10 +314,13 @@
                                         <tr class="table">
 
                                             <td width="100px" class="shieben1">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::all"
+                                                <label class="checkbox">
+                                                    <g:checkBox name="${fleetStat.name}::${carType.name}::all"
                                                             id="${fleetStat.name}::${carType.name}::all"
                                                             class="${fleetStat.name}::${carType.name}"
                                                             onclick="handleCheckBoxClick( this )" />
+                                                    <span></span>
+                                                </label>
                                                 <g:message code="stats.stats.all"/>
                                             </td>
 
@@ -277,10 +356,13 @@
                                         <tr class="table">
 
                                             <td width="100px" class="shieben1">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::successful"
+                                                <label class="checkbox">
+                                                    <g:checkBox name="${fleetStat.name}::${carType.name}::successful"
                                                             id="${fleetStat.name}::${carType.name}::successful"
                                                             class="${fleetStat.name}::${carType.name}"
                                                             onclick="handleCheckBoxClick( this )" />
+                                                    <span></span>
+                                                </label>
                                                 <g:message code="stats.stats.succsesful"/>
                                             </td>
                                             <td align="center" class="shieben" width="100px" id="successful::${fleetStat.name}::${carType.name}::plannedTime">
@@ -315,10 +397,14 @@
                                         <tr class="table">
 
                                             <td width="100px" class="shieben1">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::failed"
+                                                <label class="checkbox">
+                                                    <g:checkBox name="${fleetStat.name}::${carType.name}::failed"
                                                             id="${fleetStat.name}::${carType.name}::failed"
                                                             class="${fleetStat.name}::${carType.name}"
                                                             onclick="handleCheckBoxClick( this )" />
+
+                                                    <span></span>
+                                                </label>
                                                 <g:message code="stats.stats.failed"/>
                                             </td>
 
@@ -384,6 +470,33 @@
     <div class="clear"></div>
 </div>
 
+<g:javascript >
+    function handleCheckBoxClickStation(cb) {
+
+        var cbNameField = cb.name.split( "::" );
+        var groupStat = cbNameField[ 0 ];
+        var stationType = cbNameField[ 1 ];
+
+        var timeInUse = document.getElementById(groupStat + "::" + stationType + "::" + "timeInUse");
+        var timeLiving = document.getElementById(groupStat + "::" + stationType + "::" + "timeLiving");
+        var failedToRoute = document.getElementById(groupStat + "::" + stationType + "::" + "failedToRoute");
+
+
+        if (timeInUse.checked==true || timeLiving.checked==true) {
+            failedToRoute.disabled = true;
+        } else if (failedToRoute.checked==true ){
+            timeInUse.disabled = true;
+            timeLiving.disabled = true;
+        }else {
+            timeInUse.disabled = false;
+            timeLiving.disabled = false;
+            failedToRoute.disabled = false;
+
+        }
+
+    }
+
+</g:javascript>
 
 <g:each in="${groupStat.stationTypes}" var="stationType" >
 <g:form id="allCarTypes2" controller="statistics" action="showStationPicture">
@@ -414,12 +527,13 @@
                 <g:message code="stats.stats.succsesscategory"/>
             </td>
             <td width="100px" class="shiebenTitle">
-
-                <g:checkBox name="${groupStat.name}::${stationType.name}::timeInUse"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::timeInUse"
                             id="${groupStat.name}::${stationType.name}::timeInUse"
                             class="${groupStat.name}::${stationType.name}"
-                            onclick="handleCheckBoxClick(this);" />
-
+                            onclick="handleCheckBoxClickStation(this);" />
+                    <span></span>
+                </label>
                 <g:message code="stats.stats.timeinusemean"/>
             </td>
 
@@ -438,18 +552,25 @@
             </td>
 
             <td width="100px" class="shiebenTitle">
-                <g:checkBox name="${groupStat.name}::${stationType.name}::timeLiving"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::timeLiving"
                             class="${groupStat.name}::${stationType.name}"
-                            onclick="handleCheckBoxClick(this);"
+                            onclick="handleCheckBoxClickStation(this);"
                             id="${groupStat.name}::${stationType.name}::timeLiving" />
+
+                    <span></span>
+                </label>
                 <g:message code="stats.stats.timeliving"/>
             </td>
             <td width="100px" class="shiebenTitle">
-                <g:checkBox name="${groupStat.name}::${stationType.name}::failedToRoute"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::failedToRoute"
                             class="${groupStat.name}::${stationType.name}"
-                            onclick="handleCheckBoxClick(this);"
+                            onclick="handleCheckBoxClickStation(this);"
                             id="${groupStat.name}::${stationType.name}::failedToRoute" />
-                <g:message code="stats.stats.failedtoroute"/>
+                    <span></span>
+                </label>
+                    <g:message code="stats.stats.failedtoroute"/>
             </td>
 
         </tr>
@@ -457,10 +578,13 @@
         <tr class="table">
 
             <td width="100px" class="shiebenStations1">
-                <g:checkBox name="${groupStat.name}::${stationType.name}::all"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::all"
                             id="${groupStat.name}::${stationType.name}::all"
                             class="${groupStat.name}::${stationType.name}"
                             onclick="handleCheckBoxClick( this )" />
+                    <span></span>
+                </label>
                 <g:message code="stats.stats.all"/>
             </td>
 
@@ -498,10 +622,13 @@
         <tr class="table">
 
             <td width="100px" class="shiebenStations1">
-                <g:checkBox name="${groupStat.name}::${stationType.name}::successful"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::successful"
                             id="${groupStat.name}::${stationType.name}::successful"
                             class="${groupStat.name}::${stationType.name}"
                             onclick="handleCheckBoxClick( this )" />
+                    <span></span>
+                </label>
                 <g:message code="stats.stats.succsesful"/>
             </td>
 
@@ -535,10 +662,13 @@
         <tr class="table" >
 
             <td width="100px" class="shiebenStations1">
-                <g:checkBox name="${groupStat.name}::${stationType.name}::failed"
+                <label class="checkbox">
+                    <g:checkBox name="${groupStat.name}::${stationType.name}::failed"
                             id="${groupStat.name}::${stationType.name}::failed"
                             class="${groupStat.name}::${stationType.name}"
                             onclick="handleCheckBoxClick( this )" />
+                     <span></span>
+                </label>
                 <g:message code="stats.stats.failed"/>
             </td>
 

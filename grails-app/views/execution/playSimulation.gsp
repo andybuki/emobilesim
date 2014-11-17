@@ -186,7 +186,7 @@
         if ( timeCanvas.getContext ) {
 
             var ctx = timeCanvas.getContext( '2d' );
-            ctx.clearRect( 0,0,1200,40 );
+            ctx.clearRect( 0,0,1100,40 );
             ctx.font = "16px sans-serif ";
             ctx.fillStyle = "black";
             ctx.fillText( currentTime, 590, 30 );
@@ -202,7 +202,7 @@
         var canvas = document.getElementById('stationsContainer');
         var stationCount = info.length;
 
-        var spaceForStation = 1200 / stationCount;
+        var spaceForStation = 1100 / stationCount;
         if (stationCount>50) {
             if (canvas.getContext) {
                 var ctx = canvas.getContext('2d');
@@ -318,10 +318,10 @@
             // use getContext to use the canvas for drawing
             var ctx = canvas.getContext('2d');
 
-            ctx.clearRect ( 0 , 0 , 1200 , 500 );
+            ctx.clearRect ( 0 , 0 , 1100 , 500 );
 
             var routeCount = info.length;
-            var sizeForRoute = 1200 / routeCount;
+            var sizeForRoute = 1100 / routeCount;
 
             // find maxTotalKm
             if ( maxTotalKm == 0 ) {
@@ -447,14 +447,14 @@
             var ctx = canvas.getContext('2d');
             var nameCtx = nameCanvas.getContext( '2d' );
 
-            for (var x = 0.5; x < 1200.6; x += 10) {
+            for (var x = 0.5; x < 1100.6; x += 10) {
                 ctx.moveTo(x, 0);
                 ctx.lineTo(x, 500);
             }
 
             for (var y = 0.5; y < 500.6; y += 10) {
                 ctx.moveTo(0, y);
-                ctx.lineTo(1200, y);
+                ctx.lineTo(1100, y);
             }
 
             ctx.strokeStyle = "#eee";
@@ -462,7 +462,7 @@
 
             ctx.beginPath();
 
-            var sizeForRoute = 1200 / routeCount;
+            var sizeForRoute = 1100 / routeCount;
 
             ctx.fillStyle="#AABBCC";
             nameCtx.fillStyle="#AABBCC";
@@ -542,19 +542,19 @@
 
             <table>
                 <tr>
-                    <td width="1250px"><canvas id="timeContainer" width="1200" height="40"></canvas></td>
+                    <td width="1250px"><canvas id="timeContainer" width="1100" height="40"></canvas></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td width="1250px"><canvas id="experimentContainer" width="1200" height="500"></canvas></td>
+                    <td width="1250px"><canvas id="experimentContainer" width="1100" height="500"></canvas></td>
                     <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.simulation"/> </span></td>--%>
                 </tr>
                 <tr>
-                    <td width="1250px"><canvas id="nameContainer" width="1200" height="50"></canvas></td>
+                    <td width="1250px"><canvas id="nameContainer" width="1100" height="50"></canvas></td>
                     <%-- <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.carsdescription"/> </span></td>--%>
                  </tr>
                  <tr>
-                     <td width="1250px"><canvas id="stationsContainer" width="1200" height="40"></canvas></td>
+                     <td width="1250px"><canvas id="stationsContainer" width="1100" height="40"></canvas></td>
                      <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.electricstations"/> </span></td>--%>
                 </tr>
 

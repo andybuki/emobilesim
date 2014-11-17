@@ -2381,6 +2381,7 @@ fieldset {
     max-width:600px;
     border-radius: 6px;
     font-size: 12px;
+    display: table;
 }
 
 .simulationTypesExecute {
@@ -2781,9 +2782,9 @@ a.olControlZoomOut {
 .table {
     /*border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;*/
-    padding: 1em;
+    /*padding: 1em;
     min-height: 20px;
-    position: relative;
+    position: relative;*/
 
 }
 
@@ -2930,4 +2931,29 @@ a.olControlZoomOut {
     min-height:34px;
     position: relative;
     top:4px;
+}
+
+
+label.checkbox input[type="checkbox"] {display:none;}
+label.checkbox span {
+	display:inline-block;
+	border:1px solid #BBB;
+	border-radius:5px;
+	width:12px;
+	height:12px;
+	background:#F55;
+	vertical-align:middle;
+	margin:3px;
+}
+label.checkbox :checked + span {
+	background:#5F5;
+
+}
+
+label.checkbox input[type="checkbox"]:disabled {
+	display:none;
+}
+
+label.checkbox :disabled + span{
+	background: #ccc;
 }
