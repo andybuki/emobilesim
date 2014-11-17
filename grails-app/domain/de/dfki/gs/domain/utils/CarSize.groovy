@@ -10,4 +10,14 @@ public enum CarSize {
     BIG_CAR("Big car > 2000 ccm"),
     TRANSPORTER ("Transporter > 3,5 t")
 
+
+    final String value
+
+    CarSize(String value) {
+        this.value = value
+    }
+
+    String toString() {
+        value
+    }
 }

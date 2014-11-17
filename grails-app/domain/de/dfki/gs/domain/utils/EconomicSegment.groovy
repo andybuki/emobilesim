@@ -38,6 +38,17 @@ public enum EconomicSegment {
     WHOLESALE_AND_RETAIL_TRADE_AND_REPAIR_OF_MOTOR_VEHICLES_AND_MOTORCYCLES("Wholesale and retail trade and repair of motor vehicles and motorcycles"),
     WHOLESALE_TRADE_EXCEPT_OF_MOTOR_VEHICLES_AND_MOTORCYCLES("Wholesale trade. except of motor vehicles and motorcycles")
 
+
+
+    final String value
+
+    EconomicSegment(String value) {
+        this.value = value
+    }
+
+    String toString() {
+        value
+    }
 }
 
 

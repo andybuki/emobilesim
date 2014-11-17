@@ -12,5 +12,14 @@ public enum CompanySize {
     FROM_1001_TO_5000 ("from 1001 to 5000"),
     MORE_5000 ("more 5000")
 
+    final String value
+
+    CompanySize(String value) {
+        this.value = value
+    }
+
+    String toString() {
+        value
+    }
 
 }
