@@ -16,8 +16,8 @@
                     </div>
                 </div>
 
-                <div class="rowUnknown" id="updateCar"></div>
-                
+
+
                     <div class="rowMiddle">
                         <div class="left140PX">
                            <g:select name="carCount" from="${1..100}" /> &nbsp;&nbsp;
@@ -41,6 +41,7 @@
                         </div>
                         <div class="clear"></div>
                     </div>
+                    <div class="rowUnknown" id="updateCar"></div>
                     <div class="rowDown">
                         <div class="left0PX">
                              <%--<g:submitButton name="createCar" value="Cancel"/>--%>

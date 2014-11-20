@@ -17,7 +17,7 @@
                     </div>
 
                 </div>
-                <div class="rowUnknown" id="updateFillingStation"></div>
+
                 <div class="rowMiddle">
                     <div class="left180PX">
                         <g:select name="stationCount" from="${1..100}" /> &nbsp;&nbsp;
@@ -38,7 +38,7 @@
                     <div class="clear"></div>
                 </div>
 
-
+                <div class="rowUnknown" id="updateFillingStation"></div>
 
                 <div class="rowDown">
                     <div class="left0PX">
