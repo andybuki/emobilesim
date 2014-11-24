@@ -9,8 +9,32 @@ import grails.transaction.Transactional
 @Transactional
 class PersonService {
 
-    def mailService
+    def sendMailService
 
+    def createNewPasswordForPerson( String userName ) {
+
+        Person person = Person.findByUsername( userName )
+
+        UUID uuid = UUID.randomUUID();
+        String newPassword = uuid.toString().substring( 0, 9 );
+
+        try {
+
+            sendMailService.sendMailWithNewPassword( person, newPassword );
+
+            person.password = newPassword
+
+            if ( !person.save( flush: true ) ) {
+
+                log.error( "failed to save person: ${userName} : ${person.errors}" )
+
+            }
+
+        } catch ( Exception e ) {
+            log.error( "failed to send email: ${e.toString()}" )
+        }
+
+    }
 
     def createSigninPerson(  Long companyId, String givenName, String familyName, String emailAddress, String password ) {
 

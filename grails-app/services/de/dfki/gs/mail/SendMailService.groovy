@@ -11,6 +11,16 @@ class SendMailService {
 
     def mailService
 
+    def sendMailWithNewPassword( Person p, String password ) {
+
+        mailService.sendMail {
+            to "${p.username}"
+            from "emobilesim-team"
+            subject "Your new password request"
+            body "new password: ${password}"
+        }
+
+    }
 
     def sendConfirmationMailToSigningUser( Person p, String confirmLink) {
 
