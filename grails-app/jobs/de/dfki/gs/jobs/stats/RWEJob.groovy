@@ -11,10 +11,10 @@ class RWEJob {
     }
     def group = "RWEGroup"
 
-    def execute() {
+    /*def execute() {
 
         rweFetcherService.fetchData( "http://www.rwe-mobility.com/emobilityfrontend/rs/chargingstations" )
 
         println "Rwe job finished at ${new Date()}"
-    }
+    }*/
 }
