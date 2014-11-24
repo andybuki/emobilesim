@@ -59,7 +59,8 @@
 
     function play() {
         var button = document.getElementById('button_play_pause');
-        button.innerHTML = "<b>Pause</b>";
+        button.innerHTML = "";
+        button.style.display="none";
         g_playing = true;
 
         // action to the controller:
@@ -104,6 +105,9 @@
                     drawStationInfos( stations );
 
                     drawCurrentTime( currentTime );
+
+                    //drawCarsText ();
+                    //drawStationsText ();
 
                 }
 
@@ -189,13 +193,49 @@
             ctx.clearRect( 0,0,1100,40 );
             ctx.font = "16px sans-serif ";
             ctx.fillStyle = "black";
-            ctx.fillText( currentTime, 590, 30 );
+            ctx.fillText( "Simulation duration:  "  +  currentTime , 480, 30 );
 
             ctx.stroke();
         }
 
 
     }
+
+    /*function drawCarsText () {
+
+        var carCanvas = document.getElementById( 'carContainer' );
+
+        if ( carCanvas.getContext ) {
+            var ctx = carCanvas.getContext( '2d' );
+
+            ctx.clearRect( 0,0,1100,40 );
+            ctx.font = "11px sans-serif ";
+            ctx.fillStyle = "black";
+            //ctx.fillText( "All cars in the simulation", 0, 30 );
+            ctx.onclick= "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'";
+            ctx.class="helpButton";
+            ctx.src="${g.resource( dir: '/images', file: 'help.png' )}";
+            ctx.stroke();
+        }
+
+    }
+
+    function drawStationsText () {
+
+        var stationCanvas = document.getElementById( 'stationContainer' );
+
+        if ( stationCanvas.getContext ) {
+            var ctx = stationCanvas.getContext( '2d' );
+
+            ctx.clearRect( 0,0,1100,40 );
+            ctx.font = "11px sans-serif ";
+            ctx.fillStyle = "black";
+            ctx.fillText( "All electric stations in the simulation", 0, 30 );
+
+            ctx.stroke();
+        }
+
+    }*/
 
     function drawStationInfos( info ) {
 
@@ -285,7 +325,7 @@
                 for (var dp = 0; dp < stationCount; dp++) {
 
                     ctx.beginPath();
-                    ctx.font = "10px sans-serif ";
+                    ctx.font = "11px sans-serif ";
                     ctx.fillStyle = "black";
                     for (var tx = 0; tx < stationCount; tx++) {
 
@@ -309,7 +349,7 @@
     function drawCarInfos( info ) {
 
         var canvas = document.getElementById('experimentContainer');
-
+        var stationCanvas = document.getElementById('stationsContainer');
         var nameCanvas = document.getElementById('nameContainer');
         // canvas.width = canvas.width;
 
@@ -347,8 +387,8 @@
 
                 var car = info[ dp ];
 
-                // ctx.fillStyle="#112233";
-                ctx.fillStyle="rgba(10, 2, 45, 0.4)";
+                ctx.fillStyle="#828282";
+                //ctx.fillStyle="rgba(10, 2, 45, 0.4)";
 
                 // max height of rect
                 var x = ( car[ 'totalKmToDrive' ] / maxTotalKm ) * 500;
@@ -356,27 +396,36 @@
                 var routeAccomblished = x * car[ 'drivenKm' ] / car[ 'totalKmToDrive' ];
 
                 // upperLeft.x, upperLeft.y, width, height
-                ctx.fillRect( dp * sizeForRoute, 500-routeAccomblished, sizeForRoute, routeAccomblished );
+                ctx.fillRect( dp * sizeForRoute, 530-routeAccomblished, sizeForRoute/2, routeAccomblished );
 
                 ctx.stroke();
 
             }
 
-
+             // Yellow line, show the whole distance
             for ( var dp = 0; dp < routeCount; dp++ ) {
 
                 var car = info[ dp ];
+                var nameCtx = nameCanvas.getContext('2d');
+                nameCtx.beginPath();
 
+                nameCtx.fillStyle = "#CC8400";
+                ctx.font = "11px sans-serif ";
+                ctx.fillStyle = "#CC8400";
                 // ctx.fillStyle="#112233";
 
-                ctx.fillStyle="rgba(255,255,0, 0.99)";
+                //ctx.fillStyle="rgba(0,0,0, 0.99)";
 
                 // max height of rect
                 var x = ( car[ 'totalKmToDrive' ] / maxTotalKm ) * 500;
+                var xRound = Math.round(x);
+                //alert(x+"km");
 
                 // upperLeft.x, upperLeft.y, width, height
-                ctx.fillRect( dp * sizeForRoute, 500-x, sizeForRoute, 3 );
-
+                ctx.fillRect( dp * sizeForRoute, 540-x, sizeForRoute/2, 3 );
+                ctx.fillText( "  "+xRound+"km", dp * sizeForRoute, 540-x, sizeForRoute/2 );
+                //alert(xRound+"km");
+                //ctx.fillText( x+"km", dp * sizeForRoute/2, ( (dp%5)*10 ) + 10 );
                 ctx.stroke();
 
             }
@@ -390,6 +439,7 @@
 
 
                 var nameCtx = nameCanvas.getContext('2d');
+
                 nameCtx.beginPath();
                 nameCtx.font = "12px sans-serif ";
                 nameCtx.fillStyle = "black";
@@ -401,6 +451,7 @@
 
                 }
                 nameCtx.stroke();
+
                 namesDrawn = true;
 
             }
@@ -410,22 +461,31 @@
              * drawing status of cars
              * BATTERY STATUS
              */
+
+            var ctxStation = canvas.getContext('2d');
+            ctxStation.beginPath();
             ctx.beginPath();
             for ( var db = 0; db < routeCount; db++ ) {
 
                 var car = info[ db ];
 
-                ctx.fillStyle="rgba(32, 45, 21, 0.2)"
+                //ctx.fillStyle="rgba(32, 45, 21, 0.2)"
+                ctx.fillStyle=("#fff");
+                ctxStation.fillStyle=("#CC8400");
 
                 var batteryFill = ( 500 / 100 ) * car[ 'batteryFilledPercentage' ] ;
+                var batteryPersent = Math.round(car[ 'batteryFilledPercentage' ] );
 
+                ctx.font = "10px sans-serif";
+                //ctx.fillText( batteryFill, 190, 30 );
                 // upperLeft.x, upperLeft.y, width, height
-                ctx.fillRect( db * sizeForRoute, 500-batteryFill, sizeForRoute, batteryFill );
 
-
+                ctx.fillRect( (db) * (sizeForRoute) + sizeForRoute/2 , 520-batteryFill, sizeForRoute/2, batteryFill );
+                ctxStation.fillText( "  "+batteryPersent +"% accu ", db * sizeForRoute+sizeForRoute/2 , 520-batteryFill, sizeForRoute+10 );
+                //ctx.fillText( "  "+xRound+"km", dp * sizeForRoute, 500-x, sizeForRoute/2 );
                 ctx.strokeStyle = "#AABBCC";
                 ctx.stroke();
-
+                ctxStation.stroke();
             }
 
 
@@ -438,6 +498,7 @@
         // get the canvas element using the DOM
         var canvas = document.getElementById('experimentContainer');
         var nameCanvas = document.getElementById( 'nameContainer' );
+        var stationCanvas = document.getElementById('stationsContainer');
 
 
         // Make sure we don't execute when canvas isn't supported
@@ -446,6 +507,7 @@
             // use getContext to use the canvas for drawing
             var ctx = canvas.getContext('2d');
             var nameCtx = nameCanvas.getContext( '2d' );
+            var stationCtx = stationCanvas.getContext( '2d' );
 
             for (var x = 0.5; x < 1100.6; x += 10) {
                 ctx.moveTo(x, 0);
@@ -466,16 +528,19 @@
 
             ctx.fillStyle="#AABBCC";
             nameCtx.fillStyle="#AABBCC";
+            stationCtx.fillStyle="#AABBCC";
             for ( var i = 0; i < routeCount; i++ ) {
 
                 ctx.fillRect( i * sizeForRoute, 0, sizeForRoute, 500 );
                 nameCtx.fillRect( i * sizeForRoute, 0, sizeForRoute, 50 );
+                stationCtx.fillRect( i * sizeForRoute, 0, sizeForRoute, 50 );
 
             }
 
             ctx.strokeStyle = "#AABBCC";
             ctx.stroke();
             nameCtx.stroke();
+            stationCtx.stroke();
 
 
         } else {
@@ -520,14 +585,18 @@
                             disabled="true"
                     ><i class="icon icon-warning-sign"></i><g:message code="execution.playsimulation.showstats"/> </button>
 
-                    <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"><img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/></a>
+                    <%--<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"><img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/></a>
 
                     <div id="light" class="white_content">
                         <img  src="${g.resource( dir: '/images', file: 'sim.jpg' )}"/>
                         <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"></a>
 
-                    </div>
-                    <div id="fade" class="black_overlay"></div>
+                    </div>--%>
+
+
+
+
+
                     <%--
                     <button class="playButton"
                             id="button_show_stats"
@@ -541,23 +610,60 @@
             </div>
 
             <table>
-                <tr>
-                    <td width="1250px"><canvas id="timeContainer" width="1100" height="40"></canvas></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td width="1250px"><canvas id="experimentContainer" width="1100" height="500"></canvas></td>
-                    <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.simulation"/> </span></td>--%>
-                </tr>
-                <tr>
-                    <td width="1250px"><canvas id="nameContainer" width="1100" height="50"></canvas></td>
-                    <%-- <td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.carsdescription"/> </span></td>--%>
-                 </tr>
-                 <tr>
-                     <td width="1250px"><canvas id="stationsContainer" width="1100" height="40"></canvas></td>
-                     <%--<td width="100px"><span class="decSimu"><g:message code="execution.playsimulation.electricstations"/> </span></td>--%>
+                <tr height="50">
+                    <td width="1150px"><canvas id="timeContainer" width="1100" height="40"></canvas></td>
+
                 </tr>
 
+                <tr>
+                    <td width="1150px" height="500"><canvas id="experimentContainer" width="1100" height="500"></canvas>
+                        <a href = "javascript:void(0)" onclick = "document.getElementById('process').style.display='block'">
+                            <img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/>
+
+                        </a>
+                    </td>
+
+                    <div id="process" class="white_content_process">
+                        <div>2 bulks per car, orange and gray</div>
+                        <div>Orange: Accumulator in % per car</div>
+                        <div>Gray: Distance in km per car</div>
+                        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href = "javascript:void(0)" onclick = "document.getElementById('process').style.display='none'"></a>
+
+                    </div>
+
+                </tr>
+                <tr>
+                    <td width="1150px"><canvas id="nameContainer" width="1100" height="50"></canvas>
+                        <a href = "javascript:void(0)" onclick = "document.getElementById('cars').style.display='block'">
+                            <img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/>
+
+                        </a>
+                    </td>
+                    <div id="cars" class="white_content_cars">
+
+                        <span>All cars in the simulation</span>
+                        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href = "javascript:void(0)" onclick = "document.getElementById('cars').style.display='none'"></a>
+
+                    </div>
+                </tr>
+
+                <tr>
+                     <td width="1150px"><canvas id="stationsContainer" width="1100" height="40"></canvas>
+                         <a href = "javascript:void(0)" onclick = "document.getElementById('stations').style.display='block'">
+                             <img class="helpButton" src="${g.resource( dir: '/images', file: 'help.png' )}"/>
+                         </a>
+                     </td>
+                    <div id="stations" class="white_content_stations">
+                        <div>Electric stations in the simulation</div>
+                        <div>green - free</div>
+                        <div>red - occupied</div>
+                        <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href = "javascript:void(0)" onclick = "document.getElementById('stations').style.display='none'"></a>
+
+                    </div>
+                </tr>
+
+
+                <div id="fade" class="black_overlay"></div>
             </table>
             <g:render template="/layouts/footer" />
 

@@ -2916,6 +2916,48 @@ a.olControlZoomOut {
     overflow: auto;
 }
 
+.white_content_cars {
+	display: none;
+	position: absolute;
+	top: 700px;
+	left: 1080px;
+	width: 200px;
+	height: 50px;
+	padding: 16px;
+	border: 1px solid #ccc;
+	background-color: white;
+	z-index:1002;
+	overflow: auto;
+}
+
+.white_content_stations {
+	display: none;
+	position: absolute;
+	top: 720px;
+	left: 1080px;
+	width: 200px;
+	height: 50px;
+	padding: 16px;
+	border: 1px solid #ccc;
+	background-color: white;
+	z-index:1002;
+	overflow: auto;
+}
+
+.white_content_process {
+	display: none;
+	position: absolute;
+	top: 420px;
+	left: 1080px;
+	width: 250px;
+	height: 80px;
+	padding: 16px;
+	border: 1px solid #ccc;
+	background-color: white;
+	z-index:1002;
+	overflow: auto;
+}
+
 .wrap  ul#menu li ul li a{
     position: relative;
     z-index: 1088;
@@ -2956,4 +2998,10 @@ label.checkbox input[type="checkbox"]:disabled {
 
 label.checkbox :disabled + span{
 	background: #ccc;
+}
+
+.carContainer{
+	position: relative;
+	right: 60px;
+	bottom: 32px;
 }

@@ -24,11 +24,13 @@ import de.dfki.gs.controller.ms2.configuration.commands.ShowGroupStationsCommand
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
+import de.dfki.gs.controller.ms2.stats.commands.ExperimentResultCommandObject
 import de.dfki.gs.domain.GasolineStation
 import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.Experiment
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.FillingStation
@@ -59,7 +61,7 @@ class ConfigurationController {
     def springSecurityService
     def configurationService
     def grailsLinkGenerator
-
+    def statisticService
 
     /**
      * this part handles all about fillingStationType manageing
@@ -1209,7 +1211,7 @@ class ConfigurationController {
                 conf.routeCount = routeCount
                 conf.stationCount = stationCount
 
-                        m.configurations << conf
+                m.configurations << conf
             }
 
         }
@@ -1296,6 +1298,7 @@ class ConfigurationController {
 
             def conf = [ : ]
 
+
             List<Fleet> existedFleets = new ArrayList<Fleet>()
             configuration.fleets.each { Fleet fleet ->
                 existedFleets.add( Fleet.get( fleet.id ) )
@@ -1307,6 +1310,17 @@ class ConfigurationController {
                 existedStations.add( FillingStationGroup.get( fillingStationGroup.id ) )
 
             }
+
+            // listz of all configs allowed, use service
+            // List<Configuration> configurationsList = Configuration.findAllByCompany( Company.get( person.company.id ) )
+
+
+
+            /*List<Experiment> existedExperiments = new ArrayList<Experiment>()
+            configuration.experiments.each { Experiment experiment ->
+                existedExperiments.add( Experiment.get( experiment.id ) )
+
+            }*/
 
             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0 ) {
 
@@ -1323,11 +1337,23 @@ class ConfigurationController {
                     stationCount += fillingStation.fillingStations.size()
                 }
 
+                int experimentCount = 0
+
+                /*configuration.experiments.each { Experiment experiment ->
+                    experiment = Experiment.get( experiment.id )
+                    experimentCount += experiment.experimentResult.size()
+                }*/
+
+
                 conf.configurationId = configuration.id
                 conf.fleetInfo = existedFleets.cars[0].size()
                 conf.stationsInfo = existedStations.fillingStations[0].size()
                 conf.routeCount = routeCount
                 conf.stationCount = stationCount
+                conf.stationsConfiguration  = existedStations[0].groupsConfigured
+                conf.routesConfiguration  = existedFleets[0].routesConfigured
+
+                //conf.experimentRunResultId = experiment.experiments
 
                 m.configurations << conf
             }
@@ -1385,6 +1411,7 @@ class ConfigurationController {
 
             }
 
+
             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0 ) {
 
                 int routeCount = 0
@@ -1399,6 +1426,8 @@ class ConfigurationController {
                     fillingStation = FillingStationGroup.get( fillingStation.id )
                     stationCount += fillingStation.fillingStations.size()
                 }
+
+
 
                 conf.configurationId = configuration.id
                 conf.fleetInfo = existedFleets.cars[0].size()
