@@ -1191,6 +1191,14 @@ body.lightBoxBody{
     display: table-cell;
 }
 
+.rightFogotEmail {
+	width:125px;
+	float:right;
+	padding:5px;
+	min-height:24px;
+	display: table-cell;
+}
+
 .right65{
     width:65px;
     padding:10px 0px 0px 7px;
@@ -2219,6 +2227,13 @@ fieldset {
     min-height:24px;
 }
 
+.leftFogotEmail {
+	width:170px;
+	float:left;
+	padding:6px 0px 0px 7px;
+	min-height:24px;
+}
+
 .leftBold {
     width:160px;
     float:left;
@@ -3004,4 +3019,8 @@ label.checkbox :disabled + span{
 	position: relative;
 	right: 60px;
 	bottom: 32px;
+}
+
+.probel20px {
+	margin-left: 5px;
 }

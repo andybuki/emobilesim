@@ -142,24 +142,18 @@
                         </div>
 
                         <div class="contentAuth">
-                            <g:form controller="login" action="forgotPassword" id='passForm' class='cssform' autocomplete='off'>
                                 <div class="rowUp">
                                     <div class="leftbig"><b><g:message code="login.auth.fogotPassword"/></b></div>
                                 </div>
-                                <%--
-                                <div class="rowMiddle">
-                                    <div class="left"><g:message code="login.auth.email"/></div>
-                                    <div class="right"><input type="text" size="20" name='signinUserName' id='signinUserName' value=""></div>
-                                    <div class="clear"></div>
-                                </div>
-                                --%>
 
+                            <g:form controller="login" action="sendNewPassword">
                                 <div class="rowDown">
-                                    <div class="left"></div>
-                                    <div class="right"><input type="submit" value="<g:message code="login.auth.send"/>"></div>
+                                    <div class="leftFogotEmail"><g:message code="registration.index.email"/><span class="probel20px"/> <g:textField name="emailAddress" /></div>
+                                    <div class="rightFogotEmail"> <g:submitButton name="Send New Password" value="${message(code: 'login.auth.send')}" /></div>
                                     <div class="clear"></div>
                                 </div>
                             </g:form>
+
                         </div>
                     </div>
                     <%--<div class="layoutImage">
