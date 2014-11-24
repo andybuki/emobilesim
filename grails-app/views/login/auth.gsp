@@ -142,15 +142,17 @@
                         </div>
 
                         <div class="contentAuth">
-                            <g:form controller="login" action="fogotPassword" id='passForm' class='cssform' autocomplete='off'>
+                            <g:form controller="login" action="forgotPassword" id='passForm' class='cssform' autocomplete='off'>
                                 <div class="rowUp">
                                     <div class="leftbig"><b><g:message code="login.auth.fogotPassword"/></b></div>
                                 </div>
+                                <%--
                                 <div class="rowMiddle">
                                     <div class="left"><g:message code="login.auth.email"/></div>
                                     <div class="right"><input type="text" size="20" name='signinUserName' id='signinUserName' value=""></div>
                                     <div class="clear"></div>
                                 </div>
+                                --%>
 
                                 <div class="rowDown">
                                     <div class="left"></div>

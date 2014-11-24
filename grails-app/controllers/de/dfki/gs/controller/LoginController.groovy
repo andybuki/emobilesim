@@ -2,6 +2,7 @@ package de.dfki.gs.controller
 
 import de.dfki.gs.controller.commands.AllowPersonCommandObject
 import de.dfki.gs.controller.commands.ConfirmCommandObject
+import de.dfki.gs.controller.commands.ForgotPasswordCommandObject
 import de.dfki.gs.controller.commands.SigninCommandObject
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
@@ -126,11 +127,35 @@ class LoginController {
         render view: "waiting"
     }
 
-    def fogotPassword = {
+    def forgotPassword = {
 
         log.error( "params: ${params}" )
 
+        render view: "forgotPassword"
 
+    }
+
+    def sendNewPassword = {
+
+        ForgotPasswordCommandObject cmd = new ForgotPasswordCommandObject()
+        bindData( cmd, params )
+
+        if ( cmd.validate() && !cmd.hasErrors() ) {
+
+            log.error( "try sending.." )
+
+            personService.createNewPasswordForPerson( cmd.emailAddress )
+
+            Person person = Person.findByUsername( cmd.emailAddress )
+
+            def m = [ : ]
+            m.givenName = person.givenName
+            m.familyName = person.familyName
+            m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+
+            render view: "success", model: m
+
+        }
 
     }
 

@@ -25,5 +25,13 @@
 <body>
     <g:render template="/login/topbar"/>
 
+    <g:form controller="login" action="sendNewPassword">
+
+        Email-Address:
+        <g:textField name="emailAddress" />
+
+        <g:submitButton name="Send New Password" value="Send new Password" />
+    </g:form>
+
 </body>
 </html>
