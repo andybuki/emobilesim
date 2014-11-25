@@ -138,7 +138,12 @@ class LoginController {
     }
 
     /**
-     * this should send a "type new password"-link for the requesting user
+     * user types in his username (must be a email address)
+     * if username is in our database
+     * 1) a resetPasswordIdent for the user is generated, which identifies the user during the password change process
+     * 2) a mail to the username is sent containing the resetPassword link and the resetPasswordIdent
+     *
+     *
      */
     def sendResetPasswordLink = {
 
@@ -151,12 +156,19 @@ class LoginController {
 
             String ident = personService.createResetPasswordIdent( cmd.emailAddress )
 
-            if ( !ident ) {
-                log.error( "failed!" )
-                redirect action: 'index'
+            if ( ident ) {
+
+                String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "resetPassword", params: [ ident: ident, email: cmd.emailAddress ] )
+
+                try {
+                    sendMailService.sendResetPasswordLink( cmd.emailAddress, link )
+                } catch ( Exception e ) {
+
+                    // TODO: tell the user that email service is out of order...
+                    log.error( "failed to send email to ${cmd.emailAddress}" )
+                }
+
             }
-            String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "resetPassword", params: [ ident: ident, email: cmd.emailAddress ] )
-            sendMailService.sendResetPasswordLink( cmd.emailAddress, link )
 
         }
 
@@ -164,6 +176,14 @@ class LoginController {
         redirect action: 'index'
     }
 
+    /**
+     * user typed new password two times,
+     * 1.) both must be the same
+     * 2.) resetPasswordIdent and email address must be valid
+     *
+     * if all is well, resetPasswordIdent is deleted again and password is updated
+     *
+     */
     def saveNewPassword = {
 
         SaveNewPasswordCommandObject cmd = new SaveNewPasswordCommandObject()
@@ -188,6 +208,13 @@ class LoginController {
 
     }
 
+    /**
+     * user clicks link in email, which consists of email address and the resetPasswordIdent
+     *
+     * email and resetPasswordIdent must be valid
+     *
+     * id all is well, user can create new password
+     */
     def resetPassword = {
 
         ResetPasswordCommandObject cmd = new ResetPasswordCommandObject()
