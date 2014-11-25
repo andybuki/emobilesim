@@ -140,8 +140,10 @@ class LoginController {
         ForgotPasswordCommandObject cmd = new ForgotPasswordCommandObject()
         bindData( cmd, params )
 
-        if ( cmd.validate() && !cmd.hasErrors() ) {
-
+        if ( cmd.emailAddress==null) {
+            log.error( "no email in line: ${cmd.errors}" )
+            redirect action: 'auth'
+        } else {
             log.error( "try sending.." )
 
             personService.createNewPasswordForPerson( cmd.emailAddress )
@@ -154,7 +156,6 @@ class LoginController {
             m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
 
             render view: "success", model: m
-
         }
 
     }
