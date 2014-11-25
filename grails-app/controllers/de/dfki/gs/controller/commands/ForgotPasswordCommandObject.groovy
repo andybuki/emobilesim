@@ -14,7 +14,7 @@ class ForgotPasswordCommandObject {
 
     static constraints = {
 
-        emailAddress ( nullable: true, validator: { val,obj ->
+        emailAddress ( nullable: false, validator: { val,obj ->
 
             if ( val != null && val.length() > 0 ) {
 
