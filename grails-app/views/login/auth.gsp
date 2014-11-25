@@ -146,7 +146,7 @@
                                     <div class="leftbig"><b><g:message code="login.auth.fogotPassword"/></b></div>
                                 </div>
 
-                            <g:form controller="login" action="sendNewPassword">
+                            <g:form controller="login" action="sendResetPasswordLink">
                                 <div class="rowDown">
                                     <div class="leftFogotEmail"><g:message code="registration.index.email"/><span class="probel20px"/> <g:textField name="emailAddress" /></div>
                                     <div class="rightFogotEmail"> <g:submitButton name="Send New Password" value="${message(code: 'login.auth.send')}" /></div>

@@ -3,6 +3,8 @@ package de.dfki.gs.controller
 import de.dfki.gs.controller.commands.AllowPersonCommandObject
 import de.dfki.gs.controller.commands.ConfirmCommandObject
 import de.dfki.gs.controller.commands.ForgotPasswordCommandObject
+import de.dfki.gs.controller.commands.ResetPasswordCommandObject
+import de.dfki.gs.controller.commands.SaveNewPasswordCommandObject
 import de.dfki.gs.controller.commands.SigninCommandObject
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
@@ -135,25 +137,69 @@ class LoginController {
 
     }
 
-    def sendNewPassword = {
+    /**
+     * this should send a "type new password"-link for the requesting user
+     */
+    def sendResetPasswordLink = {
 
         ForgotPasswordCommandObject cmd = new ForgotPasswordCommandObject()
         bindData( cmd, params )
 
         if ( cmd.validate() && !cmd.hasErrors() ) {
 
-            log.error( "try sending.." )
+            log.error( "try sending reset password link" )
 
-            personService.createNewPasswordForPerson( cmd.emailAddress )
+            String ident = personService.createResetPasswordIdent( cmd.emailAddress )
 
-            Person person = Person.findByUsername( cmd.emailAddress )
+            if ( !ident ) {
+                log.error( "failed!" )
+                redirect action: 'index'
+            }
+            String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "resetPassword", params: [ ident: ident, email: cmd.emailAddress ] )
+            sendMailService.sendResetPasswordLink( cmd.emailAddress, link )
+
+        }
+
+
+        redirect action: 'index'
+    }
+
+    def saveNewPassword = {
+
+        SaveNewPasswordCommandObject cmd = new SaveNewPasswordCommandObject()
+
+        bindData( cmd, params )
+
+        if ( cmd.validate() && !cmd.hasErrors() ) {
+
+            Person person = Person.findByUsername( cmd.username )
+
+            if ( personService.saveNewPasswordForUser( cmd.username, cmd.ident, cmd.password ) ) {
+
+                def m = [ : ]
+                m.givenName = person.givenName
+                m.familyName = person.familyName
+                m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+
+                render view: "success", model: m
+
+            }
+        }
+
+    }
+
+    def resetPassword = {
+
+        ResetPasswordCommandObject cmd = new ResetPasswordCommandObject()
+        bindData( cmd, params )
+
+        if ( cmd.validate() && !cmd.hasErrors()  ) {
 
             def m = [ : ]
-            m.givenName = person.givenName
-            m.familyName = person.familyName
-            m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+            m.username = cmd.email
+            m.ident = cmd.ident
 
-            render view: "success", model: m
+            render view: "resetPassword", model: m
 
         }
 

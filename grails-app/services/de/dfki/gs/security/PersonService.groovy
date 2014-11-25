@@ -3,6 +3,7 @@ package de.dfki.gs.security
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.PersonRole
+import de.dfki.gs.domain.users.ResetPasswordIdent
 import de.dfki.gs.domain.users.Role
 import grails.transaction.Transactional
 
@@ -34,6 +35,64 @@ class PersonService {
             log.error( "failed to send email: ${e.toString()}" )
         }
 
+    }
+
+    boolean invalidateResetPasswordIdent( String ident ) {
+
+        ResetPasswordIdent resetPasswordIdent = ResetPasswordIdent.findByIdentString( ident )
+
+        if( !resetPasswordIdent.delete( flush: true ) ) {
+            log.error( "failed to delete resetPasswordIdent" )
+            return false
+        }
+
+        return true
+    }
+
+    String createResetPasswordIdent( String username ) {
+
+        String ident = UUID.randomUUID().toString()
+
+        ResetPasswordIdent resetPasswordIdent = ResetPasswordIdent.findByUsername( username )
+        if ( resetPasswordIdent ) {
+            return resetPasswordIdent.identString
+        }
+
+        resetPasswordIdent = new ResetPasswordIdent(
+            username: username,
+            identString: ident
+        )
+
+        if ( !resetPasswordIdent.save() ) {
+            log.error( "failed to create resetPasswordIdent for ${username}: ${resetPasswordIdent.errors}" )
+            return null
+        }
+
+        return ident
+    }
+
+    boolean saveNewPasswordForUser( String username, String ident, String password ) {
+
+        ResetPasswordIdent resetPasswordIdent = ResetPasswordIdent.findByUsername( username )
+        if ( !resetPasswordIdent ) {
+            return false
+        }
+
+        Person person = Person.findByUsername( username )
+        if ( !person ) {
+            return false
+        }
+
+        resetPasswordIdent.delete( flush: true )
+
+
+        person.password = password
+
+        if ( !person.save( flush: true ) ) {
+            log.error( "failed to save new password for person: ${username} : ${person.errors}" )
+        }
+
+        return true
     }
 
     def createSigninPerson(  Long companyId, String givenName, String familyName, String emailAddress, String password ) {

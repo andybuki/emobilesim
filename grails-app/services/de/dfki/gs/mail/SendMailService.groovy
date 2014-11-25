@@ -33,6 +33,18 @@ class SendMailService {
 
     }
 
+    def sendResetPasswordLink( String userName, String link ) {
+
+        Person person = Person.findByUsername( userName )
+
+        mailService.sendMail {
+            to "${person.username}"
+            from "emobilesim-team"
+            subject "Reset password link"
+            body "${link}"
+        }
+    }
+
     def sendLoginAllowedMailToPerson( Person p ) {
 
         mailService.sendMail {
