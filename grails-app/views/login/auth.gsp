@@ -147,9 +147,14 @@
                                 </div>
 
                             <g:form controller="login" action="sendResetPasswordLink">
+                                <div class="rowMiddle">
+                                    <div class="left"><g:message code="registration.index.email"/><span class="probel20px"/></div>
+                                    <div class="right"><g:textField name="emailAddress" /> </div>
+                                    <div class="clear"></div>
+                                </div>
                                 <div class="rowDown">
-                                    <div class="leftFogotEmail"><g:message code="registration.index.email"/><span class="probel20px"/> <g:textField name="emailAddress" /></div>
-                                    <div class="rightFogotEmail"> <g:submitButton name="Send New Password" value="${message(code: 'login.auth.send')}" /></div>
+                                    <div class="left"></div>
+                                    <div class="right"><g:submitButton name="Send New Password" value="${message(code: 'login.auth.send')}" /></div>
                                     <div class="clear"></div>
                                 </div>
                             </g:form>
