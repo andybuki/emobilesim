@@ -550,7 +550,7 @@
     }
 
 </script>
-    <div class="pContainerConfigure">
+    <div class="pContainerConfigureSimulation">
 
             <div class="rowUp">
                 <div class="leftBoldBig"><g:message code="execution.playsimulation.playsimulation"/></div>
