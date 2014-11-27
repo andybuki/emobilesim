@@ -2080,6 +2080,16 @@ fieldset {
 
 }
 
+.pContainerConfigureStats {
+	margin-left:6%;
+	margin-top:20px;
+	margin-bottom:10px;
+	margin-right:5%;
+	min-height: 300px;
+	min-width: 1100px;
+	max-width: 1300px;
+}
+
 .layout {
     display:table;
     width: 100%;
@@ -2145,6 +2155,15 @@ fieldset {
     font-size: 12px
 }
 
+.contentImageStats {
+	padding:0px;
+	margin: 10px;
+	width:98%;
+	border-radius: 6px;
+
+	font-size: 12px
+}
+
 .contentRightBigConfiguration{
     padding:0px;
     margin: 10px;
@@ -2197,6 +2216,22 @@ fieldset {
     border-top-left-radius: 6px;
     display:block;
     min-height:32px;
+	position: relative;
+
+
+}
+
+.rowUpStats {
+	background-color:#ccc;
+	border: 1px solid #ddd;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
+	display:block;
+	min-height:32px;
+	position: relative;
+	vertical-align: middle;
+
+
 }
 
 .rowMiddle{
@@ -2819,10 +2854,21 @@ a.olControlZoomOut {
 .cartype {
     font-size:12px;
     margin-left: 10px;
+	text-align: left;
+	position: relative;
+	vertical-align: middle;
+	min-height:32px;
+	margin-bottom: 10px;
 }
 
 .cartypeBold {
     font-weight: bold;
+}
+
+.cartypeStats {
+	margin-top: 10px;
+	position: absolute;
+	margin-left: 10px;
 }
 
 .table {
