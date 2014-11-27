@@ -199,7 +199,7 @@
             </div>
             <div class="rowUp">
                 <g:each in="${fleetStat.carTypes}" var="carType">
-                    <g:form id="allCarTypes" controller="statistics" action="showPicture">
+                    <g:form id="allCarTypes" controller="statistics" action="showPicture" target="_blank">
                         <g:hiddenField name="carTypeName" value="${carType.name}"/>
                         <g:hiddenField name="fleetName" value="${fleetStat.name}"/>
                         <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
@@ -487,7 +487,7 @@
 
             <div class="rowUp">
                 <g:each in="${groupStat.stationTypes}" var="stationType">
-                    <g:form id="allCarTypes2" controller="statistics" action="showStationPicture">
+                    <g:form id="allCarTypes2" controller="statistics" action="showStationPicture" target="_blank">
                         <g:hiddenField name="stationTypeName" value="${stationType.name}"/>
                         <g:hiddenField name="groupName" value="${groupStat.name}"/>
                         <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
@@ -708,12 +708,12 @@
                                         <div class="rowMiddleWithoutBorder2">
                                             <g:submitButton name="Display graph"
                                                             value="${message(code: 'stats.stats.displaygraph')}"
-                                                            id="${groupStat.name}::${stationType.name}"/>
+                                                            id="${groupStat.name}::${stationType.name}" target="_blank"/>
                                             <g:submitToRemote class="addButton"
                                                               url="[action: 'showStationsOnMap']"
                                                               update="updateMe"
                                                               name="showGroups"
-                                                              value="${message(code: 'stats.stats.displayonmap')}"/>
+                                                              value="${message(code: 'stats.stats.displayonmap')}" target="_blank"/>
                                         </div>
                                     </td>
                                 </tr>
