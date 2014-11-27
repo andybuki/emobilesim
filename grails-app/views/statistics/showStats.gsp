@@ -38,7 +38,7 @@
 </head>
 
 <body>
-<g:render template="/layouts/topbar"/>
+<g:render template="/layouts/topbarOnlyTitles"/>
 <script type="text/javascript">
 
     function handleCheckBoxClick(cb) {

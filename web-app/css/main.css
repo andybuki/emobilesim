@@ -2084,10 +2084,12 @@ fieldset {
 	margin-left:6%;
 	margin-top:20px;
 	margin-bottom:10px;
-	margin-right:5%;
+	margin-right:100px;
 	min-height: 300px;
 	min-width: 1100px;
 	max-width: 1300px;
+
+
 }
 
 .layout {
@@ -2216,7 +2218,7 @@ fieldset {
     border-top-left-radius: 6px;
     display:block;
     min-height:32px;
-	position: relative;
+
 
 
 }
