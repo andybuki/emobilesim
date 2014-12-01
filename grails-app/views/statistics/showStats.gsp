@@ -756,8 +756,10 @@
 
 </g:javascript>
 <script>
-    $("#accordion").accordion();
-    $("#accordion1").accordion();
+    $("#accordion").accordion({
+        heightStyle: "content"
+    });
+    $("#accordion1").slideDown().accordion();
 </script>
 </body>
 </html>

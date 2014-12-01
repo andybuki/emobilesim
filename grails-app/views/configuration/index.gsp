@@ -35,7 +35,7 @@
                 <div class="contentLeftBigConfiguration">
                     <div class="rowUp">
                         <div class="leftBold"><g:message code="simulation.index.fleetconfiguration"/></div>
-                        <div class="right0PX"></div>
+                        <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                         <div class="clear"></div>
                     </div>
 
@@ -168,7 +168,7 @@
                         <div class="leftbig">
                             <g:message code="simulation.index.fillingconfiguration"/>
                         </div>
-                        <div class="right0PX"></div>
+                        <div class="right0PX"><img width="30px"src="${g.resource( dir: '/images', file: 'ladestation.png' )}"/></div>
                         <div class="clear"></div>
                     </div>
 
