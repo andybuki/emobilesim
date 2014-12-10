@@ -184,7 +184,7 @@
     for each fleet in stats map print out a tabl
     #e
 --%>
-
+<br/><br/>
 <div class="pContainerConfigureStats">
     <div id="accordion">
         <g:each in="${stats.fleets}" var="fleetStat">
@@ -757,9 +757,18 @@
 </g:javascript>
 <script>
     $("#accordion").accordion({
-        heightStyle: "content"
+        active: false,
+        heightStyle: "content",
+        collapsible: true,
+        alwaysOpen: false
+
     });
-    $("#accordion1").slideDown().accordion();
+    $("#accordion1").accordion({
+        active: false,
+        heightStyle: "content",
+        collapsible: true,
+        alwaysOpen: false
+    });
 </script>
 </body>
 </html>

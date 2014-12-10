@@ -2082,10 +2082,10 @@ fieldset {
 
 .pContainerConfigureStats {
 	margin-left:6%;
-	margin-top:20px;
-	margin-bottom:10px;
+	/*margin-top:20px;
+	margin-bottom:10px;*/
 	margin-right:100px;
-	min-height: 300px;
+	/*min-height: 300px;*/
 	min-width: 1100px;
 	max-width: 1300px;
 
