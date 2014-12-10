@@ -45,7 +45,7 @@
 
                     <div class="rowGroup">
                         <div class="rowBrightGrey">
-                            <div class="leftConfigurationLong">
+                            <div class="leftConfigurationExtraLong">
                                 <g:message code="configuration.index.selectfleets"/>
                             </div>
                             <div class="right0PX"></div>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="rowGroup">
                         <div class="rowBrightGrey">
-                            <div class="leftConfigurationLong">
+                            <div class="leftConfigurationExtraLong">
                                 <g:message code="configuration.index.collectfleets"/>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                     </div>
                     <div class="rowGroup">
                         <div class="rowBrightGrey">
-                            <div class="leftConfigurationLong">
+                            <div class="leftConfigurationExtraLong">
                                 <g:message code="configuration.index.collectedfillingstation"/>
                             </div>
                             <div class="right0PX">

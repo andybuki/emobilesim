@@ -4,7 +4,7 @@
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentLeft1">
                 <div class="rowUp">
-                    <div class="leftbig"><b><%--<<g:message code="simulation.index.selectcarstype"/>--%>Select filling stations for group</b></div>
+                    <div class="leftbig"><b><%--<<g:message code="simulation.index.selectcarstype"/>--%> <g:message code="templates.configuration.group._createGroup.selectStationForGroup"/></b></div>
                 </div>
                 <div class="rowMiddle">
 

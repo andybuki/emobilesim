@@ -2187,6 +2187,11 @@ fieldset {
     float:left;
     padding:10px 0px 0px 7px;
 }
+.leftConfigurationExtraLong {
+    width:315px;
+    float:left;
+    padding:10px 0px 0px 7px;
+}
 
 .littleText {
     font-size: 10px;
