@@ -34,7 +34,7 @@
             <div class="layoutLeft">
                 <div class="contentLeftBigConfiguration">
                     <div class="rowUp">
-                        <div class="leftBold"><g:message code="simulation.index.fleetconfiguration"/></div>
+                        <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
                         <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                         <div class="clear"></div>
                     </div>
@@ -115,7 +115,7 @@
                                         <g:form controller="configuration" action="removeFleetFromConfiguration">
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                            <g:submitButton name="removeFleet" value="Unselect"/>
+                                            <g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}"/>
                                         </g:form>
                                     </div>
                                     <div class="right100PX">

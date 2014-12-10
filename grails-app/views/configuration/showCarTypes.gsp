@@ -23,7 +23,7 @@
             <div class="rowMiddle">
                 <g:each in="${carTypes}" var="carType">
                     <div class="leftCarTypes"> &nbsp;&nbsp; ${carType.carType.name} &nbsp;&nbsp;</div>
-                    <div class="right0PX">
+                    <div class="rightOnlyButton">
                         <g:form action="editCarTypeView">
                             <g:hiddenField name="carTypeId" value="${carType.carType.id}"/>
                             <g:submitToRemote class="addButton" url="[ action: 'editCarTypeView' ]" update="updateMe" name="submit" value="${message(code: 'configuration.showcar.edit')}" id="openModal"/>

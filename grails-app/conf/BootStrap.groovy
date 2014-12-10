@@ -421,6 +421,9 @@ class BootStrap {
         def andreyUser = helper.findOrCreatePersonInRole( company, "andrey.bukhman@dfki.de", "Andrey", "Bukhman", roleUser )
         helper.findOrCreatePersonInRole( company, "andrey.bukhman@dfki.de", "Andrey", "Bukhman", roleAdmin )
 
+        def simonUser = helper.findOrCreatePersonInRole( company, "simon.treu@dfki.de", "Simon", "Treu", roleUser )
+        helper.findOrCreatePersonInRole( company, "simon.treu@dfki.de", "Simon", "Treu", roleAdmin )
+
 
         helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleUser)
         helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleAdmin)

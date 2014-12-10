@@ -40,7 +40,7 @@
 
         <div class="pContainerAuth">
             <fieldset class="fieldsetAuth">
-                <legend><g:message code="login.auth.registrate" /> or <g:message code="login.auth.login"/></legend>
+                <legend><g:message code="login.auth.registrate" /> <g:message code="login.auth.or"/> <g:message code="login.auth.login"/></legend>
                 <div class="layout">
                     <div class="layoutLeft">
                         <div class="contentAuth">

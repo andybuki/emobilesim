@@ -23,7 +23,7 @@
         <div class="rowMiddle">
             <g:each in="${fillingStationTypes}" var="fillingStationType">
                 <div class="leftCarTypes"> &nbsp;&nbsp; ${fillingStationType.name} &nbsp;&nbsp; </div>
-                <div class="right0PX">
+                <div class="rightOnlyButton">
                     <g:form action="editFillingStationTypeView">
                         <g:hiddenField name="fillingStationTypeId" value="${fillingStationType.id}"/>
                         <g:submitToRemote class="addButton" url="[ action: 'editFillingStationTypeView' ]" update="updateMe" name="submit" value="${message(code: 'configuration.showfilstation.edit')}" />
@@ -37,8 +37,7 @@
             <g:form action="createFillingStationTypeView">
                 <div></div>
                 <div class="rightOnlyButton">
-                    <g:submitToRemote class="addButton" url="[action: 'createFillingStationTypeView']" update="updateMe" name="submit" value="${message(code: 'configuration.showfilstation.create')}" />
-                </div>
+                    <g:submitToRemote class="addButton" url="[action: 'createFillingStationTypeView']" update="updateMe" name="submit" value="${message(code: 'configuration.showfilstation.createFillingstation')}" />                </div>
                 <div class="clear"></div>
             </g:form>
         </div>
