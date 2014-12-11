@@ -1,7 +1,7 @@
 <table border="0">
     <tr>
         <td width="90px" align="left">
-            <img class="efahrungLogo" align="left" width="80px"  src="${g.resource( dir: '/images', file: 'logo_efahrung.png' )}"/>
+            <a href="http://emobilesim.dfki.de"><img class="efahrungLogo" align="left" width="80px"  src="${g.resource( dir: '/images', file: 'logo_efahrung.png' )}"/></a>
         </td>
         <td>
             <div class="wrap">
