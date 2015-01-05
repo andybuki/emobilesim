@@ -35,7 +35,7 @@
             <div class="rowDown">
                 <g:form action="createCarTypeView">
                     <div></div>
-                    <div class="rightOnlyButton">
+                    <div class="leftOnlyButton">
                         <g:submitToRemote class="addButton" url="[action: 'createCarTypeView']" update="updateMe" name="submit" value="${message(code: 'configuration.showcar.createcar')}" />
                     </div>
                     <div class="clear"></div>

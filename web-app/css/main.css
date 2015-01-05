@@ -2442,6 +2442,12 @@ fieldset {
     min-height:24px;
     display: table-cell;
 }
+.leftOnlyButton {
+    float: left;
+    padding: 5px;
+    min-height: 24px;
+    display: table-cell;
+}
 
 .rightOnlyBigButton{
     width:188px;
@@ -2495,6 +2501,12 @@ fieldset {
 
 
 /* MODAL WINDOWS */
+
+.leftText{
+    float:left;
+    padding:10px 0px 0px 7px;
+
+}
 
 .leftModal{
     width:210px;

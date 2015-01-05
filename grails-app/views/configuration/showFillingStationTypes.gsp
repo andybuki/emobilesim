@@ -36,7 +36,7 @@
         <div class="rowDown">
             <g:form action="createFillingStationTypeView">
                 <div></div>
-                <div class="rightOnlyButton">
+                <div class="leftOnlyButton">
                     <g:submitToRemote class="addButton" url="[action: 'createFillingStationTypeView']" update="updateMe" name="submit" value="${message(code: 'configuration.showfilstation.createFillingstation')}" />                </div>
                 <div class="clear"></div>
             </g:form>

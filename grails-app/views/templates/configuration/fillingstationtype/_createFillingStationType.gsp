@@ -5,7 +5,7 @@
             <div class="contentModalWindow">
                 <div class="rowUp">
                     <div class="leftbig"><b><g:message code="templates.configuration.fillingstationtype._createfillingstationtype.createnewstation"/></b></div>
-
+                    <div class="clear"></div>
                 </div>
                 <div>
                     <div class="rowMiddle">
@@ -22,10 +22,10 @@
                     <div class="rowDown">
                         <div class="left0PX">
                             <%--<g:submitButton name="createCar" value="Cancel"/>--%>
-                            <input type="button" value="Cancel" onclick="window.location.href=window.location.href"/>
+                            <input type="button" value="${message(code: 'templates.configuration.fillingstationtype._createfillingstationtype.cancel')}" onclick="window.location.href=window.location.href"/>
                         </div>
-                        <div class="right0PX">
-                            <g:submitButton name="createFillingStationType" value="Create"/>
+                        <div class="rightOnly0PX">
+                            <g:submitButton name="createFillingStationType" value="${message(code: 'templates.configuration.fillingstationtype._createfillingstationtype.create')}"/>
                         </div>
                         <div class="clear"></div>
                     </div>

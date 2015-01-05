@@ -54,7 +54,7 @@
 
                         <g:if test="${availableFleets != null && availableFleets.size() > 0}">
                             <div class="rowMiddleWithoutBorder">
-                                <div class="leftConfiguration"><g:message code="simulation.index.existentfleet"/></div>
+                                <div class="leftText"><g:message code="simulation.index.existentfleet"/></div>
                                 <div class="rightOnlyButton">
                                     <g:form controller="configuration" action="addExistentFleetToConfiguration">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
@@ -66,9 +66,9 @@
                             </div>
                         </g:if>
 
-                        <div class="rowMiddleWithoutBorder2">
+                        <div class="rowMiddleWithoutBorder">
                             <g:form action="createFleetView">
-                                <div class="leftCarTypes"><g:message code="configuration.index.enoughfleets"/></div>
+                                <div class="leftText"><g:message code="configuration.index.enoughfleets"/></div>
                                 <div class="rightOnlyButton">
                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                     <g:submitToRemote class="addButton"
@@ -199,7 +199,7 @@
                                 <div class="clear"></div>
                             </div>
                         </g:if>
-                        <div class="rowMiddleWithoutBorder2">
+                        <div class="rowMiddleWithoutBorder">
                             <g:form action="createGroupView">
                                 <div class="leftCarTypes"><g:message code="simulation.index.createnewgroup"/></div>
                                 <div class="rightOnlyButton">

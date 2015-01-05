@@ -5,6 +5,7 @@
             <div class="contentModalWindow">
                 <div class="rowUp">
                     <div class="leftbig"><b><g:message code="templates.configuration.cartype._createcartype.createnewcar"/></b></div>
+                    <div class="clear"></div>
 
                 </div>
                 <div>

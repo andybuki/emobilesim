@@ -6,11 +6,10 @@
             <div class="contentModalWindowFleet">
                 <div class="rowUp">
                     <div class="leftbig"><b><g:message code="simulation.index.selectcarstype"/></b></div>
+                    <div class="clear"></div>
                 </div>
                 <div class="rowMiddle">
-                    <div class="leftModal">
-                        <g:message code="templates.configuration.fleet._createFleet.setnamegroup"/>
-                     </div>
+                    <div class="leftText"><g:message code="templates.configuration.fleet._createFleet.setnamegroup"/></div>
                     <div class="rightOnlyButton">
                        <g:textField name="nameForFleet" value="${generatedName}"/>
                     </div>

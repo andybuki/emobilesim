@@ -121,16 +121,17 @@
                             <form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
                                 <div class="rowUp">
                                     <div class="leftbig"><b><g:message code="login.auth.login"/></b></div>
+                                    <div class="clear"></div>
                                 </div>
                                 <div class="rowMiddle">
                                     <div class="left"><g:message code="login.auth.username"/></div>
-                                    <div class="right"><input type="text" size="22%" name='j_username' id='username' value=""></div>
+                                    <div class="right"><input type="text" size="20%" name='j_username' id='username' value=""></div>
                                     <div class="clear"></div>
                                 </div>
 
                                 <div class="rowMiddle">
                                     <div class="left"><g:message code="login.auth.password"/></div>
-                                    <div class="right"><input type="password" size="22%" name='j_password' id='password' value="" /></div>
+                                    <div class="right"><input type="password" size="20%" name='j_password' id='password' value="" /></div>
                                     <div class="clear"></div>
                                 </div>
                                 <div class="rowDown">
@@ -144,6 +145,7 @@
                         <div class="contentAuth">
                                 <div class="rowUp">
                                     <div class="leftbig"><b><g:message code="login.auth.fogotPassword"/></b></div>
+                                    <div class="clear"></div>
                                 </div>
 
                             <g:form controller="login" action="sendResetPasswordLink">
