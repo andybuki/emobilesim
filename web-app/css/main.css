@@ -2362,6 +2362,11 @@ fieldset {
     min-height:24px;
     font-weight: bold;
 }
+.rightOnly0PX{
+    float:right;
+    padding:5px;
+    display: table-cell;
+}
 
 .right0PX{
     width:55px;

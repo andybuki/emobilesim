@@ -26,10 +26,10 @@
                     <div class="rowDown">
                         <div class="left0PX">
                             <%--<g:submitButton name="createCar" value="Cancel"/>--%>
-                            <input type="button" value="Cancel" onclick="window.location.href=window.location.href"/>
+                            <input type="button" value="${message(code: 'templates.configuration.cartype._createcartype.cancel')}" onclick="window.location.href=window.location.href"/>
                         </div>
-                        <div class="right0PX">
-                            <g:submitButton name="createCar" value="Create"/>
+                        <div class="rightOnly0PX">
+                            <g:submitButton name="createCar" value="${message(code: 'templates.configuration.cartype._createcartype.create')}"/>
                         </div>
                         <div class="clear"></div>
                     </div>
