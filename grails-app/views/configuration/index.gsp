@@ -97,18 +97,18 @@
                                 <div class="rowMiddleWithoutBorder">
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                                         <div class="leftCollectFleets">
-                                            ${addedFleet.name} ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.allroutes"/></span>
+                                            ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                         </div>
                                     </g:if>
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
                                         <div class="leftCollectFleets">
-                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.scheduleroute"/></span>
+                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.scheduleroute"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                         </div>
                                     </g:if>
 
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
                                         <div class="leftCollectFleets">
-                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} cars ) <span class="littleText"><g:message code="configuration.index.routesconfigured"/></span>
+                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                         </div>
                                     </g:if>
                                     <div class="right65PX">
@@ -240,18 +240,18 @@
 
                                         <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
                                             <div class="leftCollectFleets">
-                                                ${addedGroup.name} (${addedGroup.fillingStations.size()}) <span class="littleText"><g:message code="configuration.index.allstations"/></span>
+                                                ${addedGroup.name} (${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/> ) <img class="helpButton" title="<g:message code="configuration.index.allstations"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                             </div>
                                         </g:if>
                                         <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
                                             <div class="leftCollectFleets">
-                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} ) <span class="littleText"><g:message code="configuration.index.schedulestation"/></span>
+                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/>  ) <img class="helpButton" title="<g:message code="configuration.index.schedulestation"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                             </div>
                                         </g:if>
 
                                         <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
                                             <div class="leftCollectFleets">
-                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} )  <span class="littleText"> <g:message code="configuration.index.stationsconfigured"/></span>
+                                                ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/>  ) <img class="helpButton" title="<g:message code="configuration.index.stationsconfigured"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                             </div>
                                         </g:if>
 

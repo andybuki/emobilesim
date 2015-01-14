@@ -1184,7 +1184,7 @@ body.lightBoxBody{
     right: 5px;
 }
 .right{
-    width:150px;
+    //width:150px;
     float:right;
     padding:5px;
     min-height:24px;
@@ -1192,7 +1192,7 @@ body.lightBoxBody{
 }
 
 .rightFogotEmail {
-	width:125px;
+	//width:125px;
 	float:right;
 	padding:5px;
 	min-height:24px;
@@ -1200,7 +1200,7 @@ body.lightBoxBody{
 }
 
 .right65{
-    width:65px;
+    //width:65px;
     padding:10px 0px 0px 7px;
     font-weight: bold;
     min-height:24px;
@@ -1208,13 +1208,13 @@ body.lightBoxBody{
 }
 
 .right60{
-    width:65px;
+    //width:65px;
     min-height:24px;
     display: table-cell;
     padding:7px 0px 0px 7px;
 }
 .right50PX {
-    width:50px;
+    //width:50px;
     min-height:24px;
     display: table-cell;
     padding:7px 0px 0px 7px;
@@ -1222,14 +1222,14 @@ body.lightBoxBody{
 
 
 .right4{
-    width:55px;
+    //width:55px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right5{
-    width:155px;
+    //width:155px;
     float:right;
     padding:5px;
     display: table-cell;
@@ -2183,12 +2183,12 @@ fieldset {
 }
 
 .leftConfigurationLong {
-    width:215px;
+    //width:215px;
     float:left;
     padding:10px 0px 0px 7px;
 }
 .leftConfigurationExtraLong {
-    width:315px;
+    //width:315px;
     float:left;
     padding:10px 0px 0px 7px;
 }
@@ -2339,21 +2339,21 @@ fieldset {
 }
 
 .left140PX{
-    width:140px;
+    //width:140px;
     float:left;
     padding:5px;
 }
 
 .left180PX{
-    width:180px;
+    //width:180px;
     float:left;
     padding:5px;
 }
 
 .leftCollectFleets{
-    width:270px;
+    //width:270px;
     float:left;
-    padding:10px 0px 0px 7px;
+    padding:0px 0px 0px 7px;
 }
 
 .leftbig {
@@ -2369,62 +2369,62 @@ fieldset {
 }
 
 .right0PX{
-    width:55px;
+    //width:55px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right0PXResetPassword {
-	width:135px;
+	//width:135px;
 	float:right;
 	padding:5px;
 	display: table-cell;
 }
 
 .right65PX{
-    width:65px;
+    //width:65px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right80PX{
-    width:80px;
+    //width:80px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 .right90PX{
-    width:95px;
+    //width:95px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right100PX{
-    width:115px;
+    //width:115px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right235PX {
-    width:245px;
+    //width:245px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right211PX {
-    width:211px;
+    //width:211px;
     float:right;
     padding:5px;
     display: table-cell;
 }
 
 .right200PX {
-    width:210px;
+    //width:210px;
     float:right;
     padding:5px;
     display: table-cell;
@@ -2450,7 +2450,7 @@ fieldset {
 }
 
 .rightOnlyBigButton{
-    width:188px;
+    //width:188px;
     float:right;
     padding:5px;
     min-height:24px;
@@ -2516,7 +2516,7 @@ fieldset {
 }
 
 .contentModalWindow {
-    width:450px;
+    width:480px;
     font-size: 12px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -2524,7 +2524,7 @@ fieldset {
 }
 
 .contentModalWindowFleet {
-    width:450px;
+    width:480px;
     font-size: 12px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -2548,7 +2548,7 @@ fieldset {
 }
 
 .modalDialog > div {
-    width: 450px;
+    width: 490px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -2998,9 +2998,9 @@ a.olControlZoomOut {
 
 .helpButton {
     position: relative;
-    top:7px;
-    width:26px;
-    left:3px;
+    top:4px;
+    width:18px;
+    left:0px;
 
 }
 
