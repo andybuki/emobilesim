@@ -2560,10 +2560,10 @@ fieldset {
 .modalDialogMap {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
-    top: 10px;
-    right: 10px;
-    bottom: 20px;
-    left: 10px;
+    top: 70px;
+    right: 130px;
+    bottom: 30px;
+    left: 100px;
     background: rgba(0,0,0,0.8);
     opacity:1;
 }

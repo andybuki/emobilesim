@@ -190,7 +190,7 @@
         <g:each in="${stats.fleets}" var="fleetStat">
             <div>
                 <span class="titleStats">
-                    <g:message code="templates.configuration.fleet._distribution.fleetname"/>: ${fleetStat.name}
+                    <g:message code="statistics.showStats.fleetOverview"/>: ${fleetStat.name}
                     <g:message code="templates.configuration.fleet._distribution.with"/> ${fleetStat.carResults.size()}
                     <g:message code="templates.configuration.fleet._distribution.car"/> |
                     <g:message code="templates.configuration.fleet._distribution.distribution"/>
@@ -481,7 +481,7 @@
         <g:each in="${stats.groups}" var="groupStat">
             <div>
                 <span class="titleStats">
-                    <g:message code="stats.stats.groupname"/> ${groupStat.name}
+                    <g:message code="F"/> ${groupStat.name}
                 </span>
             </div>
 
