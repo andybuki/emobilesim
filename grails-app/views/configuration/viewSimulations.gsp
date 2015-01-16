@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<%--
 <div class="pContainer">
     <div class="simulationTypes">
         <div class="rowUp">
@@ -66,5 +67,7 @@
         </div>
     </div>
 </div>
+--%>
+<span class="construction"><g:message code="configuration.help.configuration"/></span>
 </body>
 </html>

@@ -27,7 +27,6 @@
                                      <tr class="tr30px" valign="middle">
                                          <th width="120px"><g:message code="configuration.executesim.name"/> </th>
                                         <th><g:message code="configuration.executesim.description"/></th>
-                                        <th><g:message code="configuration.executesim.executebutton"/></th>
                                      </tr>
                             </table>
 

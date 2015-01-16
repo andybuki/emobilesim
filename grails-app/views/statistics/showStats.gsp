@@ -192,9 +192,16 @@
                 <span class="titleStats">
                     <g:message code="statistics.showStats.fleetOverview"/>: ${fleetStat.name}
                     <g:message code="templates.configuration.fleet._distribution.with"/> ${fleetStat.carResults.size()}
-                    <g:message code="templates.configuration.fleet._distribution.car"/> |
-                    <g:message code="templates.configuration.fleet._distribution.distribution"/>
-                    ${fleetStat.distribution} from ${fleetStat.plannedFromKm} km to ${fleetStat.plannedToKm} km
+
+                    <g:message code="templates.configuration.fleet._distribution.car"/>
+                        <g:if test="${fleetStat.name != "All cars of Experiment"}">
+                        |
+                         <g:message code="templates.configuration.fleet._distribution.distribution"/>
+                            ${fleetStat.distribution}
+                                <g:if test="${fleetStat.plannedFromKm}">
+                                    from ${fleetStat.plannedFromKm} km to ${fleetStat.plannedToKm} km
+                                </g:if>
+                        </g:if>
                 </span>
             </div>
             <div class="rowUp">
@@ -481,7 +488,7 @@
         <g:each in="${stats.groups}" var="groupStat">
             <div>
                 <span class="titleStats">
-                    <g:message code="F"/> ${groupStat.name}
+                    <g:message code="statistics.showStats.stationOverview"/> ${groupStat.name}
                 </span>
             </div>
 
