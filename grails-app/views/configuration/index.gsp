@@ -25,7 +25,10 @@
 
         <div class="rowUp">
             <div class="leftBoldBig1"><g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/></div>
-            <div class="right0PX"></div>
+            <div class="right0PX"><g:message code="configuration.index.simulationarea"/>
+                                        <g:select name="simulationArea"
+                                            from="${de.dfki.gs.domain.utils.SimulationArea.values()}"
+                                            optionKey="" optionValue=""/></div>
             <div class="clear"></div>
         </div>
 
