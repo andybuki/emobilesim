@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                     <g:each in="${carTypes}" var="carType">
-                                        <div class="rowMiddleWithoutBorder2">
+                                        <div class="rowMiddleWithoutBorder4">
                                             <div class="left0PX">
                                                 ${carType.value.size()}
                                             </div>

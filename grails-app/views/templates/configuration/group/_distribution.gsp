@@ -39,7 +39,7 @@
                                 </div>
 
                                 <g:each in="${groupTypes}" var="groupType">
-                                    <div class="rowMiddleWithoutBorder2">
+                                    <div class="rowMiddleWithoutBorder4">
                                         <table>
                                             <tr>
                                                 <td width="60px" align="center" valign="middle">${groupType.value.size()}</td>
