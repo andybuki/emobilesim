@@ -27,7 +27,7 @@
                         <tr class="tr30px" valign="middle">
                             <th width="120px"><g:message code="configuration.executesim.name"/> </th>
                             <th><g:message code="configuration.executesim.description"/></th>
-                            <th><g:message code="configuration.executesim.executebutton"/></th>
+
                         </tr>
                     </table>
 
@@ -41,7 +41,7 @@
                             <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
                             <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
                             <td width="70px">
-                                <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}">link</g:link>
+                                <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}"><g:message code="configuration.executesim.configure"/></g:link>
                             </td>
                         </tr>
                     </g:each>

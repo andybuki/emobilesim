@@ -92,7 +92,7 @@
                                                         <g:message code="templates.configuration.fleet._distribution.to"/>
                                                     </div>
                                                     <div class="right60">
-                                                        <g:select name="toKm" from="${(10..95).step( 5 ) + ( 100..500 ).step( 20 )}" />
+                                                        <g:select name="toKm" from="${(15..95).step( 5 ) + ( 100..500 ).step( 20 )}" />
                                                     </div>
 
                                                     <div class="clear"></div>

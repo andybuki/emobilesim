@@ -97,7 +97,7 @@
                                 <div class="rowMiddleWithoutBorder">
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                                         <div class="leftCollectFleets">
-                                            ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
+                                            ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>
                                         </div>
                                     </g:if>
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
@@ -108,7 +108,7 @@
 
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
                                         <div class="leftCollectFleets">
-                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
+                                            ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'attention3.png' )}"/>
                                         </div>
                                     </g:if>
                                     <div class="right65PX">
