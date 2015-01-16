@@ -1296,7 +1296,8 @@ body.lightBoxBody{
     margin-top: 2px;
     margin-bottom: 2px;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
@@ -2263,12 +2264,25 @@ fieldset {
     display:block;
     min-height:32px;
     border-bottom: 1px solid #ddd;
+
 }
 
 .rowMiddleWithoutBorder2{
     min-height:28px;
     position: relative;
     padding:8px 0px 0px 6px;
+	border-bottom: 1px solid #ddd;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+.rowMiddleWithoutBorder4{
+	min-height:28px;
+	position: relative;
+	padding:8px 0px 0px 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+
 }
 
 .rowMiddleWithoutBorder3{
@@ -2963,6 +2977,7 @@ a.olControlZoomOut {
     padding:5px;
     position: relative;
     top:10px;
+	z-index:-20;
 }
 
 .descriptionSim {

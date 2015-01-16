@@ -1,6 +1,7 @@
 package de.dfki.gs.domain.simulation
 
 import de.dfki.gs.domain.utils.TrackEdgeType
+import de.dfki.gs.domain.utils.SimulationArea
 
 class TrackEdge {
 
@@ -31,7 +32,7 @@ class TrackEdge {
 
     static constraints = {
 
-        type( nullable: false, blank: false, inList: TrackEdgeType.values()*.toString() )
+        type( nullable: false, blank: false, inList: TrackEdgeType.values()*.toString(), inlist:SimulationArea.values()*.toString() )
 
         streetName ( nullable: true, blank: true )
 

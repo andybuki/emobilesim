@@ -466,7 +466,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="rowMiddleWithoutBorder2">
+                                            <div class="rowMiddleWithoutBorder4">
                                                 <g:submitButton name="Display graph"
                                                                 value="${message(code: 'stats.stats.displaygraph')}"
                                                                 id="${fleetStat.name}::${carType.name}"/>
@@ -712,7 +712,7 @@
                                 </tr>
                                 <tr>
                                     <td COLSPAN=4>
-                                        <div class="rowMiddleWithoutBorder2">
+                                        <div class="rowMiddleWithoutBorder4">
                                             <g:submitButton name="Display graph"
                                                             value="${message(code: 'stats.stats.displaygraph')}"
                                                             id="${groupStat.name}::${stationType.name}" target="_blank"/>
