@@ -47,6 +47,8 @@ class GenerateStatsPictureService {
 
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        //renderer.setFixedRadius(2.0D)
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -94,6 +96,7 @@ class GenerateStatsPictureService {
 
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -282,6 +285,7 @@ class GenerateStatsPictureService {
         final NumberAxis yAxis = new NumberAxis("time in [ h ]");
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -310,6 +314,7 @@ class GenerateStatsPictureService {
         final NumberAxis yAxis = new NumberAxis("time in [ h ]");
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox(true);
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -341,6 +346,7 @@ class GenerateStatsPictureService {
 
         // yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -379,6 +385,7 @@ class GenerateStatsPictureService {
 
         // yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -417,6 +424,7 @@ class GenerateStatsPictureService {
 
         // yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -457,6 +465,7 @@ class GenerateStatsPictureService {
         final NumberAxis yAxis = new NumberAxis("distance in [ km ]");
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
@@ -486,6 +495,7 @@ class GenerateStatsPictureService {
         final NumberAxis yAxis = new NumberAxis("Value");
         yAxis.setAutoRangeIncludesZero(false);
         final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        renderer.setMaximumBarWidth(0.10)
         renderer.setFillBox( true );
         renderer.setToolTipGenerator(new BoxAndWhiskerToolTipGenerator());
         final CategoryPlot plot = new CategoryPlot(dataset, xAxis, yAxis, renderer);
