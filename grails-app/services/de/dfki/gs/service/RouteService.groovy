@@ -17,6 +17,7 @@ import de.dfki.gs.domain.simulation.TrackEdge
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
+import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.threadutils.NotifyingBlockingThreadPoolExecutor
 import de.dfki.gs.utils.Calculater
@@ -60,7 +61,7 @@ class RouteService {
 
             // BasicEdge featureEdge = graph.
             BasicEdge featureEdge = (BasicEdge) basicEdge.nodeA.getEdge( basicEdge.nodeB )
-
+            DataStore dataStore = null;
             SimpleFeatureImpl feature = ( SimpleFeatureImpl ) featureEdge.getObject()
 
             String featureIdString = feature.getID()
@@ -79,7 +80,8 @@ class RouteService {
                             gisId: fId,
                             km: (Double) feature.getAttribute( "km" ),
                             streetName: feature.getAttribute( "osm_name" ),
-                            kmh: (Integer) feature.getAttribute( "kmh" )
+                            kmh: (Integer) feature.getAttribute( "kmh" ),
+                            area:feature.featureType.name
                     )
             )
         }
@@ -119,7 +121,7 @@ class RouteService {
                 String featureIdString = feature.getID()
                 int f = featureIdString.lastIndexOf( "." ) + 1
                 int t = featureIdString.length()
-
+                DataStore dataStore = null
                 Long fId = Long.parseLong( featureIdString.substring( f, t ) )
 
                 // default is "normal" edge
@@ -145,7 +147,8 @@ class RouteService {
                         gisId: fId,
                         km: (Double) feature.getAttribute( "km" ),
                         streetName: feature.getAttribute( "osm_name" ),
-                        kmh: (Integer) feature.getAttribute( "kmh" ) );
+                        kmh: (Integer) feature.getAttribute( "kmh" ),
+                        area:feature.featureType.name );
 
                 route.addToEdges( trackEdge )
 
@@ -207,7 +210,7 @@ class RouteService {
                 int t = featureIdString.length()
 
                 Long fId = Long.parseLong( featureIdString.substring( f, t ) )
-
+                DataStore dataStore = null;
                 // default is "normal" edge
                 TrackEdgeType edgeType = TrackEdgeType.normal
                 if ( routeIdx == 0 && edgeIdx == 0 ) {
@@ -231,7 +234,8 @@ class RouteService {
                         gisId: fId,
                         km: (Double) feature.getAttribute( "km" ),
                         streetName: feature.getAttribute( "osm_name" ),
-                        kmh: (Integer) feature.getAttribute( "kmh" ) );
+                        kmh: (Integer) feature.getAttribute( "kmh" ),
+                        area: feature.featureType.name );
 
                 /*
                 if ( !trackEdge.save( flush: flush ) ) {
@@ -292,7 +296,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } else {
+            } /*else {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "abomasus.de");
@@ -302,24 +306,33 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
+            } */else {
+                params.put( "dbtype", "postgis");
+                params.put( "host", "lns-2124.sb.dfki.de");
+                params.put( "port", 5432 );
+                params.put( "schema", "public");
+                params.put( "database", "emobilesim");
+                params.put( "user", "emobilesim_admin");
+                params.put( "passwd", "7207c471");
             }
-
-
-
 
             dataStore = DataStoreFinder.getDataStore(params);
 
+            //SimpleFeatureSource featureSource = dataStore.getFeatureSource("osm_2po_4pgr");
             //SimpleFeatureSource featureSource = dataStore.getFeatureSource("planet_osm_line");
-            SimpleFeatureSource featureSource = dataStore.getFeatureSource("osm_2po_4pgr");
+            SimpleFeatureSource featureSource
+
+            if (SimulationArea.BERLIN) {
+                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
+            } else {
+                featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
+            }
 
             SimpleFeatureCollection fCollection = featureSource.getFeatures();
 
             //create a linear graph generate
             LineStringGraphGenerator lineStringGen = new LineStringGraphGenerator();
             FeatureGraphGenerator featureGen = new FeatureGraphGenerator( lineStringGen );
-
-
-
 
 //throw all the features into the graph generator
             FeatureIterator iter = fCollection.features();
@@ -953,7 +966,7 @@ class RouteService {
                     int t = featureIdString.length()
 
                     Long fId = Long.parseLong( featureIdString.substring( f, t ) )
-
+                    DataStore dataStore = null
                     // default is "normal" edge
                     String edgeType = TrackEdgeType.normal.toString()
                     if ( routeIdx == 0 && edgeIdx == 0 ) {
@@ -977,7 +990,8 @@ class RouteService {
                             gisId: fId,
                             km: (Double) feature.getAttribute( "km" ),
                             streetName: feature.getAttribute( "osm_name" ),
-                            kmh: (Integer) feature.getAttribute( "kmh" ) );
+                            kmh: (Integer) feature.getAttribute( "kmh" ),
+                            area:feature.featureType.name);
 
                     route.addToEdges( trackEdge )
 
