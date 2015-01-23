@@ -134,7 +134,7 @@ grails.project.dependency.resolution = {
 
         compile ":quartz:1.0.2"
         compile ":calendar:1.2.1"
-        compile ":google-visualization:0.7"
+        compile ":google-visualization:1.0.1"
         // compile ':cache-ehcache:1.0.0'
 
         compile ":spring-security-core:2.0-RC4"
