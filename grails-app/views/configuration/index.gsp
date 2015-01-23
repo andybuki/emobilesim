@@ -133,9 +133,11 @@
 
                                             </g:form>
                                         </g:if>
-                                        <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
-                                            <g:message code="configuration.index.pleasewait"/>
-                                        </g:if>
+                                        <span class="konfiguration">
+                                            <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
+                                                <g:message code="configuration.index.pleasewait"/>
+                                            </g:if>
+                                        </span>
                                         <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
                                             <g:form action="createRouteSelectorView">
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
@@ -276,9 +278,11 @@
 
                                                 </g:form>
                                             </g:if>
-                                            <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
-                                                <g:message code="configuration.index.pleasewait"/>
-                                            </g:if>
+                                            <span class="konfiguration">
+                                                <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
+                                                    <g:message code="configuration.index.pleasewait"/>
+                                                </g:if>
+                                            </span>
                                             <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
                                                 <g:form action="createGroupSelectorView">
                                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
