@@ -634,27 +634,29 @@ class ConfigurationService {
 
             fleetModel.cars = []
             fleetModel.name = fleet.name
+            fleetModel.routesConfigured = fleet.routesConfigured
+            if (fleetModel.routesConfigured == true) {
+                fleet.cars.each { Car car ->
 
-            fleet.cars.each { Car car ->
+                    car = Car.get(car.id)
 
-                car = Car.get( car.id )
+                    def carModel = [:]
+                    carModel.name = car.name
+                    carModel.route = []
 
-                def carModel = [:]
-                carModel.name = car.name
-                carModel.route = []
+                    Route route = Route.get(car.route.id)
 
-                Route route = Route.get( car.route.id )
+                    route.edges.each { TrackEdge trackEdge ->
 
-                route.edges.each { TrackEdge trackEdge ->
+                        trackEdge = TrackEdge.get(trackEdge.id)
 
-                    trackEdge = TrackEdge.get( trackEdge.id )
+                        carModel.route << trackEdge
 
-                    carModel.route << trackEdge
+                    }
+
+                    fleetModel.cars << carModel
 
                 }
-
-                fleetModel.cars << carModel
-
             }
 
             fleets << fleetModel
