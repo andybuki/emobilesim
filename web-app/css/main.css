@@ -3146,3 +3146,8 @@ label.checkbox :disabled + span{
 	position: relative;
 	top: 7px;
 }
+
+.konfiguration {
+	position: relative;
+	top: 4px;
+}
