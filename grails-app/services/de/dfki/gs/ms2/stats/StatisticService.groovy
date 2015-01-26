@@ -63,6 +63,7 @@ class StatisticService {
                 def stationModel = [:]
                 stationModel.name = "station"
                 stationModel.power = "power"
+                stationModel.time = fillingStation.timeInUse
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon
 
@@ -342,6 +343,7 @@ class StatisticService {
             stationTypeMap.name = type.name
 
             stationTypeMap.stats = calculateStatsForGroupOfFillingStations( fillingStationResults.findAll { it.fillingStationType.id == type.id } )
+            stationTypeMap.time = type.beforeUpdate()
 
             stationTypeList << stationTypeMap
         }
