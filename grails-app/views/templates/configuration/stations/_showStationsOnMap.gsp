@@ -107,7 +107,7 @@
         var gasDat = new Object();
         <g:each var="fillingStationGroup" in="${fillingStationGroups}">
             <g:each var="fillingStation" in="${fillingStationGroup.stations}">
-                <g:if test="${fillingStation.time > 0}">
+               <%-- <g:if test="${fillingStation.time > 0}">--%>
                     var stations = new Array();
                     //gasDat.gasolineId = ${fillingStation.gasolineId};
                     gasDat.fromX = ${fillingStation.lat};
@@ -116,7 +116,7 @@
                     gasDat.gasolineType = "${fillingStation.gasolineType}";
                     gasDat.showGasolineInfoLink = '${g.createLink( controller: 'configuration', action: 'showGasolineInfo')}';
                     drawGasolineStation( gasDat );
-                </g:if>
+                <%-- </g:if>--%>
             </g:each>
         </g:each>
 
