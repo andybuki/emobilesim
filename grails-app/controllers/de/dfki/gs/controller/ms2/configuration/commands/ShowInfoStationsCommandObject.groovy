@@ -2,23 +2,23 @@ package de.dfki.gs.controller.ms2.configuration.commands
 
 import de.dfki.gs.domain.GasolineStation
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.FillingStation
 import grails.validation.Validateable
-import de.dfki.gs.domain.simulation.FillingStationType
-
 
 /**
- * @author: glenn
- * @since: 18.10.13
+ * @author: andrey
+ * @since: 02.02.15
  */
+
 @Validateable
 class ShowInfoStationsCommandObject {
+    Long fillingStationId
     Long configurationStubId
-    Long gasolineId
 
     static constraints = {
 
-        gasolineId( nullable: false, validator: { val, obj ->
-            if ( !GasolineStation.get( val ) ) return false
+        fillingStationId( nullable: false, validator: { val, obj ->
+            if ( !FillingStation.get( val ) ) return false
 
             return true;
         })
