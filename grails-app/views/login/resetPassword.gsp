@@ -25,14 +25,17 @@
 </head>
 <body>
     <g:render template="/login/topbar"/>
+<div class="pContainerResetPassword">
+    <fieldset class="fieldsetResetPassword">
+        <legend> <g:message code="login.auth.passwordhello"/><%--${username}--%>, <g:message code="login.auth.passwordtwice"/></legend>
     <g:form controller="login" action="saveNewPassword">
         <g:hiddenField name="username" value="${username}" />
         <g:hiddenField name="ident" value="${ident}" />
-        <g:message code="login.auth.passwordhello"/>  ${username}, <g:message code="login.auth.passwordtwice"/>
-        <div class="pContainer">
-            <div class="carTypes">
+
+
+            <div class="carTypesResetPassword">
                 <div class="rowUp">
-                    <div class="leftBold">
+                    <div class="leftBoldResetPassword">
                         <g:message code="login.auth.newpassword"/>
                     </div>
                     <div class="right0PX"></div>
@@ -59,11 +62,13 @@
                 </div>
                 <div class="rowDown">
                     <div class="leftBoldResetPassword"></div>
-                    <div class="right65PX"><g:submitButton name="signinButton" value="${message(code: 'login.auth.registrate')}" /></div>
+                    <div class="right65PX"><g:submitButton name="signinButton" value="OK" /></div>
                     <div class="clear"></div>
                 </div>
             </div>
-        </div>
+
     </g:form>
+    </fieldset>
+</div>
 </body>
 </html>
