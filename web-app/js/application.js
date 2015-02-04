@@ -381,15 +381,30 @@ function drawGasolinePoint( data ) {
 
 }
 
+
+
+/*
+* This function draws the electric stations on OpenStreetMap and on GoogleMaps
+*
+*
+* */
+
+
 function drawGasolineStation( dat ) {
 
-    var gasolineType = dat[ 'gasolineType' ];
+    var fillingStationType = dat[ 'fillingStationType' ];
     var newIcon;
-    if ( gasolineType == "slow" ) {
+    if ( fillingStationType == "2.3" ) {
         newIcon = gasolineSlowIcon.clone()
-    } else if ( gasolineType == "middle" ) {
+    } else if ( fillingStationType == "11.1" ) {
         newIcon = gasolineMiddleIcon.clone()
-    } else if ( gasolineType == "fast" ) {
+    } else if ( fillingStationType == "22.2" ) {
+        newIcon = gasolineFastIcon.clone()
+    } else if ( fillingStationType == "3.7" ) {
+        newIcon = gasolineSlowIcon.clone()
+    } else if ( fillingStationType == "43" ) {
+        newIcon = gasolineFastIcon.clone()
+    } else if ( fillingStationType == "49.8" ) {
         newIcon = gasolineFastIcon.clone()
     }
 
@@ -407,23 +422,22 @@ function drawGasolineStation( dat ) {
 
     var showGasolineInfoLink = dat[ 'showGasolineInfoLink' ];
 
-    gasolineMarker.gasolineId = dat.gasolineId;
+    gasolineMarker.fillingStationId = dat.fillingStationId;
+    gasolineMarker.fillingStationType = dat.fillingStationType
 
-    gasolineMarker.events.register(
+    /*gasolineMarker.events.register(
         'mousedown', gasolineMarker, function( evt ) {
-
-            showGasolineInfos( 'display', gasolineMarker.gasolineId, showGasolineInfoLink );
-
+            showGasolineInfos( 'display', gasolineMarker.fillingStationId, showGasolineInfoLink );
             OpenLayers.Event.stop( evt );
         }
-    );
+    );*/
 
     gasolineMarker.setOpacity( 0.9 );
     markers.addMarker( gasolineMarker );
 
 }
 
-function showGasolineInfos( mode, gasolineId, showGasolineInfoLink ) {
+function showGasolineInfos( mode, fillingStationId, showGasolineInfoLink ) {
     // 'display', gasolineMarker.gasolineId
     if ( mode == 'display' ) {
 
