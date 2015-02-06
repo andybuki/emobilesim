@@ -10,6 +10,7 @@ import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.Route
 import de.dfki.gs.domain.simulation.Simulation
 import de.dfki.gs.domain.simulation.TrackEdge
+import de.dfki.gs.domain.stats.FillingStationResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
@@ -691,6 +692,7 @@ class ConfigurationService {
                 stationModel.power = fillingStation.fillingStationType.power
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon
+                stationModel.id = fillingStation.id
                 //stationModel.stations = []
 
                 fillingStationModel.stations << stationModel
@@ -1080,9 +1082,9 @@ class ConfigurationService {
         return fillingStationGroup.name
     }
 
-    def getInfoOfFillingStation (Long groupId) {
+    def getInfoOfFillingStation (Long fillingStationId) {
 
-        FillingStationType fillingStationType = FillingStationType.get(groupId)
+        FillingStationType fillingStationType = FillingStationType.get(fillingStationId)
         return fillingStationType.name
 
     }

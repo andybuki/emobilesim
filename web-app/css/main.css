@@ -1928,6 +1928,14 @@ fieldset {
     max-width: 1000px;
     min-width: 700px;
 }
+.fieldsetResetPassword {
+	border-radius: 6px;
+	border: 1px solid #d4d4d1;
+	margin-bottom: 10px;
+	max-width: 570px;
+	min-width: 370px;
+	height: 210px;
+}
 
 .fieldsetConfiguration {
 
@@ -2042,6 +2050,12 @@ fieldset {
     margin-top:10px;
     margin-right: 140px;
     min-height: 300px;
+}
+.pContainerResetPassword {
+	margin-left: 110px;
+	margin-top:10px;
+	margin-right: 140px;
+	min-height: 240px;
 }
 
 .pContainerAuth {
@@ -2326,7 +2340,6 @@ fieldset {
 }
 
 .leftBoldResetPassword {
-	width:120px;
 	float:left;
 	padding:10px 0px 0px 7px;
 	min-height:24px;
@@ -2505,6 +2518,14 @@ fieldset {
     width:300px;
     border-radius: 6px;
     font-size: 12px;
+}
+
+.carTypesResetPassword {
+	padding-left:40px;
+	padding-top:20px;
+	width:300px;
+	border-radius: 6px;
+	font-size: 12px;
 }
 
 .simulationTypes {

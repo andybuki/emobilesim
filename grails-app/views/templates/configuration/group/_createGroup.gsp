@@ -5,6 +5,7 @@
             <div class="contentLeft1">
                 <div class="rowUp">
                     <div class="leftbig"><b><%--<<g:message code="simulation.index.selectcarstype"/>--%> <g:message code="templates.configuration.group._createGroup.selectStationForGroup"/></b></div>
+                    <div class="clear"></div>
                 </div>
                 <div class="rowMiddle">
 
@@ -43,7 +44,7 @@
                 <div class="rowDown">
                     <div class="left0PX">
                         <%--<g:submitButton name="createCar" value="Cancel"/>--%>
-                        <input type="button" value="Cancel" onclick="window.location.href=window.location.href"/>
+                        <input type="button" value="${message(code: 'templates.configuration.group._createGroup.cancel')}" onclick="window.location.href=window.location.href"/>
                     </div>
                     <div class="right90PX">
                         <g:hiddenField name="groupStubId" value="${groupStubId}"/>

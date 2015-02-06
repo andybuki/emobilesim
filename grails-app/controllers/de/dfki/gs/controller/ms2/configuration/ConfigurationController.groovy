@@ -41,6 +41,8 @@ import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
+import de.dfki.gs.utils.ResponseConstants
+import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import de.dfki.gs.domain.users.Person
 
@@ -371,14 +373,9 @@ class ConfigurationController {
         def m = [ : ]
 
         if ( cmd.configurationStubId == null ) {
-
             configurationStubId = configurationService.createConfigurationStub( person ).id;
-
         } else {
-
             configurationStubId = cmd.configurationStubId
-
-
         }
 
         /*if (cmd.simulationName==null) {
@@ -854,18 +851,16 @@ class ConfigurationController {
         ShowInfoStationsCommandObject cmd = new ShowInfoStationsCommandObject()
         bindData( cmd, params )
 
-        if ( !cmd.validate() ) {
-            log.error( "failed to get gasoline station by id: ${cmd.configurationStubId} -- errors: ${cmd.errors}" )
-        }
-
+        FillingStation fillingStation = FillingStation.get( fillingStationId )
 
         def m = [ : ]
+        //m.fillingStationId = cmd.fillingStationId
+        //m.fillingStationType = FillingStationType.values()*.toString()
 
-        FillingStationType fillingStationType = FillingStationType.get(cmd.configurationStubId)
-        m.configurationStubId = cmd.configurationStubId
-        m.gasolineTypes = GasolineStationType.values()*.toString()
+        //m.showGasolineInfoLink = g.createLink( controller: 'configuration', action: 'showGasolineInfo', params: [ fillingStationId: m.fillingStationId ] )
 
         render( template: '/templates/configuration/stations/showGasolineInfo', model: m )
+
     }
 
     def showGroupStationsOnMap () {
@@ -1446,6 +1441,26 @@ class ConfigurationController {
     }
 
     def checkPerson() {
+
+    }
+
+    def retrieveTypeForFillingStation() {
+
+        // what we get
+        def json = request.JSON.data
+
+        // what we return
+        def data = [:]
+
+        FillingStation fillingStation = FillingStation.get( json.fillingStationId )
+        if ( fillingStation ) {
+            data.fillingStationType = fillingStation.type
+        }
+
+        response.status = ResponseConstants.RESPONSE_STATUS_OK
+        response.addHeader( "Content-Type", "application/json" );
+
+        render "${(data as JSON).toString()}"
 
     }
 
