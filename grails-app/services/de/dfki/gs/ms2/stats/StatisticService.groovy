@@ -62,7 +62,8 @@ class StatisticService {
 
                 def stationModel = [:]
                 stationModel.name = "station"
-                stationModel.power = "power"
+                stationModel.power = fillingStation.fillingStationType.power
+                stationModel.id = fillingStation.id
                 stationModel.time = fillingStation.timeInUse
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon

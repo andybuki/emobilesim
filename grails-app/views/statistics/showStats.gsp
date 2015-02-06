@@ -39,147 +39,7 @@
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-<script type="text/javascript">
 
-    function handleCheckBoxClick(cb) {
-
-        var cbNameField = cb.name.split("::");
-
-        var fleetName = cbNameField[0];
-        var carTypeName = cbNameField[1];
-        var columnName = cbNameField[2];
-
-        var allField = document.getElementById(fleetName + "::" + carTypeName + "::all");
-        var successfulField = document.getElementById(fleetName + "::" + carTypeName + "::successful");
-        var failedField = document.getElementById(fleetName + "::" + carTypeName + "::failed");
-
-
-        if (columnName == "all" || columnName == "successful" || columnName == "failed") {
-            // click was on a row
-
-            var columnElements = document.getElementsByClassName(fleetName + "::" + carTypeName);
-            var columnElements1 = document.getElementsByClassName(groupStat + "::" + stationType);
-            for (var i = 0; i < columnElements.length; i++) {
-
-                var hua = columnElements[i];
-
-                var currentColumnSplit = hua.name.split("::");
-                var currentColumnName = currentColumnSplit[currentColumnSplit.length - 1];
-
-                if (cb.checked && hua.checked) {
-                    // highlight green
-                    var fieldElement = document.getElementById(columnName + "::" + fleetName + "::" + carTypeName + "::" + currentColumnName);
-
-                    fieldElement.style.color = "#00AA00";
-                    fieldElement.style.fontWeight = "bold";
-
-
-                } else {
-                    // highlight normal!
-                    var fieldElement = document.getElementById(columnName + "::" + fleetName + "::" + carTypeName + "::" + currentColumnName);
-
-                    fieldElement.style.color = "black";
-
-                }
-
-
-            }
-
-
-        } else {
-            // click was on a column
-
-            var allRowField = document.getElementById(fleetName + "::" + carTypeName + "::all");
-            var successRowField = document.getElementById(fleetName + "::" + carTypeName + "::successful");
-            var failedRowField = document.getElementById(fleetName + "::" + carTypeName + "::failed");
-
-
-            var plannedTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "plannedTime");
-            var realDrivingTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "realDrivingTime");
-            var realTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "realTime");
-            var loadingTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "loadingTime");
-            var plannedDistance = document.getElementById(fleetName + "::" + carTypeName + "::" + "plannedDistance");
-            var realDistance = document.getElementById(fleetName + "::" + carTypeName + "::" + "realDistance");
-            var energyLoaded = document.getElementById(fleetName + "::" + carTypeName + "::" + "energyLoaded");
-            var energyDemanded = document.getElementById(fleetName + "::" + carTypeName + "::" + "energyDemanded");
-
-
-            var currentName = cb.name;
-
-            var littleCurrentName = currentName.match(/(::[a-z])\w+/g);
-
-            if (allRowField.checked && cb.checked) {
-
-                var fieldElement = document.getElementById("all::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "#00AA00";
-
-
-            } else {
-
-                var fieldElement = document.getElementById("all::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "black";
-
-            }
-
-            if (successRowField.checked && cb.checked) {
-
-                var fieldElement = document.getElementById("successful::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "#00AA00";
-
-
-            } else {
-                var fieldElement = document.getElementById("successful::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "black";
-            }
-
-            if (failedRowField.checked && cb.checked) {
-
-                var fieldElement = document.getElementById("failed::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "#00AA00";
-
-
-            } else {
-                var fieldElement = document.getElementById("failed::" + fleetName + "::" + carTypeName + "::" + columnName);
-                fieldElement.style.color = "black";
-            }
-
-            if (plannedTime.checked == true || realDrivingTime.checked == true || loadingTime.checked == true || realTime.checked == true && (energyDemanded.checked == false && energyLoaded.checked == false && plannedDistance.checked == false && realDistance.checked == false)) {
-                plannedDistance.disabled = true;
-                realDistance.disabled = true;
-                energyLoaded.disabled = true;
-                energyDemanded.disabled = true;
-            } else if (plannedDistance.checked == true || realDistance.checked == true && (plannedTime.checked == false && realDrivingTime.checked == false && loadingTime.checked == false && realTime.checked == false && energyDemanded.checked == false && energyLoaded.checked == false)) {
-                plannedTime.disabled = true;
-                realDrivingTime.disabled = true;
-                realTime.disabled = true;
-                loadingTime.disabled = true;
-                energyLoaded.disabled = true;
-                energyDemanded.disabled = true;
-            } else if (energyDemanded.checked == true || energyLoaded.checked == true && (plannedTime.checked == false && realDrivingTime.checked == false && loadingTime.checked == false && realTime.checked == false && plannedDistance.checked == false && realDistance.checked == false)) {
-                plannedDistance.disabled = true;
-                realDistance.disabled = true;
-                plannedTime.disabled = true;
-                realDrivingTime.disabled = true;
-                realTime.disabled = true;
-                loadingTime.disabled = true;
-
-            } else {
-                plannedDistance.disabled = false;
-                realDistance.disabled = false;
-                plannedTime.disabled = false;
-                realDrivingTime.disabled = false;
-                realTime.disabled = false;
-                loadingTime.disabled = false;
-                energyLoaded.disabled = false;
-                energyDemanded.disabled = false;
-
-            }
-
-        }
-
-    }
-
-</script>
 <%--
     for each fleet in stats map print out a tabl
     #e
@@ -736,6 +596,145 @@
 
 <div id="updateMe"></div>
 <g:javascript>
+
+    function handleCheckBoxClick(cb) {
+
+        var cbNameField = cb.name.split("::");
+
+        var fleetName = cbNameField[0];
+        var carTypeName = cbNameField[1];
+        var columnName = cbNameField[2];
+
+        var allField = document.getElementById(fleetName + "::" + carTypeName + "::all");
+        var successfulField = document.getElementById(fleetName + "::" + carTypeName + "::successful");
+        var failedField = document.getElementById(fleetName + "::" + carTypeName + "::failed");
+
+
+        if (columnName == "all" || columnName == "successful" || columnName == "failed") {
+            // click was on a row
+
+            var columnElements = document.getElementsByClassName(fleetName + "::" + carTypeName);
+            //var columnElements1 = document.getElementsByClassName(groupName + "::" + stationType);
+            for (var i = 0; i < columnElements.length; i++) {
+
+                var hua = columnElements[i];
+
+                var currentColumnSplit = hua.name.split("::");
+                var currentColumnName = currentColumnSplit[currentColumnSplit.length - 1];
+
+                if (cb.checked && hua.checked) {
+                    // highlight green
+                    var fieldElement = document.getElementById(columnName + "::" + fleetName + "::" + carTypeName + "::" + currentColumnName);
+
+                    fieldElement.style.color = "#00AA00";
+                    fieldElement.style.fontWeight = "bold";
+
+
+                } else {
+                    // highlight normal!
+                    var fieldElement = document.getElementById(columnName + "::" + fleetName + "::" + carTypeName + "::" + currentColumnName);
+
+                    fieldElement.style.color = "black";
+
+                }
+
+
+            }
+
+
+        } else {
+            // click was on a column
+
+            var allRowField = document.getElementById(fleetName + "::" + carTypeName + "::all");
+            var successRowField = document.getElementById(fleetName + "::" + carTypeName + "::successful");
+            var failedRowField = document.getElementById(fleetName + "::" + carTypeName + "::failed");
+
+
+            var plannedTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "plannedTime");
+            var realDrivingTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "realDrivingTime");
+            var realTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "realTime");
+            var loadingTime = document.getElementById(fleetName + "::" + carTypeName + "::" + "loadingTime");
+            var plannedDistance = document.getElementById(fleetName + "::" + carTypeName + "::" + "plannedDistance");
+            var realDistance = document.getElementById(fleetName + "::" + carTypeName + "::" + "realDistance");
+            var energyLoaded = document.getElementById(fleetName + "::" + carTypeName + "::" + "energyLoaded");
+            var energyDemanded = document.getElementById(fleetName + "::" + carTypeName + "::" + "energyDemanded");
+
+
+            var currentName = cb.name;
+
+            var littleCurrentName = currentName.match(/(::[a-z])\w+/g);
+
+            if (allRowField.checked && cb.checked) {
+
+                var fieldElement = document.getElementById("all::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "#00AA00";
+
+
+            } else {
+
+                var fieldElement = document.getElementById("all::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "black";
+
+            }
+
+            if (successRowField.checked && cb.checked) {
+
+                var fieldElement = document.getElementById("successful::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "#00AA00";
+
+
+            } else {
+                var fieldElement = document.getElementById("successful::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "black";
+            }
+
+            if (failedRowField.checked && cb.checked) {
+
+                var fieldElement = document.getElementById("failed::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "#00AA00";
+
+
+            } else {
+                var fieldElement = document.getElementById("failed::" + fleetName + "::" + carTypeName + "::" + columnName);
+                fieldElement.style.color = "black";
+            }
+
+            if (plannedTime.checked == true || realDrivingTime.checked == true || loadingTime.checked == true || realTime.checked == true && (energyDemanded.checked == false && energyLoaded.checked == false && plannedDistance.checked == false && realDistance.checked == false)) {
+                plannedDistance.disabled = true;
+                realDistance.disabled = true;
+                energyLoaded.disabled = true;
+                energyDemanded.disabled = true;
+            } else if (plannedDistance.checked == true || realDistance.checked == true && (plannedTime.checked == false && realDrivingTime.checked == false && loadingTime.checked == false && realTime.checked == false && energyDemanded.checked == false && energyLoaded.checked == false)) {
+                plannedTime.disabled = true;
+                realDrivingTime.disabled = true;
+                realTime.disabled = true;
+                loadingTime.disabled = true;
+                energyLoaded.disabled = true;
+                energyDemanded.disabled = true;
+            } else if (energyDemanded.checked == true || energyLoaded.checked == true && (plannedTime.checked == false && realDrivingTime.checked == false && loadingTime.checked == false && realTime.checked == false && plannedDistance.checked == false && realDistance.checked == false)) {
+                plannedDistance.disabled = true;
+                realDistance.disabled = true;
+                plannedTime.disabled = true;
+                realDrivingTime.disabled = true;
+                realTime.disabled = true;
+                loadingTime.disabled = true;
+
+            } else {
+                plannedDistance.disabled = false;
+                realDistance.disabled = false;
+                plannedTime.disabled = false;
+                realDrivingTime.disabled = false;
+                realTime.disabled = false;
+                loadingTime.disabled = false;
+                energyLoaded.disabled = false;
+                energyDemanded.disabled = false;
+
+            }
+
+        }
+
+    }
+
     function handleCheckBoxClickStation(cb) {
 
         var cbNameField = cb.name.split("::");

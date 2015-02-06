@@ -687,6 +687,7 @@ class ConfigurationService {
 
                 def stationModel = [:]
                 stationModel.name = fillingStation.name
+                stationModel.id = fillingStation.id
                 stationModel.power = fillingStation.fillingStationType.power
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon
