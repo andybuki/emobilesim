@@ -306,7 +306,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } else {
+            }*/ else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );
@@ -314,7 +314,7 @@ class RouteService {
                 params.put( "database", "emobilesim");
                 params.put( "user", "emobilesim_admin");
                 params.put( "passwd", "7207c471");
-            } */else {
+            } /*else {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
@@ -324,7 +324,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "postgres");
 
-            }
+            }*/
 
 
 
