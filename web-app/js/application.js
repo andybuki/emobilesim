@@ -152,6 +152,7 @@ function serialize( data ) {
     var vectors      = data[ 'vectors' ];
     var routesLayer  = data[ 'routesLayer' ];
     // can be null, if called initially:
+    var configurationStubId = data[ 'configurationStubId' ];
     var simulationId = data[ 'simulationId' ];
     var calculateRouteLink = data[ 'calculateRouteLink' ];
     var showGasolineInfoLink = data[ 'showGasolineInfoLink' ];
@@ -179,7 +180,8 @@ function serialize( data ) {
 
             jData = {
                 type: 'lineRoute',
-                simulationId: simulationId,
+                configurationStubId: configurationStubId,
+
                 currentLon:   currentLon,
                 currentLat:   currentLat,
                 currentZoom:  currentZoom,
@@ -189,6 +191,7 @@ function serialize( data ) {
                 },
                 destinationPoints : dests
             };
+
             var size = coords.length;
             for ( var k = 1 ; k < size; k++ ) {
                 var destPoint = coords[ k ];
@@ -209,15 +212,15 @@ function serialize( data ) {
 
         jData = {
             type:           'gasolinePoint',
-            simulationId:   simulationId,
-            currentLon:     currentLon,
-            currentLat:     currentLat,
+            configurationStubId:   configurationStubId,
+
             currentZoom:    currentZoom,
             startPoint: {
                 x: gasolinePoint.lon,
                 y: gasolinePoint.lat
             }
         }
+
     }
 
 
@@ -243,7 +246,7 @@ function serialize( data ) {
             }
 
             map.setCenter( new OpenLayers.LonLat( dat.currentLon, dat.currentLat ), dat.currentZoom );
-            vectors.destroyFeatures( [ feature ] );
+            //vectors.destroyFeatures( [ feature ] );
 
         },
 
