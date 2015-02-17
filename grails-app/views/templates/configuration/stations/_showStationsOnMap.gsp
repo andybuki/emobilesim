@@ -12,7 +12,7 @@
         var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
         var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
-        var gasolineIconSize = new OpenLayers.Size( 30, 30 );
+        var gasolineIconSize = new OpenLayers.Size( 25, 25 );
         var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinenormal.png' )}" , gasolineIconSize );
         var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinefast.png' )}" , gasolineIconSize );
         var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinemiddle.png' )}" , gasolineIconSize );
@@ -71,8 +71,6 @@
             gasDat.fromY = ${fillingStation.lon};
             gasDat.fillingStationId = ${fillingStation.id};
             gasDat.fillingStationType = ${fillingStation.power};
-
-
 
             drawGasolineStationNull( gasDat );
 
