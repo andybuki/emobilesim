@@ -66,11 +66,13 @@
                         <div class="tab">
                             <div id="tab-1" class="tab-content">
                                 <div id="openModalMap" class="modalDialogStation">
+
                                     <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>
+
                                     <script type="text/javascript">
 
                                         // global variables
-                                        var map, vectors, routesLayer, lonlat, zoom, markers, popup ;
+                                        var map, vectors, routesLayer, lonlat, zoom, markers;
 
                                         var startIconSize = new OpenLayers.Size( 40, 40 );
                                         var targetIconSize = new OpenLayers.Size( 20, 20 );
@@ -107,6 +109,12 @@
                                             displayProjection: p1
                                         } );
 
+                                        routesLayer = new OpenLayers.Layer.Vector( "Route Vectors", {
+                                            styleMap: new OpenLayers.StyleMap({'default':{
+                                                strokeColor: "red",  // TODO: chose a good color
+                                                strokeOpacity: 0.6,
+                                                strokeWidth: 6
+                                            }}) } );
 
                                         markers = new OpenLayers.Layer.Markers( "Markers", {
                                             strategies: [
@@ -118,36 +126,58 @@
                                         var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
                                         var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
 
-                                        map.addLayers( [ mapnik_layer, mapgoogle_layer, markers ] );
-                                        map.addControl(new OpenLayers.Control.MousePosition());
+                                        vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+                                            styleMap: new OpenLayers.StyleMap({'default':{
+                                                strokeColor: "#FF11FF",  // TODO: chose a good color
+                                                strokeOpacity: 0.6,
+                                                strokeWidth: 6,
+                                                fillColor: "#FF5500",
+                                                fillOpacity: 0.5,
+                                                pointRadius: 6,
+                                                pointerEvents: "visiblePainted",
+                                                label : "Start",
+                                                fontSize: "10px",
+                                                fontFamily: "Courier New, monospace",
+                                                fontWeight: "bold",
+                                                labelOutlineColor: "white",
+                                                labelOutlineWidth: 5
+                                            }}),
+                                            eventListeners: {
+                                                'featureadded' : function( evt ) {
+                                                    var feature = evt.feature;
+                                                    var data = {
+                                                        feature: feature,
+                                                        map: map,
+                                                        vectors: vectors,
+                                                        markers: markers,
+                                                        routesLayer: routesLayer,
+                                                        calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateChargingStation', params: [configurationStubId: configurationStubId , groupName:groupName, gasolineId: gasolineId, groupId:groupId, groupTypes:groupTypes, fillingStationId:fillingStationId  ] )}',
+                                                        <%--calculateRouteLink: '${g.createLink( controller: 'mapView', action: 'calculateRoute' )}',--%>
+                                                        showGasolineInfoLink: '${g.createLink( controller: 'mapView', action: 'showGasolineInfo', params: [ gasolineId: gasolineId ] )}',
+                                                        <%--showTrackInfoLink: '${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ simulationRouteId: simulationRouteId ] )}'--%>
+                                                    };
+                                                    serialize( data );
+                                                }
+                                            }
+                                        });
 
-                                        map.addLayer(new OpenLayers.Layer.OSM());
 
-                                        epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
-                                        projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
-                                        var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 
-                                        //Draw Electric Stations
+                                        //Draw Electric Stations------------------- ///
                                         var gasDat = new Object();
                                         <g:each var="fillingStationGroup" in="${fillingStationGroups}">
                                         <g:each var="fillingStation" in="${fillingStationGroup.stations}">
                                         <g:if test="${fillingStation.time == 0}">
                                         var stations = new Array();
-
                                         gasDat.fromX = ${fillingStation.lat};
                                         gasDat.fromY = ${fillingStation.lon};
                                         gasDat.fillingStationId = ${fillingStation.id};
                                         gasDat.fillingStationType = ${fillingStation.power};
-
-
-
                                         drawGasolineStationNull( gasDat );
-
                                         </g:if>
 
                                         <g:if test="${fillingStation.time > 0}">
                                         var stations = new Array();
-
                                         gasDat.fromX = ${fillingStation.lat};
                                         gasDat.fromY = ${fillingStation.lon};
                                         gasDat.fillingStationId = ${fillingStation.id};
@@ -166,12 +196,10 @@
                                         var time    = hours+':'+minutes+':'+seconds;
 
                                         var feature = new OpenLayers.Feature.Vector(
-                                                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(epsg4326, projectTo),
+                                                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(p1, projectTo),
                                                 {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY + '<br>' +'Time:'+ time}
                                         );
                                         vectorLayer.addFeatures(feature);
-
-
                                         drawGasolineStation( gasDat );
 
                                         </g:if>
@@ -184,56 +212,83 @@
                                         gasDat.fillingStationType = ${fillingStation.power};
 
                                         var feature = new OpenLayers.Feature.Vector(
-                                                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(epsg4326, projectTo),
+                                                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(p1, projectTo),
                                                 {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY }
                                         );
                                         vectorLayer.addFeatures(feature);
-
-
                                         drawGasolineStation( gasDat );
-
                                         </g:if>
-
-
                                         </g:each>
                                         </g:each>
 
 
-                                        map.addLayer(vectorLayer);
+                                        var boxControl = new OpenLayers.Control.DrawFeature(
+                                                vectors,
+                                                OpenLayers.Handler.Point,
+                                                {
+                                                    title : 'Point',
+                                                    displayClass : 'olControlDrawFeaturePoint',
+                                                    handlerOptions: {
+                                                        sides : 4,
+                                                        irregular : true
+                                                    }
+                                                }
+                                        );
 
+                                        map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers ] );
 
-                                        //Add a selector control to the vectorLayer with popup functions
-                                        var controls = {
-                                            selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
-                                        };
+                                        var navControl = new OpenLayers.Control.Navigation({});
 
-
-
-                                        function createPopup(feature) {
-                                            feature.popup = new OpenLayers.Popup.FramedCloud("pop",
-                                                    feature.geometry.getBounds().getCenterLonLat(),
-                                                    null,
-                                                    '<div class="markerContent">'+feature.attributes.description+'</div>',
-                                                    null,
-                                                    true,
-                                                    function() { controls['selector'].unselectAll(); }
-                                            );
-                                            //feature.popup.closeOnMove = true;
-                                            map.addPopup(feature.popup);
-                                        }
-
-                                        function destroyPopup(feature) {
-                                            feature.popup.destroy();
-                                            feature.popup = null;
-                                        }
-
-                                        map.addControl(controls['selector']);
-                                        controls['selector'].activate();
-
-
+                                        var controlPanel = new OpenLayers.Control.Panel({
+                                            displayClass: 'olControlEditingToolbar'
+                                        });
+                                        controlPanel.addControls([
+                                            navControl,
+                                            boxControl
+                                        ]);
+                                        map.addControl(controlPanel);
+                                        navControl.activate();
 
                                         lonlat.transform( p1, pMerc );
                                         map.setCenter( lonlat, zoom );
+
+
+                                        function showTrackInfos( mode, trackId ) {
+
+                                            if( mode == 'display' ) {
+                                                if( document.getElementById("trackInfo") === null ) {
+                                                    div = document.createElement("div");
+                                                    div.setAttribute('id', 'trackInfo');
+                                                    div.setAttribute('className', 'overlayBG');
+                                                    div.setAttribute('class', 'overlayBG');
+                                                    document.getElementsByTagName("body")[0].appendChild(div);
+                                                }
+                                                if( document.getElementById("lightBox") === null ) {
+                                                    div = document.createElement("div");
+                                                    div.setAttribute('id', 'lightBox');
+
+                                                    var link = "${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ trackId: trackId ] )}";
+
+                                                    jQuery.ajax({
+                                                        url: link + trackId,
+                                                        type: "POST",
+                                                        success: function( data ) {
+                                                            div.innerHTML = data;
+                                                            document.getElementsByTagName("body")[0].appendChild(div);
+                                                        }
+                                                    });
+
+                                                }
+
+
+                                            } else {
+                                                document.getElementsByTagName("body")[0].removeChild(document.
+                                                        getElementById("trackInfo"));
+                                                document.getElementsByTagName("body")[0].removeChild(document.
+                                                        getElementById("lightBox"));
+
+                                            }
+                                        }
 
                                     </script>
 
