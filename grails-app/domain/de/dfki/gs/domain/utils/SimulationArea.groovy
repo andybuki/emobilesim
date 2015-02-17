@@ -7,5 +7,8 @@ public enum SimulationArea {
 
     BERLIN,
     WIESLOCH
+    public static List<String> getAllAriasAsString() {
+        return ["BERLIN","WIESLOCH"]
+    }
 
 }

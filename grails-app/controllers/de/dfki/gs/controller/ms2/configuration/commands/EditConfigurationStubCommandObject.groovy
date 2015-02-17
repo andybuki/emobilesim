@@ -12,12 +12,13 @@ import de.dfki.gs.domain.simulation.Simulation
 class EditConfigurationStubCommandObject {
 
     Long configurationStubId
-
+    String areaId
     String simulationName
     String simulationDescription
 
     static constraints = {
 
+        areaId nullable: true, blank: true
         simulationName nullable: true, blank: true
 
         simulationDescription nullable: true

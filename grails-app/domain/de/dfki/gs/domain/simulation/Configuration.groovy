@@ -1,6 +1,7 @@
 package de.dfki.gs.domain.simulation
 
 import de.dfki.gs.domain.users.Company
+import de.dfki.gs.domain.utils.SimulationArea
 
 /**
  * this class is to configure simulation experiment
@@ -8,7 +9,7 @@ import de.dfki.gs.domain.users.Company
  *
  */
 class Configuration {
-
+    SimulationArea simulationArea
     Company company
 
     Date dateCreated

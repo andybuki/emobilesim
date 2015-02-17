@@ -3,6 +3,7 @@ package de.dfki.gs.domain.simulation
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
+import de.dfki.gs.domain.utils.SimulationArea
 
 class Fleet {
 
@@ -29,6 +30,7 @@ class Fleet {
     FleetStatus fleetStatus
 
     Distribution distribution
+    SimulationArea simulationArea = SimulationArea.BERLIN
 
 
     static hasMany = [

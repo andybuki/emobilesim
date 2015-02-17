@@ -15,6 +15,7 @@ import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
+import de.dfki.gs.domain.utils.SimulationArea
 import grails.transaction.Transactional
 
 @Transactional
@@ -79,6 +80,19 @@ class ConfigurationService {
      * @param fleetId
      * @return
      */
+    def changeSimulationArea(Long configurationStubId , areaId){
+
+        Configuration configuration = Configuration.get( configurationStubId )
+        configuration.simulationArea = SimulationArea.valueOf(areaId)
+
+        if ( !configuration.save( flush: true ) ) {
+
+            log.error( "failed to change Area of configuarionStub: ${configuration.errors}" )
+
+        }
+
+        return
+    }
     def addFleetToConfiguration( Long configurationStubId , Long fleetId) {
 
         Configuration configuration = Configuration.get( configurationStubId )
@@ -139,6 +153,7 @@ class ConfigurationService {
         }
 
         Configuration configurationStub = new Configuration(
+                simulationArea: SimulationArea.BERLIN, //Could also take a different default aria
             company: company,
             stub: true
         )
@@ -177,6 +192,12 @@ class ConfigurationService {
      * @param configurationStubId
      * @return
      */
+    def getSimulationArea( Long configurationStubId){
+        Configuration stub = Configuration.get( configurationStubId )
+        String simulationArea = stub.simulationArea.name()
+        log.error("Simulation Area---${simulationArea}")
+        return simulationArea
+    }
     def getAddedGroups( Long configurationStubId ) {
 
         Configuration stub = Configuration.get( configurationStubId )
@@ -204,8 +225,8 @@ class ConfigurationService {
         List<FillingStationGroup> configuredGroups = new ArrayList<FillingStationGroup>()
         stub.fillingStationGroups.each { FillingStationGroup group ->
 
-            configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus )
-            if (configuredGroups.contains(GroupStatus.CONFIGURED))
+            configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus)
+            if (configuredGroups.contains(GroupStatus.CONFIGURED)&& group.simulationArea == stub.simulationArea )
                 groupExecutable = 1
         }
         return groupExecutable
@@ -226,7 +247,7 @@ class ConfigurationService {
         stub.fleets.each { Fleet fleet ->
             addedFleets.add( Fleet.get( fleet.id ).fleetStatus )
 
-            if (addedFleets.contains(FleetStatus.CONFIGURED))
+            if (addedFleets.contains(FleetStatus.CONFIGURED) && fleet.simulationArea == stub.simulationArea)
                 fleetExecutable = 1
         }
         return fleetExecutable
@@ -247,7 +268,7 @@ class ConfigurationService {
         stub.fillingStationGroups.each { FillingStationGroup group ->
 
             configuredGroups.add( FillingStationGroup.get( group.id ).groupStatus )
-            if (configuredGroups.contains(GroupStatus.SCHEDULED_FOR_CONFIGURING))
+            if (configuredGroups.contains(GroupStatus.SCHEDULED_FOR_CONFIGURING)||group.simulationArea!= stub.simulationArea)
                 groupSaveable = 1
         }
         return groupSaveable
@@ -267,7 +288,7 @@ class ConfigurationService {
         List<Fleet> addedFleets = new ArrayList<Fleet>()
         stub.fleets.each { Fleet fleet ->
             addedFleets.add( Fleet.get( fleet.id ).fleetStatus )
-            if (addedFleets.contains(FleetStatus.SCHEDULED_FOR_CONFIGURING))
+            if (addedFleets.contains(FleetStatus.SCHEDULED_FOR_CONFIGURING)||fleet.simulationArea != stub.simulationArea)
                 fleetExecutable = 1
         }
         return fleetExecutable
@@ -526,7 +547,7 @@ class ConfigurationService {
             log.error( "failed to update fleet: ${fleetStub.errors}" )
         }
 
-        log.error( "fleetStup saved" )
+        log.error( "fleetStub saved" )
     }
 
     /**
@@ -922,13 +943,14 @@ class ConfigurationService {
 
         Configuration configurationStubToSave = Configuration.get( configurationStubId )
         configurationStubToSave.stub = false
+        SimulationArea simulationArea = configurationStubToSave.simulationArea
 
         // creating routes for distribution, set all FleetStatus
         configurationStubToSave.fleets.each { Fleet fleet ->
 
             fleet = Fleet.get( fleet.id )
 
-            fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id )
+            fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id,simulationArea)
 
         }
 
@@ -936,8 +958,9 @@ class ConfigurationService {
 
             group = FillingStationGroup.get( group.id )
 
-            if ( group.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING ) {
-                group = routeService.createRandomPositionsForFillingStations( group.id )
+            if ( group.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING || group.simulationArea != simulationArea) {
+                group = routeService.createRandomPositionsForFillingStations( group.id, simulationArea )
+                group.simulationArea = simulationArea
             }
 
         }

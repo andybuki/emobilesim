@@ -1,5 +1,6 @@
 package de.dfki.gs.controller.ms2.configuration
 
+import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowInfoStationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddCarsToFleedCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddFleetToConfigurationCommandObject
@@ -20,7 +21,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.EditConfigurationStubCom
 import de.dfki.gs.controller.ms2.configuration.commands.EditFillingStationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowFleetRoutesCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowGroupStationsCommandObject
-
+import de.dfki.gs.controller.ms2.configuration.commands.UpdateAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
@@ -41,6 +42,7 @@ import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
+import de.dfki.gs.domain.utils.SimulationArea
 import grails.plugin.springsecurity.SpringSecurityUtils
 import de.dfki.gs.domain.users.Person
 
@@ -395,6 +397,8 @@ class ConfigurationController {
         //simulation
         m.simulationName = configurationService.createSimulationForCompany( person, configurationStubId ).name
 
+        m.simulationArea = configurationService.getSimulationArea( configurationStubId)
+
         // fleets
         m.availableFleets = configurationService.getFleetsForCompany( person, configurationStubId )
 
@@ -711,6 +715,36 @@ class ConfigurationController {
      *
      * @return
      */
+    def changeArea(){
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error( "params: ${params}" )
+
+        ChangeAreaCommandObject cmd = new ChangeAreaCommandObject()
+        bindData( cmd, params)
+
+        if ( !cmd.validate() && cmd.hasErrors() ) {
+
+            log.error( "failed to find configurationStub for id. errors: ${cmd.errors}" )
+
+        } else {
+
+            def m = [ : ]
+
+            m.configurationStubId = cmd.configurationStubId
+            m.availableAreas = SimulationArea.getAllAriasAsString()
+
+            render template: '/templates/configuration/area/changeArea', model: m
+
+        }
+    }
     def createFleetView() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -892,7 +926,30 @@ class ConfigurationController {
     }
 
 
+    def updateArea(){
+        Person person = (Person) springSecurityService.currentUser
 
+        if ( !person ) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error( "params: ${params}" )
+
+        UpdateAreaCommandObject cmd = new UpdateAreaCommandObject()
+        bindData( cmd, params)
+        if ( !cmd.validate() && cmd.hasErrors() ) {
+
+            log.error( "failed to change Area: ${cmd.errors}" )
+
+        } else {
+            log.error( "hua!! ${cmd.configurationStubId}" )
+            configurationService.changeSimulationArea(cmd.configurationStubId,cmd.areaId)
+        }
+
+        redirect( controller: 'configuration', action: 'index', params: [ configurationStubId : params.configurationStubId] )
+    }
     def updateFleetOfConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser

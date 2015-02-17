@@ -266,6 +266,99 @@ class RouteService {
      * @return
      */
     //@Cacheable("osmGraphCache")
+    public Graph getFeatureGraph( String graphName,SimulationArea simulationArea ) {
+
+        long millis = System.currentTimeMillis()
+
+        // TODO: find some caching mechanism
+
+        ApplicationContext appContext = grailsApplication.getMainContext()
+
+        Graph graph = (Graph) appContext.servletContext.getAttribute( "featureGraph${simulationArea.name()}" )
+
+        if ( graph ) {
+            log.debug("..obtaining osm graph took ${(System.currentTimeMillis() - millis)} ms")
+            return graph
+        }
+
+        DataStore dataStore = null;
+
+        try {
+            Map<String,Object> params = new HashMap<String,Object>();
+
+            //if ( Environment.current == 'development' ) {
+            if ( 1 == 2 ) {
+
+                params.put( "dbtype", "postgis");
+                params.put( "host", "localhost");
+                params.put( "port", 5432);
+                params.put( "schema", "public");
+                params.put( "database", "gis2");
+                params.put( "user", "postgres");
+                params.put( "passwd", "quirin154");
+
+            } /*else {
+
+                params.put( "dbtype", "postgis");
+                params.put( "host", "abomasus.de");
+                params.put( "port", 5433 );
+                params.put( "schema", "public");
+                params.put( "database", "gis2");
+                params.put( "user", "postgres");
+                params.put( "passwd", "quirin154");
+
+            } */else {
+                params.put( "dbtype", "postgis");
+                params.put( "host", "lns-2124.sb.dfki.de");
+                params.put( "port", 5432 );
+                params.put( "schema", "public");
+                params.put( "database", "emobilesim");
+                params.put( "user", "emobilesim_admin");
+                params.put( "passwd", "7207c471");
+            }
+
+            dataStore = DataStoreFinder.getDataStore(params);
+
+
+            SimpleFeatureSource featureSource
+
+            if (SimulationArea.BERLIN == simulationArea) {
+                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
+            } else {
+                featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
+            }
+
+            SimpleFeatureCollection fCollection = featureSource.getFeatures();
+
+            //create a linear graph generate
+            LineStringGraphGenerator lineStringGen = new LineStringGraphGenerator();
+            FeatureGraphGenerator featureGen = new FeatureGraphGenerator( lineStringGen );
+
+//throw all the features into the graph generator
+            FeatureIterator iter = fCollection.features();
+            try {
+                while(iter.hasNext()){
+                    Feature feature = iter.next();
+                    featureGen.add( feature );
+                }
+            } finally {
+                iter.close();
+            }
+
+            graph = featureGen.getGraph();
+
+            appContext.servletContext.setAttribute("featureGraph${simulationArea.name()}", graph)
+
+        } catch ( Exception e ) {
+            log.error( "Graph could not be initialized!", e )
+        } finally {
+            dataStore.dispose()
+        }
+
+        log.debug( "..obtaining osm graph took ${(System.currentTimeMillis()-millis)} ms" )
+
+        return graph
+    }
     public Graph getFeatureGraph( String graphName ) {
 
         long millis = System.currentTimeMillis()
@@ -501,7 +594,7 @@ class RouteService {
             double fixedKm = dist * distanceFactor
 
 
-            org.geotools.graph.structure.Node startNode = getRandomNode();
+            org.geotools.graph.structure.Node startNode = getRandomNode(simulationArea);
             org.geotools.graph.structure.Node nodeRunner = startNode;
 
             List<org.geotools.graph.structure.Node> startAndTargets = new ArrayList<org.geotools.graph.structure.Node>()
@@ -551,7 +644,67 @@ class RouteService {
         return routeStartTargetsList;
 
     }
+    public List<List<org.geotools.graph.structure.Node>> createViaNodesWithRandomKm( List<Double> distances,SimulationArea simulationArea ) {
 
+        double distanceFactor = 0.7
+
+        List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = new ArrayList<List<org.geotools.graph.structure.Node>>()
+
+        for ( Double dist : distances ) {
+
+            double fixedKm = dist * distanceFactor
+
+
+            org.geotools.graph.structure.Node startNode = getRandomNode(simulationArea);
+            org.geotools.graph.structure.Node nodeRunner = startNode;
+
+            List<org.geotools.graph.structure.Node> startAndTargets = new ArrayList<org.geotools.graph.structure.Node>()
+            startAndTargets.add( startNode )
+
+            double havSums = 0;
+
+            boolean finished = false;
+
+            while( !finished ) {
+
+                org.geotools.graph.structure.Node targetNode = getRandomNode(simulationArea)
+
+                double havNodeRunnerTargetNode = Calculater.haversine(
+                        ((Point) nodeRunner.getObject()).x,
+                        ((Point) nodeRunner.getObject()).y,
+                        ((Point) targetNode.getObject()).x,
+                        ((Point) targetNode.getObject()).y
+                )
+
+                if ( havSums + havNodeRunnerTargetNode > ( fixedKm * 1.01 ) ) {
+                    // skip runnerNode, it is to far away
+                } else if ( havSums + havNodeRunnerTargetNode < ( fixedKm * 0.99 ) ) {
+                    // take it
+                    // log.error( "dist -- ${havNodeRunnerTargetNode} from ${((Point) nodeRunner.getObject()).x} : ${((Point) nodeRunner.getObject()).y}  to ${((Point) targetNode.getObject()).x} : ${((Point) targetNode.getObject()).y}" )
+
+                    startAndTargets.add( targetNode )
+
+                    havSums += havNodeRunnerTargetNode;
+                    nodeRunner = targetNode;
+                } else {
+                    // finished
+                    // log.error( "dist -- ${havNodeRunnerTargetNode} from ${((Point) nodeRunner.getObject()).x} : ${((Point) nodeRunner.getObject()).y}  to ${((Point) targetNode.getObject()).x} : ${((Point) targetNode.getObject()).y}" )
+
+                    startAndTargets.add( targetNode );
+                    havSums += havNodeRunnerTargetNode;
+
+                    finished = true
+                }
+
+            }
+
+            routeStartTargetsList.add( startAndTargets );
+
+        }
+
+        return routeStartTargetsList;
+
+    }
     public List<List<org.geotools.graph.structure.Node>> createViaNodesWithFixedKm( long routeCount, double fixedKm ) {
 
         /**
@@ -820,7 +973,140 @@ class RouteService {
         return edges;
 
     }
+    public List<BasicEdge> calculatePathFromNodes( org.geotools.graph.structure.Node s, org.geotools.graph.structure.Node t,SimulationArea simulationArea ) {
 
+        Path path = null;
+
+        List<BasicEdge> edges = new ArrayList<BasicEdge>();
+
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
+
+        AStarIterator.AStarFunctions functions = new AStarIterator.AStarFunctions( t ) {
+
+            /**
+             * should return the real costs for getting from n1 to n2
+             *
+             * @param n1
+             * @param n2
+             * @return
+             */
+            public double cost(AStarIterator.AStarNode n1, AStarIterator.AStarNode n2) {
+
+                // TODO: implement a good cost function which is made for electricity
+
+                Edge edge = n1.getNode().getEdge( n2.node )
+                SimpleFeatureImpl feature = (SimpleFeatureImpl) edge.getObject()
+
+                Double o = (Double) feature.getAttribute( "km" )
+                if ( o && o >= 0 ) {
+
+                } else {
+                    o = 0.1
+                }
+
+                // Double o = (Double) feature.getAttribute( "cost" )
+
+                // now lets weight the "km" with maximum speed, to prefer Stadtautobahn
+                Integer speed = (Integer) feature.getAttribute( "kmh" );
+
+                if ( speed && speed > 0 ) {
+
+                } else {
+                    speed = 30
+                }
+
+
+                // TODO : prefer streets with speed < 60, 80 ( find paper again !)
+
+                Double costs = 7 * o;
+                if ( speed <= 30 ) {
+                    costs = 6 * o;
+                } else if ( speed > 30 && speed < 80 ) {
+                    costs = 3 * o;
+                } else if ( speed >= 80 ) {
+                    costs = 1 * o;
+                }
+
+                // Double costs = ( Math.pow( 100/speed, 2) ) * o
+
+
+                // the real cost until now + real costs from n1 to n2
+                // return n1.getG() + o;
+                return costs
+            }
+
+            /**
+             * providing haversine distance with multiplied speed as a heuristic
+             *
+             * @param n
+             * @return
+             */
+            public double h( org.geotools.graph.structure.Node n ) {
+
+                Point from = (Point) n.getObject();
+                Point to = (Point) t.getObject();
+
+                // multiplied by 1 because of weighting the distance with speed...
+                // for not overestimating we take 1
+                double hav = Calculater.haversine( from.x, from.y, to.x, to.y );
+                // log.error( "from ${from.x} : ${from.y}  to: ${to.x} : ${to.y}   -> hav: ${hav}" )
+                /**
+                 * 6:     appr 30 km/h
+                 * 1.152: fix error of hav
+                 */
+                return 6 * hav * 1.152;
+
+                // return getDist( from, to );
+                // return getManhatten( from, to );
+            }
+
+        };
+
+
+        AStarShortestPathFinder pf = new AStarShortestPathFinder( graph, s, t,   functions );
+
+        pf.calculate();
+        pf.finish();
+
+//find some destinations to calculate paths to
+
+        // Node target = QuickStart.findClosest( new Coordinate( 0.1, 0.1 ), graph );
+
+
+
+//calculate the paths
+
+
+        try {
+            path = pf.getPath();
+            //path.riterator().next()
+
+            org.geotools.graph.structure.Node previous = null;
+            org.geotools.graph.structure.Node node = null;
+            if ( path != null ) {
+
+                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
+
+                    node = ( org.geotools.graph.structure.Node ) ritr.next();
+                    if ( previous != null ) {
+                        // adding the edge between them into vector
+                        edges.add( node.getEdge( previous ) )
+
+                    }
+                    previous = node
+
+                }
+
+            }
+        } catch (  Exception e  ) {
+            log.error( "failed to get path from astar algorithm" )
+            log.debug( e )
+        }
+
+
+        return edges;
+
+    }
 
     public List<Route> createRandomFixedDistanceRoutes( long routeCount, double fixedKm ) {
 
@@ -1066,10 +1352,69 @@ class RouteService {
 
         return group
     }
+    public FillingStationGroup createGaussianDistributedFillingStations( FillingStationGroup group, SimulationArea simulationArea ) {
+
+        Graph graph = getFeatureGraph( "osmGraph", simulationArea )
+
+        // TODO: impl distribution conform positions
+        Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
+        List<Coordinate> coordinates = new ArrayList<Coordinate>();
+
+
+        // determine center for mean
+        for ( org.geotools.graph.structure.Node node : nodes ) {
+            Point point = (Point) node.getObject();
+            coordinates.add( point.coordinate );
+        }
+        Coordinate center = Calculater.centerOfArea( coordinates );
+
+        int count = group.fillingStations.size();
+        double[][] samples = statisticService.generateRandomGaussianVectors( count, center.x, center.y, 0.04, 0.06 )
+
+        int cc = 0;
+        for ( FillingStation fillingStation : group.fillingStations ) {
+
+            fillingStation = FillingStation.get( fillingStation.id )
+
+            org.geotools.graph.structure.Node n = findClosestNode( new Coordinate( samples[ 0 ][ cc ], samples[ 1 ][ cc ] ), graph );
+
+            Point p = (Point) n.getObject()
+            fillingStation.lat = p.x
+            fillingStation.lon = p.y
+
+            fillingStation.groupsConfigured = true
+
+            if ( !fillingStation.save( flush: true ) ) {
+                log.error( "failed to update fillingStation: ${fillingStation.errors}" )
+            }
+
+            cc++;
+        }
+
+        group.groupsConfigured = true
+        group.groupStatus = GroupStatus.CONFIGURED
+
+        if ( !group.save( flush: true ) ) {
+            log.error( "failed to update fillingStationGroup: ${group.errors}" )
+        }
+
+        return group
+    }
 
     public FillingStationGroup createEqualDistributedFillingStations( FillingStationGroup group ) {
 
         Graph graph = getFeatureGraph( "osmGraph" )
+
+        // TODO: impl distribution conform positions
+        Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
+
+
+
+        return group
+    }
+    public FillingStationGroup createEqualDistributedFillingStations( FillingStationGroup group , SimulationArea simulationArea ) {
+
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
 
         // TODO: impl distribution conform positions
         Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
@@ -1102,7 +1447,188 @@ class RouteService {
 
         return group
     }
+    public FillingStationGroup createRandomPositionsForFillingStations( Long groupId,SimulationArea simulationArea ) {
 
+        FillingStationGroup group = FillingStationGroup.get( groupId )
+
+        if ( group.distribution == Distribution.NORMAL_DISTRIBUTION ) {
+
+            group = createGaussianDistributedFillingStations( group, simulationArea );
+
+        } else if ( group.distribution == Distribution.EQUAL_DISTRIBUTION ) {
+
+            // TODO: implement me!
+            group = createEqualDistributedFillingStations( group, simulationArea );
+
+        }
+
+
+
+
+
+        log.error( "hua!" )
+
+        return group
+    }
+    public Fleet createRandomDistanceRoutesForFleet( Long fleetId,SimulationArea simulationArea ) {
+
+        Fleet fleet = Fleet.get( fleetId )
+
+        if ( (fleet.fleetStatus == FleetStatus.CONFIGURED && fleet.simulationArea == simulationArea )||fleet.distribution.value == "Self Configured Routes" ) {//Default DFKI group doesn´t work
+            return fleet
+        }
+
+        /**
+         * this may be done only once, otherwise it is not the valid distribution
+         */
+        List<Double> distances = statisticService.generateRandomListFromDistribution(
+                fleet.cars.size(),
+                fleet.plannedFromKm,
+                fleet.plannedToKm,
+                fleet.distribution
+        )
+
+        log.error( "created following ${fleet.distribution} distributed randoms: ${distances}" )
+
+        Map<Car,Double> carDistanceMap= new HashMap<Car,Double>()
+
+        /**
+         * filling car distance map to have the distance for each car ready to go
+         */
+        int idx = 0;
+        for ( Car car : fleet.cars ) {
+
+            car = Car.get( car.id )
+
+            carDistanceMap.put( car, distances.get( idx ) )
+
+            idx++
+
+        }
+
+        while ( carDistanceMap.size() > 0 ) {
+
+            List<Double> openDistances = new ArrayList<Double>( carDistanceMap.values() )
+            log.error( "dd" )
+
+            List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = createViaNodesWithRandomKm( openDistances,simulationArea );
+
+            // initialized with size of routeStartTargetsList
+            List<List<List<BasicEdge>>> routesToPersist = Collections.synchronizedList( new ArrayList<ArrayList<List<BasicEdge>>>() );
+
+            int poolSize = 32;      // the count of currently paralellized threads
+            int queueSize = 64;    // recommended - twice the size of the poolSize
+            int threadKeepAliveTime = 15;
+            TimeUnit threadKeepAliveTimeUnit = TimeUnit.SECONDS;
+            int maxBlockingTime = 10;
+            TimeUnit maxBlockingTimeUnit = TimeUnit.MILLISECONDS;
+            Callable<Boolean> blockingTimeoutCallback = new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    // log.error("*** Still waiting for task insertion... ***");
+                    // nothing to be done here..
+                    return true; // keep waiting
+                }
+            };
+
+            NotifyingBlockingThreadPoolExecutor threadPoolExecutorForPoints =
+                    new NotifyingBlockingThreadPoolExecutor(poolSize, queueSize,
+                            threadKeepAliveTime, threadKeepAliveTimeUnit,
+                            maxBlockingTime, maxBlockingTimeUnit, blockingTimeoutCallback);
+
+            int cc = 0;
+
+            for ( List<org.geotools.graph.structure.Node> routeStartTargetList : routeStartTargetsList ) {
+
+                log.debug( "start thread no ${++cc}  of ${routeStartTargetsList.size()} " )
+
+                def pairs = routeStartTargetList.collate( 2, 1, false );
+
+                threadPoolExecutorForPoints.execute( new Runnable() {
+
+                    @Override
+                    void run() {
+
+                        List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+
+                        boolean pathBroken = false
+
+                        for ( List<org.geotools.graph.structure.Node> pairList : pairs ) {
+
+                            List<BasicEdge> pathEdges = calculatePathFromNodes( pairList.get( 0 ), pairList.get( 1 ),simulationArea )
+
+                            /**
+                             * if this happens, all the routes are worthless
+                             */
+                            if ( pathEdges.size() == 0 ) {
+
+                                log.error( "path broken.. from: ${pairList.get( 0 ).toString()}  to: ${pairList.get( 1 ).toString()}" )
+                                pathBroken = true
+
+                            } else {
+                                // repair all edges' direction
+                                pathEdges = repairEdges( pathEdges )
+
+                                // adding repaired edges to multiTargetRoute
+                                multiTargetRoute.add( pathEdges )
+                            }
+
+                        }
+
+                        if ( !pathBroken ) {
+                            routesToPersist.add( multiTargetRoute )
+                            log.debug( "added a non broken path: ${multiTargetRoute} as path" )
+                        }
+
+                    }
+
+                } );
+
+            }
+
+            def done1 = false
+            int doneCount = 0;
+
+            //int waiter = 1500000
+            int waiter = 1500
+            while ( !done1 && waiter >= 0 && doneCount < routeStartTargetsList.size() ) {
+                done1 = threadPoolExecutorForPoints.await( 20, TimeUnit.MILLISECONDS )
+                waiter--
+                if ( waiter%100 == 0 ) {
+                    log.error( "waiter: ${waiter} -- finished threads: ${threadPoolExecutorForPoints.runnables.size()} of ${routeStartTargetsList.size()}" )
+                }
+                doneCount = threadPoolExecutorForPoints.runnables.size()
+            }
+
+            log.debug( "added ${routesToPersist.size()} valid routes" )
+
+            /**
+             * fill the cars with found routes and persist to db
+             */
+            for ( List<List<BasicEdge>> multiTargetRoute : routesToPersist ) {
+
+                List<Car> carsToPersistList = new ArrayList<Car>( carDistanceMap.keySet() )
+
+                Car car = carsToPersistList.get( 0 )
+
+                persistRouteToCar( car, multiTargetRoute )
+
+                carDistanceMap.remove( car )
+            }
+
+        }
+
+        log.error( "finished" )
+
+        fleet.routesConfigured = true
+        fleet.fleetStatus = FleetStatus.CONFIGURED
+        if ( !fleet.save( flush: true ) ) {
+            log.error( "failed to save fleet: ${fleet.errors}" )
+        }
+        fleet.simulationArea= simulationArea
+
+        return fleet
+    }
     public Fleet createRandomDistanceRoutesForFleet( Long fleetId ) {
 
         Fleet fleet = Fleet.get( fleetId )
@@ -1435,7 +1961,16 @@ class RouteService {
 
         log.error( "finished" )
     }
+    public org.geotools.graph.structure.Node getRandomNode(SimulationArea simulationArea){
+        Random random = new Random();
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
 
+        Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
+        List<org.geotools.graph.structure.Node> validNodes = new ArrayList<org.geotools.graph.structure.Node>( nodes )
+        int sizeValidNodes = validNodes.size()
+
+        return validNodes.get( random.nextInt( sizeValidNodes ) )
+    }
     public org.geotools.graph.structure.Node getRandomNode() {
 
         Random random = new Random();

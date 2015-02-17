@@ -25,10 +25,17 @@
 
         <div class="rowUp">
             <div class="leftBoldBig1"><g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/></div>
-            <div class="right0PX"><g:message code="configuration.index.simulationarea"/>
-                                        <g:select name="simulationArea"
-                                            from="${de.dfki.gs.domain.utils.SimulationArea.values()}"
-                                            optionKey="" optionValue=""/></div>
+            <g:form action="changeArea">
+            <div class="right0PX"><g:message code="configuration.index.simulationarea"/> ${simulationArea}
+                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                <g:submitToRemote class="addButton"
+                                url="[action: 'changeArea']"
+                                update="updateMe"
+                                name="submit"
+                                value="Change Area" />
+
+                </div>
+            </g:form>
             <div class="clear"></div>
         </div>
 
