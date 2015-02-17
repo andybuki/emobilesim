@@ -3232,3 +3232,9 @@ label.checkbox :disabled + span{
 	max-width:1800px;
 	position: relative;
 }
+
+
+.olControlNavToolbar .olControlDrawFeaturePointItemActive {
+	background-image: url("images/gasolineslow.png");
+	background-repeat: no-repeat;
+}
