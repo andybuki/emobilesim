@@ -306,7 +306,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            }*/ else {
+            } */else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );
@@ -314,7 +314,7 @@ class RouteService {
                 params.put( "database", "emobilesim");
                 params.put( "user", "emobilesim_admin");
                 params.put( "passwd", "7207c471");
-            } /*else {
+            } /*else{
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
@@ -325,8 +325,6 @@ class RouteService {
                 params.put( "passwd", "postgres");
 
             }*/
-
-
 
             dataStore = DataStoreFinder.getDataStore(params);
 
@@ -385,7 +383,7 @@ class RouteService {
     }
 
 
-    GasolineStation saveGasoline( Coordinate coordinate, String fillingType, boolean flush = true ) {
+    /*GasolineStation saveGasoline( Coordinate coordinate, String fillingType, boolean flush = true ) {
 
         Double fillingPortion = 0.000001;
 
@@ -424,6 +422,8 @@ class RouteService {
                 lat: coordinate.y,
                 type: fillingType,
                 fillingPortion: fillingPortion
+
+
         )
 
         if ( !gasolineStation.save( flush: flush ) ) {
@@ -431,7 +431,68 @@ class RouteService {
             return null
         }
 
-        return gasolineStation
+        if ( !fillingStation.save( flush: flush ) ) {
+            log.error( "failed to safe gasoline station: ${fillingStation.errors}" )
+            return null
+        }
+
+        return fillingStation
+    }*/
+
+
+    FillingStation saveFillingStation ( Coordinate coordinate, String fillingType, boolean flush = true ){
+        Double fillingPortion = 0.000001;
+
+        switch ( fillingType ) {
+            case GasolineStationType.AC_2_3KW.toString() :
+                fillingPortion = 2.3 / (60*60);
+                break;
+            case GasolineStationType.AC_3_7KW.toString() :
+                fillingPortion = 3.7 / (60*60);
+                break;
+            case GasolineStationType.AC_7_4KW.toString() :
+                fillingPortion = 4.7 / (60*60);
+                break;
+            case GasolineStationType.AC_11_1KW.toString() :
+                fillingPortion = 11.1 / (60*60);
+                break;
+            case GasolineStationType.AC_22_2KW.toString() :
+                fillingPortion = 22.2 / (60*60);
+                break;
+            case GasolineStationType.AC_43KW.toString() :
+                fillingPortion = 43 / (60*60);
+                break;
+            case GasolineStationType.DC_49_8KW.toString() :
+                fillingPortion = 49.8 / (60*60);
+                break;
+            default:
+                fillingPortion = 0.000638;
+                break;
+        }
+        String name = fillingType
+
+
+        fillingPortion  = Math.round( fillingPortion  * 1000000 ) / 1000000
+
+        //FillingStationGroup fillingStationGroup = FillingStationGroup.get( cmd.groupId )
+
+        FillingStation fillingStation = new FillingStation(
+                lon : coordinate.x,
+                lat : coordinate.y,
+                type : fillingType,
+                fillingPortion : fillingPortion,
+                name : name,
+                fillingStationType: 5
+
+        )
+
+
+        if ( !fillingStation.save( flush: flush ) ) {
+            log.error( "failed to safe gasoline station: ${fillingStation.errors}" )
+            return null
+        }
+
+        return fillingStation
     }
 
 

@@ -1,5 +1,7 @@
 package de.dfki.gs.controller.ms2.configuration
 
+import com.vividsolutions.jts.geom.Coordinate
+import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowInfoStationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddCarsToFleedCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddFleetToConfigurationCommandObject
@@ -41,6 +43,7 @@ import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
+import de.dfki.gs.utils.LatLonPoint
 import de.dfki.gs.utils.ResponseConstants
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -64,6 +67,7 @@ class ConfigurationController {
     def configurationService
     def grailsLinkGenerator
     def statisticService
+    def routeService
 
     /**
      * this part handles all about fillingStationType manageing
@@ -1462,6 +1466,111 @@ class ConfigurationController {
 
         render "${(data as JSON).toString()}"
 
+    }
+
+    def calculateChargingStation () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        //Long configurationStubId
+        //Configuration configuration = Configuration.read(configurationStubId)
+
+        //log.error("calculateChargingStation request: ${request.JSON.data}")
+
+        StartAndDestinationsCommandObject cmd = new StartAndDestinationsCommandObject();
+        bindData(cmd, params)
+        // what we get
+
+
+        /*if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate : ${cmd.errors}")
+
+        } else {*/
+            def json = request.JSON.data
+            // what we return
+            def data = [:]
+
+            data.currentLat = json.currentLat;
+            data.currentLon = json.currentLon;
+            data.currentZoom = json.currentZoom;
+            data.configurationStubId = cmd.configurationStubId
+            data.groupId = cmd.groupId
+            data.groupName = cmd.groupName
+            data.fillingStationId = cmd.fillingStationId
+            // could be either a gasoline station or a route start point
+
+
+
+            cmd.startPoint = new LatLonPoint(json.startPoint.y, json.startPoint.x)
+
+            // in any case we have a simulation id! if not, it should fail!
+
+
+            if (json.type == "gasolinePoint") {
+
+                Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(cmd.startPoint.x, cmd.startPoint.y));
+                data.type = "gasolinePoint"
+                data.gasolinePoint = [x: nearestPoint.x, y: nearestPoint.y]
+
+                boolean flush = true
+                def groups = [:]
+
+                //data.fillingStationGroups = configurationService.getStationsForMaps( cmd.configurationStubId )
+                groups = configurationService.getStationsForMaps( cmd.configurationStubId )
+                data.fillingStationGroups = groups.get(0).stations
+                data.fillingPortion = groups.get(0).stations.fillingPortion.value
+
+
+                FillingStationGroup fillingStationGroup = FillingStationGroup.get( cmd.groupId )
+                fillingStationGroup.groupsConfigured = true
+                data.groupsConfigured = fillingStationGroup.groupsConfigured
+                fillingStationGroup.groupStatus =  "CONFIGURED"
+                data.groupStatus = fillingStationGroup.groupStatus
+                FillingStation fillingStation = FillingStation.get(groups.get(0).stations.id.value)
+                fillingStation.lat = nearestPoint.x
+                fillingStation.lon = nearestPoint.y
+
+                data.lat = fillingStation.lat
+                data.lon = fillingStation.lon
+                /*FillingStation fillingStation = new FillingStation(
+                        lon : nearestPoint.y,
+                        lat : nearestPoint.x,
+                        type :  groups.get(0).stations.power.value,
+                        fillingPortion : groups.get(0).stations.fillingPortion.value,
+                        name :  groups.get(0).stations.name.value,
+                        fillingStationType: 5
+
+                )
+
+
+                if (fillingStation) {
+                    data.fillingStationId = fillingStation.id
+                }*/
+                //data.fillingStation = fillingStation
+
+
+                /*if (fillingStationGroup) {
+                    data.fillingStationId = fillingStationGroup.id
+                }*/
+
+                //FillingStation gas = routeService.saveFillingStation(nearestPoint, GasolineStationType.AC_22_2KW.toString(), fillingStationType)
+                /*FillingStation gas = routeService.saveFillingStation(nearestPoint, GasolineStationType.AC_22_2KW.toString())
+                if (gas) {
+                    data.fillingStationId = gas.id;
+                }*/
+            }
+
+            response.status = ResponseConstants.RESPONSE_STATUS_OK
+            response.addHeader("Content-Type", "application/json");
+
+            render "${(data as JSON).toString()}"
+        //}
     }
 
 
