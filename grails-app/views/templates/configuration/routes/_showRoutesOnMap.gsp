@@ -14,10 +14,10 @@
         var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
         var gasolineIconSize = new OpenLayers.Size( 30, 30 );
-        var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-normal.png' )}" , gasolineIconSize );
-        var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-fast.png' )}" , gasolineIconSize );
-        var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-middle.png' )}" , gasolineIconSize );
-        var gasolineSlowIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-slow.png' )}" , gasolineIconSize );
+        var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinenormal.png' )}" , gasolineIconSize );
+        var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinefast.png' )}" , gasolineIconSize );
+        var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinemiddle.png' )}" , gasolineIconSize );
+        var gasolineSlowIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolineslow3.png' )}" , gasolineIconSize );
 
         var p1 = new OpenLayers.Projection( "EPSG:4326" );
         var pMerc = new OpenLayers.Projection( "EPSG:900913" );
@@ -58,7 +58,7 @@
         var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
         var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
 
-        vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+        <%--vectors = new OpenLayers.Layer.Vector("Vector Layer", {
             styleMap: new OpenLayers.StyleMap({'default':{
                 strokeColor: "#FF11FF",  // TODO: chose a good color
                 strokeOpacity: 0.6,
@@ -90,17 +90,17 @@
                     serialize( data );
                 }
             }
-        });
+        });--%>
 
-        map.addLayers( [ mapnik_layer, mapgoogle_layer, vectors, routesLayer, markers ] );
+        map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers ] );
 
 
         map.addControl(new OpenLayers.Control.MousePosition());
-        map.addControl(new OpenLayers.Control.EditingToolbar( vectors ) );
+        /*map.addControl(new OpenLayers.Control.EditingToolbar( vectors ) );
         var options = {
             hover: true,
             click: true
-        };
+        };*/
 
         // DRAW Routes to 'routes'
         // and all markers to markers!

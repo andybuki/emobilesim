@@ -7,7 +7,7 @@ import de.dfki.gs.controller.commands.SaveTrackInfoCommand
 import de.dfki.gs.controller.commands.ShowGasolineInfoCommand
 import de.dfki.gs.controller.commands.ShowTrackInfoCommand
 import de.dfki.gs.controller.commands.SimulationCommand
-import de.dfki.gs.controller.commands.StartAndDestinationsCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.GasolineStation
 import de.dfki.gs.domain.GasolineStationType
@@ -257,7 +257,7 @@ class MapViewController {
 
         if ( json.type == "lineRoute" ) {
 
-            def destinations = []
+            /*def destinations = []
 
             json.destinationPoints.each {
 
@@ -298,7 +298,7 @@ class MapViewController {
             data.type = "lineRoute"
             data.routes << route;
 
-            data.showTrackInfoLink = g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ simulationRouteId: simulationRoute.id ] )
+            data.showTrackInfoLink = g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ simulationRouteId: simulationRoute.id ] )*/
 
         } else if ( json.type == "gasolinePoint"  ) {
 

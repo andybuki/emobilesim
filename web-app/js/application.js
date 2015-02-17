@@ -1,11 +1,11 @@
 if (typeof jQuery !== 'undefined') {
-	(function($) {
-		$('#spinner').ajaxStart(function() {
-			$(this).fadeIn();
-		}).ajaxStop(function() {
-			$(this).fadeOut();
-		});
-	})(jQuery);
+    (function($) {
+        $('#spinner').ajaxStart(function() {
+            $(this).fadeIn();
+        }).ajaxStop(function() {
+            $(this).fadeOut();
+        });
+    })(jQuery);
 }
 
 function addHiglightedLines( trackId, layer, fromLon, fromLat, toLon, toLat ) {
@@ -55,13 +55,13 @@ function saveGasolineInfos( gasolineId, link, markers ) {
 
         success: function( dat ) {
 
-            var gasolineType = dat.gasolineType;
+            var fillingStationType = dat.fillingStationType;
             var newIcon;
-            if ( gasolineType == "slow" ) {
+            if ( fillingStationType == "slow" ) {
                 newIcon = gasolineSlowIcon.clone()
-            } else if ( gasolineType == "middle" ) {
+            } else if ( fillingStationType == "middle" ) {
                 newIcon = gasolineMiddleIcon.clone()
-            } else if ( gasolineType == "fast" ) {
+            } else if ( fillingStationType == "fast" ) {
                 newIcon = gasolineFastIcon.clone()
             }
 
@@ -121,13 +121,13 @@ function saveTrackInfos(  ) {
 
     /*
      initialEnergy, initialPersons, selectedCarType, trackId
-    var link = "${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ trackId: trackId, initialEnergy: initialEnergy, initialPersons: initialPersons, carType: selectedCarType ] )}";
+     var link = "${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ trackId: trackId, initialEnergy: initialEnergy, initialPersons: initialPersons, carType: selectedCarType ] )}";
 
-    jQuery.ajax({
-        url: link,
-        type: "POST"
-    });
-    */
+     jQuery.ajax({
+     url: link,
+     type: "POST"
+     });
+     */
 
 
     document.getElementsByTagName("body")[0].removeChild(document.
@@ -152,6 +152,7 @@ function serialize( data ) {
     var vectors      = data[ 'vectors' ];
     var routesLayer  = data[ 'routesLayer' ];
     // can be null, if called initially:
+    var configurationStubId = data[ 'configurationStubId' ];
     var simulationId = data[ 'simulationId' ];
     var calculateRouteLink = data[ 'calculateRouteLink' ];
     var showGasolineInfoLink = data[ 'showGasolineInfoLink' ];
@@ -179,7 +180,8 @@ function serialize( data ) {
 
             jData = {
                 type: 'lineRoute',
-                simulationId: simulationId,
+                configurationStubId: configurationStubId,
+
                 currentLon:   currentLon,
                 currentLat:   currentLat,
                 currentZoom:  currentZoom,
@@ -189,6 +191,7 @@ function serialize( data ) {
                 },
                 destinationPoints : dests
             };
+
             var size = coords.length;
             for ( var k = 1 ; k < size; k++ ) {
                 var destPoint = coords[ k ];
@@ -209,15 +212,15 @@ function serialize( data ) {
 
         jData = {
             type:           'gasolinePoint',
-            simulationId:   simulationId,
-            currentLon:     currentLon,
-            currentLat:     currentLat,
+            configurationStubId:   configurationStubId,
+
             currentZoom:    currentZoom,
             startPoint: {
                 x: gasolinePoint.lon,
                 y: gasolinePoint.lat
             }
         }
+
     }
 
 
@@ -243,7 +246,7 @@ function serialize( data ) {
             }
 
             map.setCenter( new OpenLayers.LonLat( dat.currentLon, dat.currentLat ), dat.currentZoom );
-            vectors.destroyFeatures( [ feature ] );
+            //vectors.destroyFeatures( [ feature ] );
 
         },
 
@@ -381,15 +384,32 @@ function drawGasolinePoint( data ) {
 
 }
 
+
+
+/*
+ * This function draws the electric stations on OpenStreetMap and on GoogleMaps
+ *
+ *
+ * */
+
+
 function drawGasolineStation( dat ) {
 
-    var gasolineType = dat[ 'gasolineType' ];
+    var fillingStationType = dat[ 'fillingStationType' ];
     var newIcon;
-    if ( gasolineType == "slow" ) {
+    if ( fillingStationType == "2.3" ) {
         newIcon = gasolineSlowIcon.clone()
-    } else if ( gasolineType == "middle" ) {
+    } else if ( fillingStationType == "11.1" ) {
         newIcon = gasolineMiddleIcon.clone()
-    } else if ( gasolineType == "fast" ) {
+    } else if ( fillingStationType == "22.2" ) {
+        newIcon = gasolineFastIcon.clone()
+    } else if ( fillingStationType == "3.7" ) {
+        newIcon = gasolineSlowIcon.clone()
+    }else if ( fillingStationType == "7.4" ) {
+        newIcon = gasolineSlowIcon.clone()
+    } else if ( fillingStationType == "43" ) {
+        newIcon = gasolineFastIcon.clone()
+    } else if ( fillingStationType == "49.8" ) {
         newIcon = gasolineFastIcon.clone()
     }
 
@@ -407,23 +427,58 @@ function drawGasolineStation( dat ) {
 
     var showGasolineInfoLink = dat[ 'showGasolineInfoLink' ];
 
-    gasolineMarker.gasolineId = dat.gasolineId;
+   //gasolineMarker.fillingStationId = dat.fillingStationId;
+    //gasolineMarker.fillingStationType = dat.fillingStationType
 
-    gasolineMarker.events.register(
-        'mousedown', gasolineMarker, function( evt ) {
-
-            showGasolineInfos( 'display', gasolineMarker.gasolineId, showGasolineInfoLink );
-
-            OpenLayers.Event.stop( evt );
-        }
-    );
+    /*gasolineMarker.events.register(
+     'mousedown', gasolineMarker, function( evt ) {
+     showGasolineInfos( 'display', gasolineMarker.fillingStationId, showGasolineInfoLink );
+     OpenLayers.Event.stop( evt );
+     }
+     );*/
 
     gasolineMarker.setOpacity( 0.9 );
     markers.addMarker( gasolineMarker );
 
 }
 
-function showGasolineInfos( mode, gasolineId, showGasolineInfoLink ) {
+function drawGasolineStationNull(dat) {
+    var fillingStationType = dat[ 'fillingStationType' ];
+    var newIcon;
+    if ( fillingStationType == "2.3" ) {
+        newIcon = gasolineNormalIcon.clone()
+    } else if ( fillingStationType == "11.1" ) {
+        newIcon = gasolineNormalIcon.clone()
+    } else if ( fillingStationType == "22.2" ) {
+        newIcon = gasolineNormalIcon.clone()
+    } else if ( fillingStationType == "3.7" ) {
+        newIcon = gasolineNormalIcon.clone()
+    }else if ( fillingStationType == "7.4" ) {
+        newIcon = gasolineNormalIcon.clone()
+    } else if ( fillingStationType == "43" ) {
+        newIcon = gasolineNormalIcon.clone()
+    } else if ( fillingStationType == "49.8" ) {
+        newIcon = gasolineNormalIcon.clone()
+    }
+
+    var lonlatGasoline = new OpenLayers.LonLat( dat.fromX, dat.fromY );
+
+    lonlatGasoline.transform(
+        new OpenLayers.Projection("EPSG:4326"),
+        new OpenLayers.Projection("EPSG:900913")
+    );
+
+    var gasolineMarker = new OpenLayers.Marker(
+        lonlatGasoline,
+        newIcon
+    );
+
+    var showGasolineInfoLink = dat[ 'showGasolineInfoLink' ];
+    gasolineMarker.setOpacity( 0.9 );
+    markers.addMarker( gasolineMarker );
+}
+
+function showGasolineInfos( mode, fillingStationId, showGasolineInfoLink ) {
     // 'display', gasolineMarker.gasolineId
     if ( mode == 'display' ) {
 
@@ -501,31 +556,31 @@ function showTrackInfos( mode, trackId, showTrackInfoLink ) {
 function changeBatteryFill() {
 
 
-        var $selectPack = $("#packSelector");
-        var $selectE = $("#eSelector");
+    var $selectPack = $("#packSelector");
+    var $selectE = $("#eSelector");
 
 
-            // determine value selected
-            var selectPackValue = $selectPack.val();  /* use .text() if you do not assign values to each select option */
+    // determine value selected
+    var selectPackValue = $selectPack.val();  /* use .text() if you do not assign values to each select option */
 
-            // determine available options based off hashmap
-            var select2OptionsHtml = "";
-            for( var i = 0; i <= selectPackValue; i++ ) {
+    // determine available options based off hashmap
+    var select2OptionsHtml = "";
+    for( var i = 0; i <= selectPackValue; i++ ) {
 
-                if ( i == selectPackValue ) {
-                    select2OptionsHtml += '<option selected="selected" value="' + i + '">' + i + '</option>'
-                } else {
-                    select2OptionsHtml += '<option value="' + i + '">' + i + '</option>'
-                }
+        if ( i == selectPackValue ) {
+            select2OptionsHtml += '<option selected="selected" value="' + i + '">' + i + '</option>'
+        } else {
+            select2OptionsHtml += '<option value="' + i + '">' + i + '</option>'
+        }
 
 
 
-                // select2OptionsHtml += "<option>" + i + "</option>";
+        // select2OptionsHtml += "<option>" + i + "</option>";
 
-            }
+    }
 
-            // insert new options into dom
-            $selectE.html(select2OptionsHtml);
+    // insert new options into dom
+    $selectE.html(select2OptionsHtml);
 
 
 }

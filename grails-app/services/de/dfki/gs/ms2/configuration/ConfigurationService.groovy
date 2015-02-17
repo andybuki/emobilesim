@@ -1,5 +1,8 @@
 package de.dfki.gs.ms2.configuration
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.Point
+import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
@@ -10,12 +13,14 @@ import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.Route
 import de.dfki.gs.domain.simulation.Simulation
 import de.dfki.gs.domain.simulation.TrackEdge
+import de.dfki.gs.domain.stats.FillingStationResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
 import de.dfki.gs.domain.utils.SimulationArea
+import de.dfki.gs.utils.LatLonPoint
 import grails.transaction.Transactional
 
 @Transactional
@@ -708,9 +713,11 @@ class ConfigurationService {
 
                 def stationModel = [:]
                 stationModel.name = fillingStation.name
+                stationModel.id = fillingStation.id
                 stationModel.power = fillingStation.fillingStationType.power
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon
+                stationModel.id = fillingStation.id
                 //stationModel.stations = []
 
                 fillingStationModel.stations << stationModel
@@ -724,6 +731,79 @@ class ConfigurationService {
         return fillingStationGroups
     }
 
+
+    def getStationsForMaps( Long configurationId ) {
+
+        Configuration configuration = Configuration.get( configurationId )
+
+        Double fillingPortion = 0.000001;
+        String fillingType
+        switch ( fillingType ) {
+            case GasolineStationType.AC_2_3KW.toString() :
+                fillingPortion = 2.3 / (60*60);
+                break;
+            case GasolineStationType.AC_3_7KW.toString() :
+                fillingPortion = 3.7 / (60*60);
+                break;
+            case GasolineStationType.AC_7_4KW.toString() :
+                fillingPortion = 4.7 / (60*60);
+                break;
+            case GasolineStationType.AC_11_1KW.toString() :
+                fillingPortion = 11.1 / (60*60);
+                break;
+            case GasolineStationType.AC_22_2KW.toString() :
+                fillingPortion = 22.2 / (60*60);
+                break;
+            case GasolineStationType.AC_43KW.toString() :
+                fillingPortion = 43 / (60*60);
+                break;
+            case GasolineStationType.DC_49_8KW.toString() :
+                fillingPortion = 49.8 / (60*60);
+                break;
+            default:
+                fillingPortion = 0.000638;
+                break;
+        }
+
+        fillingPortion  = Math.round( fillingPortion  * 1000000 ) / 1000000
+
+        def fillingStationGroups = []
+
+        configuration.fillingStationGroups.each { FillingStationGroup fillingStationGroup ->
+
+            def fillingStationModel = [:]
+
+            fillingStationGroup = FillingStationGroup.get( fillingStationGroup.id )
+
+            fillingStationModel.stations = []
+            fillingStationModel.name = fillingStationGroup.name
+
+            fillingStationGroup.fillingStations.each { FillingStation fillingStation ->
+
+                fillingStation = FillingStation.get( fillingStation.id )
+
+
+                def stationModel = [:]
+                double x =0.0
+                double y =0.0
+                Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate( x,  y));
+                stationModel.name = fillingStation.name
+                stationModel.id = fillingStation.id
+                stationModel.power = fillingStation.fillingStationType.power
+                stationModel.fillingPortion = fillingStation.fillingStationType.fillingPortion
+                stationModel.lon = nearestPoint.x
+                stationModel.lat = nearestPoint.y
+
+                fillingStationModel.stations << stationModel
+
+            }
+
+            fillingStationGroups << fillingStationModel
+
+        }
+
+        return fillingStationGroups
+    }
     /**
      * this method creates a group stub and persists it to db
      * this group belongs to a given person's company
@@ -1102,9 +1182,9 @@ class ConfigurationService {
         return fillingStationGroup.name
     }
 
-    def getInfoOfFillingStation (Long groupId) {
+    def getInfoOfFillingStation (Long fillingStationId) {
 
-        FillingStationType fillingStationType = FillingStationType.get(groupId)
+        FillingStationType fillingStationType = FillingStationType.get(fillingStationId)
         return fillingStationType.name
 
     }

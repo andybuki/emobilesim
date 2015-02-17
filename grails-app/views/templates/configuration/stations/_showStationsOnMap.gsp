@@ -3,7 +3,7 @@
     <script type="text/javascript">
 
         // global variables
-        var map, vectors, routesLayer, lonlat, zoom, markers;
+        var map, vectors, routesLayer, lonlat, zoom, markers, popup ;
 
         var startIconSize = new OpenLayers.Size( 40, 40 );
         var targetIconSize = new OpenLayers.Size( 20, 20 );
@@ -12,11 +12,11 @@
         var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
         var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
-        var gasolineIconSize = new OpenLayers.Size( 30, 30 );
-        var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-normal.png' )}" , gasolineIconSize );
-        var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-fast.png' )}" , gasolineIconSize );
-        var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-middle.png' )}" , gasolineIconSize );
-        var gasolineSlowIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasoline-slow.png' )}" , gasolineIconSize );
+        var gasolineIconSize = new OpenLayers.Size( 25, 25 );
+        var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinenormal.png' )}" , gasolineIconSize );
+        var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinefast.png' )}" , gasolineIconSize );
+        var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinemiddle.png' )}" , gasolineIconSize );
+        var gasolineSlowIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolineslow3.png' )}" , gasolineIconSize );
 
         var p1 = new OpenLayers.Projection( "EPSG:4326" );
         var pMerc = new OpenLayers.Projection( "EPSG:900913" );
@@ -40,12 +40,6 @@
             displayProjection: p1
         } );
 
-        routesLayer = new OpenLayers.Layer.Vector( "Route Vectors", {
-            styleMap: new OpenLayers.StyleMap({'default':{
-                strokeColor: "red",  // TODO: chose a good color
-                strokeOpacity: 0.6,
-                strokeWidth: 6
-            }}) } );
 
         markers = new OpenLayers.Layer.Markers( "Markers", {
             strategies: [
@@ -57,72 +51,121 @@
         var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
         var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
 
-        vectors = new OpenLayers.Layer.Vector("Vector Layer", {
-            styleMap: new OpenLayers.StyleMap({'default':{
-                strokeColor: "#FF11FF",  // TODO: chose a good color
-                strokeOpacity: 0.6,
-                strokeWidth: 6,
-                fillColor: "#FF5500",
-                fillOpacity: 0.5,
-                pointRadius: 6,
-                pointerEvents: "visiblePainted",
-                label : "Start",
-                fontSize: "10px",
-                fontFamily: "Courier New, monospace",
-                fontWeight: "bold",
-                labelOutlineColor: "white",
-                labelOutlineWidth: 5
-            }}),
-            eventListeners: {
-                'featureadded' : function( evt ) {
-                    var feature = evt.feature;
-                    var data = {
-                        feature: feature,
-                        map: map,
-                        vectors: vectors,
-                        markers: markers,
-                        routesLayer: routesLayer,
-                        calculateRouteLink: '${g.createLink( controller: 'mapView', action: 'calculateRoute' )}',
-                        showGasolineInfoLink: '${g.createLink( controller: 'configuration', action: 'showGasolineInfo', params: [ gasolineId: gasolineId ] )}',
-                        showTrackInfoLink: '${g.createLink( controller: 'mapView', action: 'showTrackInfo' )}'
-                    };
-                    serialize( data );
-                }
-            }
-        });
-
-        map.addLayers( [ mapnik_layer, mapgoogle_layer, vectors, routesLayer, markers ] );
-
-
+        map.addLayers( [ mapnik_layer, mapgoogle_layer, markers ] );
         map.addControl(new OpenLayers.Control.MousePosition());
-        map.addControl(new OpenLayers.Control.EditingToolbar( vectors ) );
-        var options = {
-            hover: true,
-            click: true
-        };
 
+        map.addLayer(new OpenLayers.Layer.OSM());
 
+        epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+        projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+        var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 
         //Draw Electric Stations
         var gasDat = new Object();
         <g:each var="fillingStationGroup" in="${fillingStationGroups}">
-            <g:each var="fillingStation" in="${fillingStationGroup.stations}">
-               <%-- <g:if test="${fillingStation.time > 0}">--%>
-                    var stations = new Array();
-                    //gasDat.gasolineId = ${fillingStation.gasolineId};
-                    gasDat.fromX = ${fillingStation.lat};
-                    gasDat.fromY = ${fillingStation.lon};
-                    //gasDat.gasolineId = ${fillingStation.gasolineId};
-                    gasDat.gasolineType = "${fillingStation.gasolineType}";
-                    gasDat.showGasolineInfoLink = '${g.createLink( controller: 'configuration', action: 'showGasolineInfo')}';
-                    drawGasolineStation( gasDat );
-                <%-- </g:if>--%>
-            </g:each>
+        <g:each var="fillingStation" in="${fillingStationGroup.stations}">
+        <g:if test="${fillingStation.time == 0}">
+            var stations = new Array();
+
+            gasDat.fromX = ${fillingStation.lat};
+            gasDat.fromY = ${fillingStation.lon};
+            gasDat.fillingStationId = ${fillingStation.id};
+            gasDat.fillingStationType = ${fillingStation.power};
+
+            drawGasolineStationNull( gasDat );
+
+        </g:if>
+
+        <g:if test="${fillingStation.time > 0}">
+            var stations = new Array();
+
+            gasDat.fromX = ${fillingStation.lat};
+            gasDat.fromY = ${fillingStation.lon};
+            gasDat.fillingStationId = ${fillingStation.id};
+            gasDat.fillingStationType = ${fillingStation.power};
+            gasDat.time = ${fillingStation.time};
+
+            // Convert seconds to hours minutes
+            var sec_num = gasDat.time
+            var hours   = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            if (hours   < 10) {hours   = "0"+hours;}
+            if (minutes < 10) {minutes = "0"+minutes;}
+            if (seconds < 10) {seconds = "0"+seconds;}
+            var time    = hours+':'+minutes+':'+seconds;
+
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(epsg4326, projectTo),
+                {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY + '<br>' +'Time:'+ time}
+            );
+            vectorLayer.addFeatures(feature);
+
+
+            drawGasolineStation( gasDat );
+
+        </g:if>
+        <g:if test="${fillingStation.time < 0}">
+        var stations = new Array();
+
+        gasDat.fromX = ${fillingStation.lat};
+        gasDat.fromY = ${fillingStation.lon};
+        gasDat.fillingStationId = ${fillingStation.id};
+        gasDat.fillingStationType = ${fillingStation.power};
+
+        var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(epsg4326, projectTo),
+                {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY }
+        );
+        vectorLayer.addFeatures(feature);
+
+
+        drawGasolineStation( gasDat );
+
+        </g:if>
+
+
         </g:each>
+        </g:each>
+
+
+        map.addLayer(vectorLayer);
+
+
+        //Add a selector control to the vectorLayer with popup functions
+        var controls = {
+            selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
+        };
+
+
+
+        function createPopup(feature) {
+            feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+                    feature.geometry.getBounds().getCenterLonLat(),
+                    null,
+                    '<div class="markerContent">'+feature.attributes.description+'</div>',
+                    null,
+                    true,
+                    function() { controls['selector'].unselectAll(); }
+            );
+            //feature.popup.closeOnMove = true;
+            map.addPopup(feature.popup);
+        }
+
+        function destroyPopup(feature) {
+            feature.popup.destroy();
+            feature.popup = null;
+        }
+
+        map.addControl(controls['selector']);
+        controls['selector'].activate();
+
 
 
         lonlat.transform( p1, pMerc );
         map.setCenter( lonlat, zoom );
+
     </script>
     <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
 </div>
