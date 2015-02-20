@@ -1185,8 +1185,14 @@ class ConfigurationService {
     def getInfoOfFillingStation (Long fillingStationId) {
 
         FillingStationType fillingStationType = FillingStationType.get(fillingStationId)
-        return fillingStationType.name
+        //return fillingStationType.name
 
+    }
+
+    def getfillingStationParameters (Long groupId) {
+        FillingStationGroup fillingStationGroup = FillingStationGroup.get(groupId)
+
+        return fillingStationGroup
     }
 
 

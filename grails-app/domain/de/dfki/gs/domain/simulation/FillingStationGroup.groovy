@@ -8,7 +8,9 @@ import de.dfki.gs.domain.utils.SimulationArea
 
 class FillingStationGroup {
 
-    Set<FillingStation> fillingStations = []
+
+
+    List<FillingStation> fillingStations = new ArrayList<FillingStation>()
 
     // to title the group
     String name
