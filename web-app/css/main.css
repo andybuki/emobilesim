@@ -2841,19 +2841,18 @@ fieldset {
 .olControlEditingToolbar {
     margin: 5px 5px 0 0;
 }
-.olControlNavToolbar div,
+/*.olControlNavToolbar div,
 .olControlEditingToolbar div {
-    background-image: url("/emobilesim/images/editing_tool_bar.png");
-    background-repeat: no-repeat;
-    margin: 0 0 5px 5px;
+	background: url("/images/gasolineslow3.png") no-repeat;
+	margin: 0 0 5px 5px;
     width: 24px;
     height: 22px;
     cursor: pointer
-}
+}*/
 /* positions */
 .olControlEditingToolbar {
     right: 5px;
-    top: 35px;
+    top: 10px;
 }
 .olControlNavToolbar {
     top: 295px;
@@ -3234,7 +3233,11 @@ label.checkbox :disabled + span{
 }
 
 
-.olControlNavToolbar .olControlDrawFeaturePointItemActive {
-	background-image: url("images/gasolineslow.png");
+.myNewPoiterItemInactive {
+	background-image: url('../images/gasolineslow3.png');
 	background-repeat: no-repeat;
+	border:1px solid #BBB;
+	width:  40px;
+	height: 40px;
+	cursor: pointer;
 }

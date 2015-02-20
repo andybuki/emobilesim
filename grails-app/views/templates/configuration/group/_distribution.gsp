@@ -153,8 +153,8 @@
                                                         routesLayer: routesLayer,
                                                         calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateChargingStation', params: [configurationStubId: configurationStubId , groupName:groupName, gasolineId: gasolineId, groupId:groupId, groupTypes:groupTypes, fillingStationId:fillingStationId  ] )}',
                                                         <%--calculateRouteLink: '${g.createLink( controller: 'mapView', action: 'calculateRoute' )}',--%>
-                                                        showGasolineInfoLink: '${g.createLink( controller: 'mapView', action: 'showGasolineInfo', params: [ gasolineId: gasolineId ] )}',
-                                                        <%--showTrackInfoLink: '${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ simulationRouteId: simulationRouteId ] )}'--%>
+                                                        <%--showGasolineInfoLink: '${g.createLink( controller: 'mapView', action: 'showGasolineInfo', params: [ gasolineId: gasolineId ] )}',
+                                                        showTrackInfoLink: '${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ simulationRouteId: simulationRouteId ] )}'--%>
                                                     };
                                                     serialize( data );
                                                 }
@@ -227,27 +227,28 @@
                                                 OpenLayers.Handler.Point,
                                                 {
                                                     title : 'Point',
-                                                    displayClass : 'olControlDrawFeaturePoint',
+                                                    displayClass : 'myNewPoiter',
                                                     handlerOptions: {
                                                         sides : 4,
                                                         irregular : true
                                                     }
+
                                                 }
                                         );
 
                                         map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers ] );
 
-                                        var navControl = new OpenLayers.Control.Navigation({});
+                                        //var navControl = new OpenLayers.Control.Navigation({});
 
                                         var controlPanel = new OpenLayers.Control.Panel({
                                             displayClass: 'olControlEditingToolbar'
                                         });
                                         controlPanel.addControls([
-                                            navControl,
+                                            //navControl
                                             boxControl
                                         ]);
                                         map.addControl(controlPanel);
-                                        navControl.activate();
+                                        //navControl.activate();
 
                                         lonlat.transform( p1, pMerc );
                                         map.setCenter( lonlat, zoom );
