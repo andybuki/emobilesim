@@ -2370,6 +2370,17 @@ fieldset {
     bottom:5px;
 }
 
+.rightBoldBig1 {
+
+	position: relative;
+	top:3px;
+}
+
+.rightBoldBig2 {
+
+	position: relative;
+	bottom:1px;
+}
 .left0PX{
     width:100px;
     float:left;
