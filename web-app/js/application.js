@@ -596,7 +596,7 @@ function drawRoute( data ) {
     var route = data[ 'route' ];
     var markers = data[ 'markers' ];
     var routesLayer = data[ 'routesLayer' ];
-    alert(markers);
+
     var vias = data[ 'vias' ];
 
     if ( vias != null ) {
