@@ -54,7 +54,7 @@ class StartAndDestinationsCommandObject implements Serializable {
 
         }
 
-        groupName( nullable: false, blanl: false, validator: { val,obj ->
+        groupName( nullable: false, blank: false, validator: { val,obj ->
 
             if ( !val.equals( "All Filling Stations of Experiment" ) ) {
 

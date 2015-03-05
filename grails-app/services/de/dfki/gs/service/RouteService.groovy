@@ -224,7 +224,7 @@ class RouteService {
                 }
 
                 TrackEdge trackEdge = new TrackEdge(
-                        simulationRouteId: simulationRoute.id,
+                        routeId: simulationRoute.id+8,
                         type: edgeType,
                         fromLat: from.getY(),
                         fromLon: from.getX(),
@@ -838,6 +838,224 @@ class RouteService {
         }
 
         return routeStartTargetsList;
+    }
+
+    /*public Long calculatePathFromCoordinates2( Long configurationStubId, List<LatLonPoint> points  ) {
+
+        /*def data = [:]
+        Graph graph = getFeatureGraph( "osmGraph" )*/
+
+        /*Simulation simulation = Simulation.get( configurationStubId )
+
+        if ( simulation == null ) {
+            return null
+        }*/
+
+        /*List<org.geotools.graph.structure.Node> validNodes = new ArrayList<org.geotools.graph.structure.Node>()
+
+        points.each { LatLonPoint latLonPoint ->  validNodes.add(findClosestNode ( new Coordinate(latLonPoint.x, latLonPoint.y), graph )) }
+
+        if ( validNodes.size() != points.size() ) {
+            return null
+        }
+
+        List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+        def pairs = points.collate( 2, 1, false );
+        List<BasicEdge> edgesToRender = new ArrayList<BasicEdge>()
+
+        pairs.each {
+
+            Coordinate currentStart  = new Coordinate( it[0].x, it[0].y );
+            Coordinate currentTarget = new Coordinate( it[1].x, it[1].y );
+
+            //List<BasicEdge> edges = calculatePathFromNodes( it[0], it[1] )
+            //List<BasicEdge> edges = calculatePathFromNodes( currentStart,currentTarget )
+            List<BasicEdge> pathEdges = calculatePathFromNodes2 ( currentStart,currentTarget )
+            if ( pathEdges.size() < 1 ) {
+                return null
+            }
+
+            multiTargetRoute.add( repairEdges( pathEdges ) )
+            edgesToRender.addAll( pathEdges )
+        }*/
+
+        /*Point currentStartPoint
+        Point currentTargetPoint
+
+        def route = [];
+
+        for ( BasicEdge edge : edgesToRender ) {
+
+            currentStartPoint  = (Point) ((BasicNode) edge.nodeA).getObject();
+            currentTargetPoint = (Point) ((BasicNode) edge.nodeB).getObject();
+
+            route << [
+                    fromX : currentStartPoint.x,
+                    fromY : currentStartPoint.y,
+                    toX : currentTargetPoint.x,
+                    toY : currentTargetPoint.y
+            ]
+
+        }*/
+
+
+        //data.routes = route;
+
+        /*SimulationRoute simulationRoute = new SimulationRoute(
+                simulation: simulation,
+                carType: CarType.get( 1 ),
+                initialPersons: 1
+        )*/
+
+        //Track track = persistRoute( simulationRoute, multiTargetRoute );
+
+
+        /*if ( !simulationRoute.save() ) {
+            log.error( "failed to save simulation route: ${simulationRoute.errors}" )
+        } else {
+            log.debug( "saved simulation route with id: ${simulationRoute.id}" )
+        }
+
+        //long millis = System.currentTimeMillis()
+
+        simulationRoute = persistRoute( simulationRoute,  multiTargetRoute, false )
+
+        //data.simulationRoute = simulationRoute.id;
+        if ( !simulation.save() ) {
+            log.error( "failed to save simulation: ${simulation.errors}" )
+            return null
+        }
+
+        return simulationRoute.id
+    }
+    */
+    public List<BasicEdge> calculatePathFromNodes2( Coordinate start, Coordinate target) {
+
+        Path path = null;
+
+        List<BasicEdge> edges = new ArrayList<BasicEdge>();
+
+        Graph graph = getFeatureGraph( "osmGraph" )
+
+        org.geotools.graph.structure.Node s = findClosestNode2( start, graph );
+        org.geotools.graph.structure.Node t = findClosestNode2( target, graph );
+
+        AStarIterator.AStarFunctions functions = new AStarIterator.AStarFunctions( t ) {
+
+            /**
+             * should return the real costs for getting from n1 to n2
+             *
+             * @param n1
+             * @param n2
+             * @return
+             */
+            public double cost(AStarIterator.AStarNode n1, AStarIterator.AStarNode n2) {
+
+                // TODO: implement a good cost function which is made for electricity
+
+                Edge edge = n1.getNode().getEdge( n2.node )
+                SimpleFeatureImpl feature = (SimpleFeatureImpl) edge.getObject()
+
+                Double o = (Double) feature.getAttribute( "km" )
+                if ( o && o >= 0 ) {
+
+                } else {
+                    o = 0.1
+                }
+
+                // Double o = (Double) feature.getAttribute( "cost" )
+
+                // now lets weight the "km" with maximum speed, to prefer Stadtautobahn
+                Integer speed = (Integer) feature.getAttribute( "kmh" );
+
+                if ( speed && speed > 0 ) {
+
+                } else {
+                    speed = 30
+                }
+
+
+                // TODO : prefer streets with speed < 60, 80 ( find paper again !)
+
+                Double costs = 7 * o;
+                if ( speed <= 30 ) {
+                    costs = 6 * o;
+                } else if ( speed > 30 && speed < 80 ) {
+                    costs = 3 * o;
+                } else if ( speed >= 80 ) {
+                    costs = 1 * o;
+                }
+
+                // Double costs = ( Math.pow( 100/speed, 2) ) * o
+
+
+                // the real cost until now + real costs from n1 to n2
+                // return n1.getG() + o;
+                return costs
+            }
+
+            /**
+             * providing haversine distance with multiplied speed as a heuristic
+             *
+             * @param n
+             * @return
+             */
+            public double h( org.geotools.graph.structure.Node n ) {
+
+                Point from = (Point) n.getObject();
+                Point to = (Point) t.getObject();
+
+                // multiplied by 1 because of weighting the distance with speed...
+                // for not overestimating we take 1
+                double hav = Calculater.haversineRouting( from.x, from.y, to.x, to.y );
+                // log.error( "from ${from.x} : ${from.y}  to: ${to.x} : ${to.y}   -> hav: ${hav}" )
+                /**
+                 * 6:     appr 30 km/h
+                 * 1.152: fix error of hav
+                 */
+                return 6 * hav * 1.152;
+
+                // return getDist( from, to );
+                // return getManhatten( from, to );
+            }
+
+        };
+
+
+        AStarShortestPathFinder pf = new AStarShortestPathFinder( graph, s, t,   functions );
+
+        pf.calculate();
+        pf.finish();
+
+        //find some destinations to calculate paths to
+
+        // Node target = QuickStart.findClosest( new Coordinate( 0.1, 0.1 ), graph );
+
+        //calculate the paths
+
+        try {
+            path = pf.getPath();
+            //path.riterator().next()
+
+            org.geotools.graph.structure.Node previous = null;
+            org.geotools.graph.structure.Node node = null;
+            if ( path != null ) {
+
+                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
+
+                    node = ( org.geotools.graph.structure.Node ) ritr.next();
+                    if ( previous != null ) {
+                        // adding the edge between them into vector
+                        edges.add( node.getEdge( previous ) )
+                    }
+                    previous = node
+                }
+            }
+        } catch (  Exception e  ) {
+            log.error( "failed to get path from astar algorithm" )
+            log.debug( e )
+        }
+        return edges;
     }
 
     public Long calculatePathFromCoordinates( Long simulationId, List<LatLonPoint> points ) {
@@ -2505,6 +2723,40 @@ class RouteService {
 
         return closest;
     }
+
+    private org.geotools.graph.structure.Node findClosestNode2( Coordinate coordinate, Graph graph ) {
+
+        org.geotools.graph.structure.Node closest = null;
+        double minDist = 0.0;
+
+        Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
+
+        for ( org.geotools.graph.structure.Node node : nodes ) {
+            Point p = (Point) node.getObject();
+
+            double d = Calculater.haversineRouting( coordinate.y, coordinate.x, p.x, p.y );
+
+            // double d = getDist( coordinate, p );
+
+            if ( d < 0.000001 ) {
+                // log.error( "coordinate: ${coordinate.x} : ${coordinate.y}  --- found near dist node: ${p.x} : ${p.y}   with ${d} km"  )
+                return node
+            }
+
+
+            if ( closest == null || d < minDist ) {
+                minDist = d;
+                closest = node;
+            }
+
+        }
+
+        // log.error( "-> coordinate: ${coordinate.x} : ${coordinate.y}  --- found near dist node: ${((Point) closest.getObject()).x} : ${((Point) closest.getObject()).y}   with ${d} km"  )
+
+        return closest;
+    }
+
+
 
     private static  double getDist( Coordinate coordinate, Point p ) {
         return getDist( coordinate.x, coordinate.y, p.getX(), p.getY() );

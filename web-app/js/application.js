@@ -153,6 +153,7 @@ function serialize( data ) {
     var routesLayer  = data[ 'routesLayer' ];
     // can be null, if called initially:
     var configurationStubId = data[ 'configurationStubId' ];
+
     var simulationId = data[ 'simulationId' ];
     var calculateRouteLink = data[ 'calculateRouteLink' ];
     var showGasolineInfoLink = data[ 'showGasolineInfoLink' ];
@@ -260,9 +261,10 @@ function serialize( data ) {
 function drawLineRoute( data ) {
 
     var size = data[ "routes" ].length;
+
     var markers = data[ 'markers' ];
     var routes = data[ 'routes' ];
-    var showTrackInfoLink = data[ 'showTrackInfoLink' ];
+    //var showTrackInfoLink = data[ 'showTrackInfoLink' ];
 
     // for all routes
     for ( var i = 0; i < size; i++ ) {
@@ -271,6 +273,7 @@ function drawLineRoute( data ) {
         // 0.route, 0.element -> startMarker
         // all other routes lat element -> targetMarker
         var route = data.routes[ i ];
+
         var segmentSize = route.length;
         for ( var j = 0; j < segmentSize; j++ ) {
 
@@ -289,12 +292,13 @@ function drawLineRoute( data ) {
                     startIcon.clone()
                 );
 
+
                 startMarker.trackId = data.trackId;
 
                 startMarker.events.register(
                     'mousedown', startMarker, function( evt ) {
 
-                        showTrackInfos( 'display', startMarker.trackId, showTrackInfoLink );
+                        //showTrackInfos( 'display', startMarker.trackId, showTrackInfoLink );
 
                         OpenLayers.Event.stop( evt );
                     }
@@ -592,7 +596,7 @@ function drawRoute( data ) {
     var route = data[ 'route' ];
     var markers = data[ 'markers' ];
     var routesLayer = data[ 'routesLayer' ];
-
+    alert(markers);
     var vias = data[ 'vias' ];
 
     if ( vias != null ) {
