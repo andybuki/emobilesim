@@ -320,7 +320,7 @@ class RouteService {
             dataStore = DataStoreFinder.getDataStore(params);
 
 
-            SimpleFeatureSource featureSource
+            SimpleFeatureSource featureSource // = dataStore.getFeatureSource("osm_2po_4pgr")
 
             if (SimulationArea.BERLIN == simulationArea) {
                 featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
@@ -725,7 +725,7 @@ class RouteService {
 
         for ( Double dist : distances ) {
 
-            double fixedKm = dist * distanceFactor
+            double fixedKm = dist //* distanceFactor
 
 
             org.geotools.graph.structure.Node startNode = getRandomNode(simulationArea);
@@ -784,7 +784,7 @@ class RouteService {
          * TODO: 1.152 is a correction value to fix the error in haversine
          */
         // fixedKm = fixedKm * 1.152
-        fixedKm = fixedKm * 1.3
+        fixedKm = fixedKm * 1.3//warum?
 
 
         List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = new ArrayList<List<org.geotools.graph.structure.Node>>()
@@ -1211,7 +1211,7 @@ class RouteService {
                  * 6:     appr 30 km/h
                  * 1.152: fix error of hav
                  */
-                return 6 * hav * 1.152;
+                return hav;
 
                 // return getDist( from, to );
                 // return getManhatten( from, to );
@@ -1290,12 +1290,29 @@ class RouteService {
 
                 Double o = (Double) feature.getAttribute( "km" )
                 if ( o && o >= 0 ) {
+                    /*
+                    There might be an error if the given distance is smaller than the distance
+                    calculated with haversin. But this fix is to inefficient
 
+                    Point from = (Point) n1.getNode().getObject();
+                    Point to = (Point) n2.getNode().getObject();
+
+
+                    double distFromTo = Calculater.haversine( from.x, from.y, to.x, to.y );
+                    if(o < distFromTo) {
+                    o = distFromTo
+                    log.error("ACHTUNG dist = ${distFromTo}  o = ${o}")
+                    log.error("from Pos@: ${from.x} ${from.y} to Pos@: ${to.x} ${to.y}")
+                    }*/
                 } else {
-                    o = 0.1
+                    // If there is no given distance for an edge we take haversine distance
+                    Point from = (Point) n1.getNode().getObject();
+                    Point to = (Point) n2.getNode().getObject();
+
+
+                    o = Calculater.haversine( from.x, from.y, to.x, to.y );
                 }
 
-                // Double o = (Double) feature.getAttribute( "cost" )
 
                 // now lets weight the "km" with maximum speed, to prefer Stadtautobahn
                 Integer speed = (Integer) feature.getAttribute( "kmh" );
@@ -1318,11 +1335,6 @@ class RouteService {
                     costs = 1 * o;
                 }
 
-                // Double costs = ( Math.pow( 100/speed, 2) ) * o
-
-
-                // the real cost until now + real costs from n1 to n2
-                // return n1.getG() + o;
                 return costs
             }
 
@@ -1337,18 +1349,9 @@ class RouteService {
                 Point from = (Point) n.getObject();
                 Point to = (Point) t.getObject();
 
-                // multiplied by 1 because of weighting the distance with speed...
-                // for not overestimating we take 1
                 double hav = Calculater.haversine( from.x, from.y, to.x, to.y );
-                // log.error( "from ${from.x} : ${from.y}  to: ${to.x} : ${to.y}   -> hav: ${hav}" )
-                /**
-                 * 6:     appr 30 km/h
-                 * 1.152: fix error of hav
-                 */
-                return 6 * hav * 1.152;
 
-                // return getDist( from, to );
-                // return getManhatten( from, to );
+                return hav
             }
 
         };
@@ -1393,9 +1396,107 @@ class RouteService {
             log.error( "failed to get path from astar algorithm" )
             log.debug( e )
         }
+        return edges
+        /*This is to test the error in getPath
+
+        AStarIterator.AStarFunctions functions2 = new AStarIterator.AStarFunctions( t ) {
 
 
+            public double cost(AStarIterator.AStarNode n1, AStarIterator.AStarNode n2) {
+                return 1;
+            }
+
+            public double h( org.geotools.graph.structure.Node n ) {
+                return 1;
+
+            }
+
+        };
+        AStarShortestPathFinder pf2 = new AStarShortestPathFinder( graph, s, t,   functions2 );
+
+        pf2.calculate();
+        pf2.finish();
+
+//find some destinations to calculate paths to
+
+        // Node target = QuickStart.findClosest( new Coordinate( 0.1, 0.1 ), graph );
+
+
+
+//calculate the paths
+
+
+        try {
+            path = pf2.getPath();
+            //path.riterator().next()
+
+            org.geotools.graph.structure.Node previous = null;
+            org.geotools.graph.structure.Node node = null;
+            if ( path != null ) {
+
+                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
+
+                    node = ( org.geotools.graph.structure.Node ) ritr.next();
+                    if ( previous != null ) {
+                        // adding the edge between them into vector
+                        edges.add( node.getEdge( previous ) )
+
+                    }
+                    previous = node
+
+                }
+
+            }
+        } catch (  Exception e  ) {
+            log.error("failed to get path from astar algorithm")
+            log.debug(e)
+        }
         return edges;
+
+
+        Graphable graphable = (Graphable) s
+        DijkstraIterator.EdgeWeighter edgeWeighter = new DijkstraIterator.EdgeWeighter(){
+        double getWeight(Edge var1){
+            SimpleFeatureImpl feature = (SimpleFeatureImpl) var1.getObject()
+
+            Double o = (Double) feature.getAttribute( "km" )
+
+            if ( o && o >= 0 ) {
+            }
+            else {
+                o = 0.05
+            }
+            return o;
+        }}
+       // DijkstraIterator dijkstraIterator = new DijkstraIterator(edgeWeighter)
+        DijkstraShortestPathFinder dij = new DijkstraShortestPathFinder(graph, graphable, edgeWeighter )
+        dij.calculate()
+        dij.finish()
+        try{
+            Graphable aim = (Graphable) t
+            path = dij.getPath(aim);
+            org.geotools.graph.structure.Node previous = null;
+            org.geotools.graph.structure.Node node = null;
+            if ( path != null ) {
+
+                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
+
+                    node = ( org.geotools.graph.structure.Node ) ritr.next();
+                    if ( previous != null ) {
+                        // adding the edge between them into vector
+                        edges.add( node.getEdge( previous ) )
+
+                    }
+                    previous = node
+
+                }
+
+            }
+        } catch (  Exception e1  ) {
+            log.error( "failed to get path from astar algorithm" )
+            log.debug( e1 )}
+
+        return edges;*/
 
     }
 
@@ -1854,6 +1955,12 @@ class RouteService {
                             if ( pathEdges.size() == 0 ) {
 
                                 log.error( "path broken.. from: ${pairList.get( 0 ).toString()}  to: ${pairList.get( 1 ).toString()}" )
+
+                                //To get coordinats where path is broken
+                                Point from = (Point) pairList.get(0).getObject()
+                                Point to = (Point) pairList.get(1).getObject()
+                                log.error("from Pos@: ${from.coordinate.x} ${from.coordinate.y} to Pos@: ${to.coordinate.x} ${to.coordinate.y}")
+
                                 pathBroken = true
 
                             } else {
