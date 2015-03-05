@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Calculater {
 
-    public static final double R = 6372.8; // In kilometers
+    public static final double R = 6371; // In kilometers
 
     /**
      *
@@ -22,7 +22,7 @@ public class Calculater {
      * @param lon2
      * @return distnace in [ km ]
      */
-    public static double haversine(double lat1, double lon1, double lat2, double lon2) {
+    public static double haversine(double lon1, double lat1, double lon2, double lat2) {
 
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
