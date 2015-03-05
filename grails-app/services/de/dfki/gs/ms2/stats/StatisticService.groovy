@@ -563,7 +563,7 @@ class StatisticService {
                 normalDistribution.reseedRandomGenerator( seed )
 
                 for ( int i = 0; i < count; i++ ) {
-                    randomList.add( normalDistribution.sample() + fromKm )
+                    randomList.add( normalDistribution.sample())
                 }
 
 
