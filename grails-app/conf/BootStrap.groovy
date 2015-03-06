@@ -16,6 +16,7 @@ import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
+import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.service.RouteService
 import de.dfki.gs.threadutils.NotifyingBlockingThreadPoolExecutor
@@ -76,7 +77,7 @@ class BootStrap {
             boolean havingRoute = false
 
             while ( !havingRoute ) {
-                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90 )
+                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90, SimulationArea.BERLIN )
                 if( routeList != null &&
                         routeList.size() > 0 &&
                         routeList.get( 0 ) != null &&
@@ -124,7 +125,7 @@ class BootStrap {
             boolean havingRoute = false
 
             while ( !havingRoute ) {
-                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90 )
+                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90, SimulationArea.BERLIN )
                 if( routeList != null &&
                         routeList.size() > 0 &&
                         routeList.get( 0 ) != null &&
@@ -194,7 +195,7 @@ class BootStrap {
             boolean havingRoute = false
 
             while ( !havingRoute ) {
-                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90 )
+                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90, SimulationArea.BERLIN )
                 if( routeList != null &&
                         routeList.size() > 0 &&
                         routeList.get( 0 ) != null &&
@@ -232,7 +233,7 @@ class BootStrap {
             boolean havingRoute = false
 
             while ( !havingRoute ) {
-                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90 )
+                routeList = routeService.createRandomFixedDistanceRoutes( 1, 90, SimulationArea.BERLIN )
                 if( routeList != null &&
                         routeList.size() > 0 &&
                         routeList.get( 0 ) != null &&
