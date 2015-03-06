@@ -654,12 +654,12 @@ body {
     height:100%;
     width:100%;
 }
-* html #trackInfo { /* ie6 hack */
-    position: absolute;
+/** html #trackInfo { /* ie6 hack */
+ /*   position: absolute;
     height: expression(document.body.scrollHeight > document.body.
     offsetHeight ? document.body.scrollHeight : document.body.
     offsetHeight + 'px');
-}
+}*/
 .overlayBG {
     background-color:#000;
     -ms-filter: "Alpha(Opacity=25)"; /* IE 8 */
@@ -687,13 +687,13 @@ body {
     border: 0.01px #111111 solid;
     border-radius: 10px 10px 10px 10px;
 }
-* html #lightBoxGasoline { /* ie6 hack */
-    position: absolute;
+/** html #lightBoxGasoline { /* ie6 hack */
+/*    position: absolute;
     margin-top: expression(0 - parseInt(this.offsetHeight / 2) +
      (TBWindowMargin = document.documentElement &&
      document.documentElement.scrollTop ||
      document.body.scrollTop) + 'px');
-}
+}*/
 
 #lightBox {
     position:fixed;
@@ -785,13 +785,13 @@ body {
 }
 
 
-* html #lightBox { /* ie6 hack */
-    position: absolute;
+/** html #lightBox { /* ie6 hack */
+   /* position: absolute;
     margin-top: expression(0 - parseInt(this.offsetHeight / 2) +
      (TBWindowMargin = document.documentElement &&
      document.documentElement.scrollTop ||
      document.body.scrollTop) + 'px');
-}
+}*/
 
 #sidebar {
     float: right;
@@ -1833,12 +1833,50 @@ a#login_pop:hover, a#join_pop1:hover {
 	position: relative;
     padding: 10px;
     display: none;
-    min-height: 60em;
-
+    min-height: 480px;
     margin: 10px;
-
-
 }
+
+@media screen and (device-height: 1440px) {
+	.tab-content
+	{
+		min-height:1020px;
+
+	}
+}
+
+@media screen and (device-height: 1200px) {
+	.tab-content
+	{
+		min-height:880px;
+
+	}
+}
+
+@media screen and (device-height: 1080px) {
+	.tab-content
+	{
+		min-height:640px;
+
+	}
+}
+
+@media screen and (device-height: 900px) {
+	.tab-content
+	{
+		min-height:450px;
+
+	}
+}
+
+@media screen and (device-height: 768px) {
+	.tab-content
+	{
+		min-height:400px;
+
+	}
+}
+
 
 .tab-content-buttons-bottomed {
 
