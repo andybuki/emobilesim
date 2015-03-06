@@ -1733,7 +1733,7 @@ class ConfigurationController {
 
                 fleet = Fleet.get(cmd.fleetId)
                 fleet.routesConfigured = true
-                fleet.fleetStatus = "CONFIGURED"
+                fleet.fleetStatus = FleetStatus.CONFIGURED
 
                 fleetModel.cars = []
                 fleetModel.name = fleet.name
@@ -1772,6 +1772,16 @@ class ConfigurationController {
 
 
         }
+
+        Fleet fleet = Fleet.get(cmd.fleetId)
+        Car car = Car.get(fleet.cars.id)
+
+        if(fleet.routesConfigured != true){
+            fleet.routesConfigured = true
+            fleet.fleetStatus = FleetStatus.CONFIGURED
+
+        }
+
         response.status = ResponseConstants.RESPONSE_STATUS_OK
         response.addHeader("Content-Type", "application/json");
 
