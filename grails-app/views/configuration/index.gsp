@@ -25,21 +25,24 @@
 
         <div class="rowUp">
             <div class="leftBoldBig1"><g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/></div>
-            <g:form action="changeArea">
-            <div class="right0PX">
-                <span class="rightBoldBig1">
-                    <g:message code="configuration.index.simulationarea"/> ${simulationArea}
-                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                    <span class="rightBoldBig2">
-                        <g:submitToRemote class="addButton"
-                                url="[action: 'changeArea']"
-                                update="updateMe"
-                                name="submit"
-                                value="Change Area" />
-                    </span>
-                </span>
-                </div>
-            </g:form>
+                <g:form action="changeArea">
+                    <div class="right0PX">
+                        <span class="rightBoldBig1">
+                            <g:message code="configuration.index.simulationarea"/> ${simulationArea}
+                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                <span class="rightBoldBig2">
+                                    <g:if test="${(addedFleets == null || addedFleets.size() == 0)&&(addedGroups == null || addedGroups.size() == 0)}">
+                                        <g:submitToRemote class="addButton"
+                                            url="[action: 'changeArea']"
+                                            update="updateMe"
+                                            name="submit"
+                                            value="Change Area" />
+                                    </g:if>
+                                </span>
+                        </span>
+                    </div>
+                </g:form>
+
             <div class="clear"></div>
         </div>
 

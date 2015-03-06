@@ -199,8 +199,8 @@ class ConfigurationService {
      */
     def getSimulationArea( Long configurationStubId){
         Configuration stub = Configuration.get( configurationStubId )
-        String simulationArea = stub.simulationArea.name()
-        log.error("Simulation Area---${simulationArea}")
+        SimulationArea simulationArea = stub.simulationArea
+        log.error("Simulation Area---${simulationArea.name()}")
         return simulationArea
     }
     def getAddedGroups( Long configurationStubId ) {
@@ -363,8 +363,8 @@ class ConfigurationService {
             log.error( "no company found for user: ${currentUser.username}" )
             return
         }
-
-        List<Fleet> fleets = Fleet.findAllByCompany( company, [ sort: "dateCreated", order: "desc" ] )
+        SimulationArea simulationArea = getSimulationArea(configurationStubId)
+        List<Fleet> fleets = Fleet.findAllByCompanyAndSimulationArea(company,simulationArea, [ sort: "dateCreated", order: "desc" ] )
 
         Configuration stub = Configuration.get( configurationStubId )
         List<Fleet> alreadyAddedFleets = new ArrayList<Fleet>()
@@ -393,8 +393,8 @@ class ConfigurationService {
             log.error( "no company found for user: ${currentUser.username}" )
             return
         }
-
-        List<FillingStationGroup> fillingStationGroups = FillingStationGroup.findAllByCompany( company, [ sort: "dateCreated", order: "desc" ] )
+        SimulationArea simulationArea = getSimulationArea(configurationStubId)
+        List<FillingStationGroup> fillingStationGroups = FillingStationGroup.findAllByCompanyAndSimulationArea( company,simulationArea, [ sort: "dateCreated", order: "desc" ] )
 
         Configuration stub = Configuration.get( configurationStubId )
         List<FillingStationGroup> alreadyAddedGroups = new ArrayList<FillingStationGroup>()
@@ -624,6 +624,7 @@ class ConfigurationService {
         Company company = Company.get( person.company.id )
 
         Configuration stub = Configuration.get( configurationStubId )
+        SimulationArea simulationArea = getSimulationArea(configurationStubId)
 
         String generatedFleetName = "Fleet No. ${Fleet.countByCompany( Company.get( person.company.id ) ) + 1}"
 
@@ -633,7 +634,8 @@ class ConfigurationService {
                                 stub: true,
                                 distribution: Distribution.NOT_ASSIGNED,
                                 fleetStatus: FleetStatus.NOT_CONFIGURED,
-                                routesConfigured: false
+                                routesConfigured: false,
+                                simulationArea: simulationArea
                             )
 
         if ( !fleetStub.save( flush: true ) ) {
@@ -866,6 +868,7 @@ class ConfigurationService {
         Company company = Company.get( person.company.id )
 
         Configuration stub = Configuration.get( configurationStubId )
+        SimulationArea simulationArea = getSimulationArea(configurationStubId)
 
         String generatedFleetName = "Group No. ${FillingStationGroup.countByCompany( Company.get( person.company.id ) ) + 1}"
 
@@ -876,7 +879,8 @@ class ConfigurationService {
                 groupStatus: GroupStatus.NOT_CONFIGURED,
                 distribution: Distribution.NOT_ASSIGNED,
                 groupsConfigured: false,
-                stub: true
+                stub: true,
+                simulationArea: simulationArea
         )
 
         if ( !groupStub.save( flush: true ) ) {

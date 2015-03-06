@@ -402,7 +402,7 @@ class ConfigurationController {
         //simulation
         m.simulationName = configurationService.createSimulationForCompany(person, configurationStubId).name
 
-        m.simulationArea = configurationService.getSimulationArea(configurationStubId)
+        m.simulationArea = (configurationService.getSimulationArea(configurationStubId)).name()
 
         // fleets
         m.availableFleets = configurationService.getFleetsForCompany(person, configurationStubId)
@@ -876,6 +876,7 @@ class ConfigurationController {
         } else {
             def m = [:]
             m.fleets = configurationService.getFleetRoutesOfConfiguration(cmd.configurationStubId)
+            m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
             render template: '/templates/configuration/routes/showRoutesOnMap', model: m
         }
     }
@@ -923,6 +924,7 @@ class ConfigurationController {
         } else {
             def m = [:]
             m.fillingStationGroups = configurationService.getGroupStationsOfConfiguration(cmd.configurationStubId)
+            m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
             render template: '/templates/configuration/stations/showStationsOnMap', model: m
         }
     }
