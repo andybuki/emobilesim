@@ -1,6 +1,7 @@
 package de.dfki.gs.model.elements
 
 import com.vividsolutions.jts.geom.Point
+import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.TrackEdge
 import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.model.elements.results.CarAgentResult
@@ -351,6 +352,7 @@ class CarAgent extends Agent {
      * tries to find a route to and back
      */
     private void configureRouteToFillingStationAndBack() {
+        Configuration configuration = Configuration.get(configurationId)
 
         log.error( "${personalId} tries to get a filling station" )
 
@@ -366,7 +368,6 @@ class CarAgent extends Agent {
 
         long millis2 = System.currentTimeMillis()
         log.debug( "needed ${ millis2 - millis } ms to find a close and free filling station" )
-
         // only if we found a fillingStationAgent
         if ( eFillingStationAgent != null ) {
 
@@ -374,7 +375,8 @@ class CarAgent extends Agent {
                     currentEdge.toLat,
                     currentEdge.toLon,
                     eFillingStationAgent.lon,
-                    eFillingStationAgent.lat
+                    eFillingStationAgent.lat,
+                    configuration.simulationArea
             )
 
             if ( routeToEnergy.size() == 0 ) {
@@ -413,7 +415,8 @@ class CarAgent extends Agent {
                         eFillingStationAgent.lon,
                         eFillingStationAgent.lat,
                         backEdge.toLat,
-                        backEdge.toLon
+                        backEdge.toLon,
+                        configuration.simulationArea
                 )
 
                 if ( routeToTarget.size() == 0 ) {
