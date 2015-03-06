@@ -1731,47 +1731,45 @@ class ConfigurationController {
 
                 def fleetModel = [:]
 
-                fleet = Fleet.get( fleet.id )
+                fleet = Fleet.get(cmd.fleetId)
+                fleet.routesConfigured = true
+                fleet.fleetStatus = "CONFIGURED"
 
                 fleetModel.cars = []
                 fleetModel.name = fleet.name
                 fleetModel.routesConfigured = fleet.routesConfigured
-                if (fleetModel.routesConfigured == false) {
+
                     fleet.cars.each { Car car ->
 
-                        car = Car.get(car.id)
+
+                        car  = Car.get(fleet.cars.id)
 
                         Route route = new Route()
                         route.id = simulationRoute.id+8
+                        car.route =route
+                        car.route.id =simulationRoute.id+8
+                        car.routesConfigured = true
 
                         def carModel = [:]
                         carModel.name = car.name
-                        carModel.route = []
-                        carModel.id = route.id
-                        route = Route.get(route.id)
+                        carModel.route = car.route
+
+                        //carModel.route = []
+                        carModel.id = car.route.id
+                        data.cars = car
+
                                 simulationRoute.edges.each { TrackEdge trackEdgen ->
                             carModel.route = simulationRoute.edges
                         }
                         fleetModel.cars << carModel
 
                     }
-                }
+
                 fleets << fleetModel
             }
 
-            Fleet fleet = Fleet.get(cmd.fleetId)
-            Car  car  = Car.get(fleet.cars.id)
-            Route route = new Route()
-            route.id = simulationRoute.id+8
-            //Route route = Route.get( 0 )
-            //Route route = Route (simulationRoute.id +8)
-            fleet.routesConfigured = true
-            fleet.fleetStatus = "CONFIGURED"
-            //car.route.id = route.id
-            car.route = route.edges
-            //car.route.id =route.id
-            data.carId = car.id
             data.fleets = fleets
+
 
         }
         response.status = ResponseConstants.RESPONSE_STATUS_OK
