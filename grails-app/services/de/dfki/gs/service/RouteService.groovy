@@ -474,6 +474,18 @@ class RouteService {
         Point p = (Point) nearestNode.getObject();
         return new Coordinate( p.getX(), p.getY() );
     }
+    Coordinate getNearestValidPoint( Coordinate coordinate, SimulationArea simulationArea ) {
+
+        org.geotools.graph.structure.Node nearestNode = null
+
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
+
+        nearestNode = findClosestNode( coordinate, graph )
+
+
+        Point p = (Point) nearestNode.getObject();
+        return new Coordinate( p.getX(), p.getY() );
+    }
 
 
     /*GasolineStation saveGasoline( Coordinate coordinate, String fillingType, boolean flush = true ) {
@@ -779,7 +791,7 @@ class RouteService {
 
     }
     public List<List<org.geotools.graph.structure.Node>> createViaNodesWithFixedKm( long routeCount, double fixedKm ) {
-
+        //TODO: Wird nurnoch für SimulationPreparatorController genutzt löschen?
         /**
          * TODO: 1.152 is a correction value to fix the error in haversine
          */
@@ -839,6 +851,62 @@ class RouteService {
 
         return routeStartTargetsList;
     }
+    public List<List<org.geotools.graph.structure.Node>> createViaNodesWithFixedKm( long routeCount, double fixedKm, SimulationArea simulationArea ) {
+
+
+        List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = new ArrayList<List<org.geotools.graph.structure.Node>>()
+        for ( long i = 0; i < routeCount; i++ ) {
+
+            org.geotools.graph.structure.Node startNode = getRandomNode(simulationArea);
+            org.geotools.graph.structure.Node nodeRunner = startNode;
+
+            List<org.geotools.graph.structure.Node> startAndTargets = new ArrayList<org.geotools.graph.structure.Node>()
+            startAndTargets.add( startNode )
+
+            double havSums = 0;
+
+            boolean finished = false;
+
+            while( !finished ) {
+
+                org.geotools.graph.structure.Node targetNode = getRandomNode(simulationArea)
+
+                double havNodeRunnerTargetNode = Calculater.haversine(
+                        ((Point) nodeRunner.getObject()).x,
+                        ((Point) nodeRunner.getObject()).y,
+                        ((Point) targetNode.getObject()).x,
+                        ((Point) targetNode.getObject()).y
+                )
+
+                if ( havSums + havNodeRunnerTargetNode > ( fixedKm * 1.01 ) ) {
+                    // skip runnerNode, it is to far away
+                } else if ( havSums + havNodeRunnerTargetNode < ( fixedKm * 0.99 ) ) {
+                    // take it
+                    // log.error( "dist -- ${havNodeRunnerTargetNode} from ${((Point) nodeRunner.getObject()).x} : ${((Point) nodeRunner.getObject()).y}  to ${((Point) targetNode.getObject()).x} : ${((Point) targetNode.getObject()).y}" )
+
+                    startAndTargets.add( targetNode )
+
+                    havSums += havNodeRunnerTargetNode;
+                    nodeRunner = targetNode;
+                } else {
+                    // finished
+                    // log.error( "dist -- ${havNodeRunnerTargetNode} from ${((Point) nodeRunner.getObject()).x} : ${((Point) nodeRunner.getObject()).y}  to ${((Point) targetNode.getObject()).x} : ${((Point) targetNode.getObject()).y}" )
+
+                    startAndTargets.add( targetNode );
+                    havSums += havNodeRunnerTargetNode;
+
+                    finished = true
+                }
+
+            }
+
+            routeStartTargetsList.add( startAndTargets );
+
+        }
+
+        return routeStartTargetsList;
+    }
+
 
     /*public Long calculatePathFromCoordinates2( Long configurationStubId, List<LatLonPoint> points  ) {
 
@@ -1058,79 +1126,9 @@ class RouteService {
         return edges;
     }
 
-    public Long calculatePathFromCoordinates( Long simulationId, List<LatLonPoint> points ) {
-
-        Graph graph = getFeatureGraph( "osmGraph" )
-
-        Simulation simulation = Simulation.get( simulationId )
-
-        if ( simulation == null ) {
-            return null
-        }
-
-        List<org.geotools.graph.structure.Node> nodes = new ArrayList<org.geotools.graph.structure.Node>()
-        points.each { LatLonPoint latLonPoint ->
-
-            nodes.add( findClosestNode(
-                    new Coordinate( latLonPoint.x, latLonPoint.y ),
-                    graph
-            ) )
-
-        }
-
-        if ( nodes.size() != points.size() ) {
-            return null
-        }
-
-        List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
-        def pairs = nodes.collate( 2, 1, false );
-
-        pairs.each {
-
-            List<BasicEdge> edges = calculatePathFromNodes( it[0], it[1] )
-            if ( edges.size() < 1 ) {
-                return null
-            }
-
-            multiTargetRoute.add( repairEdges( edges ) )
-
-        }
-
-
-        SimulationRoute simulationRoute = new SimulationRoute(
-                simulation: simulation,
-                carType: CarType.get( 1 ),
-                initialPersons: 1
-        )
-
-
-        if ( !simulationRoute.save() ) {
-            log.error( "failed to save simulation route: ${simulationRoute.errors}" )
-        } else {
-            log.debug( "saved simulation route with id: ${simulationRoute.id}" )
-        }
-
-
-        long millis = System.currentTimeMillis()
-        simulationRoute = persistRoute( simulationRoute,  multiTargetRoute, false )
-
-        double sumEdgesKm = simulationRoute.edges.sum { it.km }
-        log.error( "saved track with ${sumEdgesKm} km" )
-
-        simulationRoute.plannedDistance = sumEdgesKm;
-
-        simulation.addToSimulationRoutes( simulationRoute )
-
-
-        if ( !simulation.save() ) {
-            log.error( "failed to save simulation: ${simulation.errors}" )
-            return null
-        }
-
-        return simulationRoute.id
-    }
 
     public List<BasicEdge> calculatePathFromNodes( org.geotools.graph.structure.Node s, org.geotools.graph.structure.Node t ) {
+        //TODO: Wird nurnoch von SimulationPreparatorController genutzt löschen?
 
         Path path = null;
 
@@ -1265,7 +1263,7 @@ class RouteService {
 
     }
     public List<BasicEdge> calculatePathFromNodes( org.geotools.graph.structure.Node s, org.geotools.graph.structure.Node t,SimulationArea simulationArea ) {
-
+//Used to calculate random Paths for fleets
         Path path = null;
 
         List<BasicEdge> edges = new ArrayList<BasicEdge>();
@@ -1349,9 +1347,7 @@ class RouteService {
                 Point from = (Point) n.getObject();
                 Point to = (Point) t.getObject();
 
-                double hav = Calculater.haversine( from.x, from.y, to.x, to.y );
-
-                return hav
+                return Calculater.haversine( from.x, from.y, to.x, to.y );
             }
 
         };
@@ -1500,11 +1496,11 @@ class RouteService {
 
     }
 
-    public List<Route> createRandomFixedDistanceRoutes( long routeCount, double fixedKm ) {
+    public List<Route> createRandomFixedDistanceRoutes( long routeCount, double fixedKm, SimulationArea simulationArea ) {
 
         List<Route> routes = new ArrayList<Route>()
 
-        List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = createViaNodesWithFixedKm( routeCount, fixedKm );
+        List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = createViaNodesWithFixedKm( routeCount, fixedKm, simulationArea );
 
         // initialized with size of routeStartTargetsList
         List<List<List<BasicEdge>>> routesToPersist = Collections.synchronizedList( new ArrayList<ArrayList<List<BasicEdge>>>() );
@@ -1559,7 +1555,7 @@ class RouteService {
                         List<BasicEdge> pathEdges = calculatePath( currentStart, currentTarget );
                         */
 
-                        List<BasicEdge> pathEdges = calculatePathFromNodes( pairList.get( 0 ), pairList.get( 1 ) )
+                        List<BasicEdge> pathEdges = calculatePathFromNodes( pairList.get( 0 ), pairList.get( 1 ),simulationArea )
 
                         /**
                          * if this happens, all the routes are worthless
@@ -2027,166 +2023,10 @@ class RouteService {
 
         return fleet
     }
-    public Fleet createRandomDistanceRoutesForFleet( Long fleetId ) {
 
-        Fleet fleet = Fleet.get( fleetId )
-
-        if ( fleet.fleetStatus == FleetStatus.CONFIGURED ) {
-            return fleet
-        }
-
-        /**
-         * this may be done only once, otherwise it is not the valid distribution
-         */
-        List<Double> distances = statisticService.generateRandomListFromDistribution(
-                fleet.cars.size(),
-                fleet.plannedFromKm,
-                fleet.plannedToKm,
-                fleet.distribution
-        )
-
-        log.error( "created following ${fleet.distribution} distributed randoms: ${distances}" )
-
-        Map<Car,Double> carDistanceMap= new HashMap<Car,Double>()
-
-        /**
-         * filling car distance map to have the distance for each car ready to go
-         */
-        int idx = 0;
-        for ( Car car : fleet.cars ) {
-
-            car = Car.get( car.id )
-
-            carDistanceMap.put( car, distances.get( idx ) )
-
-            idx++
-
-        }
-
-        while ( carDistanceMap.size() > 0 ) {
-
-            List<Double> openDistances = new ArrayList<Double>( carDistanceMap.values() )
-            log.error( "dd" )
-
-            List<List<org.geotools.graph.structure.Node>> routeStartTargetsList = createViaNodesWithRandomKm( openDistances );
-
-            // initialized with size of routeStartTargetsList
-            List<List<List<BasicEdge>>> routesToPersist = Collections.synchronizedList( new ArrayList<ArrayList<List<BasicEdge>>>() );
-
-            int poolSize = 32;      // the count of currently paralellized threads
-            int queueSize = 64;    // recommended - twice the size of the poolSize
-            int threadKeepAliveTime = 15;
-            TimeUnit threadKeepAliveTimeUnit = TimeUnit.SECONDS;
-            int maxBlockingTime = 10;
-            TimeUnit maxBlockingTimeUnit = TimeUnit.MILLISECONDS;
-            Callable<Boolean> blockingTimeoutCallback = new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    // log.error("*** Still waiting for task insertion... ***");
-                    // nothing to be done here..
-                    return true; // keep waiting
-                }
-            };
-
-            NotifyingBlockingThreadPoolExecutor threadPoolExecutorForPoints =
-                    new NotifyingBlockingThreadPoolExecutor(poolSize, queueSize,
-                            threadKeepAliveTime, threadKeepAliveTimeUnit,
-                            maxBlockingTime, maxBlockingTimeUnit, blockingTimeoutCallback);
-
-            int cc = 0;
-
-            for ( List<org.geotools.graph.structure.Node> routeStartTargetList : routeStartTargetsList ) {
-
-                log.debug( "start thread no ${++cc}  of ${routeStartTargetsList.size()} " )
-
-                def pairs = routeStartTargetList.collate( 2, 1, false );
-
-                threadPoolExecutorForPoints.execute( new Runnable() {
-
-                    @Override
-                    void run() {
-
-                        List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
-
-                        boolean pathBroken = false
-
-                        for ( List<org.geotools.graph.structure.Node> pairList : pairs ) {
-
-                            List<BasicEdge> pathEdges = calculatePathFromNodes( pairList.get( 0 ), pairList.get( 1 ) )
-
-                            /**
-                             * if this happens, all the routes are worthless
-                             */
-                            if ( pathEdges.size() == 0 ) {
-
-                                log.error( "path broken.. from: ${pairList.get( 0 ).toString()}  to: ${pairList.get( 1 ).toString()}" )
-                                pathBroken = true
-
-                            } else {
-                                // repair all edges' direction
-                                pathEdges = repairEdges( pathEdges )
-
-                                // adding repaired edges to multiTargetRoute
-                                multiTargetRoute.add( pathEdges )
-                            }
-
-                        }
-
-                        if ( !pathBroken ) {
-                            routesToPersist.add( multiTargetRoute )
-                            log.debug( "added a non broken path: ${multiTargetRoute} as path" )
-                        }
-
-                    }
-
-                } );
-
-            }
-
-            def done1 = false
-            int doneCount = 0;
-
-            //int waiter = 1500000
-            int waiter = 1500
-            while ( !done1 && waiter >= 0 && doneCount < routeStartTargetsList.size() ) {
-                done1 = threadPoolExecutorForPoints.await( 20, TimeUnit.MILLISECONDS )
-                waiter--
-                if ( waiter%100 == 0 ) {
-                    log.error( "waiter: ${waiter} -- finished threads: ${threadPoolExecutorForPoints.runnables.size()} of ${routeStartTargetsList.size()}" )
-                }
-                doneCount = threadPoolExecutorForPoints.runnables.size()
-            }
-
-            log.debug( "added ${routesToPersist.size()} valid routes" )
-
-            /**
-             * fill the cars with found routes and persist to db
-             */
-            for ( List<List<BasicEdge>> multiTargetRoute : routesToPersist ) {
-
-                List<Car> carsToPersistList = new ArrayList<Car>( carDistanceMap.keySet() )
-
-                Car car = carsToPersistList.get( 0 )
-
-                persistRouteToCar( car, multiTargetRoute )
-
-                carDistanceMap.remove( car )
-            }
-
-        }
-
-        log.error( "finished" )
-
-        fleet.routesConfigured = true
-        fleet.fleetStatus = FleetStatus.CONFIGURED
-        if ( !fleet.save( flush: true ) ) {
-            log.error( "failed to save fleet: ${fleet.errors}" )
-        }
-
-        return fleet
-    }
 
     public void createRandomFixedDistanceRoutes( long routeCount, Long simulationId, double fixedKm, long carTypeId ) {
+        //TODO Wird nur in SimulationPreparator benötigt löschen?
 
         long millisAll = System.currentTimeMillis()
 
@@ -2382,7 +2222,7 @@ class RouteService {
     }
 
     public void createRandomRoutes( Long routeCount, Long simulationId, long viaTargets, long carTypeId ) {
-
+        //TODO: Is probably not necessary
         // randomly pick viaTargets out of this range:
         // int maxViaTargets = 10
 
@@ -2572,11 +2412,11 @@ class RouteService {
 
     }
 
-    public List<BasicEdge> routeToTarget( double currentLat, double currentLon, double targetLat, double targetLon ) {
+    public List<BasicEdge> routeToTarget( double currentLat, double currentLon, double targetLat, double targetLon,SimulationArea simulationArea ) {
 
         List<BasicEdge> routeToTarget = calculatePath(
                 new Coordinate( currentLat, currentLon ),
-                new Coordinate( targetLat, targetLon )
+                new Coordinate( targetLat, targetLon ),simulationArea
         )
 
         return repairEdges( routeToTarget )
@@ -2668,15 +2508,13 @@ class RouteService {
     }
 
 
-    List<BasicEdge> calculatePath( Coordinate start, Coordinate target ) {
-
+    List<BasicEdge> calculatePath( Coordinate start, Coordinate target, SimulationArea simulationArea ) {
+//Used to Calculate Rout to next filling Station
         Path path = null;
 
         List<BasicEdge> edges = new ArrayList<BasicEdge>();
 
-        Graph graph = getFeatureGraph( "osmGraph" )
-
-        BasicNode bnStart = new BasicNode(  );
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
 
         org.geotools.graph.structure.Node s = findClosestNode( start, graph );
         org.geotools.graph.structure.Node t = findClosestNode( target, graph );
@@ -2701,10 +2539,13 @@ class RouteService {
                 if ( o && o >= 0 ) {
 
                 } else {
-                    o = 0.001
+                    // If there is no given distance for an edge we take haversine distance
+                    Point from = (Point) n1.getNode().getObject();
+                    Point to = (Point) n2.getNode().getObject();
+                    o = Calculater.haversine( from.x, from.y, to.x, to.y );
+
                 }
 
-                // Double o = (Double) feature.getAttribute( "cost" )
 
                 // now lets weight the "km" with maximum speed, to prefer Stadtautobahn
                 Integer speed = (Integer) feature.getAttribute( "kmh" );
@@ -2716,7 +2557,7 @@ class RouteService {
                 }
 
 
-                Double costs = 1000 * o;
+                Double costs = 7 * o;
                 if ( speed <= 30 ) {
                     costs = 6 * o;
                 } else if ( speed > 30 && speed < 80 ) {
@@ -2725,11 +2566,6 @@ class RouteService {
                     costs = 1 * o;
                 }
 
-                // Double costs = ( Math.pow( 100/speed, 2) ) * o
-
-
-                // the real cost until now + real costs from n1 to n2
-                // return n1.getG() + o;
                 return costs
             }
 
@@ -2744,9 +2580,7 @@ class RouteService {
                 Point from = (Point) n.getObject();
                 Point to = (Point) t.getObject();
 
-                // multiplied by 1 because of weighting the distance with speed...
-                // for not overestimating we take 1
-                return 1 * Calculater.haversine( from.x, from.y, to.x, to.y );
+                return Calculater.haversine( from.x, from.y, to.x, to.y );
 
                 // return getDist( from, to );
                 // return getManhatten( from, to );
@@ -2865,30 +2699,7 @@ class RouteService {
 
 
 
-    private static  double getDist( Coordinate coordinate, Point p ) {
-        return getDist( coordinate.x, coordinate.y, p.getX(), p.getY() );
-    }
 
-    private static double getDist( Point from, Point to ) {
-        return getDist( from.getX(), from.getY(), to.getX(), to.getY() );
-    }
-
-
-    private static double getManhatten( Point from, Point to ) {
-
-        return Math.abs( from.y - to.y ) + Math.abs( from.x - to.x )
-
-    }
-
-    /**
-     * implementation of euclidean distance
-     *
-     * @param fromX
-     * @param fromY
-     * @param toX
-     * @param toY
-     * @return
-     */
     private static double getDist( double fromX, double fromY, double toX, double toY ) {
         double dx = fromX - toX;
         double dy = fromY - toY;
