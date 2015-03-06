@@ -89,7 +89,12 @@
 
                                         var p1 = new OpenLayers.Projection( "EPSG:4326" );
                                         var pMerc = new OpenLayers.Projection( "EPSG:900913" );
-                                        lonlat = new OpenLayers.LonLat( 13.38, 52.52 );
+                                        <g:if test="${simulationArea == 'BERLIN'}">
+                                        lonlat = new OpenLayers.LonLat(13.38, 52.52);
+                                        </g:if>
+                                        <g:else>
+                                        lonlat = new OpenLayers.LonLat(8.7,49.29);
+                                        </g:else>
                                         zoom = 11;
                                         map = new OpenLayers.Map( "map", {
                                             controls: [
