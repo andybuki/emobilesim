@@ -599,6 +599,7 @@ class ConfigurationController {
             m.groupTypes = configurationService.getFillingStationsFromGroupTypeOrdered(cmd.groupId)
 
             m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES
+            m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
 
             render template: '/templates/configuration/group/distribution', model: m
 
@@ -643,6 +644,7 @@ class ConfigurationController {
             // m.cars = configurationService.getCarsFromFleet( cmd.fleetId )
 
             m.carTypes = configurationService.getCarsFromFleetTypeOrdered(cmd.fleetId)
+            m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
 
 
             render template: '/templates/configuration/fleet/distribution', model: m
@@ -1559,7 +1561,7 @@ class ConfigurationController {
 
         if (json.type == "gasolinePoint") {
 
-            Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(cmd.startPoint.x, cmd.startPoint.y));
+            Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(cmd.startPoint.x, cmd.startPoint.y),configurationService.getSimulationArea(cmd.configurationStubId));
             data.type = "gasolinePoint"
             data.gasolinePoint = [x: nearestPoint.x, y: nearestPoint.y]
 
@@ -1661,14 +1663,16 @@ class ConfigurationController {
 
             List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
             List<BasicEdge> edgesToRender = new ArrayList<BasicEdge>()
-
+            SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
 
             pairs.each {
 
                 Coordinate currentStart  = new Coordinate( it[0].x, it[0].y );
                 Coordinate currentTarget = new Coordinate( it[1].x, it[1].y );
 
-                List<BasicEdge> pathEdges = routeService.calculatePathFromNodes2 ( currentStart,currentTarget )
+                List<BasicEdge> pathEdges = routeService.calculatePath( currentStart,currentTarget, simulationArea)
+//calculatePath will use the graph for the selected simulationArea
+
                 if ( pathEdges.size() < 1 ) {
                     return null
                 }
