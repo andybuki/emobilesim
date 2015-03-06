@@ -1759,8 +1759,18 @@ class ConfigurationController {
 
             Fleet fleet = Fleet.get(cmd.fleetId)
             Car  car  = Car.get(fleet.cars.id)
+            Route route = new Route()
+            route.id = simulationRoute.id+8
+            //Route route = Route.get( 0 )
+            //Route route = Route (simulationRoute.id +8)
+            fleet.routesConfigured = true
+            fleet.fleetStatus = "CONFIGURED"
+            //car.route.id = route.id
+            car.route = route.edges
+            //car.route.id =route.id
             data.carId = car.id
             data.fleets = fleets
+
         }
         response.status = ResponseConstants.RESPONSE_STATUS_OK
         response.addHeader("Content-Type", "application/json");
