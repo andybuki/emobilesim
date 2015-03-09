@@ -200,7 +200,6 @@ class ConfigurationService {
     def getSimulationArea( Long configurationStubId){
         Configuration stub = Configuration.get( configurationStubId )
         SimulationArea simulationArea = stub.simulationArea
-        log.error("Simulation Area---${simulationArea.name()}")
         return simulationArea
     }
     def getAddedGroups( Long configurationStubId ) {

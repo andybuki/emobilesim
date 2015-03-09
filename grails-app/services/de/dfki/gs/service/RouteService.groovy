@@ -611,7 +611,7 @@ class RouteService {
 
         List<Point> foundPoints = new ArrayList<Point>( count )
 
-        Graph graph = getFeatureGraph( "osmGraph" )
+        Graph graph = getFeatureGraph( "osmGraph",SimulationArea.BERLIN )
 
         Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
         List<org.geotools.graph.structure.Node> validNodes = new ArrayList<org.geotools.graph.structure.Node>( nodes )

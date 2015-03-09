@@ -469,7 +469,7 @@ class BootStrap {
         log.error( " .. security config finished" )
 
         log.error( "preloading feature graph into application scope.." )
-        routeService.getFeatureGraph( "osmGraph" )
+        routeService.getFeatureGraph( "osmGraph",SimulationArea.BERLIN )
 
         log.error( "create some default car types if not exist.." )
         createDefaultCarTypes()

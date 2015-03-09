@@ -1,4 +1,4 @@
-package de.dfki.gs.controller
+/*package de.dfki.gs.controller
 
 import de.dfki.gs.controller.commands.AddCarTypeAndRouteCommand
 import de.dfki.gs.controller.commands.AddFillingStationCommand
@@ -8,7 +8,7 @@ import de.dfki.gs.controller.commands.SelectSimulationCommand
 import de.dfki.gs.controller.commands.ShowExperimentResultCommand
 import de.dfki.gs.domain.simulation.Simulation
 
-class SimulationPreparatorController {
+class SimulationPreparatorController {//TODO Löschen?
 
     def simulationCollectDataService
     def simulationDataService
@@ -174,3 +174,4 @@ class SimulationPreparatorController {
     }
 
 }
+*/

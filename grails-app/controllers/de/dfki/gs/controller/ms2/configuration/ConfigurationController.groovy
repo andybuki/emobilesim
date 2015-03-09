@@ -1631,14 +1631,14 @@ class ConfigurationController {
         data.fleetName = cmd.fleetName
         data.carTypeId = cmd.carTypeId
 
-        cmd.startPoint = new LatLonPoint(json.startPoint.x, json.startPoint.y)
+        cmd.startPoint = new LatLonPoint(json.startPoint.y, json.startPoint.x)
 
         if (json.type == "lineRoute") {
 
             def destinations = []
 
             json.destinationPoints.each {
-                destinations << new LatLonPoint(it.x, it.y)
+                destinations << new LatLonPoint(it.y, it.x) //x is lon y is lat
             }
 
             cmd.destinationPoints = destinations
@@ -1657,14 +1657,21 @@ class ConfigurationController {
             cmd.destinationPoints.each { points << it }
 
             def pairs = points.collate( 2, 1, false );
-
+            List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
             data.routes = [];
             data.type = "lineRoute"
-
-            List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
             List<BasicEdge> edgesToRender = new ArrayList<BasicEdge>()
             SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
+            Fleet fleet = Fleet.get(cmd.fleetId)
+            Car carToRoute
 
+            for(Car car : fleet.cars){
+                car = Car.get(car.id)
+                if(!car.routesConfigured) {
+                    carToRoute = car
+                    break
+                }
+            }
             pairs.each {
 
                 Coordinate currentStart  = new Coordinate( it[0].x, it[0].y );
@@ -1674,117 +1681,30 @@ class ConfigurationController {
 //calculatePath will use the graph for the selected simulationArea
 
                 if ( pathEdges.size() < 1 ) {
+                    log.error( "path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}" )
                     return null
                 }
 
                 multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
                 edgesToRender.addAll( pathEdges )
-            }
-
-            Point currentStartPoint
-            Point currentTargetPoint
-
-            def routen = [];
-            TrackEdge trackEdge = new TrackEdge()
-
-            for ( BasicEdge edge : edgesToRender ) {
-
-                currentStartPoint  = (Point) ((BasicNode) edge.nodeA).getObject();
-                currentTargetPoint = (Point) ((BasicNode) edge.nodeB).getObject();
-
-                trackEdge.fromLat = currentStartPoint.x
-                trackEdge.fromLon = currentStartPoint.y
-                trackEdge.toLat = currentTargetPoint.x
-                trackEdge.toLon = currentTargetPoint.y
-
-                routen << trackEdge
 
             }
 
-            CarType carType = CarType.get(cmd.fleetId)
-            data.routes = routen;
-            SimulationRoute simulationRoute = new SimulationRoute(
-                    simulation: simulation,
-                    carType: 1,
-                    initialPersons: 1
+            routeService.persistRouteToCar( carToRoute, multiTargetRoute )
 
-            )
-
-
-            if ( !simulationRoute.save() ) {
-                log.error( "failed to save simulation route: ${simulationRoute.errors}" )
-            } else {
-                log.debug( "saved simulation route with id: ${simulationRoute.id}" )
-            }
-
-            long millis = System.currentTimeMillis()
-
-            simulationRoute = routeService.persistRoute( simulationRoute,  multiTargetRoute, false )
-
-            if ( !simulation.save() ) {
-                log.error( "failed to save simulation: ${simulation.errors}" )
-                return null
-            }
-
-            data.simulationRouteId = simulationRoute.id
-
-            def fleets = []
-
-            Configuration configuration = Configuration.get( cmd.configurationStubId )
-            configuration.fleets.each { Fleet fleet ->
-
-                def fleetModel = [:]
-
-                fleet = Fleet.get(cmd.fleetId)
+            Car lastCar = fleet.cars.last()
+            lastCar = Car.get(lastCar.id)
+            if (carToRoute== lastCar) {
                 fleet.routesConfigured = true
                 fleet.fleetStatus = FleetStatus.CONFIGURED
-
-                fleetModel.cars = []
-                fleetModel.name = fleet.name
-                fleetModel.routesConfigured = fleet.routesConfigured
-
-                    fleet.cars.each { Car car ->
-
-
-                        car  = Car.get(fleet.cars.id)
-
-                        Route route = new Route()
-                        route.id = simulationRoute.id+8
-                        car.route =route
-                        car.route.id =simulationRoute.id+8
-                        car.routesConfigured = true
-
-                        def carModel = [:]
-                        carModel.name = car.name
-                        carModel.route = car.route
-
-                        //carModel.route = []
-                        carModel.id = car.route.id
-                        data.cars = car
-
-                                simulationRoute.edges.each { TrackEdge trackEdgen ->
-                            carModel.route = simulationRoute.edges
-                        }
-                        fleetModel.cars << carModel
-
-                    }
-
-                fleets << fleetModel
             }
-
-            data.fleets = fleets
-
-
+            if ( !fleet.save( flush: true ) ) {
+                log.error( "failed to save fleet: ${fleet.errors}" )
+            }
+            fleet.simulationArea= simulationArea
+            data.fleet = fleet
         }
 
-        Fleet fleet = Fleet.get(cmd.fleetId)
-        Car car = Car.get(fleet.cars.id)
-
-        if(fleet.routesConfigured != true){
-            fleet.routesConfigured = true
-            fleet.fleetStatus = FleetStatus.CONFIGURED
-
-        }
 
         response.status = ResponseConstants.RESPONSE_STATUS_OK
         response.addHeader("Content-Type", "application/json");

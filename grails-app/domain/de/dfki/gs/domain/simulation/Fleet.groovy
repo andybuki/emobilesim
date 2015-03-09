@@ -12,7 +12,7 @@ class Fleet {
      */
     String name
 
-    Set<Car> cars = []
+    List<Car> cars = new ArrayList<Car>()
 
     Company company
 
