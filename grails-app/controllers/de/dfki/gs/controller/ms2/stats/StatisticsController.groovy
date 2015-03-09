@@ -298,6 +298,7 @@ class StatisticsController {
             }
 
             m.fillingStationGroups = statisticService.getStationsForMap( cmd.experimentRunResultId, successCategoriesToShow )
+            m.simulationArea =  (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
             // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
             render template: '/templates/configuration/stations/showStationsOnMap', model: m
         }

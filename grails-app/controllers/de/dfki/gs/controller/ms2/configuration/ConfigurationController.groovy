@@ -1682,7 +1682,7 @@ class ConfigurationController {
 
                 if ( pathEdges.size() < 1 ) {
                     log.error( "path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}" )
-                    return null
+                    //return null
                 }
 
                 multiTargetRoute.add( routeService.repairEdges( pathEdges ) )

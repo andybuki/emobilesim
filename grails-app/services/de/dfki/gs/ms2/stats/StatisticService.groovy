@@ -10,6 +10,7 @@ import de.dfki.gs.domain.stats.ExperimentRunResult
 import de.dfki.gs.domain.stats.PersistedCarAgentResult
 import de.dfki.gs.domain.stats.PersistedFillingStationResult
 import de.dfki.gs.domain.utils.Distribution
+import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.simulation.CarStatus
 import de.dfki.gs.stats.StatsCalculator
 import grails.transaction.Transactional
@@ -20,7 +21,12 @@ import org.apache.commons.math3.random.RandomDataGenerator
 @Transactional
 class StatisticService {
 
-
+    def getSimulationAreaForMap(Long experimentRunResultId){
+        ExperimentRunResult result = ExperimentRunResult.get( experimentRunResultId )
+        Configuration configuration = Configuration.get(result.configurationId)
+        SimulationArea simulationArea = configuration.simulationArea
+        return simulationArea
+    }
     def getStationsForMap( Long experimentRunResultId, List<String> successCategoriesToShow ) {
 
         ExperimentRunResult result = ExperimentRunResult.get( experimentRunResultId )
