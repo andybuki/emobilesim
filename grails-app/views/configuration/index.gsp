@@ -36,7 +36,7 @@
                                             url="[action: 'changeArea']"
                                             update="updateMe"
                                             name="submit"
-                                            value="Change Area" />
+                                            value="${message(code:'configuration.index.changearea')}" />
                                     </g:if>
                                 </span>
                         </span>
