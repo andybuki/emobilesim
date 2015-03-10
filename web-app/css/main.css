@@ -2393,6 +2393,13 @@ fieldset {
     font-weight: bold;
 }
 
+.leftBoldSimArea {
+	width:360px;
+	float:left;
+	padding:10px 0px 0px 7px;
+	font-weight: bold;
+}
+
 .leftBoldBig {
     /*width:400px;*/
     float:left;
@@ -2635,6 +2642,14 @@ fieldset {
 
 }
 
+.contentModalWindowFleetArea {
+	width:300px;
+	font-size: 12px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+
+}
+
 .modalDialog {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
@@ -2651,6 +2666,24 @@ fieldset {
     pointer-events: auto;
 }
 
+
+.modalDialogArea {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	opacity:1;
+}
+
+.modalDialogArea:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+
 .modalDialog > div {
     width: 490px;
     position: relative;
@@ -2658,6 +2691,16 @@ fieldset {
     padding: 5px 20px 13px 20px;
     border-radius: 10px;
     background: #fff;
+
+}
+
+.modalDialogArea > div {
+	width: 320px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
 
 }
 

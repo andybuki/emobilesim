@@ -1,23 +1,29 @@
 
-<div id="openModal" class="modalDialog">
+<div id="openModal" class="modalDialogArea">
     <div>
         <g:form controller="configuration" action="updateArea">
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-            <div class="contentModalWindowFleet">
+            <div class="contentModalWindowFleetArea">
+                <div class="rowUp">
+                    <div class="leftBoldSimArea"><b><g:message code="configuration.index.changearea"/></b></div>
+                    <div class="right0PX"></div>
+                    <div class="clear"></div>
+                </div>
                 <div class="rowMiddle">
 
-                    <div class="right235PX">
+                    <div class="left140PX">
 
                         <g:select name="areaId" from="${availableAreas}"/>
-
-                        <g:submitButton name="updateArea" value="${message(code: 'templates.configuration.area._changeArea.Change')}"/>
-
                     </div>
+                    <div class="right100PX">
+                        <g:submitButton name="updateArea" value="${message(code: 'templates.configuration.area._changeArea.Change')}"/>
+                    </div>
+
                     <div class="clear"></div>
                 </div>
                 <div class="rowUnknown" id="updateCar"></div>
                 <div class="rowDown">
-                    <div class="left0PX">
+                    <div class="right0PX">
                         <input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href"/>
                     </div>
                 </div>
