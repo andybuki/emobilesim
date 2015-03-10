@@ -172,9 +172,5 @@
         map.setCenter( lonlat, zoom );
 
     </script>
-    <g:form controller="statistics" action="showStats">
-        <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-        <g:submitButton name=" " class="close"/>
-    </g:form>
-    <%--<a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>--%>
+   <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
 </div>

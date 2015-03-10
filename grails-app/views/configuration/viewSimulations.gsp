@@ -44,18 +44,11 @@
                             <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
                             <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
                             <td width="70px">
-                                <g:form controller="statistics" action="showStats">
-                                    <div class="layoutButton3">
-                                        <span class="layoutButtonM3"></span>
-                                        <g:hiddenField name="relativeSearchLimit" value="50" />
-                                        <g:hiddenField name="configurationId" value="${conf.configurationId}" />
-                                        <g:hiddenField name="experimentRunResultId" value="${conf.experimentRunResultId}"/>
+                                <button class="layoutButtonR3"
+                                        type="submit"
+                                        onclick="location.href='${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: conf.experimentRunResultId ] )}'">
+                                    <g:message code="configuration.index.viewStatistic"/> </button>
 
-                                        <span class="layoutButtonR3">
-                                            <g:submitButton name="send" value="${message(code: 'configuration.index.viewStatistic')}" params=" [ experimentRunResultId: ${experimentRunResultId} ]"/>
-                                        </span>
-                                    </div>
-                                </g:form>
                             </td>
                         </tr>
                         </g:if>
