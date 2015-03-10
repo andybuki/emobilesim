@@ -45,6 +45,7 @@ import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.SimulationRoute
 import de.dfki.gs.domain.simulation.Simulation
 import de.dfki.gs.domain.simulation.TrackEdge
+import de.dfki.gs.domain.stats.ExperimentRunResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
@@ -1357,7 +1358,7 @@ class ConfigurationController {
 
         configurations.each { Configuration configuration ->
 
-            def conf = [:]
+
 
 
             List<Fleet> existedFleets = new ArrayList<Fleet>()
@@ -1372,17 +1373,13 @@ class ConfigurationController {
 
             }
 
-            // listz of all configs allowed, use service
-            // List<Configuration> configurationsList = Configuration.findAllByCompany( Company.get( person.company.id ) )
+            List<ExperimentRunResult> experimentRunResultList = configurationService.getRecentlyEditedExperimentResultsOfConfiguration(configuration.id)
+            experimentRunResultList.each{ExperimentRunResult experimentRunResult ->
 
-            /*List<Experiment> existedExperiments = new ArrayList<Experiment>()
-            configuration.experiments.each { Experiment experiment ->
-                existedExperiments.add( Experiment.get( experiment.id ) )
 
-            }*/
 
-            if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0) {
-
+             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0) {
+                def conf = [:]
                 int routeCount = 0
                 configuration.fleets.each { Fleet fleet ->
                     fleet = Fleet.get(fleet.id)
@@ -1412,9 +1409,10 @@ class ConfigurationController {
                 conf.stationsConfiguration = existedStations[0].groupsConfigured
                 conf.routesConfiguration = existedFleets[0].routesConfigured
 
-                //conf.experimentRunResultId = experiment.experiments
+                conf.experimentRunResultId = experimentRunResult.id
 
                 m.configurations << conf
+            }
             }
 
         }
@@ -1672,23 +1670,33 @@ class ConfigurationController {
                     break
                 }
             }
+
+           // int counter = 0
             pairs.each {
-
-                Coordinate currentStart  = new Coordinate( it[0].x, it[0].y );
-                Coordinate currentTarget = new Coordinate( it[1].x, it[1].y );
-
-                List<BasicEdge> pathEdges = routeService.calculatePath( currentStart,currentTarget, simulationArea)
+                  //  Boolean pathBroken = true
+                    Coordinate currentStart = new Coordinate(it[0].x, it[0].y);
+                    Coordinate currentTarget = new Coordinate(it[1].x, it[1].y);
+              //  while (pathBroken && counter<100) {
+                    List<BasicEdge> pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
 //calculatePath will use the graph for the selected simulationArea
 
-                if ( pathEdges.size() < 1 ) {
-                    log.error( "path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}" )
-                    //return null
-                }
+                    if (pathEdges.size() < 1) {
+                        log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+                       // pathBroken = true
+                       // counter++
+                       // currentStart = new Coordinate(currentStart.x+0.001,currentStart.y)
+                       // currentTarget = new Coordinate(currentTarget.x+0.001,currentTarget.y)
+                        return null
+                    }
+                   // else {
+                   //     pathBroken = false
+                        multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
+                        edgesToRender.addAll( pathEdges )}
+               // }
 
-                multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
-                edgesToRender.addAll( pathEdges )
 
-            }
+
+           // }
 
             routeService.persistRouteToCar( carToRoute, multiTargetRoute )
 

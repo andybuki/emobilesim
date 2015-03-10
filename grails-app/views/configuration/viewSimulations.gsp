@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<%--
+
 <div class="pContainer">
     <div class="simulationTypes">
         <div class="rowUp">
@@ -44,14 +44,15 @@
                             <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
                             <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
                             <td width="70px">
-                                <g:form controller="execution" action="executeExperiment">
+                                <g:form controller="statistics" action="showStats">
                                     <div class="layoutButton3">
                                         <span class="layoutButtonM3"></span>
                                         <g:hiddenField name="relativeSearchLimit" value="50" />
                                         <g:hiddenField name="configurationId" value="${conf.configurationId}" />
+                                        <g:hiddenField name="experimentRunResultId" value="${conf.experimentRunResultId}"/>
 
                                         <span class="layoutButtonR3">
-                                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
+                                            <g:submitButton name="send" value="${message(code: 'configuration.index.viewStatistic')}" params=" [ experimentRunResultId: ${experimentRunResultId} ]"/>
                                         </span>
                                     </div>
                                 </g:form>
@@ -67,7 +68,5 @@
         </div>
     </div>
 </div>
---%>
-<span class="construction"><g:message code="configuration.help.configuration"/></span>
 </body>
 </html>

@@ -13,6 +13,7 @@ import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.Route
 import de.dfki.gs.domain.simulation.Simulation
 import de.dfki.gs.domain.simulation.TrackEdge
+import de.dfki.gs.domain.stats.ExperimentRunResult
 import de.dfki.gs.domain.stats.FillingStationResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
@@ -1110,7 +1111,13 @@ class ConfigurationService {
 
     }
 
+    def getRecentlyEditedExperimentResultsOfConfiguration( Long configurationId ) {
 
+
+        List<ExperimentRunResult> experimentRunResultList = ExperimentRunResult.findAllByConfigurationId( configurationId )
+
+        return experimentRunResultList
+    }
     def getRecentlyEditedConfigurationsOfCompany( Person person ) {
 
         Company company = Company.get( person.company.id )
