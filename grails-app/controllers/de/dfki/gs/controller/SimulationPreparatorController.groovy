@@ -1,4 +1,4 @@
-/*package de.dfki.gs.controller
+package de.dfki.gs.controller
 
 import de.dfki.gs.controller.commands.AddCarTypeAndRouteCommand
 import de.dfki.gs.controller.commands.AddFillingStationCommand
@@ -174,4 +174,4 @@ class SimulationPreparatorController {//TODO Löschen?
     }
 
 }
-*/
+
