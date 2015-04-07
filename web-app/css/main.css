@@ -261,7 +261,7 @@ input, select, textarea {
 	background-color: #fcfcfc;
 	border: 1px solid #cccccc;
 	font-size: 1em;
-	padding: 0.2em 0.4em;
+	padding: 0.2em 0.2em;
 }
 
 select {
@@ -2732,7 +2732,7 @@ fieldset {
 .modalDialogStation {
 	position: absolute;
 	font-family: Arial, Helvetica, sans-serif;
-	top: 10px;
+	top: 40px;
 	right: 10px;
 	bottom: 10px;
 	left: 10px;
@@ -3362,4 +3362,11 @@ label.checkbox :disabled + span{
 	width:  40px;
 	height: 40px;
 	cursor: pointer;
+}
+
+.simulationTime{
+	position: absolute;
+	z-index: 2;
+	padding: 0px;
+	margin: -5px;
 }
