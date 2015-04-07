@@ -1,5 +1,3 @@
-
-
 <script language="javascript">
     $(document).ready(function() {
         $(".tabs-menu a").click(function(event) {
@@ -67,6 +65,18 @@
                         </ul>
                         <div class="tab">
                             <div id="tab-1" class="tab-content">
+
+                            <div class="simulationTime">
+                                <g:message code="templates.configuration.fleet._distribution.simulationtime"/>
+                                <span class="example-container">
+                                        <input type="text" name="basic_example_2" id="basic_example_2" value="08:00" size="4" />
+                                    <script type="text/javascript">
+                                        var startTimeTextBox = $('#basic_example_2');
+                                        $('#basic_example_2').timepicker();
+                                    </script>
+                                </span>
+                            </div>
+
                                 <div id="openModalMap" class="modalDialogStation">
 
                                     <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>

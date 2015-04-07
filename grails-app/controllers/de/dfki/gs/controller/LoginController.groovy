@@ -107,9 +107,9 @@ class LoginController {
         if ( m.person != null ) {
 
             Person p = m.person
+            String confirmLinkOld = "${grailsLinkGenerator.serverBaseURL}"  - "/emobilesim" + createLink( controller: "login", action: "confirm",  params: [ username : p.username, confirmationCode : p.confirmationCode ] )
 
-            String confirmLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "confirm",  params: [ username : p.username, confirmationCode : p.confirmationCode ] )
-
+            String confirmLink = confirmLinkOld.replace("http://lnv-89012.dfki.uni-sb.de:9090"," http://emobilesim.dfki.de")
 
             log.error( "try sending " )
 
@@ -158,7 +158,8 @@ class LoginController {
 
             if ( ident ) {
 
-                String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "resetPassword", params: [ ident: ident, email: cmd.emailAddress ] )
+                String Oldlink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "login", action: "resetPassword", params: [ ident: ident, email: cmd.emailAddress ] )
+                String link = Oldlink.replace("http://lnv-89012.dfki.uni-sb.de:9090"," http://emobilesim.dfki.de")
 
                 try {
                     sendMailService.sendResetPasswordLink( cmd.emailAddress, link )
@@ -199,7 +200,10 @@ class LoginController {
                 def m = [ : ]
                 m.givenName = person.givenName
                 m.familyName = person.familyName
-                m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+                String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+                String loginLink= link.replace( "http://lnv-89012.dfki.uni-sb.de:9090"," http://emobilesim.dfki.de")
+                m.loginLink =loginLink
+
 
                 render view: "success", model: m
 
@@ -260,8 +264,9 @@ class LoginController {
             def m = [ : ]
             m.givenName = p.givenName
             m.familyName = p.familyName
-            m.loginLink = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
-
+            String link = "${grailsLinkGenerator.serverBaseURL}" - "/emobilesim" + createLink( controller: "front", action: "init" )
+            String loginLink= link.replace( "http://lnv-89012.dfki.uni-sb.de:9090"," http://emobilesim.dfki.de")
+            m.loginLink =loginLink
             render view: "success", model: m
 
         }

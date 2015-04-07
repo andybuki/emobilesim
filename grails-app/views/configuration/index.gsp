@@ -11,11 +11,19 @@
 <head>
     <title><g:message code="configuration.index.newsimulation"/></title>
     <meta name="layout" content="mainConfiguration" />
-    <g:javascript library="jquery-1.9.0" />
+    <g:javascript library="jquery-1.11.2" />
     <g:javascript src="application.js" />
     <g:javascript src="ol/OpenLayers.js" />
     <g:javascript src="jquery.loading.js"/>
+    <g:javascript  src="jquery-ui.min.js"/>
+    <g:javascript  src="jquery-ui-timepicker-addon.js"/>
+
+
+
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+    <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui.css')}" type='text/css' />
+    <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
+
     <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
 
 </head>
