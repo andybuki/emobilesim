@@ -171,6 +171,23 @@ class ConfigurationService {
 
         return configurationStub
     }
+    def getSimulationName(long configurationStubId){
+        Configuration stub = Configuration.get( configurationStubId )
+        if(!stub.simulationName){
+            stub.simulationName = "Simulation Nr. ${stub.id}"
+            if ( !stub.save( flush: true ) ) {
+                log.error( "failed to save simulationName: ${stub.errors}" )
+            }
+        }
+        return stub.simulationName
+    }
+    def setSimulationName(long configurationStubId, String simulationName){
+        Configuration stub = Configuration.get( configurationStubId )
+        stub.simulationName = simulationName
+        if ( !stub.save( flush: true ) ) {
+            log.error( "failed to save simulationName: ${stub.errors}" )
+        }
+    }
 
     /**
      * get all fleets added to a certain configuration stub

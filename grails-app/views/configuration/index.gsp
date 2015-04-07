@@ -24,7 +24,13 @@
     <div class="pContainerConfigure">
 
         <div class="rowUp">
-            <div class="leftBoldBig1"><g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/></div>
+            <g:form action="changeName">
+                <div class="leftBoldBig1">
+                    <g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/>
+                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                    <g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />
+                </div>
+            </g:form>
                 <g:form action="changeArea">
                     <div class="right0PX">
                         <span class="rightBoldBig1">

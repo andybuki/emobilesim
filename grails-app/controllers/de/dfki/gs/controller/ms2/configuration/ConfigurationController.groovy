@@ -3,6 +3,7 @@ package de.dfki.gs.controller.ms2.configuration
 import com.vividsolutions.jts.geom.Point
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
+import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowInfoStationsCommandObject
@@ -401,7 +402,7 @@ class ConfigurationController {
         m.configurationStubId = configurationStubId
 
         //simulation
-        m.simulationName = configurationService.createSimulationForCompany(person, configurationStubId).name
+        m.simulationName = configurationService.getSimulationName(configurationStubId)
 
         m.simulationArea = (configurationService.getSimulationArea(configurationStubId)).name()
 
@@ -714,15 +715,7 @@ class ConfigurationController {
         redirect(controller: 'configuration', action: 'index', params: [configurationStubId: cmd.configurationStubId])
     }
 
-    /**
-     * this calls a new modal window to put cars into a fleet
-     * there must be a configuration object identified by a configurationStubId
-     *
-     * a new fleet is created, which is than filled with cars
-     *
-     *
-     * @return
-     */
+
     def changeArea() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -733,7 +726,6 @@ class ConfigurationController {
             return
         }
 
-        log.error("params: ${params}")
 
         ChangeAreaCommandObject cmd = new ChangeAreaCommandObject()
         bindData(cmd, params)
@@ -753,7 +745,39 @@ class ConfigurationController {
 
         }
     }
+    def changeName(){
 
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        ChangeNameCommandObject cmd = new ChangeNameCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+
+        } else if(cmd.nameForSimulation == null) {
+            log.error("no input")
+        }
+        else {
+            configurationService.setSimulationName(cmd.configurationStubId, cmd.nameForSimulation)
+        }
+        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+
+    }
+    /**
+     * this calls a new modal window to put cars into a fleet
+     * there must be a configuration object identified by a configurationStubId
+     *
+     * a new fleet is created, which is than filled with cars
+     *
+     *
+     * @return
+     */
     def createFleetView() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1214,7 +1238,9 @@ class ConfigurationController {
             return
         }
 
-        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        /*
+        //TODO If there are no errors delet this
+        TEditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
         bindData(cmd, params)
         if (!cmd.validate() && cmd.hasErrors()) {
 
@@ -1228,7 +1254,7 @@ class ConfigurationController {
             configurationStubId = configurationService.createConfigurationStub(person).id;
         } else {
             configurationStubId = cmd.configurationStubId
-        }
+        }*/
 
 
         def m = [:]
@@ -1272,6 +1298,7 @@ class ConfigurationController {
                 conf.stationsInfo = existedStations.fillingStations[0].size()
                 conf.routeCount = routeCount
                 conf.stationCount = stationCount
+                conf.simulationName = configuration.simulationName
 
                 m.configurations << conf
             }
@@ -1333,6 +1360,8 @@ class ConfigurationController {
             return
         }
 
+        /*
+        //TODO If there are no errors delet this
         EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
 
         bindData(cmd, params)
@@ -1348,7 +1377,7 @@ class ConfigurationController {
             configurationStubId = configurationService.createConfigurationStub(person).id;
         } else {
             configurationStubId = cmd.configurationStubId
-        }
+        }*/
 
 
         def m = [:]
@@ -1408,6 +1437,7 @@ class ConfigurationController {
                 conf.stationCount = stationCount
                 conf.stationsConfiguration = existedStations[0].groupsConfigured
                 conf.routesConfiguration = existedFleets[0].routesConfigured
+                conf.simulationName = configuration.simulationName
 
                 conf.experimentRunResultId = experimentRunResult.id
 
@@ -1430,6 +1460,8 @@ class ConfigurationController {
             return
         }
 
+        /*
+        //TODO If there are no errors delet this
         EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
         bindData(cmd, params)
         if (!cmd.validate() && cmd.hasErrors()) {
@@ -1444,7 +1476,7 @@ class ConfigurationController {
             configurationStubId = configurationService.createConfigurationStub(person).id;
         } else {
             configurationStubId = cmd.configurationStubId
-        }
+        }*/
 
 
         def m = [:]
@@ -1487,6 +1519,7 @@ class ConfigurationController {
 
 
                 conf.configurationId = configuration.id
+                conf.simulationName = configuration.simulationName
                 conf.fleetInfo = existedFleets.cars[0].size()
                 conf.stationsInfo = existedStations.fillingStations[0].size()
                 conf.routeCount = routeCount
