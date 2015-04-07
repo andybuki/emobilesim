@@ -7,6 +7,10 @@ class Simulation {
     Date dateCreated
     Date lastUpdated
 
+    Date simulationStartTime
+    /*Date simulationsDuration
+    Date simulationEndDate*/
+
     String name
 
     /**
@@ -35,9 +39,11 @@ class Simulation {
     ]
 
     static constraints = {
+
         name nullable: true
         description nullable: true
         abstractText nullable: true
+        simulationStartTime nullable: true
 
     }
 
