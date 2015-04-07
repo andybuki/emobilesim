@@ -1686,7 +1686,7 @@ class ConfigurationController {
                        // counter++
                        // currentStart = new Coordinate(currentStart.x+0.001,currentStart.y)
                        // currentTarget = new Coordinate(currentTarget.x+0.001,currentTarget.y)
-                        return null
+                        return null //Todo: This might resolve in an error FIX IT
                     }
                    // else {
                    //     pathBroken = false

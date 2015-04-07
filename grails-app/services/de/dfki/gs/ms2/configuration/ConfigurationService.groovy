@@ -1111,10 +1111,15 @@ class ConfigurationService {
 
     }
 
+    /**
+     *
+     * @param configurationId
+     * @return List of experimentRunResults with duration grater than 0
+     */
     def getRecentlyEditedExperimentResultsOfConfiguration( Long configurationId ) {
 
 
-        List<ExperimentRunResult> experimentRunResultList = ExperimentRunResult.findAllByConfigurationId( configurationId )
+        List<ExperimentRunResult> experimentRunResultList = ExperimentRunResult.findAllByConfigurationIdAndSimTimeMillisGreaterThan( configurationId,0 )
 
         return experimentRunResultList
     }
