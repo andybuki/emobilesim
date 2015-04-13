@@ -21,5 +21,6 @@ class PersistedFillingStationResult {
 
     static constraints = {
         fillingStationType( nullable: false )
+        startUsing ( nullable: true )
     }
 }

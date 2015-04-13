@@ -24,6 +24,6 @@ class FillingStationResult {
 
 
     static constraints = {
-
+        startUsing ( nullable: true )
     }
 }
