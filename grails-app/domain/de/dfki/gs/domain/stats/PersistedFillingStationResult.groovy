@@ -9,7 +9,7 @@ class PersistedFillingStationResult {
     FillingStationType fillingStationType
 
     Long groupId
-
+    Date startUsing  // new parameter to show the start time of using the electric station
     long timeLiving
     long timeInUse
 

@@ -3367,6 +3367,19 @@ label.checkbox :disabled + span{
 .simulationTime{
 	position: absolute;
 	z-index: 2;
-	padding: 0px;
+	padding: 3px;
 	margin: -5px;
+	border:1px solid #BBB;
+}
+
+.help {
+	width:  600px;
+	margin: 30px 115px;
+	font-size:13px;
+	font-weight: bold;
+
+}
+
+.simula {
+	width:  700px;
 }

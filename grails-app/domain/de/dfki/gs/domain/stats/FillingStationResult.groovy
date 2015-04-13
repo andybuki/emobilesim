@@ -9,6 +9,7 @@ class FillingStationResult {
 
     long fillingStationId
 
+    Date startUsing   // new parameter to show the start time of using the electric station
     long timeLiving
 
     /**

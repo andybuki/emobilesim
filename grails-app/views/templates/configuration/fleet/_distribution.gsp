@@ -68,13 +68,34 @@
 
                             <div class="simulationTime">
                                 <g:message code="templates.configuration.fleet._distribution.simulationtime"/>
-                                <span class="example-container">
-                                        <input type="text" name="basic_example_2" id="basic_example_2" value="08:00" size="4" />
-                                    <script type="text/javascript">
-                                        var startTimeTextBox = $('#basic_example_2');
-                                        $('#basic_example_2').timepicker();
-                                    </script>
+                                <span style="display: inline-block; width: 400px; padding: 0 5px;">
+                                    <input id="Slider2" type="slider" name="price" value="80"/>
                                 </span>
+                                <script type="text/javascript">
+                                    jQuery("#Slider2").slider({
+                                        from: 480,
+                                        to: 1020,
+                                        step: 15,
+                                        dimension: '',
+                                        scale: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+                                        limits: false,
+                                        calculate: function( value ){
+                                            var hours = Math.floor( value / 60 );
+                                            var mins = ( value - hours*60 );
+                                            return (hours < 10 ? "0"+hours : hours) + ":" + ( mins == 0 ? "00" : mins );
+                                        },
+                                        onstatechange: function( value ){
+                                            console.dir( this );
+                                        }
+                                    });
+                                </script>
+                                <g:message code="templates.configuration.fleet._distribution.battery"/>
+                                <span style="display: inline-block; width: 400px; padding: 0 5px;">
+                                    <input id="Slider1" type="slider" name="price" value="80"/>
+                                </span>
+                                <script type="text/javascript">
+                                    jQuery("#Slider1").slider({ from: 0, to: 100, step: 5, smooth: true, round: 0, dimension: "&nbsp; %", skin: "plastic" });
+                                </script>
                             </div>
 
                                 <div id="openModalMap" class="modalDialogStation">

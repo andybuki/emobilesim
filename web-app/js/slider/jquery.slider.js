@@ -272,7 +272,7 @@
       value: this.o.labels[1].o.find("span")
     });
 
-    
+
     if( !$this.settings.value.split(";")[1] ){
       this.settings.single = true;
       this.domNode.addDependClass("single");
