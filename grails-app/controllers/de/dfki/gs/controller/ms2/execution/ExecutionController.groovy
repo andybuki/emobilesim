@@ -42,6 +42,14 @@ class ExecutionController {
         if ( cmd.validate() && !cmd.hasErrors() ) {
 
             Configuration configuration = Configuration.get( cmd.configurationId )
+            configuration.stub = false;
+            if ( !configuration.save( flush: true ) ) {
+                log.error( "failed to save configuration: ${configuration.errors}" )
+            } else {
+
+                log.error( "configuration with id ${cmd.configurationId} is now unStubbed!" )
+
+            }
 
             log.debug( "sessionId: ${sessionId}" )
 

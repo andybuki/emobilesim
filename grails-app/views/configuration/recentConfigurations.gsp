@@ -38,7 +38,7 @@
                 <table border="0">
                     <g:each in="${configurations}" var="conf">
                         <tr class="tr30px">
-                            <td width="130px">${conf.configurationId} <g:message code="configuration.executesim.simulation"/></td>
+                            <td width="130px">${conf.simulationName}</td>
                             <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
                             <td width="70px">
                                 <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}"><g:message code="configuration.executesim.configure"/></g:link>

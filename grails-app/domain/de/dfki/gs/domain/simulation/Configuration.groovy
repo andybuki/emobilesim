@@ -32,6 +32,8 @@ class Configuration {
 
     Boolean stub
 
+    String simulationName
+
     static hasMany = [
             experiments : Experiment,
             fleets : Fleet,
@@ -39,6 +41,7 @@ class Configuration {
     ]
 
     static constraints = {
+        simulationName nullable: true
     }
 
     static mapping = {
