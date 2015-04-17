@@ -12,6 +12,11 @@ class Car {
 
     Route route
 
+    Configuration simulationStartTime
+    float batteryPersent  // Persent from CarType maxEnergyLoad
+    Integer pauseTimes
+    String ownerName
+
     Boolean routesConfigured
 
     Long fleetId
@@ -22,6 +27,9 @@ class Car {
         route nullable: true
         routesConfigured nullable: false
         fleetId nullable: false
+        simulationStartTime  nullable: true
+        pauseTimes nullable: true
+        ownerName nullable: true
     }
 
     static mapping = {

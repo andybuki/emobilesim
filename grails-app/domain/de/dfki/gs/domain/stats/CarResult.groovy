@@ -2,6 +2,7 @@ package de.dfki.gs.domain.stats
 
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.simulation.CarStatus
+import de.dfki.gs.domain.simulation.Car
 
 class CarResult {
 
@@ -18,6 +19,8 @@ class CarResult {
      * dependant of the predefined route, it only the sum of all tracks..
      */
     double plannedDistance
+
+
 
     /**
      * the real driven Distance

@@ -1,7 +1,9 @@
 package de.dfki.gs.domain.simulation
 
 import de.dfki.gs.domain.users.Company
+import de.dfki.gs.domain.utils.CompanySize
 import de.dfki.gs.domain.utils.Distribution
+import de.dfki.gs.domain.utils.EconomicSector
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.SimulationArea
 
@@ -28,6 +30,8 @@ class Fleet {
     Boolean routesConfigured
 
     FleetStatus fleetStatus
+    CompanySize companySize
+    EconomicSector economicSector
 
     Distribution distribution
     SimulationArea simulationArea = SimulationArea.BERLIN
@@ -41,6 +45,8 @@ class Fleet {
         name nullable: true
         plannedFromKm nullable: true
         plannedToKm nullable: true
+        companySize nullable: true
+        economicSector nullable: true
     }
 
     static mapping = {

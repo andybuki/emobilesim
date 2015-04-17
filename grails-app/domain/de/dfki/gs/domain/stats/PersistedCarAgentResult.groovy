@@ -1,5 +1,6 @@
 package de.dfki.gs.domain.stats
 
+import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.simulation.CarStatus
 
@@ -25,6 +26,8 @@ class PersistedCarAgentResult {
     Integer   fillingStationsVisited
 
     float     relativeSearchLimit
+
+
 
 
     static constraints = {

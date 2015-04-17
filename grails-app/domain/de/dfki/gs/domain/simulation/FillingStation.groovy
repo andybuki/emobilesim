@@ -15,6 +15,7 @@ class FillingStation {
 
     String streetName
     String houseNumber
+    String ownerName
 
     FillingStationType fillingStationType
     Boolean groupsConfigured
@@ -26,6 +27,7 @@ class FillingStation {
         streetName ( nullable: true, blank: true )
         houseNumber nullable: true
         groupsConfigured nullable: true
+        ownerName nullable: true
     }
 
     static mapping = {

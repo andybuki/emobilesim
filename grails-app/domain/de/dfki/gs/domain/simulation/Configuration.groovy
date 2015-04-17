@@ -15,6 +15,8 @@ class Configuration {
     Date dateCreated
     Date lastUpdated
 
+    Date simulationStartTime
+
     /**
      * all executed experiments.. for the stats
      */
@@ -42,6 +44,7 @@ class Configuration {
 
     static constraints = {
         simulationName nullable: true
+        simulationStartTime nullable: true
     }
 
     static mapping = {

@@ -1,5 +1,6 @@
 package de.dfki.gs.domain.obudata
 
+import de.dfki.gs.domain.simulation.TrackEdge
 import de.dfki.gs.domain.utils.TrackEdgeType
 
 class Tour {
@@ -16,7 +17,7 @@ class Tour {
     Date recordingDate  // neu parameters
     boolean loadingStatus // neu parameters
     Date remainingChargingTime // neu parameters
-    Long routeId // neu parameters
+    TrackEdge routeId // neu parameters
     float cost // neu parameters
     float km // neu parameters
     String type // neu parameters

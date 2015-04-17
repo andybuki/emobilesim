@@ -7,7 +7,8 @@ class Simulation {
     Date dateCreated
     Date lastUpdated
 
-    Date simulationStartTime
+
+
     /*Date simulationsDuration
     Date simulationEndDate*/
 
@@ -43,7 +44,6 @@ class Simulation {
         name nullable: true
         description nullable: true
         abstractText nullable: true
-        simulationStartTime nullable: true
 
     }
 
