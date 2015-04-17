@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="rightOnlyButton">
-                        <g:textField name="nameForGroup" value="${generatedName}"/>
+                        <g:textField name="nameForGroup" value="${nameForGroup}"/>
                     </div>
 
                 </div>
@@ -22,8 +22,7 @@
                 <div class="rowMiddle">
                     <div class="left180PX">
                         <g:select name="stationCount" from="${1..100}" /> &nbsp;&nbsp;
-                        <%--<g:message code="simulation.index.carstype"/>--%>
-                        <g:message code="templates.configuration.group._createGroup.fillingstation"/>
+                        <g:message code="simulation.index.stationoftype"/>
                     </div>
                     <div class="right200PX">
                         <g:select name="stationTypeId" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
@@ -31,12 +30,16 @@
 
                         <g:hiddenField name="groupStubId" value="${groupStubId}"/>
                         <g:submitToRemote class="addButton"
-                                          url="[action: 'updateGroupOfConfiguration']"
+                                          url="[action: 'addStationsToUnsavedGroup']"
                                           update="updateFillingStation"
                                           name="submit"
                                           value="${message(code: 'templates.configuration.fleet._anotherfillingstation.addgroup')}" />
                     </div>
                     <div class="clear"></div>
+                </div>
+
+                <div class="rowMiddle">
+                    <div class="leftbig"><b><g:message code="templates.configuration.group._createGroup.addedFillingStations"/></b></div>
                 </div>
 
                 <div class="rowUnknown" id="updateFillingStation"></div>
@@ -47,7 +50,6 @@
                         <input type="button" value="${message(code: 'templates.configuration.group._createGroup.cancel')}" onclick="window.location.href=window.location.href"/>
                     </div>
                     <div class="right90PX">
-                        <g:hiddenField name="groupStubId" value="${groupStubId}"/>
                         <g:submitButton name="createGroup" value="${message(code: 'templates.configuration.group._createGroup.creategroup')}"/>
                     </div>
                     <div class="clear"></div>

@@ -11,7 +11,7 @@
                 <div class="rowMiddle">
                     <div class="leftText"><g:message code="templates.configuration.fleet._createFleet.setnamegroup"/></div>
                     <div class="rightOnlyButton">
-                       <g:textField name="nameForFleet" value="${generatedName}"/>
+                       <g:textField name="nameForFleet" value="${nameForFleet}"/>
                     </div>
                 </div>
 
@@ -23,23 +23,22 @@
                            <g:message code="simulation.index.carstype"/>
                         </div>
                         <div class="right235PX">
-
-                                <g:select name="carTypeId" from="${availableCarTypes}" optionKey="id" optionValue="name" />
+                            <g:select name="carTypeId" from="${availableCarTypes}" optionKey="id" optionValue="name" />
                                 &nbsp;&nbsp;
-                                                <%--
-                                                <g:hiddenField name="availableCarTypes" value="${availableCarTypes}"/>
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                --%>
-                                                <g:hiddenField name="fleetStubId" value="${fleetStubId}"/>
-                                                <g:submitToRemote class="addButton"
-                                                                  url="[action: 'updateFleetOfConfiguration']"
-                                                                  update="updateCar"
-                                                                  name="submit"
-                                                                  value="${message(code: 'templates.configuration.fleet._createFleet.addtofleet')}" />
+
+                            <g:hiddenField name="fleetStubId" value="${fleetStubId}"/>
+                            <g:submitToRemote class="addButton"
+                                              url="[action: 'addCarsToUnsavedFleet']"
+                                              update="updateCar"
+                                              name="submit"
+                                              value="${message(code: 'templates.configuration.fleet._createFleet.addtofleet')}" />
 
                         </div>
                         <div class="clear"></div>
                     </div>
+                <div class="rowMiddle">
+                    <div class="leftbig"><b><g:message code="templates.configuration.fleet._createFleet.addedCars"/></b></div>
+                </div>
                     <div class="rowUnknown" id="updateCar"></div>
                     <div class="rowDown">
                         <div class="left0PX">
