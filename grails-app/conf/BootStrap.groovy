@@ -21,6 +21,7 @@ import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.service.RouteService
 import de.dfki.gs.threadutils.NotifyingBlockingThreadPoolExecutor
 import de.dfki.gs.utils.LatLonPoint
+import grails.converters.JSON
 import org.geotools.graph.path.Path
 import org.geotools.graph.structure.Edge
 import org.geotools.graph.structure.basic.BasicEdge
@@ -406,6 +407,103 @@ class BootStrap {
             log.error( "failed to update (add fillingStations) dfkigroup: ${dfki2Group.errors}" )
 
         }
+
+        //-------VATENFALL ELECTRIC STATIONS
+        FillingStationGroup vattenfallGroup = new FillingStationGroup(
+                company: company,
+                name: "Vattenfall",
+                stub: false,
+                groupsConfigured: false,
+                distribution: Distribution.SELF_MADE_ROUTES,
+                groupStatus: GroupStatus.NOT_CONFIGURED
+        )
+
+        if ( !vattenfallGroup.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to save group: ${vattenfallGroup.errors}" )
+            return
+        }
+
+        List<FillingStation> vattenfallGroupStations = new ArrayList<FillingStation>()
+
+        def filePath = "resources/vattenfall.json"
+        def text = grailsApplication.getParentContext().getResource("classpath:$filePath").getInputStream().getText()
+        def json = JSON.parse(text)
+
+        ///hier mistake
+        FillingStationType fillingStationType = FillingStationType.get(3)
+            for (stationVattenfall in json) {
+                FillingStation station = new FillingStation(
+                        fillingStationType: fillingStationType,
+                        name: "Vattenfall",
+                        lat: stationVattenfall["lon"],
+                        lon: stationVattenfall["lat"],
+                )
+
+                if (!station.save(flush: true, failOnError: true)) {
+
+                    log.error("fail : ${station.errors}")
+
+                } else {
+                    vattenfallGroup.addToFillingStations(station)
+                }
+        }
+        vattenfallGroup.groupStatus = GroupStatus.CONFIGURED
+        vattenfallGroup.groupsConfigured = true
+
+        if ( !vattenfallGroup.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to update (add fillingStations) vattenfallGroup: ${vattenfallGroup.errors}" )
+        }
+
+        //-------RWE ELECTRIC STATIONS
+        FillingStationGroup rweGroup = new FillingStationGroup(
+                company: company,
+                name: "Rwe",
+                stub: false,
+                groupsConfigured: false,
+                distribution: Distribution.SELF_MADE_ROUTES,
+                groupStatus: GroupStatus.NOT_CONFIGURED
+        )
+
+        if ( !vattenfallGroup.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to save group: ${vattenfallGroup.errors}" )
+            return
+        }
+
+        List<FillingStation> rweGroupStations = new ArrayList<FillingStation>()
+
+        def filePathRwe = "resources/rwe.json"
+        def textRwe = grailsApplication.getParentContext().getResource("classpath:$filePathRwe").getInputStream().getText()
+        def jsonRwe = JSON.parse(textRwe)
+
+        ///hier mistake
+        FillingStationType fillingStationTypeRwe = FillingStationType.get(5)
+        for (stationRwe in jsonRwe) {
+            FillingStation station = new FillingStation(
+                    fillingStationType: fillingStationTypeRwe,
+                    name: "Rwe",
+                    lat: stationRwe["lon"],
+                    lon: stationRwe["lat"],
+            )
+
+            if (!station.save(flush: true, failOnError: true)) {
+
+                log.error("fail : ${station.errors}")
+
+            } else {
+                rweGroup.addToFillingStations(station)
+            }
+        }
+        rweGroup.groupStatus = GroupStatus.CONFIGURED
+        rweGroup.groupsConfigured = true
+
+        if ( !rweGroup.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to update (add fillingStations) rweGroup: ${rweGroup.errors}" )
+        }
+
     }
 
 
