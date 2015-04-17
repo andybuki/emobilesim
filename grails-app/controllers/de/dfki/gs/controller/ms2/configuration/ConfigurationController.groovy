@@ -1,6 +1,7 @@
 package de.dfki.gs.controller.ms2.configuration
 
-import com.vividsolutions.jts.geom.Point
+import de.dfki.gs.controller.ms2.configuration.commands.AddCarsToUnsavedFleetCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.AddStationsToUnsavedGroupCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
@@ -30,25 +31,15 @@ import de.dfki.gs.controller.ms2.configuration.commands.UpdateAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
-import de.dfki.gs.controller.ms2.stats.commands.ExperimentResultCommandObject
-import de.dfki.gs.domain.GasolineStation
-import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.Car
-import de.dfki.gs.domain.simulation.Route
-import de.dfki.gs.domain.simulation.Track
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
-import de.dfki.gs.domain.simulation.Experiment
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.Fleet
-import de.dfki.gs.domain.simulation.SimulationRoute
 import de.dfki.gs.domain.simulation.Simulation
-import de.dfki.gs.domain.simulation.TrackEdge
 import de.dfki.gs.domain.stats.ExperimentRunResult
-import de.dfki.gs.domain.users.Company
-import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.SimulationArea
@@ -58,8 +49,6 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import de.dfki.gs.domain.users.Person
 import org.geotools.graph.structure.basic.BasicEdge
-import org.geotools.graph.structure.basic.BasicNode
-
 
 /**
  * this controller is to handle all user inputs for configurainf simulation configurations
@@ -526,6 +515,7 @@ class ConfigurationController {
 
             log.error("hua!! ${cmd.configurationStubId}")
             configurationService.updateNameOfFleet(cmd.nameForFleet, cmd.fleetStubId)
+            configurationService.unstubFleet(cmd.fleetStubId)
 
         }
 
@@ -555,7 +545,7 @@ class ConfigurationController {
 
         } else {
 
-            // configurationService.createFleetForCompany(  )
+            configurationService.unstubGroup(cmd.groupStubId)
             log.error("hua!! ${cmd.configurationStubId}")
 
         }
@@ -806,7 +796,7 @@ class ConfigurationController {
 
             m.configurationStubId = cmd.configurationStubId
             m.availableCarTypes = configurationService.getCarTypesForCompany(person)
-            m.generatedName = Fleet.get(fleetStubId).name
+            m.nameForFleet = Fleet.get(fleetStubId).name
 
             render template: '/templates/configuration/fleet/createFleet', model: m
 
@@ -843,7 +833,7 @@ class ConfigurationController {
             m.configurationStubId = cmd.configurationStubId
             m.availableFillingStationTypes = configurationService.getFillingStationTypesForCompany(person)
 
-            m.generatedName = FillingStationGroup.get(groupStubId).name
+            m.nameForGroup = FillingStationGroup.get(groupStubId).name
 
             render template: '/templates/configuration/group/createGroup', model: m
 
@@ -982,6 +972,56 @@ class ConfigurationController {
         redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
     }
 
+
+    def addCarsToUnsavedFleet(){
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        AddCarsToUnsavedFleetCommandObject cmd = new AddCarsToUnsavedFleetCommandObject()
+        bindData(cmd,params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to add cars to fleet: ${cmd.errors}")
+
+        }else{
+            configurationService.addCarsToFleet(cmd.fleetStubId, cmd.carCount, cmd.carTypeId, cmd.nameForFleet)
+        }
+        Fleet fleetStub = Fleet.get(cmd.fleetStubId)
+        def carsStub
+        def carTypeList = []
+        carsStub = fleetStub.cars
+        def carTypeIds = carsStub.collect{ it.carType.id}.unique()
+        for ( Long carTypeId : carTypeIds ) {
+
+            def carTypeMap = [:]
+            CarType carType = CarType.get( carTypeId )
+            carTypeMap.name = carType.name
+            carTypeMap.count = carsStub.count { it.carType.id == carType.id }
+            carTypeList << carTypeMap
+        }
+
+        def m = [:]
+
+        m.addedFleet = Fleet.get(cmd.fleetStubId)
+        m.configurationStubId = cmd.configurationStubId
+        m.availableCarTypes = configurationService.getCarTypesForCompany(person)
+        m.nameForFleet = cmd.nameForFleet
+        m.addedCars = carTypeList
+        //m.fleetStubId = cmd.fleetStubId
+
+        render template: "/templates/configuration/fleet/addedCars", model: m
+
+    }
+
+
     def updateFleetOfConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1031,6 +1071,52 @@ class ConfigurationController {
         m.availableCarTypes = configurationService.getCarTypesForCompany(person)
 
         render template: "/templates/configuration/fleet/anotherCarRow", model: m
+    }
+    def addStationsToUnsavedGroup(){
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        AddStationsToUnsavedGroupCommandObject cmd = new AddStationsToUnsavedGroupCommandObject()
+        bindData(cmd,params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to add cars to fleet: ${cmd.errors}")
+
+        }else{
+            configurationService.addStationsToGroup(cmd.groupStubId, cmd.stationCount, cmd.stationTypeId, cmd.nameForGroup)
+        }
+        FillingStationGroup group = FillingStationGroup.get(cmd.groupStubId)
+        def stationsStub
+        def stationTypeList = []
+        stationsStub = group.fillingStations
+        def stationTypeIds = stationsStub.collect{ it.fillingStationType.id}.unique()
+        for ( Long stationTypeId : stationTypeIds ) {
+
+            def stationTypeMap = [:]
+            FillingStationType stationType = FillingStationType.get( stationTypeId )
+            stationTypeMap.name = stationType.name
+            stationTypeMap.count = stationsStub.count { it.fillingStationType.id == stationType.id }
+            stationTypeList << stationTypeMap
+        }
+
+        def m = [:]
+
+        m.addedGroup = FillingStationGroup.get(cmd.groupStubId)
+        m.configurationStubId = cmd.configurationStubId
+        m.availableFillingStationTypes = configurationService.getFillingStationTypesForCompany(person)
+        m.nameForGroup = cmd.nameForGroup
+        m.addedStations = stationTypeList
+
+        render template: "/templates/configuration/group/addedGroups", model: m
+
     }
 
     def updateGroupOfConfiguration() {

@@ -381,7 +381,7 @@ class ConfigurationService {
             return
         }
         SimulationArea simulationArea = getSimulationArea(configurationStubId)
-        List<Fleet> fleets = Fleet.findAllByCompanyAndSimulationArea(company,simulationArea, [ sort: "dateCreated", order: "desc" ] )
+        List<Fleet> fleets = Fleet.findAllByCompanyAndSimulationAreaAndStub(company,simulationArea,false, [ sort: "dateCreated", order: "desc" ] )
 
         Configuration stub = Configuration.get( configurationStubId )
         List<Fleet> alreadyAddedFleets = new ArrayList<Fleet>()
@@ -411,7 +411,7 @@ class ConfigurationService {
             return
         }
         SimulationArea simulationArea = getSimulationArea(configurationStubId)
-        List<FillingStationGroup> fillingStationGroups = FillingStationGroup.findAllByCompanyAndSimulationArea( company,simulationArea, [ sort: "dateCreated", order: "desc" ] )
+        List<FillingStationGroup> fillingStationGroups = FillingStationGroup.findAllByCompanyAndSimulationAreaAndStub( company,simulationArea,false, [ sort: "dateCreated", order: "desc" ] )
 
         Configuration stub = Configuration.get( configurationStubId )
         List<FillingStationGroup> alreadyAddedGroups = new ArrayList<FillingStationGroup>()
@@ -639,7 +639,11 @@ class ConfigurationService {
     def createFleetStub( Person person, Long configurationStubId ) {
 
         Company company = Company.get( person.company.id )
+        def stubedFleets = Fleet.findAllByStubAndCompany(true,company)
+        stubedFleets.each {
+            it.delete(flush: true)
 
+        }
         Configuration stub = Configuration.get( configurationStubId )
         SimulationArea simulationArea = getSimulationArea(configurationStubId)
 
@@ -883,7 +887,10 @@ class ConfigurationService {
     def createGroupStub( Person person, Long configurationStubId ) {
 
         Company company = Company.get( person.company.id )
-
+        def stubedGroups = FillingStationGroup.findAllByStubAndCompany(true,company)
+        stubedGroups.each {
+            it.delete(flush: true)
+        }
         Configuration stub = Configuration.get( configurationStubId )
         SimulationArea simulationArea = getSimulationArea(configurationStubId)
 
@@ -1243,8 +1250,32 @@ class ConfigurationService {
         }
 
 
+
     }
 
+    def unstubFleet(Long fleetStubId){
+        Fleet fleet = Fleet.get( fleetStubId )
+        if(!fleet.cars.empty){
+            fleet.stub = false
+            if ( !fleet.save( flush: true ) ) {
+
+                log.error( "failed to unstub fleet: ${fleet.errors}" )
+
+            }
+        }
+    }
+
+    def unstubGroup(Long groupStubId){
+        FillingStationGroup group = FillingStationGroup.get(groupStubId)
+        if(!group.fillingStations.empty){
+            group.stub = false
+            if ( !group.save( flush: true ) ) {
+
+                log.error( "failed to unstub group: ${group.errors}" )
+
+            }
+        }
+    }
     def getNameOfFleet( Long fleetId ) {
 
         Fleet fleet = Fleet.get( fleetId )

@@ -5,15 +5,27 @@ import de.dfki.gs.domain.simulation.FillingStationGroup
 import grails.validation.Validateable
 
 /**
- * Created by glenn on 09.07.14.
+ * Created by simon on 17.04.15.
  */
-@Validateable
-class CreateGroupForConfigurationCommandObject {
 
+@Validateable
+class AddStationsToUnsavedGroupCommandObject {
     Long configurationStubId
 
+    Integer stationCount
+
+    Long stationTypeId
+
+    String nameForGroup
     Long groupStubId
+
+
     static constraints = {
+
+        nameForGroup nullable: false, blank: false
+        stationCount nullable: true
+        stationTypeId nullable: true
+        //addedCars nullable: true
 
         configurationStubId nullable: false, validator: { val,obj ->
 
@@ -22,10 +34,7 @@ class CreateGroupForConfigurationCommandObject {
             if ( stub == null ) {
                 return 'configuration.stub.not.exist'
             }
-
-
         }
-
         groupStubId nullable: false, validator: { val,obj ->
 
             FillingStationGroup group = FillingStationGroup.get( val )
@@ -36,8 +45,5 @@ class CreateGroupForConfigurationCommandObject {
             }
 
         }
-
-
     }
-
 }
