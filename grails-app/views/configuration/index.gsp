@@ -380,7 +380,7 @@
                 <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
                                 <div class="layoutButton">
                                     <span class="layoutButtonM"></span>
-                                    <g:hiddenField name="relativeSearchLimit" value="50" />
+                                    <g:hiddenField name="relativeSearchLimit" value="20" />
                                     <g:hiddenField name="configurationId" value="${configurationStubId}"/>
                                     <span class="layoutButtonR">
                                         <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
