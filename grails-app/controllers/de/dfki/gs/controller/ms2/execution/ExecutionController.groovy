@@ -106,7 +106,7 @@ class ExecutionController {
         ExperimentProceedCommandObject cmd = new ExperimentProceedCommandObject();
         bindData( cmd, params )
 
-        cmd.relativeSearchLimit = 50
+        cmd.relativeSearchLimit = 20//This is at how much percent the car searches for a filling station
 
         Long simExpResultId = null
 

@@ -44,7 +44,7 @@
                                                 <g:form controller="execution" action="executeExperiment">
                                                         <div class="layoutButton3">
                                                             <span class="layoutButtonM3"></span>
-                                                            <g:hiddenField name="relativeSearchLimit" value="50" />
+                                                            <g:hiddenField name="relativeSearchLimit" value="20" />
                                                             <g:hiddenField name="configurationId" value="${conf.configurationId}"/>
                                                             <span class="layoutButtonR3">
                                                                 <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
