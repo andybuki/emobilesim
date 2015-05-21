@@ -323,7 +323,7 @@ class RouteService {
             SimpleFeatureSource featureSource // = dataStore.getFeatureSource("osm_2po_4pgr")
 
             if (SimulationArea.BERLIN == simulationArea) {
-                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
+                featureSource = dataStore.getFeatureSource("brandenburg_2po_4pgr");
             } else {
                 featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
             }
@@ -426,7 +426,7 @@ class RouteService {
             SimpleFeatureSource featureSource
 
             if (SimulationArea.BERLIN) {
-                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
+                featureSource = dataStore.getFeatureSource("brandenburg_2po_4pgr");
             } else {
                 featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
             }

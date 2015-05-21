@@ -1277,10 +1277,28 @@ class ConfigurationService {
         }
     }
     def getNameOfFleet( Long fleetId ) {
-
         Fleet fleet = Fleet.get( fleetId )
-
         return fleet.name
+    }
+
+    def getFleetSize (Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        int fleetSize
+        fleetSize = fleet.cars.size()
+        return fleetSize
+    }
+
+    def getSimulationTime (Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        String simulationTime
+        simulationTime =fleet.dateCreated.hours + ':'+ fleet.dateCreated.minutes
+        return simulationTime
+    }
+
+    def getCarId (Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        List carList = fleet.cars
+        return carList
     }
 
     def getNumberOfGroup (Long groupId) {

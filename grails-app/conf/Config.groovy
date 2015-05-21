@@ -300,6 +300,15 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico':                ['permitAll']
 ]
 
+grails.plugin.springsecurity.rest.login.active=true
+grails.plugin.springsecurity.rest.login.endpointUrl="/api/login"
+grails.plugin.springsecurity.rest.login.failureStatusCode=401
+grails.plugin.springsecurity.rest.login.useJsonCredentials=true
+grails.plugin.springsecurity.rest.login.usernamePropertyName='usi'
+grails.plugin.springsecurity.rest.login.passwordPropertyName='devel'
+grails.plugin.springsecurity.rest.token.storage.memcached.username = 'usi'
+grails.plugin.springsecurity.rest.token.storage.memcached.password = 'devel'
+
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/sim'
 grails.plugin.springsecurity.auth.loginFormUrl = '/login/index'
 grails.plugin.springsecurity.auth.failureHandler.defaultFailureUrl = '/?login_error=1'
@@ -340,6 +349,16 @@ grails {
     }
 }
 
+//cors config.
+cors.enabled=true
+cors.url.pattern = '/api/*'
+cors.headers=[
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type, x-requested-with',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Max-Age': 3600
+]
 
 
 

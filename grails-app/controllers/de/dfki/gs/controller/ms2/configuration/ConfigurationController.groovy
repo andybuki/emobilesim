@@ -629,12 +629,14 @@ class ConfigurationController {
             m.configurationStubId = cmd.configurationStubId
 
             m.fleetName = configurationService.getNameOfFleet(cmd.fleetId)
+            m.fleetSize = configurationService.getFleetSize (cmd.fleetId)
             // put in available Distributions
             m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES
 
             // put all cars from fleet
             // m.cars = configurationService.getCarsFromFleet( cmd.fleetId )
-
+            m.simulationTime = configurationService.getSimulationTime (cmd.fleetId)
+            m.carId = configurationService.getCarId (cmd.fleetId)
             m.carTypes = configurationService.getCarsFromFleetTypeOrdered(cmd.fleetId)
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
 

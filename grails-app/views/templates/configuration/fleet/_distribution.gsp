@@ -27,7 +27,7 @@
                                     <div class="clear"></div>
                                 </div>
 
-                                <div class="rowMiddleWithoutBorder">
+                                <%--<div class="rowMiddleWithoutBorder">
                                     <div class="left0PX">
                                         <b><g:message code="templates.configuration.fleet._distribution.carnumber"/></b>
                                     </div>
@@ -37,9 +37,48 @@
                                     <div class="left0PX">
                                         <b>${fleetName}</b>
                                     </div>
+                                </div>--%>
+
+                                <div class="rowMiddleWithoutBorder">
+                                    <div class="left0PX1">
+                                        <b>CarId</b>
+                                    </div>
+                                    <div class="left0PX1">
+                                        <b>CarType</b>
+                                    </div>
+                                    <div class="left0PX1">
+                                        <b>FleetName</b>
+                                    </div>
+                                    <div class="left0PX1">
+                                        <b>Simulation StartTime</b>
+                                    </div>
+                                    <div class="left0PX1">
+                                        <b>Akkuzustand</b>
+                                    </div>
                                 </div>
 
-                                <g:each in="${carTypes}" var="carType">
+                                <g:each in="${carId}" var="car">
+                                    <div class="rowMiddleWithoutBorder4">
+                                        <div class="left0PX2">
+                                            ${car.id}
+                                        </div>
+                                        <div class="left0PX2">
+                                            ${car.name}
+                                        </div>
+                                        <div class="left0PX2">
+                                            ${fleetName}
+                                        </div>
+                                        <div class="left0PX2">
+                                            ${simulationTime}
+                                            <g:link><g:img uri="${resource(dir: 'images', file: 'time.png')}"></g:img></g:link>
+                                        </div>
+                                        <div class="left0PX2">
+                                            ${car.batteryPersent}
+                                        </div>
+                                    </div>
+                                </g:each>
+
+                                <%--<g:each in="${carTypes}" var="carType">
                                     <div class="rowMiddleWithoutBorder4">
                                         <div class="left0PX">
                                             ${carType.value.size()}
@@ -51,7 +90,10 @@
                                             ${carType.key.name}
                                         </div>
                                     </div>
-                                </g:each>
+                                </g:each>--%>
+
+
+
                             </div>
                         </g:form>
                     </div>
@@ -66,7 +108,7 @@
                         <div class="tab">
                             <div id="tab-1" class="tab-content">
 
-                            <div class="simulationTime">
+                            <%--<div class="simulationTime">
                                 <g:message code="templates.configuration.fleet._distribution.simulationtime"/>
                                 <span style="display: inline-block; width: 400px; padding: 0 5px;">
                                     <input id="Slider2" type="slider" name="price" value="80"/>
@@ -96,7 +138,7 @@
                                 <script type="text/javascript">
                                     jQuery("#Slider1").slider({ from: 0, to: 100, step: 5, smooth: true, round: 0, dimension: "&nbsp; %", skin: "plastic" });
                                 </script>
-                            </div>
+                            </div>--%>
 
                                 <div id="openModalMap" class="modalDialogStation">
 
@@ -259,9 +301,9 @@
 
                                         var boxControl = new OpenLayers.Control.DrawFeature(
                                                 vectors,
-                                                OpenLayers.Handler.Path,
+                                                OpenLayers.Handler.Point,
                                                 {
-                                                    title : 'Path',
+                                                    title : 'Point',
                                                     displayClass : 'myNewDraw',
                                                     handlerOptions: {
                                                         sides : 4,
