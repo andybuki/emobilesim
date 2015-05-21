@@ -1076,7 +1076,7 @@ body.lightBoxBody{
 .contentLeft4{
     padding:0px;
     margin: 10px;
-    width:350px;
+    width:430px;
     border-radius: 6px;
     border: 1px solid  #ccc;
     font-size: 12px;
@@ -2344,8 +2344,8 @@ fieldset {
 	min-height:28px;
 	position: relative;
 	padding:8px 0px 0px 6px;
-	border-bottom-right-radius: 6px;
-	border-bottom-left-radius: 6px;
+	border-bottom: 1px solid #ddd;
+
 
 }
 
@@ -2431,6 +2431,11 @@ fieldset {
     width:100px;
     float:left;
     padding:5px;
+}
+.left0PX1{
+
+	float:left;
+	padding:10px;
 }
 
 .left140PX{
