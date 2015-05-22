@@ -301,9 +301,9 @@
 
                                         var boxControl = new OpenLayers.Control.DrawFeature(
                                                 vectors,
-                                                OpenLayers.Handler.Point,
+                                                OpenLayers.Handler.Path,
                                                 {
-                                                    title : 'Point',
+                                                    title : 'Path',
                                                     displayClass : 'myNewDraw',
                                                     handlerOptions: {
                                                         sides : 4,
