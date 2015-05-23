@@ -43,6 +43,8 @@ grails.project.dependency.resolution = {
         mavenRepo "http://download.osgeo.org/webdav/geotools/"
         mavenRepo "http://repo.boundlessgeo.com/main/"
         mavenRepo 'http://repo.spring.io/milestone'
+        mavenRepo "http://repo.grails.org/grails/core"
+        mavenRepo "http://mvnrepository.com/artifact/org.optaplanner"
 
         grailsPlugins()
         grailsHome()
@@ -63,6 +65,8 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         runtime 'mysql:mysql-connector-java:5.1.26'
+
+        runtime 'org.optaplanner:optaplanner-core:6.2.0.Final'
 
         runtime ( "org.geotools:gt-shapefile:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
@@ -105,14 +109,19 @@ grails.project.dependency.resolution = {
             excludes 'xercesImpl'
         }
         */
-
+        compile 'commons-beanutils:commons-beanutils:1.8.3'
         //compile ""
         //compile ""
+        runtime 'com.github.groovy-wslite:groovy-wslite:1.1.0'
 
+        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1')
+        compile 'org.apache.commons:commons-lang3:3.4'
     }
 
+
+
     plugins {
-        runtime ":hibernate:3.6.10.18"
+        runtime ":hibernate:3.6.10.19"
         //runtime ":hibernate:2.3.1"
         runtime ":jquery:1.11.0.2"
         //runtime ":resources:1.2.7"
@@ -125,7 +134,7 @@ grails.project.dependency.resolution = {
 
         // build ":tomcat:$grailsVersion"
         //build ":tomcat:7.0.52.1"
-        build ":tomcat:7.0.54"
+        build ':tomcat:7.0.55.2'
         // build ":tomcat:2.3.1"
 
         runtime ":database-migration:1.4.0"
@@ -143,6 +152,25 @@ grails.project.dependency.resolution = {
 
         compile ":modaldynamix:0.2"
         compile ":locale-configuration:1.0"
+        compile ":jquery-ui-timepicker:0.9.8.1"
+        compile ":bulk-data-imports:0.1.3"
+        compile ":export:1.6"
+        compile ":create-domain-uml:0.5"
+        grails.project.dependency.resolution = {
+            compile ":gwt:1.0.3"
+        }
+
+        gwt {
+            version = "2.6.1"
+        }
+
+        //compile ":rest-client-builder:2.1.1"
+
+        /*compile ":spring-security-rest:1.5.1", {
+            excludes: 'spring-security-core'
+        }*/
+
+        compile ":rest:0.8"
 
     }
 }
