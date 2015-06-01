@@ -143,7 +143,7 @@ grails.project.dependency.resolution = {
 
         compile ":quartz:1.0.2"
         compile ":calendar:1.2.1"
-        compile ":google-visualization:1.0.1"
+        compile ":google-visualization:1.0.2"
         // compile ':cache-ehcache:1.0.0'
 
         compile ":spring-security-core:2.0-RC4"
@@ -171,6 +171,8 @@ grails.project.dependency.resolution = {
         }*/
 
         compile ":rest:0.8"
+
+        compile ":easygrid:1.7.1"
 
     }
 }
