@@ -31,6 +31,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.UpdateAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
+import de.dfki.gs.domain.Author
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
@@ -1408,6 +1409,40 @@ class ConfigurationController {
         def m = [:]
 
         render view: 'help', model: m
+    }
+
+    def configurator1() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        def m = [:]
+
+        def authorClassicGrid = {
+            domainClass Author
+            gridImpl 'classic'
+            columns {
+                id {
+                    type 'id'
+                }
+                name
+                minEstSales {
+                    formatName 'nrToString'
+                }
+                maxEstSales {
+                    formatName 'nrToString'
+                }
+                language
+                nrBooks
+                nationality
+            }
+        }
+
+        render view: 'configurator1', model: m
     }
 
     def contact() {

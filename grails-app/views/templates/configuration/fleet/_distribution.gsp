@@ -59,22 +59,22 @@
 
                                 <g:each in="${carId}" var="car">
                                     <div class="rowMiddleWithoutBorder4">
-                                        <div class="left0PX2">
+                                        <span class="left0PX2">
                                             ${car.id}
-                                        </div>
-                                        <div class="left0PX2">
+                                        </span>
+                                        <span class="left0PX2">
                                             ${car.name}
-                                        </div>
-                                        <div class="left0PX2">
+                                        </span>
+                                        <span class="left0PX2">
                                             ${fleetName}
-                                        </div>
-                                        <div class="left0PX2">
+                                        </span>
+                                        <span class="left0PX2">
                                             ${simulationTime}
                                             <g:link><g:img uri="${resource(dir: 'images', file: 'time.png')}"></g:img></g:link>
-                                        </div>
-                                        <div class="left0PX2">
+                                        </span>
+                                        <span class="left0PX2">
                                             ${car.batteryPersent}
-                                        </div>
+                                        </span>
                                     </div>
                                 </g:each>
 
