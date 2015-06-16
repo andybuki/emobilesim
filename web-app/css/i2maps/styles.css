@@ -104,13 +104,13 @@ div.olControlMousePosition {
     right: 0;
 }
 .olControlOverviewMapExtentRectangle {
-    background-image: url("http://localhost:8080/emobilesim2/images/i2maps/blank.gif");
-    border: 2px dotted #FF0000;
+    background-image: url("../images/i2maps/blank.gif");
+    border: 2px dotted #FFf000;
     cursor: move;
     overflow: hidden;
 }
 .olControlOverviewMapRectReplacement {
-    background-image: url("http://localhost:8080/emobilesim2/images/i2maps/overview_replacement.gif");
+    background-image: url("../images/i2maps/overview_replacement.gif");
     background-position: center center;
     background-repeat: no-repeat;
     cursor: move;
@@ -234,7 +234,7 @@ div.olControlSaveFeaturesItemInactive {
 }
 .olHandlerBoxZoomBox {
     background-color: #FFFFFF;
-    border: 2px solid #FF0000;
+    border: 2px solid #FFf000;
     font-size: 1px;
     opacity: 0.5;
     position: absolute;

@@ -20,7 +20,7 @@
     <g:javascript src="slider/jquery.slider.js"/>
 
     <g:javascript src="application.js" />
-    <g:javascript src="ol/OpenLayers.js" />
+
     <g:javascript src="jquery.loading.js"/>
 
     <g:javascript src="jquery-ui-timepicker-addon.js"/>
@@ -48,7 +48,7 @@
                 <legend>Exisiting Simulations</legend>
                 <%--<grid:grid name='authorClassic'/>
                 <grid:exportButton name='authorClassic'/>--%>
-
+                <g:textField name="nameForSimulation" value="${speed}"/>
             </fieldset>
         </div>
     </div>

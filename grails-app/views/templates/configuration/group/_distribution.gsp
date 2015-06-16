@@ -173,55 +173,55 @@
                                         <g:each var="fillingStationGroup" in="${fillingStationGroups}">
                                         <g:each var="fillingStation" in="${fillingStationGroup.stations}">
                                         <g:if test="${fillingStation.time == 0}">
-                                        var stations = new Array();
-                                        gasDat.fromX = ${fillingStation.lat};
-                                        gasDat.fromY = ${fillingStation.lon};
-                                        gasDat.fillingStationId = ${fillingStation.id};
-                                        gasDat.fillingStationType = ${fillingStation.power};
-                                        drawGasolineStationNull( gasDat );
+                                            var stations = new Array();
+                                            gasDat.fromX = ${fillingStation.lat};
+                                            gasDat.fromY = ${fillingStation.lon};
+                                            gasDat.fillingStationId = ${fillingStation.id};
+                                            gasDat.fillingStationType = ${fillingStation.power};
+                                            drawGasolineStationNull( gasDat );
                                         </g:if>
 
                                         <g:if test="${fillingStation.time > 0}">
-                                        var stations = new Array();
-                                        gasDat.fromX = ${fillingStation.lat};
-                                        gasDat.fromY = ${fillingStation.lon};
-                                        gasDat.fillingStationId = ${fillingStation.id};
-                                        gasDat.fillingStationType = ${fillingStation.power};
-                                        gasDat.time = ${fillingStation.time};
+                                            var stations = new Array();
+                                            gasDat.fromX = ${fillingStation.lat};
+                                            gasDat.fromY = ${fillingStation.lon};
+                                            gasDat.fillingStationId = ${fillingStation.id};
+                                            gasDat.fillingStationType = ${fillingStation.power};
+                                            gasDat.time = ${fillingStation.time};
 
-                                        // Convert seconds to hours minutes
-                                        var sec_num = gasDat.time
-                                        var hours   = Math.floor(sec_num / 3600);
-                                        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-                                        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                                            // Convert seconds to hours minutes
+                                            var sec_num = gasDat.time
+                                            var hours   = Math.floor(sec_num / 3600);
+                                            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                                            var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-                                        if (hours   < 10) {hours   = "0"+hours;}
-                                        if (minutes < 10) {minutes = "0"+minutes;}
-                                        if (seconds < 10) {seconds = "0"+seconds;}
-                                        var time    = hours+':'+minutes+':'+seconds;
+                                            if (hours   < 10) {hours   = "0"+hours;}
+                                            if (minutes < 10) {minutes = "0"+minutes;}
+                                            if (seconds < 10) {seconds = "0"+seconds;}
+                                            var time    = hours+':'+minutes+':'+seconds;
 
-                                        var feature = new OpenLayers.Feature.Vector(
+                                            var feature = new OpenLayers.Feature.Vector(
                                                 new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(p1, projectTo),
                                                 {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY + '<br>' +'Time:'+ time}
-                                        );
-                                        vectorLayer.addFeatures(feature);
-                                        drawGasolineStation( gasDat );
+                                            );
+                                            vectorLayer.addFeatures(feature);
+                                            drawGasolineStation( gasDat );
 
                                         </g:if>
                                         <g:if test="${fillingStation.time < 0}">
-                                        var stations = new Array();
+                                            var stations = new Array();
 
-                                        gasDat.fromX = ${fillingStation.lat};
-                                        gasDat.fromY = ${fillingStation.lon};
-                                        gasDat.fillingStationId = ${fillingStation.id};
-                                        gasDat.fillingStationType = ${fillingStation.power};
+                                            gasDat.fromX = ${fillingStation.lat};
+                                            gasDat.fromY = ${fillingStation.lon};
+                                            gasDat.fillingStationId = ${fillingStation.id};
+                                            gasDat.fillingStationType = ${fillingStation.power};
 
-                                        var feature = new OpenLayers.Feature.Vector(
+                                            var feature = new OpenLayers.Feature.Vector(
                                                 new OpenLayers.Geometry.Point( gasDat.fromX , gasDat.fromY ).transform(p1, projectTo),
                                                 {description: gasDat.fillingStationType + ' '+'Kw' + '<br>' + 'Lat:' + gasDat.fromX + '<br>' + 'Lon:'+ gasDat.fromY }
-                                        );
-                                        vectorLayer.addFeatures(feature);
-                                        drawGasolineStation( gasDat );
+                                            );
+                                            vectorLayer.addFeatures(feature);
+                                            drawGasolineStation( gasDat );
                                         </g:if>
                                         </g:each>
                                         </g:each>

@@ -12,7 +12,6 @@ function addHiglightedLines( trackId, layer, fromLon, fromLat, toLon, toLat ) {
 
     var startPoint = new OpenLayers.Geometry.Point( fromLon, fromLat );
     var endPoint = new OpenLayers.Geometry.Point( toLon, toLat );
-
     var vector;
 
     if ( trackId == 0 ) {
@@ -31,9 +30,6 @@ function addHiglightedLines( trackId, layer, fromLon, fromLat, toLon, toLat ) {
         );
 
     }
-
-
-
 
     vector.trackId = trackId;
 
@@ -116,7 +112,6 @@ function saveGasolineInfos( gasolineId, link, markers ) {
         getElementById("lightBoxGasoline"));
 }
 
-
 function saveTrackInfos(  ) {
 
     /*
@@ -136,14 +131,11 @@ function saveTrackInfos(  ) {
         getElementById("lightBox"));
 }
 
-
-
-
-
 /**
  *
  * @param data
  */
+
 function serialize( data ) {
 
     var feature      = data[ 'feature' ];
@@ -168,6 +160,7 @@ function serialize( data ) {
     var currentLat  = map[ 'center' ].lat;
     var currentZoom = map[ 'zoom' ];
 
+
     if ( geom[ 'CLASS_NAME' ] == "OpenLayers.Geometry.LineString" ) {
         // there are some lines..
         var coords = geom[ 'components' ];
@@ -182,7 +175,7 @@ function serialize( data ) {
             jData = {
                 type: 'lineRoute',
                 configurationStubId: configurationStubId,
-
+                strokeColor: "#00ff00",
                 currentLon:   currentLon,
                 currentLat:   currentLat,
                 currentZoom:  currentZoom,
@@ -388,14 +381,11 @@ function drawGasolinePoint( data ) {
 
 }
 
-
-
 /*
  * This function draws the electric stations on OpenStreetMap and on GoogleMaps
  *
  *
  * */
-
 
 function drawGasolineStation( dat ) {
 
@@ -622,15 +612,12 @@ function drawRoute( data ) {
         }
     }
 
-
-
     var showTrackInfoLink = data[ 'showTrackInfoLink' ];
 
     var segmentSize = route.length;
     for ( var j = 0; j < segmentSize; j++ ) {
 
         var routeSegment = route[ j ];
-
 
         if ( j == 0 ) {
             // first route: startMarker
@@ -684,7 +671,6 @@ function drawRoute( data ) {
         )
     }
 }
-
 
 function drawExtraRoute( data ) {
 

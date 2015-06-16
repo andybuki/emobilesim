@@ -2,6 +2,7 @@ package de.dfki.gs.ms2.configuration
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.Point
+import de.dfki.gs.domain.DfkiRoutesTimeStatus
 import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
@@ -207,6 +208,13 @@ class ConfigurationService {
         }
 
         return addedFleets
+    }
+
+    def getObuDfki (Long configurationStubId) {
+        Configuration stub = Configuration.get( configurationStubId )
+
+        List<DfkiRoutesTimeStatus> obuDfki = new ArrayList<DfkiRoutesTimeStatus>()
+
     }
 
     /**

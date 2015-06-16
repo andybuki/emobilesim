@@ -47,13 +47,24 @@
             displayProjection: p1
         } );
 
-        routesLayer = new OpenLayers.Layer.Vector( "Route Vectors", {
-            styleMap: new OpenLayers.StyleMap({'default':{
-                strokeColor: "red",  // TODO: chose a good color
-                strokeOpacity: 0.6,
-                strokeWidth: 6
-            }}) } );
+        var color;
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        color= "rgb("+r+" ,"+g+","+ b+")";
+        var colorVariable = ["#00ff00","#ff00ff","#00ddff","yellow","yellow","red"];
 
+        for (var a =0;a<=5;a++) {
+            routesLayer = new OpenLayers.Layer.Vector("Route Vectors", {
+                styleMap: new OpenLayers.StyleMap({
+                    'default': {
+                        strokeColor: colorVariable[a], // TODO: chose a good color
+                        strokeOpacity: 0.6,
+                        strokeWidth: 4
+                    }
+                })
+            });
+        }
         markers = new OpenLayers.Layer.Markers( "Markers", {
             strategies: [
                 new OpenLayers.Strategy.Fixed(),

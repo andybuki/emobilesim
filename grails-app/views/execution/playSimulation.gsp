@@ -418,12 +418,14 @@
 
                 // max height of rect
                 var x = ( car[ 'totalKmToDrive' ] / maxTotalKm ) * 500;
-                var xRound = Math.round(x);
-                //alert(x+"km");
+                var y =  car[ 'totalKmToDrive' ] ;
+                var xRound = Math.round(y);
+                //alert(xRound+"km");
 
                 // upperLeft.x, upperLeft.y, width, height
-                ctx.fillRect( dp * sizeForRoute, 540-x, sizeForRoute/2, 3 );
-                ctx.fillText( "  "+xRound+"km", dp * sizeForRoute, 540-x, sizeForRoute/2 );
+                //ctx.fillRect( (db) * (sizeForRoute) + sizeForRoute/2 , 520-batteryFill, sizeForRoute/2, batteryFill );
+                ctx.fillRect( dp * sizeForRoute  + sizeForRoute/2 , 520-xRound, sizeForRoute/2, xRound );
+                ctx.fillText( "  "+xRound+"km", dp * sizeForRoute, xRound+10, sizeForRoute/2 );
                 //alert(xRound+"km");
                 //ctx.fillText( x+"km", dp * sizeForRoute/2, ( (dp%5)*10 ) + 10 );
                 ctx.stroke();

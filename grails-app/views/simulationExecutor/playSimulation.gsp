@@ -91,20 +91,14 @@
             success: function( data ) {
 
                 var info = data[ 'info' ];
-
                 var cars = info[ 'cars' ];
                 var stations = info[ 'stations' ];
-
                 var currentTime = info[ 'currentTime' ];
-
                 var simStatus = info[ 'finished' ];
 
                 drawCarInfos( cars );
-
                 drawStationInfos( stations );
-
                 drawCurrentTime( currentTime );
-
                 recheckStopButton( simStatus );
 
                 // $( '#speedInfo').html( speed );
@@ -120,9 +114,7 @@
     }
 
     function recheckStopButton( simStatus ) {
-
         document.getElementById( 'button_stopp').disabled = (simStatus != "finished");
-
     }
 
     function drawCurrentTime( currentTime ) {
@@ -130,13 +122,11 @@
         var timeCanvas = document.getElementById( 'timeContainer' );
 
         if ( timeCanvas.getContext ) {
-
             var ctx = timeCanvas.getContext( '2d' );
             ctx.clearRect( 0,0,1200,40 );
             ctx.font = "16px sans-serif ";
             ctx.fillStyle = "black";
             ctx.fillText( currentTime, 590, 30 );
-
             ctx.stroke();
         }
 
@@ -147,7 +137,6 @@
 
         var canvas = document.getElementById('stationsContainer');
         var stationCount = info.length;
-
         var spaceForStation = 1200 / stationCount;
 
         if ( canvas.getContext ) {
@@ -158,7 +147,6 @@
 
                 var station = info[ dp ];
 
-
                 if ( station[ 'status' ] == "IN_USE" ) {
                     // red
                     ctx.fillStyle="rgba(255, 0, 0, 1.0)";
@@ -168,7 +156,6 @@
 
                 // upperLeft.x, upperLeft.y, width, height
                 ctx.fillRect( dp * spaceForStation, 0, spaceForStation, 40 );
-
                 ctx.stroke();
 
             }
@@ -181,36 +168,24 @@
                 for (var tx = 0; tx < stationCount; tx++) {
 
                     var station = info[ tx ];
-
                     var personalId = station[ 'personalId' ]
-
                     ctx.fillText( personalId, tx * spaceForStation, 10 );
-
                 }
                 ctx.stroke();
             }
-
-
         }
-
-
-
     }
 
     function drawCarInfos( info ) {
 
         var canvas = document.getElementById('experimentContainer');
-
         var nameCanvas = document.getElementById('nameContainer');
         // canvas.width = canvas.width;
-
         if (canvas.getContext){
 
             // use getContext to use the canvas for drawing
             var ctx = canvas.getContext('2d');
-
             ctx.clearRect ( 0 , 0 , 1200 , 500 );
-
             var routeCount = info.length;
             var sizeForRoute = 1200 / routeCount;
 
@@ -224,11 +199,7 @@
                         maxTotalKm = totalKmToDrive;
                     }
                 }
-
             }
-
-
-
 
             /**
             * drawing status of cars
@@ -243,12 +214,10 @@
 
                 // max height of rect
                 var x = ( car[ 'totalKmToDrive' ] / maxTotalKm ) * 500;
-
                 var routeAccomblished = x * car[ 'drivenKm' ] / car[ 'totalKmToDrive' ];
 
                 // upperLeft.x, upperLeft.y, width, height
                 ctx.fillRect( dp * sizeForRoute, 500-routeAccomblished, sizeForRoute, routeAccomblished );
-
                 ctx.stroke();
 
             }
@@ -259,20 +228,15 @@
                 var car = info[ dp ];
 
                 // ctx.fillStyle="#112233";
-
                 ctx.fillStyle="rgba(255,255,0, 0.99)";
 
                 // max height of rect
                 var x = ( car[ 'totalKmToDrive' ] / maxTotalKm ) * 500;
-
                 // upperLeft.x, upperLeft.y, width, height
                 ctx.fillRect( dp * sizeForRoute, 500-x, sizeForRoute, 3 );
-
                 ctx.stroke();
 
             }
-
-
 
             /**
              * drawing names of cars only once
@@ -285,11 +249,8 @@
                 nameCtx.font = "12px sans-serif ";
                 nameCtx.fillStyle = "black";
                 for ( var tx = 0; tx < routeCount; tx++ ) {
-
                     var car = info[ tx ];
-
                     nameCtx.fillText( car[ 'carName' ], tx * sizeForRoute, ( (tx%5)*10 ) + 10 );
-
                 }
                 nameCtx.stroke();
                 namesDrawn = true;
@@ -305,23 +266,15 @@
             for ( var db = 0; db < routeCount; db++ ) {
 
                 var car = info[ db ];
-
                 ctx.fillStyle="rgba(32, 45, 21, 0.2)"
-
                 var batteryFill = ( 500 / 100 ) * car[ 'batteryFilledPercentage' ] ;
-
                 // upperLeft.x, upperLeft.y, width, height
                 ctx.fillRect( db * sizeForRoute, 500-batteryFill, sizeForRoute, batteryFill );
-
-
                 ctx.strokeStyle = "#AABBCC";
                 ctx.stroke();
 
             }
-
-
         }
-
     }
 
     function drawExperimentContainer( routeCount ){
@@ -330,14 +283,12 @@
         var canvas = document.getElementById('experimentContainer');
         var nameCanvas = document.getElementById( 'nameContainer' );
 
-
         // Make sure we don't execute when canvas isn't supported
         if (canvas.getContext){
 
             // use getContext to use the canvas for drawing
             var ctx = canvas.getContext('2d');
             var nameCtx = nameCanvas.getContext( '2d' );
-
             for (var x = 0.5; x < 1200.6; x += 10) {
                 ctx.moveTo(x, 0);
                 ctx.lineTo(x, 500);
@@ -350,7 +301,6 @@
 
             ctx.strokeStyle = "#eee";
             ctx.stroke();
-
             ctx.beginPath();
 
             var sizeForRoute = 1200 / routeCount;
@@ -358,10 +308,8 @@
             ctx.fillStyle="#AABBCC";
             nameCtx.fillStyle="#AABBCC";
             for ( var i = 0; i < routeCount; i++ ) {
-
                 ctx.fillRect( i * sizeForRoute, 0, sizeForRoute, 500 );
                 nameCtx.fillRect( i * sizeForRoute, 0, sizeForRoute, 50 );
-
             }
 
             ctx.strokeStyle = "#AABBCC";
