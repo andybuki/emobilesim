@@ -67,6 +67,7 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.26'
 
         runtime 'org.optaplanner:optaplanner-core:6.2.0.Final'
+        runtime 'org.optaplanner:optaplanner-benchmark:6.2.0.Final'
 
         runtime ( "org.geotools:gt-shapefile:12-SNAPSHOT" ) {
             excludes 'xercesImpl'
