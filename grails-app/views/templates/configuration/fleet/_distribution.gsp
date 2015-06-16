@@ -11,6 +11,21 @@
     });
 </script>
 
+<style>
+    circle {
+        stroke:#ff0000;
+        r:10;
+        fill-opacity:0.8;
+        fill:red;
+        stroke-width: 0px;
+        stroke-opacity: 0;
+    }
+    polyline {
+        stroke-width: 0px;
+        stroke-opacity: 0;
+        fill-opacity:0.0;
+    }
+</style>
 <div id="openModal" class="modalDialogRoutes">
     <div class="settingsWindowBig">
         <fieldset class="fieldSet100Percent">
@@ -78,21 +93,6 @@
                                     </div>
                                 </g:each>
 
-                                <%--<g:each in="${carTypes}" var="carType">
-                                    <div class="rowMiddleWithoutBorder4">
-                                        <div class="left0PX">
-                                            ${carType.value.size()}
-                                        </div>
-                                        <div class="left0PX">
-                                            of
-                                        </div>
-                                        <div class="left0PX">
-                                            ${carType.key.name}
-                                        </div>
-                                    </div>
-                                </g:each>--%>
-
-
 
                             </div>
                         </g:form>
@@ -108,50 +108,20 @@
                         <div class="tab">
                             <div id="tab-1" class="tab-content">
 
-                            <%--<div class="simulationTime">
-                                <g:message code="templates.configuration.fleet._distribution.simulationtime"/>
-                                <span style="display: inline-block; width: 400px; padding: 0 5px;">
-                                    <input id="Slider2" type="slider" name="price" value="80"/>
-                                </span>
-                                <script type="text/javascript">
-                                    jQuery("#Slider2").slider({
-                                        from: 480,
-                                        to: 1020,
-                                        step: 15,
-                                        dimension: '',
-                                        scale: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
-                                        limits: false,
-                                        calculate: function( value ){
-                                            var hours = Math.floor( value / 60 );
-                                            var mins = ( value - hours*60 );
-                                            return (hours < 10 ? "0"+hours : hours) + ":" + ( mins == 0 ? "00" : mins );
-                                        },
-                                        onstatechange: function( value ){
-                                            console.dir( this );
-                                        }
-                                    });
-                                </script>
-                                <g:message code="templates.configuration.fleet._distribution.battery"/>
-                                <span style="display: inline-block; width: 400px; padding: 0 5px;">
-                                    <input id="Slider1" type="slider" name="price" value="80"/>
-                                </span>
-                                <script type="text/javascript">
-                                    jQuery("#Slider1").slider({ from: 0, to: 100, step: 5, smooth: true, round: 0, dimension: "&nbsp; %", skin: "plastic" });
-                                </script>
-                            </div>--%>
 
                                 <div id="openModalMap" class="modalDialogStation">
 
-                                    <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>
+                                    <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="map"></div>
 
                                     <script type="text/javascript">
 
                                         // global variables
-                                        var map, vectors, routesLayer, lonlat, zoom, markers;
+                                        var map, vectors,  lonlat, zoom, markers;
+
 
                                         var startIconSize = new OpenLayers.Size( 40, 40 );
                                         var targetIconSize = new OpenLayers.Size( 20, 20 );
-                                        // var offset = new OpenLayers.Pixel( -(size.x/2) , -(size.y/2));
+
                                         var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'start.png' )}" , startIconSize );
                                         var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
                                         var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
@@ -164,6 +134,8 @@
 
                                         var p1 = new OpenLayers.Projection( "EPSG:4326" );
                                         var pMerc = new OpenLayers.Projection( "EPSG:900913" );
+
+
                                         <g:if test="${simulationArea == 'BERLIN'}">
                                         lonlat = new OpenLayers.LonLat(13.38, 52.52);
                                         </g:if>
@@ -189,12 +161,6 @@
                                             displayProjection: p1
                                         } );
 
-                                        routesLayer = new OpenLayers.Layer.Vector( "Route Vectors", {
-                                            styleMap: new OpenLayers.StyleMap({'default':{
-                                                strokeColor: "red",  // TODO: chose a good color
-                                                strokeOpacity: 0.6,
-                                                strokeWidth: 6
-                                            }}) } );
 
                                         markers = new OpenLayers.Layer.Markers( "Markers", {
                                             strategies: [
@@ -206,22 +172,36 @@
                                         var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
                                         var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
 
+
                                         vectors = new OpenLayers.Layer.Vector("Vector Layer", {
-                                            styleMap: new OpenLayers.StyleMap({'default':{
-                                                strokeColor: "#FF11FF",  // TODO: chose a good color
+                                            styleMap: new OpenLayers.StyleMap(
+                                                    {'temporary':{
+                                                strokeColor: "red",  // TODO: chose a good color
                                                 strokeOpacity: 0.6,
-                                                strokeWidth: 6,
-                                                fillColor: "#FF5500",
+                                                strokeWidth: 0,
+                                                externalGraphic: "../images/start_circle.png",
                                                 fillOpacity: 0.5,
-                                                pointRadius: 6,
-                                                pointerEvents: "visiblePainted",
-                                                label : "Start",
+                                                pointRadius: 10,
+                                                        pointerEvents:'visible',
+                                                //label : "Start",
                                                 fontSize: "10px",
                                                 fontFamily: "Courier New, monospace",
                                                 fontWeight: "bold",
                                                 labelOutlineColor: "white",
-                                                labelOutlineWidth: 5
+                                                labelOutlineWidth: 5,
+
+                                                cursor: 'pointer'
+
+
                                             }}),
+
+
+                                            /**
+                                             * The help tooltip element.
+                                             * @type {Element}
+                                             */
+
+
                                             eventListeners: {
                                                 'featureadded' : function( evt ) {
                                                     var feature = evt.feature;
@@ -230,7 +210,7 @@
                                                         map: map,
                                                         vectors: vectors,
                                                         markers: markers,
-                                                        routesLayer: routesLayer,
+                                                        //routesLayer: routesLayer,
                                                         <%--configurationStubId: ${configurationStubId} ,
                                                         fleetId:${fleetId},--%>
                                                         calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateRouting' , params: [configurationStubId: configurationStubId , fleetName:fleetName,  fleetId:fleetId  ] )}'
@@ -242,6 +222,10 @@
                                                 }
                                             }
                                         });
+
+
+                                        //var points = OpenLayers.Geometry.Path.getAttribute("points");
+                                        //alert(points);
 
                                         var fleetDat = new Object();
                                         <g:each var="fleet" in="${fleets}">
@@ -256,9 +240,10 @@
                                         segments.push( segm );
                                         </g:each>
                                         fleetDat.route = segments;
-                                        fleetDat.routesLayer = routesLayer;
+                                        //fleetDat.routesLayer = routesLayer;
                                         fleetDat.markers = markers;
                                         drawRoute( fleetDat );
+                                        //drawGasolineStation(fleetDat);
                                         </g:each>
                                         </g:each>
                                         //Draw  Routes------------------- ///
@@ -308,9 +293,21 @@
                                                     handlerOptions: {
                                                         sides : 4,
                                                         irregular : true
-                                                    }
+                                                    },
+                                                    callbacks: {
+                                                        point: function( point ) {
+                                                                console.log(point);
+                                                                //point_collection.push(point);
+                                                                var feature = new OpenLayers.Feature.Vector(point);
+                                                                vectors.addFeatures([feature]);
+                                                                vectors.redraw();
+
+                                                            }
+                                                        }
+
 
                                                 }
+
                                         );
 
                                         map.addControl(new OpenLayers.Control.EditingToolbar( vectors ) );
@@ -319,7 +316,7 @@
                                             click: true
                                         };
 
-                                        map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers, vectors ] );
+                                        map.addLayers( [ mapnik_layer, mapgoogle_layer,   markers, vectors ] );
 
                                         var navControl = new OpenLayers.Control.Navigation({});
 
@@ -336,42 +333,7 @@
                                         lonlat.transform( p1, pMerc );
                                         map.setCenter( lonlat, zoom );
 
-                                        <%--function showTrackInfos( mode, trackId ) {
 
-                                            if( mode == 'display' ) {
-                                                if( document.getElementById("trackInfo") === null ) {
-                                                    div = document.createElement("div");
-                                                    div.setAttribute('id', 'trackInfo');
-                                                    div.setAttribute('className', 'overlayBG');
-                                                    div.setAttribute('class', 'overlayBG');
-                                                    document.getElementsByTagName("body")[0].appendChild(div);
-                                                }
-                                                if( document.getElementById("lightBox") === null ) {
-                                                    div = document.createElement("div");
-                                                    div.setAttribute('id', 'lightBox');
-
-                                                    var link = "${g.createLink( controller: 'mapView', action: 'showTrackInfo', params: [ trackId: trackId ] )}";
-
-                                                    jQuery.ajax({
-                                                        url: link + trackId,
-                                                        type: "POST",
-                                                        success: function( data ) {
-                                                            div.innerHTML = data;
-                                                            document.getElementsByTagName("body")[0].appendChild(div);
-                                                        }
-                                                    });
-
-                                                }
-
-
-                                            } else {
-                                                document.getElementsByTagName("body")[0].removeChild(document.
-                                                        getElementById("trackInfo"));
-                                                document.getElementsByTagName("body")[0].removeChild(document.
-                                                        getElementById("lightBox"));
-
-                                            }
-                                        }--%>
 
                                     </script>
 
