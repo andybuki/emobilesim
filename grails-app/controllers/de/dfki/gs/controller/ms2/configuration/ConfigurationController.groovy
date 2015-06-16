@@ -32,6 +32,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObje
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
 import de.dfki.gs.domain.Author
+import de.dfki.gs.domain.DfkiRoutesTimeStatus
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
@@ -1411,7 +1412,7 @@ class ConfigurationController {
         render view: 'help', model: m
     }
 
-    def configurator1() {
+    /*def configurator1() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1443,7 +1444,7 @@ class ConfigurationController {
         }
 
         render view: 'configurator1', model: m
-    }
+    }*/
 
     def contact() {
 
@@ -1814,6 +1815,7 @@ class ConfigurationController {
             List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
             data.routes = [];
             data.type = "lineRoute"
+            data.strokeColor = "#00ff00"
             List<BasicEdge> edgesToRender = new ArrayList<BasicEdge>()
             SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
             Fleet fleet = Fleet.get(cmd.fleetId)
@@ -1873,7 +1875,59 @@ class ConfigurationController {
         response.status = ResponseConstants.RESPONSE_STATUS_OK
         response.addHeader("Content-Type", "application/json");
 
+
         render "${(data as JSON).toString()}"
     }
 
+
+    def configurator1 () {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        def m = [ : ]
+        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate configuration stub: ${cmd.errors}")
+
+        }
+
+        Long configurationStubId
+        if (cmd.configurationStubId == null) {
+            configurationStubId = configurationService.createConfigurationStub(person).id;
+        } else {
+            configurationStubId = cmd.configurationStubId
+        }
+        m.configurationStubId = configurationStubId
+        def json = request.JSON.data
+        def data =[:]
+        //simulation
+        m.simulationName = configurationService.getSimulationName(configurationStubId)
+
+        int dfkiId=10
+        DfkiRoutesTimeStatus dfkiR
+        int i;
+        for (i=1; i<dfkiId; i++) {
+             dfkiR= DfkiRoutesTimeStatus.get(i)
+
+
+        }
+
+        DfkiRoutesTimeStatus dfkiRoutesTimeStatus = new DfkiRoutesTimeStatus(
+                lat: "lat",
+                lon: "lon",
+                speed: dfkiR.batterySoC
+        )
+        m.speed = dfkiRoutesTimeStatus.speed
+        //def obuLat =  dfkiRoutesTimeStatus.lat
+         //m.speed = dfkiRoutesTimeStatus.speed
+        //m.lat = dfkiRoutesTimeStatus.lat
+        //m.lon = dfkiRoutesTimeStatus.lon
+        render view: 'configurator1', model: m
+    }
 }
