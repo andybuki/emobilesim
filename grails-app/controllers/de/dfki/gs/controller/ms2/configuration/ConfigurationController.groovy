@@ -31,19 +31,26 @@ import de.dfki.gs.controller.ms2.configuration.commands.UpdateAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.VrpCommandObject
 import de.dfki.gs.domain.Author
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.CustomerPosition
+import de.dfki.gs.domain.simulation.CustomerPositionSet
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.Simulation
+import de.dfki.gs.domain.simulation.SingleVrpTracks
+import de.dfki.gs.domain.simulation.VrpTracks
 import de.dfki.gs.domain.stats.ExperimentRunResult
+import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.SimulationArea
+import de.dfki.gs.service.VrpSolver
 import de.dfki.gs.utils.LatLonPoint
 import de.dfki.gs.utils.ResponseConstants
 import grails.converters.JSON
@@ -1870,6 +1877,119 @@ class ConfigurationController {
         }
 
 
+        response.status = ResponseConstants.RESPONSE_STATUS_OK
+        response.addHeader("Content-Type", "application/json");
+
+        render "${(data as JSON).toString()}"
+    }
+
+    /**
+     * calculates for the given fleet and the given targets a good root for every car, s.th. the total distance is as
+     * small as possible and that every car has the same amount of targets
+     * it uses optaplanner to get this solution.
+     * @return
+     */
+    def calculateVrp(){
+        Person person = (Person) springSecurityService.currentUser
+        Company company = Company.get( person.company.id )
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        VrpCommandObject cmd = new VrpCommandObject();
+        bindData(cmd, params)
+        // what we get
+
+        def json = request.JSON.data
+        // what we return
+        def data = [:]
+        data.currentLat = json.currentLat;
+        data.currentLon = json.currentLon;
+        data.currentZoom = json.currentZoom;
+        data.configurationStubId = cmd.configurationStubId
+        data.fleetId = cmd.fleetId
+        data.fleetName = cmd.fleetName
+        //data.carTypeId = cmd.carTypeId
+        CustomerPosition depot = new CustomerPosition(isDepot: true,lat: json.startPoint.y, lon: json.startPoint.x)
+        if ( !depot.save( flush: true ) ) {
+            log.error( "failed to save depot: ${depot.errors}" )
+        }
+        if (json.type == "lineRoute") {
+
+            List<CustomerPosition> destinations = []//TODO look here
+
+            int id = 0;
+            json.destinationPoints.each {
+                CustomerPosition customerPosition =  new CustomerPosition(isDepot: false,lat: it.y, lon: it.x)
+                if ( !customerPosition.save( flush: true ) ) {
+                    log.error( "failed to save customerPosition: ${customerPosition.errors}" )
+                }
+                destinations << customerPosition
+                id++
+            }
+            CustomerPositionSet customerPositionSet = new CustomerPositionSet(company: company, depot: depot, customers: destinations)
+            if ( !customerPositionSet.save( flush: true ) ) {
+                log.error( "failed to save customerPositionSet: ${customerPositionSet.errors}" )
+            }
+            cmd.customerPositionSetId = customerPositionSet.id
+
+            if (!cmd.validate()) {
+                log.error("failed: ${cmd.errors}")
+                return
+            }
+
+            VrpSolver vrpSolver = new VrpSolver(customerPositionSet, cmd.fleetId);
+            VrpTracks vrpRouteTracks = vrpSolver.solveVrp();
+            //now we have to calculate exact routes for the cars (we could also save them to VrpTracks)
+
+            Fleet fleet = Fleet.get(cmd.fleetId)
+            SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
+            if(fleet.cars.size()!=vrpRouteTracks.optaTracks.size()){
+                log.error("a bad error accured vrpRouteTracks has not the proper nr. of cars")
+            }
+            else {
+                Stack<SingleVrpTracks> vrpTracksStack = new Stack<SingleVrpTracks>()
+                vrpRouteTracks.optaTracks.each {vrpTracksStack.push(it)}
+                for(Car car: fleet.cars){
+                    def destinationsForCar = []
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    destinationsForCar.addAll(vrpTracksStack.pop().vrpRoute)
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    def pairs = destinationsForCar.collate(2,1,false)
+                    List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+                    data.routes = [];
+                    data.type = "lineRoute"
+                    pairs.each {
+                        Coordinate currentStart = new Coordinate(it[0].lat,it[0].lon)
+                        Coordinate currentTarget = new Coordinate(it[1].lat,it[1].lon)
+                        List<BasicEdge> pathEdges = [];
+                        if(currentStart.equals(currentTarget)){
+                            log.error("start and target are same from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+
+                        }
+                        else{
+                            pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
+                            if (pathEdges.size() < 1) {
+                                log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+                                return null //Todo: This might resolve in an error FIX IT
+                            }
+                        }
+                        multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
+                    }
+                    routeService.persistRouteToCar( car, multiTargetRoute )
+
+                }
+                fleet.routesConfigured = true
+                fleet.fleetStatus = FleetStatus.CONFIGURED
+                fleet.simulationArea= simulationArea
+                if ( !fleet.save( flush: true ) ) {
+                    log.error( "failed to save fleet: ${fleet.errors}" )
+                }
+                data.fleet = fleet
+
+            }
+        }
         response.status = ResponseConstants.RESPONSE_STATUS_OK
         response.addHeader("Content-Type", "application/json");
 

@@ -233,7 +233,7 @@
                                                         routesLayer: routesLayer,
                                                         <%--configurationStubId: ${configurationStubId} ,
                                                         fleetId:${fleetId},--%>
-                                                        calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateRouting' , params: [configurationStubId: configurationStubId , fleetName:fleetName,  fleetId:fleetId  ] )}'
+                                                        calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateVrp' , params: [configurationStubId: configurationStubId , fleetName:fleetName,  fleetId:fleetId  ] )}'
 
                                                         <%--calculateRouteLink: '${g.createLink( controller: 'configuration', action: 'calculateRouting', params: [configurationStubId: configurationStubId , fleetName:fleetName,  fleetId:fleetId , carTypeId :carTypeId /*,fleetTypes:fleetTypes,  carId:carId */ ] )}'--%>
 
