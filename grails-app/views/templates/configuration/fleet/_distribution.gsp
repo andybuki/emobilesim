@@ -11,6 +11,25 @@
     });
 </script>
 
+<style>
+circle {
+    stroke:#ff0000;
+    r:10;
+    fill-opacity:0.8;
+    fill:red;
+    stroke-width: 0px;
+    stroke-opacity: 1;
+}
+polyline {
+    stroke-width: 2px;
+    stroke-opacity: 0.6;
+    fill-opacity:0.0;
+    stroke: green;
+}
+
+
+</style>
+
 <div id="openModal" class="modalDialogRoutes">
     <div class="settingsWindowBig">
         <fieldset class="fieldSet100Percent">
@@ -208,19 +227,21 @@
 
                                         vectors = new OpenLayers.Layer.Vector("Vector Layer", {
                                             styleMap: new OpenLayers.StyleMap({'default':{
-                                                strokeColor: "#FF11FF",  // TODO: chose a good color
+                                                strokeColor: "red",  // TODO: chose a good color
                                                 strokeOpacity: 0.6,
                                                 strokeWidth: 6,
                                                 fillColor: "#FF5500",
+                                                externalGraphic: "../images/start_circle.png",
                                                 fillOpacity: 0.5,
-                                                pointRadius: 6,
+                                                pointRadius: 10,
                                                 pointerEvents: "visiblePainted",
-                                                label : "Start",
+                                                //label : "Start",
                                                 fontSize: "10px",
                                                 fontFamily: "Courier New, monospace",
                                                 fontWeight: "bold",
                                                 labelOutlineColor: "white",
                                                 labelOutlineWidth: 5
+                                                //cursor: 'pointer'
                                             }}),
                                             eventListeners: {
                                                 'featureadded' : function( evt ) {
@@ -241,8 +262,14 @@
                                                     serialize( data );
                                                 }
                                             }
+
+
+
                                         });
 
+
+
+                                        
                                         var fleetDat = new Object();
                                         <g:each var="fleet" in="${fleets}">
                                         <g:each var="car" in="${fleet.cars}" >
@@ -299,6 +326,7 @@
                                     </g:each>--%>
 
 
+
                                         var boxControl = new OpenLayers.Control.DrawFeature(
                                                 vectors,
                                                 OpenLayers.Handler.Path,
@@ -308,10 +336,23 @@
                                                     handlerOptions: {
                                                         sides : 4,
                                                         irregular : true
+                                                    },
+                                                    callbacks: {
+                                                        point: function (point) {
+                                                            console.log(point);
+                                                            feature = new OpenLayers.Feature.Vector(point);
+                                                            vectors.addFeatures(feature);
+                                                            vectors.redraw();
+
+
+                                                        }
                                                     }
 
+
                                                 }
+
                                         );
+
 
                                         map.addControl(new OpenLayers.Control.EditingToolbar( vectors ) );
                                         var options = {
