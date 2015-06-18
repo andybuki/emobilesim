@@ -2755,11 +2755,19 @@ class RouteService {
                     rememberOldB = currentNodeA.ID
                     edgesToPersist.add( new BasicEdge( edge.nodeB, edge.nodeA ) )
 
-                } else {
+                }
+                else if ( zeroNodeB.ID == currentNodeB.ID){
+                    rememberOldB = currentNodeA.ID
+                    edgesToPersist.add( new BasicEdge( edge.nodeB, edge.nodeA ) )
+                    //turn current zero is fine
+                }
+
+                else {
                     repaired = false
                 }
 
-            } else {
+            }
+            else {
 
                 if ( edge.nodeA.ID == rememberOldB ) {
                     // everything is fine
@@ -2783,7 +2791,7 @@ class RouteService {
         }
 
         if ( !repaired ) {
-            log.debug( "couldn't repair path list" )
+            log.error("couldn't repair path list")
         }
 
         return edgesToPersist
