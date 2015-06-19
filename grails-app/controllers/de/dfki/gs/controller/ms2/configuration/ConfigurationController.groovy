@@ -6,6 +6,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.ShowSingleFleetRouteCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowInfoStationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddCarsToFleedCommandObject
@@ -900,12 +901,40 @@ class ConfigurationController {
 
 
         if (!cmd.validate() && cmd.hasErrors()) {
-            log.error("failed to get simulation for provided simulationId: ${cmd.simulationId} -- ${cmd.errors}")
+            log.error("failed to get simulation for provided configurationStubId: ${cmd.configurationStubId} -- ${cmd.errors}")
         } else {
             def m = [:]
             m.fleets = configurationService.getFleetRoutesOfConfiguration(cmd.configurationStubId)
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
             render template: '/templates/configuration/routes/showRoutesOnMap', model: m
+        }
+    }
+    def showSingleFleetRouteOnMap() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+        log.debug("params openlayers: ${params}")
+        log.debug("sessionId: ${request.requestedSessionId}")
+
+        ShowSingleFleetRouteCommandObject cmd = new ShowSingleFleetRouteCommandObject()
+        bindData(cmd, params)
+
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to get simulation for provided simulationId: ${cmd.simulationId} -- ${cmd.errors}")
+        } else {
+            Fleet fleet = Fleet.get(cmd.fleetId)
+            def m = [:]
+            m.fleet = configurationService.getFleetRoute(cmd.fleetId)
+            m.simulationArea = fleet.getSimulationArea().name()
+            render template: '/templates/configuration/routes/showSingleRouteOnMap', model: m
         }
     }
 
