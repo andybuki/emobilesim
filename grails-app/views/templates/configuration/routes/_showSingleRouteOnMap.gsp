@@ -74,11 +74,17 @@
         var a = 0;
         <g:each var="car" in="${fleet.cars}" >
             var segments = new Array();
+        var randomColor;
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        randomColor= "rgb("+r+" ,"+g+","+ b+")";
+        colorVariable.push(randomColor);
             var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
                 styleMap: new OpenLayers.StyleMap({
                     'default': {
                         strokeColor: colorVariable[a],// TODO: chose a good color
-                        strokeOpacity: 0.6,
+                        strokeOpacity: 0.4,
                         strokeWidth: 4
                     }
                 })
