@@ -52,19 +52,7 @@
         var g = Math.floor(Math.random() * 255);
         var b = Math.floor(Math.random() * 255);
         color= "rgb("+r+" ,"+g+","+ b+")";
-        var colorVariable = ["#00ff00","#ff00ff","#00ddff","yellow","yellow","red"];
-
-        for (var a =0;a<=5;a++) {
-            routesLayer = new OpenLayers.Layer.Vector("Route Vectors", {
-                styleMap: new OpenLayers.StyleMap({
-                    'default': {
-                        strokeColor: colorVariable[a],// TODO: chose a good color
-                        strokeOpacity: 0.6,
-                        strokeWidth: 4
-                    }
-                })
-            });
-        }
+        var colorVariable = ["red","#00ff00","#ff00ff","#00ddff","yellow","yellow"];
         markers = new OpenLayers.Layer.Markers( "Markers", {
             strategies: [
                 new OpenLayers.Strategy.Fixed(),
@@ -75,7 +63,7 @@
         var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
         var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
 
-        map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers ] );
+        map.addLayers( [ mapnik_layer, mapgoogle_layer, markers ] );
 
 
         map.addControl(new OpenLayers.Control.MousePosition());
@@ -86,6 +74,16 @@
         var a = 0;
         <g:each var="car" in="${fleet.cars}" >
             var segments = new Array();
+            var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
+                styleMap: new OpenLayers.StyleMap({
+                    'default': {
+                        strokeColor: colorVariable[a],// TODO: chose a good color
+                        strokeOpacity: 0.6,
+                        strokeWidth: 4
+                    }
+                })
+            });
+            a++;
             <g:each var="seg" in="${car.route}">
                 var segm = new Object();
                 segm.fromX = ${seg.fromLon};
@@ -95,9 +93,10 @@
                 segments.push( segm );
             </g:each>
             fleetDat.route = segments;
-            fleetDat.routesLayer = routesLayer;
+            fleetDat.routesLayer = singleRoutesLayer;
             fleetDat.markers = markers;
             drawRoute( fleetDat );
+            map.addLayer(singleRoutesLayer);
         </g:each>
 
 
