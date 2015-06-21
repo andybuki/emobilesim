@@ -11,7 +11,7 @@
         // var offset = new OpenLayers.Pixel( -(size.x/2) , -(size.y/2));
         var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'start.png' )}" , startIconSize );
         var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
-        var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
+        var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'viaPin.png' )}" , targetIconSize );
 
         var gasolineIconSize = new OpenLayers.Size( 30, 30 );
         var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinenormal.png' )}" , gasolineIconSize );
@@ -74,6 +74,7 @@
         var a = 0;
         <g:each var="car" in="${fleet.cars}" >
             var segments = new Array();
+            var vias = new Array();
         var randomColor;
         var r = Math.floor(Math.random() * 255);
         var g = Math.floor(Math.random() * 255);
@@ -97,10 +98,14 @@
                 segm.toX = ${seg.toLon};
                 segm.toY = ${seg.toLat};
                 segments.push( segm );
+                <g:if test="${seg.type=='via_target'}">
+                    vias.push(segm);
+                </g:if>
             </g:each>
             fleetDat.route = segments;
             fleetDat.routesLayer = singleRoutesLayer;
             fleetDat.markers = markers;
+            fleetDat.vias =vias;
             drawRoute( fleetDat );
             map.addLayer(singleRoutesLayer);
         </g:each>
