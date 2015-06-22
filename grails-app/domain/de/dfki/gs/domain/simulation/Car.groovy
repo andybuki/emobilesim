@@ -7,18 +7,14 @@ package de.dfki.gs.domain.simulation
 class Car {
 
     CarType carType
-
     String name
-
     Route route
 
     Configuration simulationStartTime
     float batteryPersent  // Persent from CarType maxEnergyLoad
     Integer pauseTimes
     String ownerName
-
     Boolean routesConfigured
-
     Long fleetId
 
 
@@ -33,9 +29,7 @@ class Car {
     }
 
     static mapping = {
-
         routesConfigured type: 'yes_no'
-
     }
 
 }

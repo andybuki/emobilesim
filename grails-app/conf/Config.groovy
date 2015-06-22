@@ -313,7 +313,7 @@ grails.plugin.springsecurity.rest.login.passwordPropertyName='devel'
 grails.plugin.springsecurity.rest.token.storage.memcached.username = 'usi'
 grails.plugin.springsecurity.rest.token.storage.memcached.password = 'devel'
 
-grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/sim'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/configuration'
 grails.plugin.springsecurity.auth.loginFormUrl = '/login/index'
 grails.plugin.springsecurity.auth.failureHandler.defaultFailureUrl = '/?login_error=1'
 grails.plugin.springsecurity.loginFormUrl = '/login/index'

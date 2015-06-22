@@ -15,7 +15,7 @@
                                 <li><a href="<g:createLink controller="login" action="logout" />"><g:message code="layouts._topbar.logout"/></a></li>
                             </ul>--%>
                         </li>
-                        <li><g:link controller="configuration" action="executeSimulations"><g:message code="layouts._topbar.execute"/></g:link></li>
+                        <%--<li><g:link controller="configuration" action="executeSimulations"><g:message code="layouts._topbar.execute"/></g:link></li>--%>
                         <li><g:link controller="configuration" action="viewSimulations"><g:message code="layouts._topbar.view"/></g:link></li>
 
                         <li><g:link controller="configuration" action="showCarTypes"><g:message code="layouts._topbar.extras"/></g:link>

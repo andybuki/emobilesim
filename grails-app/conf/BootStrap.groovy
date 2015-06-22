@@ -554,7 +554,7 @@ class BootStrap {
 
         // helper.findOrCreateRequestmap( "/login/success", "IS_AUTHENTICATED_ANONYMOUSLY" )
 
-        helper.findOrCreateRequestmap( "/sim", "ROLE_USER" )
+        helper.findOrCreateRequestmap( "/configuration", "ROLE_USER" )
 
         helper.findOrCreateRequestmap( "/simulation", "ROLE_USER" )
 

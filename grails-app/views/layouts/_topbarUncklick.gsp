@@ -8,7 +8,7 @@
             <div class="wrap">
                 <nav>
                     <ul id="menu">
-                        <li><g:link controller="sim" action=""><g:message code="simulation.index.quit"/></g:link>
+                        <li><g:link controller="configuration" action=""><g:message code="simulation.index.quit"/></g:link>
 
                         </li>
                         <%--<li><g:link><g:message code="layouts._topbar.execute"/></g:link></li>

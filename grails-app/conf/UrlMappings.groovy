@@ -2,8 +2,8 @@ class UrlMappings {
 
 	static mappings = {
 
-        "/sim" {
-            controller = "front"
+        "/" {
+            controller = "configuration"
             action = "init"
         }
 

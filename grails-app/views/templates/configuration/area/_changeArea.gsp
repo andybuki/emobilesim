@@ -10,21 +10,22 @@
                     <div class="clear"></div>
                 </div>
                 <div class="rowMiddle">
-
                     <div class="left140PX">
-
                         <g:select name="areaId" from="${availableAreas}"/>
                     </div>
-                    <div class="right100PX">
-                        <g:submitButton name="updateArea" value="${message(code: 'templates.configuration.area._changeArea.Change')}"/>
-                    </div>
+
 
                     <div class="clear"></div>
                 </div>
                 <div class="rowUnknown" id="updateCar"></div>
+
                 <div class="rowDown">
-                    <div class="right0PX">
+                    <div class="left140PX">
                         <input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href"/>
+
+                    </div>
+                    <div class="right0PX">
+                        <g:submitButton name="updateArea" value="${message(code: 'templates.configuration.area._changeArea.Change')}"/>
                     </div>
                 </div>
 

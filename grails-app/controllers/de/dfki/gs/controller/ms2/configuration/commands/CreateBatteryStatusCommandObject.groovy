@@ -1,0 +1,46 @@
+package de.dfki.gs.controller.ms2.configuration.commands
+
+import de.dfki.gs.domain.simulation.CarType
+import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.Fleet
+import grails.validation.Validateable
+
+/**
+ * Created by anbu02 on 19.06.15.
+ */
+@Validateable
+class CreateBatteryStatusCommandObject {
+
+    Long configurationStubId
+    Long fleetId
+
+    static constraints = {
+
+        configurationStubId nullable: false, validator: { val,obj ->
+
+
+            Configuration stub = Configuration.get( val )
+
+            if ( stub == null ) {
+                return 'configuration.stub.not.exist'
+            }
+
+
+
+        }
+
+
+
+        fleetId nullable: false, validator: { val,obj ->
+
+            Fleet fleet = Fleet.get( val )
+
+            if ( fleet == null ) {
+
+                return 'configuration.fleet.not.exist'
+            }
+
+        }
+
+    }
+}

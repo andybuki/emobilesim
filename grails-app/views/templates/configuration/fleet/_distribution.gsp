@@ -336,8 +336,8 @@ polyline {
                                                     handlerOptions: {
                                                         sides : 4,
                                                         irregular : true
-                                                    },
-                                                    callbacks: {
+                                                    }
+                                                    /*callbacks: {
                                                         point: function (point) {
                                                             console.log(point);
                                                             feature = new OpenLayers.Feature.Vector(point);
@@ -346,7 +346,7 @@ polyline {
 
 
                                                         }
-                                                    }
+                                                    }*/
 
 
                                                 }
