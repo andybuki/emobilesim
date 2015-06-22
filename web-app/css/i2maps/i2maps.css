@@ -11,7 +11,7 @@ div {
 body {
     background: url("../images/i2maps/px.png") repeat scroll 0 0 rgba(0, 0, 0, 0);;
 
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, Arial,Helvetica,sans-serif;
     font-size: 11px;
     margin: 0;
 }

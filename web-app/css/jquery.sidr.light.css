@@ -9,7 +9,7 @@
     width:200px;
     overflow-x:none;
     overflow-y:auto;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-family:verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "lucida grande",tahoma,verdana,arial,sans-serif;
     font-size:15px;
     background:#f8f8f8;
     color:#333;

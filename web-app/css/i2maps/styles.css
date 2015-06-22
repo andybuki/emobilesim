@@ -81,7 +81,7 @@ div.olLayerDiv {
 div.olControlMousePosition {
     bottom: 0;
     display: block;
-    font-family: Arial;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, Arial;
     font-size: smaller;
     position: absolute;
     right: 3px;
@@ -125,7 +125,7 @@ div.olControlMousePosition {
 .olLayerGeoRSSClose {
     color: #808080;
     float: right;
-    font-family: sans-serif;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, sans-serif;
     font-size: 1.2em;
     margin-right: 6px;
 }
@@ -337,7 +337,7 @@ div.olControlSaveFeaturesItemInactive {
 .olControlLayerSwitcher {
     background-color: rgba(0, 0, 0, 0);
     color: #FFFFFF;
-    font-family: sans-serif;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, sans-serif;
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 3px;

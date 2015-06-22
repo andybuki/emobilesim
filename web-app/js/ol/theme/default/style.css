@@ -86,7 +86,7 @@ div.olControlMousePosition {
     right: 3px;
     display: block;
     position: absolute;
-    font-family: Arial;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, Arial;
     font-size: smaller;
 }
 
@@ -136,7 +136,7 @@ div.olControlMousePosition {
     color:gray;
     font-size:1.2em;
     margin-right:6px;
-    font-family:sans-serif;
+    font-family:verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, sans-serif;
 }
 .olLayerGeoRSSTitle {
     float:left;font-size:1.2em;
@@ -318,7 +318,7 @@ div.olControlSaveFeaturesItemInactive {
     top: 25px;
     right: 0;
     width: 20em;
-    font-family: sans-serif;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, sans-serif;
     font-weight: bold;
     margin-top: 3px;
     margin-left: 3px;
@@ -455,7 +455,7 @@ div.olControlZoom a {
     padding: 0;
     color: white;
     font-size: 18px;
-    font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+    font-family: verdana, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
