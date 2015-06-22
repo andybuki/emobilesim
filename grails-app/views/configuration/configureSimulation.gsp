@@ -167,9 +167,10 @@
                                 <div class="right100PX">
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                                         <g:form action="showFleetRoutesOnMap">
-                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
+                                            <%--<g:hiddenField name="configurationStubId" value="${configurationStubId}" />--%>
+                                            <g:hiddenField name="fleetId" value="${addedFleet.id}" />
                                             <g:submitToRemote class="addButton"
-                                                              url="[action: 'showFleetRoutesOnMap']"
+                                                              url="[action: 'showSingleFleetRouteOnMap']"
                                                               update="updateMe"
                                                               name="showRoutes"
                                                               value="${message(code: 'configuration.index.showroutes')}"/>

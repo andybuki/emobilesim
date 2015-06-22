@@ -35,7 +35,7 @@ polyline {
         <fieldset class="fieldSet100Percent">
             <legend> <g:message code="templates.configuration.fleet._distribution.selectroutes"/> </legend>
             <div class="layout">
-                <div class="layoutLeftLittle">
+                <%--<div class="layoutLeftLittle">
                     <div class="contentLeft4">
                         <g:form controller="configuration" action="createDistributionForFleet">
                             <div class="contentLeftRoutes">
@@ -58,7 +58,7 @@ polyline {
                                     </div>
                                 </div>--%>
 
-                                <div class="rowMiddleWithoutBorder">
+                                <%--<div class="rowMiddleWithoutBorder">
                                     <div class="left0PX1">
                                         <b>CarId</b>
                                     </div>
@@ -95,7 +95,7 @@ polyline {
                                             ${car.batteryPersent}
                                         </span>
                                     </div>
-                                </g:each>
+                                </g:each>--%>
 
                             <%--<g:each in="${carTypes}" var="carType">
                                 <div class="rowMiddleWithoutBorder4">
@@ -113,10 +113,11 @@ polyline {
 
 
 
-                            </div>
+                            <%--</div>
                         </g:form>
                     </div>
                 </div>
+                --%>
                 <div class="layoutRightLittle">
                     <div id="tabs-container">
                         <ul class="tabs-menu">
