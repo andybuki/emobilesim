@@ -175,5 +175,6 @@ grails.project.dependency.resolution = {
 
         compile ":easygrid:1.7.1"
 
+
     }
 }
