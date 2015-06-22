@@ -1333,5 +1333,18 @@ class ConfigurationService {
         return fillingStationGroup
     }
 
+    def getBatteryStatus(Long fleetId ) {
+        Fleet fleet = Fleet.get( fleetId )
+        def cars = []
+        fleet.cars.each { Car car ->
+            car.batteryPersent = 100
+            cars << Car.get( car.id )
+        }
+
+        return cars
+
+
+    }
+
 
 }

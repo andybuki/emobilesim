@@ -5,6 +5,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.AddStationsToUnsavedGrou
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowInfoStationsCommandObject
@@ -272,7 +273,7 @@ class ConfigurationController {
             configurationService.removeFleetFromConfiguration(cmd.configurationStubId, cmd.fleetId)
 
         }
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -297,7 +298,7 @@ class ConfigurationController {
             configurationService.removeGroupFromConfiguration(cmd.configurationStubId, cmd.groupId)
 
         }
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -325,7 +326,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -353,7 +354,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -381,6 +382,95 @@ class ConfigurationController {
 
         // plug the model..
         def m = [:]
+        m.configurations = []
+
+        if (cmd.configurationStubId == null) {
+            configurationStubId = configurationService.createConfigurationStub(person).id;
+        } else {
+            configurationStubId = cmd.configurationStubId
+        }
+
+        /*if (cmd.simulationName==null) {
+            String sim = "Simulation ${configurationStubId}"
+            m.simulationName = sim
+        } else {
+            simulationName = configurationService.createSimulationForCompany( person, cmd.simulationName )
+            m.simulationName = simulationName
+        }*/
+
+        // to know what we are talking about
+
+        List<Configuration> configurations = configurationService.getRecentlyEditedConfigurationsOfCompany(person)
+
+        configurations.each { Configuration configuration ->
+
+            def conf = [:]
+
+            List<Fleet> existedFleets = new ArrayList<Fleet>()
+            configuration.fleets.each { Fleet fleet ->
+                existedFleets.add(Fleet.get(fleet.id))
+
+            }
+
+            List<FillingStationGroup> existedStations = new ArrayList<FillingStationGroup>()
+            configuration.fillingStationGroups.each { FillingStationGroup fillingStationGroup ->
+                existedStations.add(FillingStationGroup.get(fillingStationGroup.id))
+
+            }
+
+            if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0) {
+
+                int routeCount = 0
+                configuration.fleets.each { Fleet fleet ->
+                    fleet = Fleet.get(fleet.id)
+                    routeCount += fleet.cars.size()
+                }
+
+                int stationCount = 0
+
+                configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                    fillingStation = FillingStationGroup.get(fillingStation.id)
+                    stationCount += fillingStation.fillingStations.size()
+                }
+
+                conf.configurationId = configuration.id
+                conf.fleetInfo = existedFleets.cars[0].size()
+                conf.stationsInfo = existedStations.fillingStations[0].size()
+                conf.routeCount = routeCount
+                conf.stationCount = stationCount
+                conf.simulationName = configuration.simulationName
+
+                m.configurations << conf
+            }
+
+        }
+
+        render view: 'index', model: m
+    }
+
+    def configureSimulation (){
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate configuration stub: ${cmd.errors}")
+
+        }
+
+
+        Long configurationStubId = null
+
+        // plug the model..
+        def m = [:]
+        m.configurations = []
 
         if (cmd.configurationStubId == null) {
             configurationStubId = configurationService.createConfigurationStub(person).id;
@@ -432,7 +522,8 @@ class ConfigurationController {
 
         m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
 
-        render view: 'index', model: m
+
+        render view: 'configureSimulation', model: m
     }
 
 
@@ -529,7 +620,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
     }
 
     def createGroup() {
@@ -560,7 +651,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
     }
 
     def createGroupSelectorView() {
@@ -680,7 +771,7 @@ class ConfigurationController {
 
         }
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
     }
 
     /**
@@ -713,7 +804,7 @@ class ConfigurationController {
 
         }
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
     }
 
 
@@ -767,7 +858,7 @@ class ConfigurationController {
         else {
             configurationService.setSimulationName(cmd.configurationStubId, cmd.nameForSimulation)
         }
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
     /**
@@ -812,6 +903,51 @@ class ConfigurationController {
             render template: '/templates/configuration/fleet/createFleet', model: m
 
         }
+
+    }
+
+    def configureBatteryStatus () {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        CreateBatteryStatusCommandObject cmd  = new CreateBatteryStatusCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+
+        } else {
+            def m = [:]
+            m.fleetId = cmd.fleetId
+            m.configurationStubId = cmd.configurationStubId
+            m.batteryStatus = configurationService.getBatteryStatus(cmd.fleetId)
+
+            render template: '/templates/configuration/fleet/configureBatteryStatus', model: m
+        }
+
+    }
+
+    def configureStartTime() {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        def m = [:]
+        render template: '/templates/configuration/fleet/configureStartTimeStatus', model: m
 
     }
 
@@ -980,7 +1116,7 @@ class ConfigurationController {
             configurationService.changeSimulationArea(cmd.configurationStubId, cmd.areaId)
         }
 
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
     }
 
 
@@ -1323,7 +1459,7 @@ class ConfigurationController {
         }
 
         //redirect controller: 'front', action: 'init'
-        redirect(controller: 'configuration', action: 'index', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
     }
 
     def showRecentlyEditedConfiguration() {
@@ -1998,6 +2134,7 @@ class ConfigurationController {
 
         render "${(data as JSON).toString()}"
     }
+
 
 
     def configurator1 () {
