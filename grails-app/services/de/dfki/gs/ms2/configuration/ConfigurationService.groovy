@@ -771,6 +771,42 @@ class ConfigurationService {
 
         return fleets
     }
+    def getFleetRoute( Long fleetID ) {
+
+        Fleet fleet = Fleet.get(fleetID)
+        def fleetModel = [:]
+        fleet = Fleet.get( fleet.id )
+
+        fleetModel.cars = []
+        fleetModel.name = fleet.name
+        fleetModel.routesConfigured = fleet.routesConfigured
+        if (fleetModel.routesConfigured == true) {
+            fleet.cars.each { Car car ->
+
+                car = Car.get(car.id)
+
+                def carModel = [:]
+                carModel.name = car.name
+                carModel.route = []
+
+                Route route = Route.get(car.route.id)
+
+                route.edges.each { TrackEdge trackEdge ->
+
+                        trackEdge = TrackEdge.get(trackEdge.id)
+
+                        carModel.route << trackEdge
+
+                }
+
+                fleetModel.cars << carModel
+
+                }
+            }
+
+
+        return fleetModel
+    }
 
     def getGroupStationsOfConfiguration( Long configurationId ) {
 
