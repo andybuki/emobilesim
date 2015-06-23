@@ -34,7 +34,6 @@ import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObje
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.VrpCommandObject
-import de.dfki.gs.domain.Author
 import de.dfki.gs.domain.DfkiRoutesTimeStatus
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
@@ -299,7 +298,7 @@ class ConfigurationController {
             configurationService.removeGroupFromConfiguration(cmd.configurationStubId, cmd.groupId)
 
         }
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -355,7 +354,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -524,9 +523,145 @@ class ConfigurationController {
         m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
 
 
-        render view: 'configureSimulation', model: m
+        render view: 'configureSimulationFleet', model: m
     }
 
+
+    def configureSimulationRoute () {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate configuration stub: ${cmd.errors}")
+
+        }
+
+
+        Long configurationStubId = null
+
+        // plug the model..
+        def m = [:]
+        m.configurations = []
+
+        if (cmd.configurationStubId == null) {
+            configurationStubId = configurationService.createConfigurationStub(person).id;
+        } else {
+            configurationStubId = cmd.configurationStubId
+        }
+
+
+        // to know what we are talking about
+        m.configurationStubId = configurationStubId
+
+        //simulation
+        m.simulationName = configurationService.getSimulationName(configurationStubId)
+
+        m.simulationArea = (configurationService.getSimulationArea(configurationStubId)).name()
+
+        // fleets
+        m.availableFleets = configurationService.getFleetsForCompany(person, configurationStubId)
+
+        // fleets already added to configuration stub
+        m.addedFleets = configurationService.getAddedFleets(configurationStubId)
+
+        // fleets that allready configured
+        m.configuredFleets = configurationService.getConfiguredFleets(configurationStubId)
+
+        // fleets that need to be saveble
+        m.savedFleets = configurationService.getFleetsToBeSaved(configurationStubId)
+
+        m.notConfiguredFleets = configurationService.getFleetsNotConfigured(configurationStubId)
+
+
+        render view: 'configureSimulationRoute', model: m
+    }
+
+    def configureSimulationStation () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate configuration stub: ${cmd.errors}")
+
+        }
+
+
+        Long configurationStubId = null
+
+        // plug the model..
+        def m = [:]
+        m.configurations = []
+
+        if (cmd.configurationStubId == null) {
+            configurationStubId = configurationService.createConfigurationStub(person).id;
+        } else {
+            configurationStubId = cmd.configurationStubId
+        }
+
+        /*if (cmd.simulationName==null) {
+            String sim = "Simulation ${configurationStubId}"
+            m.simulationName = sim
+        } else {
+            simulationName = configurationService.createSimulationForCompany( person, cmd.simulationName )
+            m.simulationName = simulationName
+        }*/
+
+        // to know what we are talking about
+        m.configurationStubId = configurationStubId
+
+        //simulation
+        m.simulationName = configurationService.getSimulationName(configurationStubId)
+
+        m.simulationArea = (configurationService.getSimulationArea(configurationStubId)).name()
+
+        // fleets
+        m.availableFleets = configurationService.getFleetsForCompany(person, configurationStubId)
+
+        // fleets already added to configuration stub
+        m.addedFleets = configurationService.getAddedFleets(configurationStubId)
+
+        // filling station groups
+        m.availableFillingStationGroups = configurationService.getGroupsForCompany(person, configurationStubId)
+
+        // groups already added to configuration stub
+        m.addedGroups = configurationService.getAddedGroups(configurationStubId)
+
+        // groups that allready configured
+        m.configuredGroups = configurationService.getConfiguredGroups(configurationStubId)
+
+        // fleets that allready configured
+        m.configuredFleets = configurationService.getConfiguredFleets(configurationStubId)
+
+        // groups that need to be saveble
+        m.savedGroups = configurationService.getGroupsToBeSaved(configurationStubId)
+
+        // fleets that need to be saveble
+        m.savedFleets = configurationService.getFleetsToBeSaved(configurationStubId)
+
+        m.notConfiguredFleets = configurationService.getFleetsNotConfigured(configurationStubId)
+
+        m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
+
+
+        render view: 'configureSimulationStation', model: m
+    }
 
     def editCarType() {
 
@@ -652,7 +787,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: params.configurationStubId])
     }
 
     def createGroupSelectorView() {
@@ -1490,6 +1625,80 @@ class ConfigurationController {
         //redirect controller: 'front', action: 'init'
         redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
     }
+
+
+    def saveFinishedConfigurationFleet(){
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        CreateFleetForConfigurationViewCommandObject cmd = new CreateFleetForConfigurationViewCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("nothing to save, no coniguration stub found for ${cmd.configurationStubId} : ${cmd.errors}")
+        } else {
+
+            configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
+
+        }
+
+        //redirect controller: 'front', action: 'init'
+        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: cmd.configurationStubId])
+    }
+
+    def saveFinishedConfigurationRoute(){
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        CreateFleetForConfigurationViewCommandObject cmd = new CreateFleetForConfigurationViewCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("nothing to save, no coniguration stub found for ${cmd.configurationStubId} : ${cmd.errors}")
+        } else {
+
+            configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
+
+        }
+
+        //redirect controller: 'front', action: 'init'
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
+    }
+
+    def saveFinishedConfigurationStation () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        CreateFleetForConfigurationViewCommandObject cmd = new CreateFleetForConfigurationViewCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("nothing to save, no coniguration stub found for ${cmd.configurationStubId} : ${cmd.errors}")
+        } else {
+
+            configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
+
+        }
+
+        //redirect controller: 'front', action: 'init'
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
+    }
+
 
     def showRecentlyEditedConfiguration() {
 

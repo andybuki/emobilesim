@@ -2180,6 +2180,15 @@ fieldset {
     vertical-align: top;
     display: table-cell;
     max-width: 300px;
+
+
+}
+
+.layoutLeft1 {
+	min-width: 300px;
+	vertical-align: top;
+	display: table-cell;
+	max-width: 300px;
 	border-right: 1px solid #eee;
 
 }

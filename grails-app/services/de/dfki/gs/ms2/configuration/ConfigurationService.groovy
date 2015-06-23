@@ -1179,6 +1179,33 @@ class ConfigurationService {
 
     }
 
+
+    def saveFinishedConfigurationStubFleet ( Long configurationStubId ) {
+
+        Configuration configurationStubToSave = Configuration.get( configurationStubId )
+        configurationStubToSave.stub = false
+        SimulationArea simulationArea = configurationStubToSave.simulationArea
+
+        // creating routes for distribution, set all FleetStatus
+        configurationStubToSave.fleets.each { Fleet fleet ->
+
+            fleet = Fleet.get( fleet.id )
+
+            fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id,simulationArea)
+
+        }
+
+        if ( !configurationStubToSave.save( flush: true ) ) {
+            log.error( "failed to save configuration: ${configurationStubToSave.errors}" )
+        } else {
+
+            log.error( "configuration with id ${configurationStubId} is now unStubbed!" )
+
+        }
+    }
+
+
+
     /**
      *
      * @param configurationId
