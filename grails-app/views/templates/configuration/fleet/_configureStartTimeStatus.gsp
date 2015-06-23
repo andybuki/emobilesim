@@ -9,7 +9,7 @@
                 </div>
                 <div class="rowMiddle">
                     <div class="left200PX">
-                        <calendar:datePicker name="date" dateFormat="%H:%M - %d/%m/%y" defaultValue="${new Date()}" showTime="true"/>
+                        <calendar:datePicker class="calendarSet" name="date" dateFormat="%H:%M - %d/%m/%y" defaultValue="${new Date()}" showTime="true"/>
                     </div>
                 </div>
 

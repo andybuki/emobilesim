@@ -1540,6 +1540,7 @@ td {
 legend {
     position: relative;
     font-weight: bold;
+	font-size: 13px;
 }
 
 #addForm {
@@ -2037,7 +2038,7 @@ fieldset {
 }
 
 .confirmationMessage {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .confirmEmail {
@@ -2410,6 +2411,7 @@ fieldset {
     padding:10px 0px 0px 7px;
     min-height:24px;
     font-weight: bold;
+	font-size: 12px;
 }
 
 .leftBoldResetPassword {
@@ -2425,6 +2427,7 @@ fieldset {
     padding:10px 0px 0px 7px;
     min-height:24px;
     font-weight: bold;
+	font-size: 13px;
 }
 
 .leftBoldSimArea {
@@ -2468,7 +2471,7 @@ fieldset {
 }
 
 .left00PX{
-	width:72px;
+	width:60px;
 	float:left;
 	padding:5px;
 }
@@ -2696,7 +2699,7 @@ fieldset {
 }
 
 .contentModalWindowFleetArea {
-	width:300px;
+	width:320px;
 	font-size: 12px;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -3487,4 +3490,21 @@ label.checkbox :disabled + span{
 
 .tableConfiguration {
 	border: 1px solid #ddd;
+}
+
+td {
+	font-size: 11px;
+}
+
+th {
+	font-size: 12px;
+}
+
+.calendarSet {
+	padding-top: 2px;
+}
+
+#date_value {
+	margin-top: 5px;
+	margin-left: 5px;
 }
