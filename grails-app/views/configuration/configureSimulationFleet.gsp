@@ -131,19 +131,19 @@
                             <div class="rowMiddleWithoutBorder">
                                 <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                                     <div class="leftCollectFleets">
-                                        ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>
+                                        ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <%--<img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>--%>
                                     </div>
 
                                 </g:if>
                                 <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
                                     <div class="leftCollectFleets">
-                                        ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.scheduleroute"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
+                                        ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <%--<img class="helpButton" title="<g:message code="configuration.index.scheduleroute"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>--%>
                                     </div>
                                 </g:if>
 
                                 <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
                                     <div class="leftCollectFleets">
-                                        ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'attention.png' )}"/>
+                                        ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <%--<img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'attention.png' )}"/>--%>
                                     </div>
 
 
@@ -157,16 +157,16 @@
                                 </div>
                                 <div class="right100PX">
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
-                                        <g:form action="showFleetRoutesOnMap">
+                                        <%--<g:form action="showFleetRoutesOnMap">
                                             <%--<g:hiddenField name="configurationStubId" value="${configurationStubId}" />--%>
-                                            <g:hiddenField name="fleetId" value="${addedFleet.id}" />
-                                            <g:submitToRemote class="addButton"
-                                                              url="[action: 'showSingleFleetRouteOnMap']"
-                                                              update="updateMe"
-                                                              name="showRoutes"
-                                                              value="${message(code: 'configuration.index.showroutes')}"/>
+                                            <%--<g:hiddenField name="fleetId" value="${addedFleet.id}" />
+                                                <g:submitToRemote class="addButton"
+                                                      url="[action: 'showSingleFleetRouteOnMap']"
+                                                      update="updateMe"
+                                                      name="showRoutes"
+                                                      value="${message(code: 'configuration.index.showroutes')}"/>
 
-                                        </g:form>
+                                            </g:form>--%>
                                     </g:if>
                                     <span class="konfiguration">
                                         <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
@@ -174,7 +174,7 @@
                                         </g:if>
                                     </span>
                                     <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
-                                        <g:form action="createRouteSelectorView">
+                                        <%--<g:form action="createRouteSelectorView">
                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                             <g:submitToRemote class="addButton"
@@ -182,7 +182,7 @@
                                                               update="updateMe"
                                                               name="submit"
                                                               value="${message(code: 'configuration.index.configureroutes')}" />
-                                        </g:form>
+                                        </g:form>--%>
                                     </g:if>
                                     </div>
 

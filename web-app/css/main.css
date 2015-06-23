@@ -1054,6 +1054,17 @@ body.lightBoxBody{
     font-size: 12px;
 }
 
+.contentLeft2{
+	padding:0px;
+	margin-right: 10px;
+	margin-left: -10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	width:525px;
+	/*border-radius: 6px;*/
+	font-size: 12px;
+}
+
 .contentLeft3{
     padding:0px;
     margin: 10px;
@@ -2197,7 +2208,7 @@ fieldset {
     vertical-align: top;
     display: table-cell;
     float:left;
-	width: 500px;
+	width: 525px;
 }
 
 .contentLeft{
@@ -2481,9 +2492,15 @@ fieldset {
 }
 
 .leftCollectFleets{
-    //width:270px;
+    /*width:270px;*/
     float:left;
-    padding:0px 0px 0px 7px;
+    padding:9px 0px 0px 7px;
+}
+
+.leftCollectFleets0{
+	/*width:270px;*/
+	float:left;
+	padding:0px 0px 0px 7px;
 }
 
 .leftbig {
@@ -2702,6 +2719,21 @@ fieldset {
     pointer-events: auto;
 }
 
+.modalDialogBig {
+	position: fixed;
+	font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	opacity:1;
+}
+
+.modalDialogBig:target {
+	opacity:1;
+	pointer-events: auto;
+}
 
 .modalDialogArea {
 	position: fixed;
@@ -2727,6 +2759,16 @@ fieldset {
     padding: 5px 20px 13px 20px;
     border-radius: 10px;
     background: #fff;
+
+}
+
+.modalDialogBig > div {
+	width: 520px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
 
 }
 

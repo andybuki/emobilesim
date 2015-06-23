@@ -88,7 +88,7 @@
 
                 <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
                     <div class="rowMiddleWithoutBorder">
-                        <span class="leftConfiguration"><g:message code="simulation.index.selectgroup"/></span>
+                        <span class="leftConfiguration"><%--<g:message code="simulation.index.selectgroup"/>--%></span>
                         <span class="rightOnlyButton">
                             <g:form controller="configuration" action="addExistentGroupToConfiguration">
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
@@ -137,18 +137,18 @@
                             </div>--%>
 
                                 <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
-                                    <div class="leftCollectFleets">
+                                    <div class="leftCollectFleets0">
                                         ${addedGroup.name} (${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/> ) <img class="helpButton" title="<g:message code="configuration.index.allstations"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>
                                     </div>
                                 </g:if>
                                 <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
-                                    <div class="leftCollectFleets">
+                                    <div class="leftCollectFleets0">
                                         ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/>  ) <img class="helpButton" title="<g:message code="configuration.index.schedulestation"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                     </div>
                                 </g:if>
 
                                 <g:if test="${addedGroup.groupStatus == GroupStatus.NOT_CONFIGURED}">
-                                    <div class="leftCollectFleets">
+                                    <div class="leftCollectFleets0">
                                         ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/>  ) <img class="helpButton" title="<g:message code="configuration.index.stationsconfigured"/>" src="${g.resource( dir: '/images', file: 'attention.png' )}"/>
                                     </div>
                                 </g:if>
