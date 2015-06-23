@@ -277,6 +277,31 @@ class ConfigurationController {
 
     }
 
+    def removeFleetFromConfigurationRoute() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        AddFleetToConfigurationCommandObject cmd = new AddFleetToConfigurationCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to vaildate AddFleetToConfigurationCommandObject to remove fleet: ${cmd.errors}")
+        } else {
+
+            configurationService.removeFleetFromConfiguration(cmd.configurationStubId, cmd.fleetId)
+
+        }
+        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: params.configurationStubId])
+
+    }
+
     def removeGroupFromConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser

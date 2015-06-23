@@ -149,7 +149,7 @@
 
                                 </g:if>
                                 <div class="right65PX">
-                                    <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                    <g:form controller="configuration" action="removeFleetFromConfigurationRoute">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                         <g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}"/>

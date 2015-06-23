@@ -73,9 +73,9 @@
                     <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
                     <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                     <div class="clear"></div>
-                </div>--%>
+                </div>
                 <b>Create Route:</b>
-                <%--<div class="rowSpace">
+                <div class="rowSpace">
                     <div class="clear"></div>
                 </div>--%>
 
@@ -137,19 +137,19 @@
                     <%--<g:message code="simulation.index.addedfleet"/>--%>
                         <div class="rowMiddleWithoutBorder">
                             <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
-                                <div class="leftCollectFleets">
+                                <div class="leftCollectFleets0">
                                     ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>
                                 </div>
 
                             </g:if>
                             <g:if test="${addedFleet.fleetStatus == FleetStatus.SCHEDULED_FOR_CONFIGURING}">
-                                <div class="leftCollectFleets">
+                                <div class="leftCollectFleets0">
                                     ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.scheduleroute"/>" src="${g.resource( dir: '/images', file: 'helpnew.png' )}"/>
                                 </div>
                             </g:if>
 
                             <g:if test="${addedFleet.fleetStatus == FleetStatus.NOT_CONFIGURED}">
-                                <div class="leftCollectFleets">
+                                <div class="leftCollectFleets0">
                                     ${addedFleet.name}  ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/>  ) <img class="helpButton" title="<g:message code="configuration.index.routesconfigured"/>" src="${g.resource( dir: '/images', file: 'attention.png' )}"/>
                                 </div>
 
@@ -195,7 +195,7 @@
 
                         </div>
 
-                        <table class="tableConfiguration">
+                        <%--<table class="tableConfiguration">
                             <tr>
                                 <td class="col1"><b>CarId</b></td>
                                 <td class="col2"><b>Car name</b></td>
@@ -242,7 +242,7 @@
                             </g:each>
 
                         </table>
-
+                         --%>
 
 
 
