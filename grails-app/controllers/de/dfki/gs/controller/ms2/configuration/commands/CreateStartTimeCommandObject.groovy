@@ -1,6 +1,5 @@
 package de.dfki.gs.controller.ms2.configuration.commands
 
-import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.Fleet
 import grails.validation.Validateable
@@ -9,7 +8,7 @@ import grails.validation.Validateable
  * Created by anbu02 on 19.06.15.
  */
 @Validateable
-class CreateBatteryStatusCommandObject {
+class CreateStartTimeCommandObject {
 
     Long configurationStubId
     Long fleetId

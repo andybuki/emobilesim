@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe3c0ce8-b17d-48ef-bdde-03cdfdc429fc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web-app/images/viaPin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/ShowSingleFleetRouteCommandObject.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/views/templates/configuration/routes/_showSingleRouteOnMap.gsp" />
+    <list default="true" id="fe3c0ce8-b17d-48ef-bdde-03cdfdc429fc" name="Default" comment="new changes&#10;">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateStartTimeCommandObject.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application.properties" afterPath="$PROJECT_DIR$/application.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp" afterPath="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/i18n/messages_de.properties" afterPath="$PROJECT_DIR$/grails-app/i18n/messages_de.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="emobile.iws" />
@@ -114,44 +115,52 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BuildConfig.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
+      <file leaf-file-name="configureSimulationFleet.gsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationFleet.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2805">
-              <caret line="77" column="57" selection-start-line="77" selection-start-column="57" selection-end-line="77" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataSource.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2387" max-vertical-offset="3105">
-              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Config.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/Config.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4907" max-vertical-offset="5625">
-              <caret line="315" column="64" selection-start-line="315" selection-start-column="64" selection-end-line="315" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConfigurationController.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.67781156" vertical-offset="10937" max-vertical-offset="33375">
-              <caret line="744" column="0" selection-start-line="744" selection-start-column="0" selection-end-line="744" selection-end-column="0" />
+            <state vertical-scroll-proportion="-4.219178" vertical-offset="2857" max-vertical-offset="4380">
+              <caret line="221" column="75" selection-start-line="221" selection-start-column="75" selection-end-line="221" selection-end-column="75" />
               <folding>
-                <element signature="e#49#139#0" expanded="true" />
+                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigurationService.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.230769" vertical-offset="21078" max-vertical-offset="21450">
+              <caret line="1416" column="0" selection-start-line="1416" selection-start-column="0" selection-end-line="1416" selection-end-column="0" />
+              <folding>
+                <element signature="e#38#83#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
+          <provider editor-type-id="ResourceBundle">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.233333" vertical-offset="3878" max-vertical-offset="5190">
+              <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Experiment.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Experiment.groovy">
+          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.5283017" vertical-offset="0" max-vertical-offset="585">
+              <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,62 +171,64 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.54717" vertical-offset="0" max-vertical-offset="615">
-              <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+            <state vertical-scroll-proportion="-1.1509434" vertical-offset="119" max-vertical-offset="615">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConfigurationService.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.846154" vertical-offset="19615" max-vertical-offset="20880">
-              <caret line="1323" column="0" selection-start-line="1323" selection-start-column="0" selection-end-line="1323" selection-end-column="0" />
-              <folding>
-                <element signature="e#38#83#0" expanded="true" />
-              </folding>
-            </state>
+      <file leaf-file-name="Configuration.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Configuration.groovy">
+          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+            <state />
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="configureSimulation.gsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulation.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.936171" vertical-offset="0" max-vertical-offset="4680">
-              <caret line="28" column="49" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
+            <state vertical-scroll-proportion="-3.7924528" vertical-offset="39" max-vertical-offset="900">
+              <caret line="17" column="27" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application.properties">
+      <file leaf-file-name="messages_de.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages_de.properties">
+          <provider editor-type-id="ResourceBundle">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            <state vertical-scroll-proportion="-5.733333" vertical-offset="3923" max-vertical-offset="5160">
+              <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthorController.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/AuthorController.groovy">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-app/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9130435" vertical-offset="0" max-vertical-offset="600">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-              <folding>
-                <element signature="e#49#80#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-15.423077" vertical-offset="52219" max-vertical-offset="52725">
+              <caret line="3508" column="18" selection-start-line="3508" selection-start-column="18" selection-end-line="3508" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_configureStartTimeStatus.gsp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="_configureStartTimeStatus.gsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.1914895" vertical-offset="0" max-vertical-offset="465">
-              <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.6219512" vertical-offset="0" max-vertical-offset="465">
+              <caret line="17" column="149" selection-start-line="17" selection-start-column="149" selection-end-line="17" selection-end-column="149" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigurationController.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="60.913044" vertical-offset="17346" max-vertical-offset="36195">
+              <caret line="1122" column="68" selection-start-line="1122" selection-start-column="68" selection-end-line="1122" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -234,7 +245,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="feature_v_1.0" />
       </map>
     </option>
   </component>
@@ -247,13 +258,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web-app/js/i2maps/OpenLayers.js" />
-        <option value="$PROJECT_DIR$/web-app/js/i2maps/anagent.js" />
-        <option value="$PROJECT_DIR$/web-app/js/functions3.js" />
-        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/routes/_showRoutesOnMap.gsp" />
-        <option value="$PROJECT_DIR$/web-app/js/application.js" />
-        <option value="$PROJECT_DIR$/grails-app/views/configuration/configurator1.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/simulation/showRoutes.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/mapView/showRoutes.gsp" />
         <option value="$PROJECT_DIR$/web-app/js/i2maps/basic.js" />
         <option value="$PROJECT_DIR$/web-app/js/OpenLayers.js" />
@@ -283,21 +287,28 @@
         <option value="$PROJECT_DIR$/grails-app/views/layouts/mainConfigureSimulation.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/layouts/_topbarUncklick.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/configuration/index.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_distribution.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/area/_changeArea.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
-        <option value="$PROJECT_DIR$/grails-app/i18n/messages_de.properties" />
         <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureBatteryStatus.gsp" />
-        <option value="$PROJECT_DIR$/web-app/css/main.css" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Car.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp" />
-        <option value="$PROJECT_DIR$/grails-app/views/configuration/configureSimulation.gsp" />
         <option value="$PROJECT_DIR$/application.properties" />
         <option value="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_distribution.gsp" />
+        <option value="$PROJECT_DIR$/test/unit/de/dfki/gs/domain/BookSpec.groovy" />
+        <option value="$PROJECT_DIR$/test/unit/de/dfki/gs/domain/DfkiRoutesSpec.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/configuration/configureSimulation.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/group/_createGroup.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/configuration/configureSimulationStation.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/configuration/configureSimulationFleet.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/configuration/configureSimulationRoute.gsp" />
+        <option value="$PROJECT_DIR$/web-app/css/main.css" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateStartTimeCommandObject.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/i18n/messages.properties" />
+        <option value="$PROJECT_DIR$/grails-app/i18n/messages_de.properties" />
+        <option value="$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp" />
       </list>
     </option>
   </component>
@@ -322,7 +333,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="777" />
+    <option name="height" value="773" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -371,22 +382,22 @@
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Problems" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="198" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="386" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="200" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="388" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="199" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="387" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../emobile19_06" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="209" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="999" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="997" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="205" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="201" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="397" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1187" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1185" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="393" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="389" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -411,6 +422,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.dfki.gs.controller.ms2.configuration.commands" />
       <recent name="de.dfki.gs.controller.ms2.configuration" />
     </key>
     <key name="OPEN_URL_DIALOG">
@@ -1027,7 +1039,7 @@
       <workItem from="1434467015628" duration="4322000" />
       <workItem from="1434544716856" duration="454000" />
       <workItem from="1434545670499" duration="22210000" />
-      <workItem from="1434716638532" duration="35363000" />
+      <workItem from="1434716638532" duration="63278000" />
     </task>
     <task id="LOCAL-00001" summary="integrated osm-navigation, traveling salesman a.s.o.">
       <created>1380610404299</created>
@@ -1911,11 +1923,53 @@
       <option name="project" value="LOCAL" />
       <updated>1434979083567</updated>
     </task>
-    <option name="localTasksCounter" value="148" />
+    <task id="LOCAL-00148" summary="Merge branch 'feature_v_0.2' of https://github.com/andybuki/emobile into feature_v_0.2&#10;&#10;# Conflicts:&#10;#&#9;grails-app/views/configuration/index.gsp&#10;">
+      <created>1434987076778</created>
+      <option name="number" value="00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1434987076778</updated>
+    </task>
+    <task id="LOCAL-00149" summary="new changes&#10;">
+      <created>1435003648044</created>
+      <option name="number" value="00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1435003648044</updated>
+    </task>
+    <task id="LOCAL-00150" summary="new changes: partition fleets, routes, groups&#10;">
+      <created>1435064092981</created>
+      <option name="number" value="00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1435064092981</updated>
+    </task>
+    <task id="LOCAL-00151" summary="new changes&#10;">
+      <created>1435068925158</created>
+      <option name="number" value="00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1435068925158</updated>
+    </task>
+    <task id="LOCAL-00152" summary="new changes&#10;">
+      <created>1435069665659</created>
+      <option name="number" value="00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1435069665660</updated>
+    </task>
+    <task id="LOCAL-00153" summary="new changes&#10;">
+      <created>1435078442632</created>
+      <option name="number" value="00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1435078442633</updated>
+    </task>
+    <task id="LOCAL-00154" summary="css changes&#10;">
+      <created>1435085695099</created>
+      <option name="number" value="00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1435085695099</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="534178000" />
+    <option name="totallyTimeSpent" value="562093000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1938,23 +1992,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="773" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4125099" sideWeight="0.4991327" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41116005" sideWeight="0.49757674" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17931457" sideWeight="0.28650442" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Repo Search" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32922536" sideWeight="0.49975786" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24987893" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26114118" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32895753" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32895753" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32552302" sideWeight="0.5026019" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3005299" sideWeight="0.5041911" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32964602" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2628662" sideWeight="0.49659532" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2626798" sideWeight="0.7520194" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.670354" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3246239" sideWeight="0.49739808" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32399696" sideWeight="0.49739808" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.6836283" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="ConsoleMavenPlugin" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32922536" sideWeight="0.49975786" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32796934" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1966,13 +2020,13 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32853898" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48693585" sideWeight="0.49586776" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40729928" sideWeight="0.7484822" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28781205" sideWeight="0.4958089" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4904552" sideWeight="0.8503772" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17931457" sideWeight="0.30752212" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Grails View" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27625203" sideWeight="0.664823" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20840065" sideWeight="0.664823" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32719666" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21486267" sideWeight="0.4924012" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15831988" sideWeight="0.4924012" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875606" sideWeight="0.47713414" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -2000,9 +2054,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="some css changes to addapt simulation time view" />
-    <MESSAGE value="added simulation time" />
-    <MESSAGE value="added slider" />
     <MESSAGE value="all in one paket&#10; &#10; + help with images&#10; + some extensions in domain model&#10; + some changes in distribution view" />
     <MESSAGE value="added startUsing ( nullable: true )" />
     <MESSAGE value="Domain model extension" />
@@ -2020,12 +2071,15 @@
     <MESSAGE value="added real electric stations" />
     <MESSAGE value="Merge branch 'feature_v_0.2' of https://github.com/andybuki/emobile into feature_v_0.2&#10;&#10;# Conflicts:&#10;#&#9;grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy&#10;" />
     <MESSAGE value="&#10;I need to configure my distrubution i revert the old version" />
-    <MESSAGE value="css changes&#10;" />
     <MESSAGE value="language changes &#10;" />
     <MESSAGE value="no commitable" />
     <MESSAGE value="new distribution &#10;" />
     <MESSAGE value="delete later" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete later" />
+    <MESSAGE value="Merge branch 'feature_v_0.2' of https://github.com/andybuki/emobile into feature_v_0.2&#10;&#10;# Conflicts:&#10;#&#9;grails-app/views/configuration/index.gsp&#10;" />
+    <MESSAGE value="new changes: partition fleets, routes, groups&#10;" />
+    <MESSAGE value="new changes&#10;" />
+    <MESSAGE value="css changes&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="css changes&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2200,13 +2254,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>1588</line>
+          <line>1835</line>
           <properties />
           <option name="timeStamp" value="427" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>2018</line>
+          <line>2265</line>
           <properties />
           <option name="timeStamp" value="441" />
         </line-breakpoint>
@@ -2236,19 +2290,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>1454</line>
+          <line>1627</line>
           <properties />
           <option name="timeStamp" value="460" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>1569</line>
+          <line>1816</line>
           <properties />
           <option name="timeStamp" value="461" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>586</line>
+          <line>747</line>
           <properties />
           <option name="timeStamp" value="472" />
         </line-breakpoint>
@@ -2260,12 +2314,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy</url>
-          <line>934</line>
+          <line>1095</line>
           <properties />
           <option name="timeStamp" value="474" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="505" />
+      <option name="time" value="522" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2296,78 +2350,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/SimulationExecutorController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.73913" vertical-offset="1426" max-vertical-offset="2700">
-          <caret line="143" column="31" selection-start-line="143" selection-start-column="31" selection-end-line="143" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip!/java/net/SocketInputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3325868" vertical-offset="648" max-vertical-offset="3765">
-          <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/front/index.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30141845" vertical-offset="0" max-vertical-offset="846">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/login/_topbar.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39007092" vertical-offset="0" max-vertical-offset="846">
-          <caret line="22" column="65" selection-start-line="22" selection-start-column="65" selection-end-line="22" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6192609" vertical-offset="587" max-vertical-offset="1485">
-          <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/executeSimulations.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1080">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="780">
-          <caret line="0" column="4" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/extras/index.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.042553" vertical-offset="797" max-vertical-offset="1695">
-          <caret line="94" column="49" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/mainConfiguration.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.25" vertical-offset="0" max-vertical-offset="780">
-          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/_topbar.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.9583335" vertical-offset="37" max-vertical-offset="1320">
@@ -2396,14 +2378,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="1035">
           <caret line="10" column="61" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/index.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="215" max-vertical-offset="1425">
-          <caret line="68" column="186" selection-start-line="68" selection-start-column="186" selection-end-line="68" selection-end-column="186" />
           <folding />
         </state>
       </provider>
@@ -2456,22 +2430,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6441718" vertical-offset="0" max-vertical-offset="815">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateFleetForConfigurationViewCommandObject.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationOld.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4042554" vertical-offset="2553" max-vertical-offset="6030">
-          <caret line="184" column="127" selection-start-line="184" selection-start-column="127" selection-end-line="184" selection-end-column="127" />
           <folding />
         </state>
       </provider>
@@ -2535,14 +2493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/de/dfki/gs/service/RouteService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3314121" vertical-offset="3650" max-vertical-offset="41460">
-          <caret line="294" column="48" selection-start-line="294" selection-start-column="48" selection-end-line="294" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateRouteSelectorCommandObject.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
@@ -2564,50 +2514,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1489573" vertical-offset="0" max-vertical-offset="1007">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#58#101#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_createFleet.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.574468" vertical-offset="0" max-vertical-offset="960">
           <caret line="30" column="76" selection-start-line="30" selection-start-column="76" selection-end-line="30" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5" vertical-offset="3870" max-vertical-offset="5145">
-          <caret line="267" column="0" selection-start-line="267" selection-start-column="0" selection-end-line="267" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages_de.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.4" vertical-offset="3843" max-vertical-offset="5115">
-          <caret line="269" column="0" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.615385" vertical-offset="36318" max-vertical-offset="51660">
-          <caret line="2450" column="12" selection-start-line="2450" selection-start-column="12" selection-end-line="2450" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -2620,58 +2530,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_distribution.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.2340426" vertical-offset="326" max-vertical-offset="7980">
-          <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Configuration.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="240" max-vertical-offset="900">
-          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Car.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.54717" vertical-offset="0" max-vertical-offset="615">
-          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.1914895" vertical-offset="0" max-vertical-offset="465">
-          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulation.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.936171" vertical-offset="0" max-vertical-offset="4680">
-          <caret line="28" column="49" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/AuthorController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9130435" vertical-offset="0" max-vertical-offset="600">
+        <state vertical-scroll-proportion="0.2535211" vertical-offset="0" max-vertical-offset="600">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
           <folding>
-            <element signature="e#49#80#0" expanded="true" />
+            <element signature="e#49#80#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2681,22 +2545,14 @@
         <state vertical-scroll-proportion="0.111386135" vertical-offset="0" max-vertical-offset="1212">
           <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
           <folding>
-            <element signature="e#49#81#0" expanded="true" />
+            <element signature="e#49#81#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/Config.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4907" max-vertical-offset="5625">
+        <state vertical-scroll-proportion="-0.4814815" vertical-offset="4907" max-vertical-offset="5625">
           <caret line="315" column="64" selection-start-line="315" selection-start-column="64" selection-end-line="315" selection-end-column="64" />
           <folding />
         </state>
@@ -2704,7 +2560,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2387" max-vertical-offset="3105">
+        <state vertical-scroll-proportion="-5.4021163" vertical-offset="2387" max-vertical-offset="3105">
           <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
           <folding />
         </state>
@@ -2712,29 +2568,243 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2805">
+        <state vertical-scroll-proportion="3.0555556" vertical-offset="0" max-vertical-offset="2805">
           <caret line="77" column="57" selection-start-line="77" selection-start-column="57" selection-end-line="77" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24064171" vertical-offset="0" max-vertical-offset="374">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_distribution.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2765957" vertical-offset="525" max-vertical-offset="6885">
+          <caret line="60" column="32" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
+          <folding>
+            <element signature="e#964#2298#0#GSP" expanded="false" />
+            <element signature="e#2332#4425#0#GSP" expanded="false" />
+            <element signature="e#4455#5119#0#GSP" expanded="false" />
+            <element signature="e#5151#5266#0#GSP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/de/dfki/gs/domain/DfkiRoutesSpec.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32171583" vertical-offset="0" max-vertical-offset="390">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding>
+            <element signature="e#27#59#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/de/dfki/gs/domain/BookSpec.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32171583" vertical-offset="0" max-vertical-offset="375">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/index.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.0212765" vertical-offset="690" max-vertical-offset="1425">
+          <caret line="68" column="186" selection-start-line="68" selection-start-column="186" selection-end-line="68" selection-end-column="186" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/utils/SimulationArea.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10683761" vertical-offset="0" max-vertical-offset="702">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/execution/ExecutionController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15463917" vertical-offset="60" max-vertical-offset="2970">
+          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateFleetForConfigurationViewCommandObject.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13667426" vertical-offset="0" max-vertical-offset="878">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationOld.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.574468" vertical-offset="851" max-vertical-offset="2355">
+          <caret line="338" column="31" selection-start-line="338" selection-start-column="31" selection-end-line="338" selection-end-column="31" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#g:if#2;n#gsp:root#0;n#!!top" expanded="false" />
+            <element signature="n#g:form#3;n#gsp:root#0;n#!!top" expanded="false" />
+            <element signature="n#g:if#3;n#gsp:root#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationStation.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.630137" vertical-offset="341" max-vertical-offset="3210">
+          <caret line="82" column="76" selection-start-line="82" selection-start-column="76" selection-end-line="82" selection-end-column="76" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationRoute.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.863013" vertical-offset="1723" max-vertical-offset="4455">
+          <caret line="158" column="94" selection-start-line="158" selection-start-column="94" selection-end-line="158" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/group/_createGroup.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2876712" vertical-offset="26" max-vertical-offset="990">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.423077" vertical-offset="52219" max-vertical-offset="52725">
+          <caret line="3508" column="18" selection-start-line="3508" selection-start-column="18" selection-end-line="3508" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/de/dfki/gs/service/RouteService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.1706784" vertical-offset="28704" max-vertical-offset="41460">
+          <caret line="1860" column="17" selection-start-line="1860" selection-start-column="17" selection-end-line="1860" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/configuration/configureSimulationFleet.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.219178" vertical-offset="2857" max-vertical-offset="4380">
+          <caret line="221" column="75" selection-start-line="221" selection-start-column="75" selection-end-line="221" selection-end-column="75" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateBatteryStatusCommandObject.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5251641" vertical-offset="0" max-vertical-offset="660">
+          <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/commands/CreateStartTimeCommandObject.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19693655" vertical-offset="30" max-vertical-offset="660">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Car.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1509434" vertical-offset="119" max-vertical-offset="615">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Experiment.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.5283017" vertical-offset="0" max-vertical-offset="585">
+          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/de/dfki/gs/domain/simulation/Configuration.groovy">
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7924528" vertical-offset="39" max-vertical-offset="900">
+          <caret line="17" column="27" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="60.913044" vertical-offset="17346" max-vertical-offset="36195">
+          <caret line="1122" column="68" selection-start-line="1122" selection-start-column="68" selection-end-line="1122" selection-end-column="68" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/services/de/dfki/gs/ms2/configuration/ConfigurationService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.846154" vertical-offset="19615" max-vertical-offset="20880">
-          <caret line="1323" column="0" selection-start-line="1323" selection-start-column="0" selection-end-line="1323" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.230769" vertical-offset="21078" max-vertical-offset="21450">
+          <caret line="1416" column="0" selection-start-line="1416" selection-start-column="0" selection-end-line="1416" selection-end-column="0" />
           <folding>
             <element signature="e#38#83#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/de/dfki/gs/controller/ms2/configuration/ConfigurationController.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67781156" vertical-offset="10937" max-vertical-offset="33375">
-          <caret line="744" column="0" selection-start-line="744" selection-start-column="0" selection-end-line="744" selection-end-column="0" />
-          <folding>
-            <element signature="e#49#139#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-6.233333" vertical-offset="3878" max-vertical-offset="5190">
+          <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages_de.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.733333" vertical-offset="3923" max-vertical-offset="5160">
+          <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/templates/configuration/fleet/_configureStartTimeStatus.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6219512" vertical-offset="0" max-vertical-offset="465">
+          <caret line="17" column="149" selection-start-line="17" selection-start-column="149" selection-end-line="17" selection-end-column="149" />
+          <folding />
         </state>
       </provider>
     </entry>

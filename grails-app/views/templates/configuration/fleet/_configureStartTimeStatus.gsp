@@ -15,8 +15,8 @@
 
                 <div class="rowMiddle">
                     <div class="left00PX"><input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href"/></div>
-                    <div class="right80PX"><g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBatteryAll')}"/>
-                    <g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBattery')}"/></div>
+                    <div class="right80PX"><g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureTimeAll')}"/>
+                    <g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureTime')}"/></div>
 
                 </div>
             </div>

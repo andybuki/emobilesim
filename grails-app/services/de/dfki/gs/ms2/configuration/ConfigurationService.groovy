@@ -1405,8 +1405,19 @@ class ConfigurationService {
         }
 
         return cars
+    }
+
+    def getStartTime (Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        def cars = []
 
 
+        fleet.cars.each { Car car ->
+
+            car.simulationStartTime
+            cars << Car.get( car.id )
+        }
+        return cars
     }
 
 

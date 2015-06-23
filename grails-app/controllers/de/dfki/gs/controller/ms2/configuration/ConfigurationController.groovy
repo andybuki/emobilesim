@@ -6,6 +6,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.CreateStartTimeCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowSingleFleetRouteCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
@@ -1107,8 +1108,20 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        def m = [:]
-        render template: '/templates/configuration/fleet/configureStartTimeStatus', model: m
+        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+
+        } else {
+            def m = [:]
+            m.fleetId = cmd.fleetId
+            m.configurationStubId = cmd.configurationStubId
+            m.startTime = configurationService.getStartTime(cmd.fleetId)
+            render template: '/templates/configuration/fleet/configureStartTimeStatus', model: m
+        }
 
     }
 
