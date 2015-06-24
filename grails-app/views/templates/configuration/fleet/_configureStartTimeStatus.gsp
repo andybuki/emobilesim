@@ -1,6 +1,6 @@
 <div id="openModal" class="modalDialogArea">
     <div>
-        <g:form controller="configuration" action="createBattery">
+        <g:form controller="configuration" action="configureStartTime">
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentModalWindowFleetArea">
                 <div class="rowUp">
