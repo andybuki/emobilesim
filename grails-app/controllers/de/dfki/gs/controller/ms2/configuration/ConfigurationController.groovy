@@ -1341,7 +1341,7 @@ class ConfigurationController {
             log.error("failed to add cars to fleet: ${cmd.errors}")
 
         }else{
-            configurationService.addCarsToFleet(cmd.fleetStubId, cmd.carCount, cmd.carTypeId, cmd.nameForFleet)
+            configurationService.addCarsToFleet(cmd.fleetStubId, cmd.carCount, cmd.batteryCount ,cmd.carTypeId, cmd.nameForFleet)
         }
         Fleet fleetStub = Fleet.get(cmd.fleetStubId)
         def carsStub
@@ -1394,10 +1394,17 @@ class ConfigurationController {
         } else {
 
             int count = 0
+            int battery =0
             if (cmd.carCountList != null && cmd.carCountList.size() > 0) {
                 count = cmd.carCountList.get(cmd.carCountList.size() - 1)
             } else {
                 count = cmd.carCount
+            }
+
+            if (cmd.batteryCount!= null && cmd.batteryCount.size() > 0) {
+                battery = cmd.batteryCount.get(cmd.batteryCount.size()-1)
+            } else {
+                battery = cmd.batteryCount
             }
 
             Long carTypeId = null
@@ -1705,7 +1712,7 @@ class ConfigurationController {
             log.error("nothing to save, no coniguration stub found for ${cmd.configurationStubId} : ${cmd.errors}")
         } else {
 
-            configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
+            configurationService.saveFinishedConfigurationStubRoute(cmd.configurationStubId)
 
         }
 
