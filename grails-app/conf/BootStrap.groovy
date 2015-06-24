@@ -49,7 +49,7 @@ class BootStrap {
             log.error( "no company for name dfki found" )
             return
         }
-
+//Create Dfki-Fleet One
         Fleet dfki1Fleet = new Fleet(
                 company: company,
                 name: "Dfki-Fleet One",
@@ -175,8 +175,7 @@ class BootStrap {
 
         }
 
-
-
+//Create Dfki-Fleet One
         Fleet dfki2Fleet = new Fleet(
                 company: company,
                 name: "Dfki-Fleet Two",
@@ -299,8 +298,67 @@ class BootStrap {
             log.error( "failed to update dfkifleet: ${dfki2Fleet.errors}" )
 
         }
+        log.error( "create default Obu Fleet.." )
+        createObuFleets()
 
 
+
+    }
+    def createObuFleets(){
+        Company company = Company.findByName( "dfki" )
+
+        if ( company == null ) {
+            log.error( "no company for name dfki found" )
+            return
+        }
+        // Create Dfki OBU-Fleet One
+        SimulationArea simulationArea = SimulationArea.BREMEN
+        Fleet obu1fleet = new Fleet(
+                company: company,
+                name: "Dfki OBU-Fleet One",
+                distribution: Distribution.SELF_MADE_ROUTES,
+                fleetStatus: FleetStatus.NOT_CONFIGURED,
+                stub: false,
+                routesConfigured: false,
+                simulationArea: simulationArea
+        )
+
+        if ( !obu1fleet.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to save fleet: ${dfki2Fleet.errors}" )
+            return
+        }
+        CarType carType4 = CarType.get( 4 )
+        if ( carType4 == null ) {
+            log.error( "no cartype found" )
+            return
+        }
+
+        //Get the simulation Area (we will hardcode it to BREMEN)
+
+
+        def filePathObu = "resources/obu.json"
+        def textObu = grailsApplication.getParentContext().getResource("classpath:$filePathObu").getInputStream().getText()
+        def jsonObu = JSON.parse(textObu)
+        def routeList = routeService.createObuRoutes(jsonObu,simulationArea)
+        Car car = new Car(
+                carType: carType4,
+                name: "Obu_Car_1",
+                routesConfigured: false,
+                fleetId: obu1fleet.id
+        )
+        if ( !car.save( flush: true, failOnError: true ) ) {
+            log.error( "failed to save car: ${car.errors}" )
+        }
+        routeService.persistRouteToCar( car, routeList )
+        obu1fleet.addToCars( car )
+        obu1fleet.routesConfigured = true
+        obu1fleet.fleetStatus = FleetStatus.CONFIGURED
+        if ( !obu1fleet.save( flush: true, failOnError: true ) ) {
+
+            log.error( "failed to update obu1fleet: ${obu1fleet.errors}" )
+
+        }
     }
 
     def createDefaultGroup() {

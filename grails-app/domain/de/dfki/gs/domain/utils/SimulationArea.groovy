@@ -6,9 +6,10 @@ package de.dfki.gs.domain.utils
 public enum SimulationArea {
 
     BERLIN,
-    WIESLOCH
+    WIESLOCH,
+    BREMEN
     public static List<String> getAllAriasAsString() {
-        return ["BERLIN","WIESLOCH"]
+        return ["BERLIN","WIESLOCH","BREMEN"]
     }
 
 }

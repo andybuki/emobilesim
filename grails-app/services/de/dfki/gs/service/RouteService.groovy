@@ -8,7 +8,6 @@ import de.dfki.gs.domain.GasolineStation
 import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.FillingStationGroup
-import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.Fleet
 import de.dfki.gs.domain.simulation.Route
 import de.dfki.gs.domain.simulation.Simulation
@@ -21,9 +20,10 @@ import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.threadutils.NotifyingBlockingThreadPoolExecutor
 import de.dfki.gs.utils.Calculater
-import de.dfki.gs.utils.LatLonPoint
+
 //import grails.plugin.cache.Cacheable
 import grails.util.Environment
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.geotools.data.DataStore
 import org.geotools.data.DataStoreFinder
 import org.geotools.data.simple.SimpleFeatureCollection
@@ -324,7 +324,11 @@ class RouteService {
 
             if (SimulationArea.BERLIN == simulationArea) {
                 featureSource = dataStore.getFeatureSource("brandenburg_2po_4pgr");
-            } else {
+            }
+            else if (SimulationArea.BREMEN == simulationArea){
+                featureSource = dataStore.getFeatureSource("bremen_2po_4pgr")
+            }
+            else {
                 featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
             }
 
@@ -1496,6 +1500,37 @@ class RouteService {
 
     }
 
+    public List<List<BasicEdge>> createObuRoutes(JSONArray jsonObu, SimulationArea simulationArea){
+        List<Coordinate> viaCoordinates = []
+        List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+        def pathEdges
+        for(meassurePoints in jsonObu){
+            if(meassurePoints["latitude"]&&meassurePoints["longitude"]){
+                Coordinate viaCoordinate = new Coordinate(Double.parseDouble(meassurePoints["latitude"]),Double.parseDouble(meassurePoints["longitude"]))
+                if(viaCoordinate == null){
+                    log.error("not a valid Coordinate")
+                }
+                //only add points that are different
+                else if(viaCoordinate && (viaCoordinates.isEmpty() || Calculater.haversine(viaCoordinates.last().x,viaCoordinates.last().y,viaCoordinate.x,viaCoordinate.y)>0)){
+                //we only take coordinates that are 10 meters away
+                    viaCoordinates.add(viaCoordinate)
+                }
+            }
+            else{log.error("no latitude and longitude in JSON")}
+        }
+        def pairs = viaCoordinates.collate(2,1,false)
+        pairs.each{
+            pathEdges = calculatePath(it[0], it[1], simulationArea)
+            if (pathEdges.size() < 1) {
+                log.error("path is zero from: ${it[0].x},${it[0].y}  to: ${it[1].x},${it[1].y} Maybe coordinates are to close")
+                return null
+            }
+            multiTargetRoute.add(repairEdges( pathEdges ) )
+        }
+
+
+        return multiTargetRoute//TODO find better name, what if more then one route
+    }
     public List<Route> createRandomFixedDistanceRoutes( long routeCount, double fixedKm, SimulationArea simulationArea ) {
 
         List<Route> routes = new ArrayList<Route>()
