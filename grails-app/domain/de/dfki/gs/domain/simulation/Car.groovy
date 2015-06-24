@@ -11,7 +11,7 @@ class Car {
     Route route
 
     Configuration simulationStartTime
-    float batteryPersent  // Persent from CarType maxEnergyLoad
+    Integer battery  // Persent from CarType maxEnergyLoad
     Integer pauseTimes
     String ownerName
     Boolean routesConfigured
@@ -21,6 +21,7 @@ class Car {
     static constraints = {
         name ( nullable: true, blank: true )
         route nullable: true
+        battery nullable: true
         routesConfigured nullable: false
         fleetId nullable: false
         simulationStartTime  nullable: true

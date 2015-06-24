@@ -219,7 +219,7 @@
                                                     <g:form action="configureBatteryStatus">
                                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                        ${car.batteryPersent}%
+                                                        ${car.battery}%
                                                            <g:submitToRemote class="addButton"
                                                                               url="[action: 'configureBatteryStatus']"
                                                                               update="updateMe"

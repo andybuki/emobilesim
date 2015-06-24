@@ -12,6 +12,7 @@ class AddCarsToUnsavedFleetCommandObject {
     Long configurationStubId
 
     Integer carCount
+    Integer batteryCount
 
     Long carTypeId
 
@@ -23,6 +24,7 @@ class AddCarsToUnsavedFleetCommandObject {
 
         nameForFleet nullable: false, blank: false
         carCount nullable: true
+        batteryCount nullable: true
         carTypeId nullable: true
         //addedCars nullable: true
 

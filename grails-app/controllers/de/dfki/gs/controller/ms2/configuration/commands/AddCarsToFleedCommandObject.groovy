@@ -14,6 +14,7 @@ class AddCarsToFleedCommandObject {
     Long configurationStubId
 
     Integer carCount
+    Integer batteryCount
     List<Integer> carCountList
 
     Long carTypeId
@@ -40,6 +41,8 @@ class AddCarsToFleedCommandObject {
         }
         carCount nullable: true
         carCountList nullable: true
+
+        batteryCount nullable: true
 
         carTypeId nullable: true
         carTypeSelect nullable: true

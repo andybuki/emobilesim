@@ -546,7 +546,7 @@ class ConfigurationService {
      * @param carTypeId
      * @return
      */
-    def addCarsToFleet( Long fleetStubId, Integer count, Long carTypeId, String nameForFleet ) {
+    def addCarsToFleet( Long fleetStubId, Integer count, Integer battery , Long carTypeId, String nameForFleet ) {
 
         Fleet fleetStub = Fleet.get( fleetStubId )
 
@@ -1151,7 +1151,7 @@ class ConfigurationService {
 
             fleet = Fleet.get( fleet.id )
 
-            fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id,simulationArea)
+            //fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id,simulationArea) comment for 1 page
 
         }
 
@@ -1204,7 +1204,41 @@ class ConfigurationService {
         }
     }
 
+    def saveFinishedConfigurationStubRoute (Long configurationStubId ){
+        Configuration configurationStubToSave = Configuration.get( configurationStubId )
+        configurationStubToSave.stub = false
+        SimulationArea simulationArea = configurationStubToSave.simulationArea
 
+        // creating routes for distribution, set all FleetStatus
+        configurationStubToSave.fleets.each { Fleet fleet ->
+
+            fleet = Fleet.get( fleet.id )
+
+            fleet = routeService.createRandomDistanceRoutesForFleet( fleet.id,simulationArea)
+
+        }
+
+        configurationStubToSave.fillingStationGroups.each { FillingStationGroup group ->
+
+            group = FillingStationGroup.get( group.id )
+
+            if ( group.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING || group.simulationArea != simulationArea) {
+                group = routeService.createRandomPositionsForFillingStations( group.id, simulationArea )
+                group.simulationArea = simulationArea
+            }
+
+        }
+
+
+
+        if ( !configurationStubToSave.save( flush: true ) ) {
+            log.error( "failed to save configuration: ${configurationStubToSave.errors}" )
+        } else {
+
+            log.error( "configuration with id ${configurationStubId} is now unStubbed!" )
+
+        }
+    }
 
     /**
      *
@@ -1398,9 +1432,13 @@ class ConfigurationService {
 
     def getBatteryStatus(Long fleetId ) {
         Fleet fleet = Fleet.get( fleetId )
+        fleet.cars.carType
         def cars = []
         fleet.cars.each { Car car ->
-            car.batteryPersent = 100
+
+            car.battery = car.carType.maxEnergyLoad
+
+
             cars << Car.get( car.id )
         }
 
