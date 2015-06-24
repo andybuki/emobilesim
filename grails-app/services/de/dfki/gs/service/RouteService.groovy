@@ -1522,7 +1522,7 @@ class RouteService {
         pairs.each{
             pathEdges = calculatePath(it[0], it[1], simulationArea)
             if (pathEdges.size() < 1) {
-                log.error("path is zero from: ${it[0].x},${it[0].y}  to: ${it[1].x},${it[1].y} Maybe coordinates are to close")
+                //log.error("path is zero from: ${it[0].x},${it[0].y}  to: ${it[1].x},${it[1].y} Maybe coordinates are to close")
                 return null
             }
             multiTargetRoute.add(repairEdges( pathEdges ) )
