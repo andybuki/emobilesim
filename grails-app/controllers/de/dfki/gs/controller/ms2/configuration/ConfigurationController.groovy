@@ -5,6 +5,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.AddStationsToUnsavedGrou
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.ConfigureBatteryForConfigurationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateStartTimeCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
@@ -1068,7 +1069,38 @@ class ConfigurationController {
 
     }
 
-    def configureBatteryStatus () {
+    def configureBattery () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to vaildate ConfigureBatteryForConfigurationCommandObject: ${cmd.errors}")
+
+        } else {
+
+            log.error("hua!! ${cmd.configurationStubId}")
+            configurationService.unstubFleet(cmd.fleetStubId)
+
+        }
+
+
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+    }
+
+    def configureBatteryView () {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1092,7 +1124,7 @@ class ConfigurationController {
             m.configurationStubId = cmd.configurationStubId
             m.batteryStatus = configurationService.getBatteryStatus(cmd.fleetId)
 
-            render template: '/templates/configuration/fleet/configureBatteryStatus', model: m
+            render template: '/templates/configuration/fleet/configureBattery', model: m
         }
 
     }

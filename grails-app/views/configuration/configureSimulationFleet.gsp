@@ -201,7 +201,7 @@
                                                 <td class="col1">${car.id}</td>
                                                 <td class="col2">${car.name}</td>
                                                 <td class="col3">
-                                                    <g:form action="configureBatteryStatus">
+                                                    <g:form action="configureBatteryView">
                                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                                         ${car.simulationStartTime}
@@ -216,12 +216,12 @@
                                                 </td>
                                                 <td class="col4">
 
-                                                    <g:form action="configureBatteryStatus">
+                                                    <g:form action="configureBatteryView">
                                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                                         ${car.battery}%
                                                            <g:submitToRemote class="addButton"
-                                                                              url="[action: 'configureBatteryStatus']"
+                                                                              url="[action: 'configureBatteryView']"
                                                                               update="updateMe"
                                                                               name="submit"
                                                                               value="${message(code: 'configuration.index.configureakku')}"

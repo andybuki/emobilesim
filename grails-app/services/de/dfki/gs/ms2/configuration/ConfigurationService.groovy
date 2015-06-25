@@ -1432,12 +1432,13 @@ class ConfigurationService {
 
     def getBatteryStatus(Long fleetId ) {
         Fleet fleet = Fleet.get( fleetId )
-        fleet.cars.carType
         def cars = []
+        Double energy = 0.0
+
         fleet.cars.each { Car car ->
+            energy = car.carType.maxEnergyLoad
 
-            car.battery = car.carType.maxEnergyLoad
-
+            car.battery =  energy*energy/100
 
             cars << Car.get( car.id )
         }

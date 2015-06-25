@@ -89,7 +89,7 @@
                 </div>--%>
 
                     <g:if test="${availableFleets != null && availableFleets.size() > 0}">
-                        <div class="rowMiddleWithoutBorder22">
+                        <%--<div class="rowMiddleWithoutBorder22">
                             <div class="leftText"><g:message code="simulation.index.existentfleet"/></div>
                             <div class="rightOnlyButton">
                                 <g:form controller="configuration" action="addExistentFleetToConfiguration">
@@ -99,12 +99,12 @@
                                 </g:form>
                             </div>
                             <div class="clear"></div>
-                        </div>
+                        </div>--%>
                     </g:if>
                     <br>
-                    <div class="rowMiddleWithoutBorder22">
+                    <%--<div class="rowMiddleWithoutBorder22">
                         <g:form action="createFleetView">
-                        <%--<div class="leftText"><g:message code="configuration.index.enoughfleets"/></div>--%>
+                        <div class="leftText"><g:message code="configuration.index.enoughfleets"/></div>
                             <div class="left180PX">
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <g:submitToRemote class="addButton"
@@ -115,7 +115,7 @@
                             </div>
                             <div class="clear"></div>
                         </g:form>
-                    </div>
+                    </div>--%>
                 </div>
 
                 <div class="rowSpace">
