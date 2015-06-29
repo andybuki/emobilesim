@@ -549,7 +549,6 @@ class ConfigurationController {
 
         m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
 
-
         render view: 'configureSimulationFleet', model: m
     }
 
@@ -1084,19 +1083,24 @@ class ConfigurationController {
         ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
         bindData(cmd, params)
 
-        if (!cmd.validate() && cmd.hasErrors()) {
-
-            log.error("failed to vaildate ConfigureBatteryForConfigurationCommandObject: ${cmd.errors}")
-
-        } else {
-
             log.error("hua!! ${cmd.configurationStubId}")
-            configurationService.unstubFleet(cmd.fleetStubId)
+            def m = [:]
 
-        }
+            m.configurationStubId = cmd.configurationStubId
 
+            Long probe
+            probe = configurationService.getFleetId(cmd.configurationStubId)
 
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+            String batteryCount = (params.batteryCount)
+            Long battery = batteryCount.toLong()
+            configurationService.persistBatteryForFleet(probe, battery)
+
+            //m.maxEnergyLoad = params.batteryCount
+            //m.batteryStatus = configurationService.getBatteryStatusAll(probe)
+            //m.energy = configurationService.getEnergy(probe).longValue()
+            //m.newEnergy = (m.energy * battery )/ 100
+
+            redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -1122,7 +1126,8 @@ class ConfigurationController {
             def m = [:]
             m.fleetId = cmd.fleetId
             m.configurationStubId = cmd.configurationStubId
-            m.batteryStatus = configurationService.getBatteryStatus(cmd.fleetId)
+            //m.batteryStatus = configurationService.getBatteryStatusAll(cmd.fleetId)
+
 
             render template: '/templates/configuration/fleet/configureBattery', model: m
         }

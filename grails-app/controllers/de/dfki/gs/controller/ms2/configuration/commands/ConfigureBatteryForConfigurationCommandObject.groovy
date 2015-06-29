@@ -9,8 +9,9 @@ import grails.validation.Validateable
 class ConfigureBatteryForConfigurationCommandObject {
 
     Long configurationStubId
-
-    Long fleetStubId
+    Long fleetId
+    int batteryCount
+    //Long fleetStubId
 
     static constraints = {
 
@@ -25,11 +26,22 @@ class ConfigureBatteryForConfigurationCommandObject {
 
         }
 
-        fleetStubId nullable: false, validator: { val,obj ->
+        /*fleetStubId nullable: false, validator: { val,obj ->
 
             Fleet fleet = Fleet.get( val )
 
             if ( fleet == null ) {
+                return 'configuration.fleet.not.exist'
+            }
+
+        }*/
+
+        fleetId nullable: false, validator: { val,obj ->
+
+            Fleet fleet = Fleet.get( val )
+
+            if ( fleet == null ) {
+
                 return 'configuration.fleet.not.exist'
             }
 

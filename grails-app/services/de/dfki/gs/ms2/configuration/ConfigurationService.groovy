@@ -209,6 +209,43 @@ class ConfigurationService {
 
         return addedFleets
     }
+    public void persistBatteryForFleet (Long fleetId, Long battery ) {
+
+   def newCars = []
+
+    Fleet fleet = Fleet.get(fleetId)
+        fleet.cars.each {
+            Car car = Car.get(it.id)
+            CarType carType = CarType.get (it.carType.id)
+            car.battery = battery
+            carType.maxEnergyLoad = carType.maxEnergyLoad * battery /100
+            if(!car.save(flush: true)){
+                log.error("failed to save Car ${car.errors}")
+            }
+            if(!carType.save(flush: true)){
+                log.error("failed to save CarType ${carType.errors}")
+            }
+            newCars.add(car)
+
+        }
+        fleet.cars = newCars
+        if(!fleet.save(flush: true)){
+            log.error("failed to save Fleet ${fleet.errors}")
+        }
+
+    }
+    def getFleetId (Long configurationStubId) {
+
+        Configuration stub = Configuration.get( configurationStubId )
+
+        Long probe
+        stub.fleets.each { Fleet fleet ->
+
+            probe = fleet.id
+
+        }
+        return probe
+    }
 
     def getObuDfki (Long configurationStubId) {
         Configuration stub = Configuration.get( configurationStubId )
@@ -1430,20 +1467,37 @@ class ConfigurationService {
         return fillingStationGroup
     }
 
-    def getBatteryStatus(Long fleetId ) {
+    def getBatteryStatusAll(Long fleetId ) {
         Fleet fleet = Fleet.get( fleetId )
         def cars = []
         Double energy = 0.0
 
         fleet.cars.each { Car car ->
             energy = car.carType.maxEnergyLoad
-
-            car.battery =  energy*energy/100
-
+            car.battery =  100
             cars << Car.get( car.id )
         }
-
         return cars
+    }
+
+    def getBatteryListAll (Long configurationStubId) {
+
+        Configuration stub = Configuration.get( configurationStubId )
+
+
+    }
+
+    def getEnergy(Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        def cars = []
+        Double energy = 0.0
+        fleet.cars.each { Car car ->
+            energy = car.carType.maxEnergyLoad
+
+
+        }
+        return energy
+
     }
 
     def getStartTime (Long fleetId) {
