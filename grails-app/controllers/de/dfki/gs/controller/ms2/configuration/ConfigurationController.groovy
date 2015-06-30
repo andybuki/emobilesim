@@ -1095,11 +1095,6 @@ class ConfigurationController {
             Long battery = batteryCount.toLong()
             configurationService.persistBatteryForFleet(probe, battery)
 
-            //m.maxEnergyLoad = params.batteryCount
-            //m.batteryStatus = configurationService.getBatteryStatusAll(probe)
-            //m.energy = configurationService.getEnergy(probe).longValue()
-            //m.newEnergy = (m.energy * battery )/ 100
-
             redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }

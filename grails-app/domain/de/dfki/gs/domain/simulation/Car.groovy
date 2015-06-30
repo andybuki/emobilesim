@@ -11,7 +11,7 @@ class Car {
     Route route
 
     Configuration simulationStartTime
-    Integer battery  // Persent from CarType maxEnergyLoad
+    Integer battery=80  // Persent from CarType maxEnergyLoad
     Integer pauseTimes
     String ownerName
     Boolean routesConfigured

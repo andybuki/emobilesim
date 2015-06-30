@@ -218,7 +218,8 @@
                                                     <g:form action="configureBatteryView">
                                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                        ${car.battery}%  <span class="kW">(${car.carType.maxEnergyLoad}kW)</span>
+
+                                                        ${car.battery} %  <span class="kW">(${(car.battery*car.carType.maxEnergyLoad)/100} kW)</span>
                                                            <g:submitToRemote class="addButton"
                                                                               url="[action: 'configureBatteryView']"
                                                                               update="updateMe"

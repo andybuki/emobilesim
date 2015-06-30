@@ -216,15 +216,15 @@ class ConfigurationService {
     Fleet fleet = Fleet.get(fleetId)
         fleet.cars.each {
             Car car = Car.get(it.id)
-            CarType carType = CarType.get (it.carType.id)
+            //CarType carType = CarType.get (it.carType.id)
             car.battery = battery
-            carType.maxEnergyLoad = carType.maxEnergyLoad * battery /100
+            //carType.maxEnergyLoad = carType.maxEnergyLoad * battery /100
             if(!car.save(flush: true)){
                 log.error("failed to save Car ${car.errors}")
             }
-            if(!carType.save(flush: true)){
+            /*if(!carType.save(flush: true)){
                 log.error("failed to save CarType ${carType.errors}")
-            }
+            }*/
             newCars.add(car)
 
         }
