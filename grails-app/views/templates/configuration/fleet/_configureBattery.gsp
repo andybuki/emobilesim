@@ -1,6 +1,6 @@
 <div id="openModal" class="modalDialogArea">
     <div>
-        <g:form controller="configuration" action="configureBattery">
+        <g:form controller="configuration">
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentModalWindowFleetArea">
                 <div class="rowUp">
@@ -14,9 +14,10 @@
                 <div class="rowMiddle">
                     <div class="left00PX"><input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href"/></div>
                     <div class="right80PX">
-                        <g:hiddenField name="fleetStubId" value="${fleetStubId}"/>
-                        <g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBatteryAll')}"/>
-                        <g:submitButton name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBattery')}"/>
+                        <g:hiddenField name="fleetId" value="${fleetId}"/>
+                        <g:hiddenField name="carId" value="${carId}"/>
+                        <g:actionSubmit action="configureBatteryAll" name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBatteryAll')}"/>
+                        <g:actionSubmit action="configureBatteryOne" name="createFleet" value="${message(code: 'templates.configuration.fleet._configureBattery')}"/>
                     </div>
                 </div>
             </div>

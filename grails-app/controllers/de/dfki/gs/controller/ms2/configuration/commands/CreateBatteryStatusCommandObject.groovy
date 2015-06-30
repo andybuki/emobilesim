@@ -1,5 +1,6 @@
 package de.dfki.gs.controller.ms2.configuration.commands
 
+import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.Fleet
@@ -13,6 +14,8 @@ class CreateBatteryStatusCommandObject {
 
     Long configurationStubId
     Long fleetId
+    int batteryCount
+    Long carId
 
     static constraints = {
 
@@ -25,6 +28,17 @@ class CreateBatteryStatusCommandObject {
             }
 
         }
+
+        carId nullable: false, validator: { val,obj ->
+
+            Car car = Car.get( val )
+
+            if ( car == null ) {
+                return 'configuration.car.not.exist'
+            }
+
+        }
+
 
         fleetId nullable: false, validator: { val,obj ->
 

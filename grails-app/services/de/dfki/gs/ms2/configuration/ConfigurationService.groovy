@@ -211,29 +211,36 @@ class ConfigurationService {
     }
     public void persistBatteryForFleet (Long fleetId, Long battery ) {
 
-   def newCars = []
+        def newCars = []
 
-    Fleet fleet = Fleet.get(fleetId)
-        fleet.cars.each {
+        Fleet fleet = Fleet.get(fleetId)
+            fleet.cars.each {
             Car car = Car.get(it.id)
-            //CarType carType = CarType.get (it.carType.id)
             car.battery = battery
-            //carType.maxEnergyLoad = carType.maxEnergyLoad * battery /100
             if(!car.save(flush: true)){
                 log.error("failed to save Car ${car.errors}")
             }
-            /*if(!carType.save(flush: true)){
-                log.error("failed to save CarType ${carType.errors}")
-            }*/
             newCars.add(car)
 
-        }
-        fleet.cars = newCars
-        if(!fleet.save(flush: true)){
-            log.error("failed to save Fleet ${fleet.errors}")
-        }
-
+            }
+            fleet.cars = newCars
+            if(!fleet.save(flush: true)){
+                log.error("failed to save Fleet ${fleet.errors}")
+            }
     }
+
+    public void persistBatteryForCar (Long carId, Long battery ) {
+
+        def newCar = []
+        Car car = Car.get(carId)
+        car.battery = battery
+        if(!car.save(flush: true)){
+            log.error("failed to save Car ${car.errors}")
+        }
+        newCar.add(car)
+    }
+
+
     def getFleetId (Long configurationStubId) {
 
         Configuration stub = Configuration.get( configurationStubId )
@@ -246,6 +253,7 @@ class ConfigurationService {
         }
         return probe
     }
+
 
     def getObuDfki (Long configurationStubId) {
         Configuration stub = Configuration.get( configurationStubId )
@@ -1441,6 +1449,20 @@ class ConfigurationService {
         Fleet fleet = Fleet.get( fleetId )
         List carList = fleet.cars
         return carList
+    }
+
+    def getCarIdConfiguration (Long fleetId) {
+
+        Fleet fleet = Fleet.get(fleetId)
+        Car car
+        fleet.cars.each {
+            car = Car.get(it.id)
+            if(!car.save(flush: true)){
+                log.error("failed to save Car ${car.errors}")
+            }
+
+        }
+        return car.id
     }
 
     def getNumberOfGroup (Long groupId) {

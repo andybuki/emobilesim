@@ -1068,7 +1068,7 @@ class ConfigurationController {
 
     }
 
-    def configureBattery () {
+    def configureBatteryAll () {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1099,6 +1099,43 @@ class ConfigurationController {
 
     }
 
+    def configureBatteryOne () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
+        bindData(cmd, params)
+
+        log.error("hua!! ${cmd.configurationStubId}")
+        def m = [:]
+
+        m.configurationStubId = cmd.configurationStubId
+
+        Long probe
+        probe = configurationService.getFleetId(cmd.configurationStubId)
+
+        String batteryCount = (params.batteryCount)
+        Long battery = batteryCount.toLong()
+
+        String carId = (params.carId)
+        Long carIdLong = carId.toLong()
+
+
+        configurationService.persistBatteryForCar(carIdLong, battery)
+
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+    }
+
+
     def configureBatteryView () {
         Person person = (Person) springSecurityService.currentUser
 
@@ -1113,6 +1150,9 @@ class ConfigurationController {
         CreateBatteryStatusCommandObject cmd  = new CreateBatteryStatusCommandObject()
         bindData(cmd, params)
 
+        String carId = (params.carId)
+
+
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
@@ -1121,6 +1161,7 @@ class ConfigurationController {
             def m = [:]
             m.fleetId = cmd.fleetId
             m.configurationStubId = cmd.configurationStubId
+            m.carId = cmd.carId
             //m.batteryStatus = configurationService.getBatteryStatusAll(cmd.fleetId)
 
 
