@@ -1397,110 +1397,10 @@ class RouteService {
             log.debug( e )
         }
         return edges
-        /*This is to test the error in getPath
-
-        AStarIterator.AStarFunctions functions2 = new AStarIterator.AStarFunctions( t ) {
-
-
-            public double cost(AStarIterator.AStarNode n1, AStarIterator.AStarNode n2) {
-                return 1;
-            }
-
-            public double h( org.geotools.graph.structure.Node n ) {
-                return 1;
-
-            }
-
-        };
-        AStarShortestPathFinder pf2 = new AStarShortestPathFinder( graph, s, t,   functions2 );
-
-        pf2.calculate();
-        pf2.finish();
-
-//find some destinations to calculate paths to
-
-        // Node target = QuickStart.findClosest( new Coordinate( 0.1, 0.1 ), graph );
-
-
-
-//calculate the paths
-
-
-        try {
-            path = pf2.getPath();
-            //path.riterator().next()
-
-            org.geotools.graph.structure.Node previous = null;
-            org.geotools.graph.structure.Node node = null;
-            if ( path != null ) {
-
-                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
-
-                    node = ( org.geotools.graph.structure.Node ) ritr.next();
-                    if ( previous != null ) {
-                        // adding the edge between them into vector
-                        edges.add( node.getEdge( previous ) )
-
-                    }
-                    previous = node
-
-                }
-
-            }
-        } catch (  Exception e  ) {
-            log.error("failed to get path from astar algorithm")
-            log.debug(e)
-        }
-        return edges;
-
-
-        Graphable graphable = (Graphable) s
-        DijkstraIterator.EdgeWeighter edgeWeighter = new DijkstraIterator.EdgeWeighter(){
-        double getWeight(Edge var1){
-            SimpleFeatureImpl feature = (SimpleFeatureImpl) var1.getObject()
-
-            Double o = (Double) feature.getAttribute( "km" )
-
-            if ( o && o >= 0 ) {
-            }
-            else {
-                o = 0.05
-            }
-            return o;
-        }}
-       // DijkstraIterator dijkstraIterator = new DijkstraIterator(edgeWeighter)
-        DijkstraShortestPathFinder dij = new DijkstraShortestPathFinder(graph, graphable, edgeWeighter )
-        dij.calculate()
-        dij.finish()
-        try{
-            Graphable aim = (Graphable) t
-            path = dij.getPath(aim);
-            org.geotools.graph.structure.Node previous = null;
-            org.geotools.graph.structure.Node node = null;
-            if ( path != null ) {
-
-                for ( Iterator ritr = path.riterator(); ritr.hasNext(); ) {
-
-                    node = ( org.geotools.graph.structure.Node ) ritr.next();
-                    if ( previous != null ) {
-                        // adding the edge between them into vector
-                        edges.add( node.getEdge( previous ) )
-
-                    }
-                    previous = node
-
-                }
-
-            }
-        } catch (  Exception e1  ) {
-            log.error( "failed to get path from astar algorithm" )
-            log.debug( e1 )}
-
-        return edges;*/
 
     }
 
-    public List<List<BasicEdge>> createObuRoutes(JSONArray jsonObu, SimulationArea simulationArea){
+    public List<List<BasicEdge>> createObuRoutes1(JSONArray jsonObu, SimulationArea simulationArea){
         List<Coordinate> viaCoordinates = []
         List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
         def pathEdges
@@ -1530,6 +1430,127 @@ class RouteService {
 
 
         return multiTargetRoute//TODO find better name, what if more then one route
+    }
+    public List<List<BasicEdge>> createObuRoutes(JSONArray jsonObu, SimulationArea simulationArea){
+        List<BasicEdge> singleObuRoute = new ArrayList<BasicEdge>()
+        List<List<BasicEdge>> obuRoute = new ArrayList<List<BasicEdge>>()
+        org.geotools.graph.structure.Node startNode,endNode
+        Graph graph = getFeatureGraph( "osmGraph",simulationArea )
+        double toleranceRadius = 0.04 //km
+        def meassurePointCoordinates = []
+
+        for(meassurePoints in jsonObu) {
+            if (meassurePoints["latitude"] && meassurePoints["longitude"]) {
+                Coordinate viaCoordinate = new Coordinate(Double.parseDouble(meassurePoints["latitude"]), Double.parseDouble(meassurePoints["longitude"]))
+                if (viaCoordinate == null) {
+                    log.error("not a valid Coordinate")
+                }
+                //only add points that are different
+                else if (viaCoordinate && (meassurePointCoordinates.isEmpty() || viaCoordinate != meassurePointCoordinates.last())) {
+                    meassurePointCoordinates.add(viaCoordinate)
+                }
+            }
+        }
+
+        while(!endNode){ //get the last node on the track and remove all coordinates behind that
+            Coordinate startCoordinate = meassurePointCoordinates.pop()
+            org.geotools.graph.structure.Node start = getClosestNodeWithinRadius(startCoordinate,toleranceRadius,graph)
+            if(start){
+                log.error("sucsess start ist ${startCoordinate.x},${startCoordinate.y}")
+                endNode = start
+            }
+        }
+        meassurePointCoordinates = meassurePointCoordinates.reverse();
+
+        //find Start point (Find a Node on the graph which is very close to one of the first GPS points
+
+
+        while(!startNode){
+            Coordinate startCoordinate = meassurePointCoordinates.pop()
+            org.geotools.graph.structure.Node start = getClosestNodeWithinRadius(startCoordinate,toleranceRadius,graph)
+            if(start){
+                log.error("sucsess start ist ${startCoordinate.x},${startCoordinate.y}")
+                startNode = start
+            }
+        }
+        int counter = 0
+        while (!meassurePointCoordinates.isEmpty() && counter < 10000){//counter is just to be shure that this loop terminates
+            counter ++
+            def viaEdge
+            def closestCoordinate
+            double shortestDistance = 1000000000 // this shoud just be grater then any of the distances
+            startNode.edges.each {edge->//we will coose the edge where the next GPS-Coordinate is closest
+                if (edge.nodeA == startNode){//take the propper node of an edge
+                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeB)//get the closest GPS coordinate to this point
+                    if (closeCoordinateAndDistance.distance <shortestDistance){
+                        shortestDistance = closeCoordinateAndDistance.distance
+                        viaEdge = edge
+                        closestCoordinate = closeCoordinateAndDistance.coordinate
+                    }
+                }
+                else{
+                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeA)//z coordiate is the distance to NodeB
+                    if (closeCoordinateAndDistance.distance <shortestDistance){
+                        shortestDistance = closeCoordinateAndDistance.distance
+                        viaEdge = edge
+                        closestCoordinate = closeCoordinateAndDistance.coordinate
+                    }
+                }
+            }
+            while(!meassurePointCoordinates.isEmpty() && meassurePointCoordinates.pop().x != closestCoordinate.x){
+
+            }
+            singleObuRoute.add(viaEdge)
+            if(viaEdge.nodeA == startNode){
+                startNode = viaEdge.nodeB
+            }
+            else{
+                startNode = viaEdge.nodeA
+            }
+
+
+        }
+        if(counter == 9999){
+            log.error("counter was full something went wron in Obu-route")
+        }
+        if(singleObuRoute.last().nodeB != endNode){
+            log.error("Didn't arrive at the end")
+        }
+
+        obuRoute.add(singleObuRoute)
+
+
+        return obuRoute;
+    }
+    def getClosestCoordinate(List<Coordinate> coordinateList,  org.geotools.graph.structure.Node node){
+        Point point = (Point) node.getObject();
+        def result = [:]
+        Coordinate resultCoordinate;
+        coordinateList.each {
+            double d = Calculater.haversine(point.x,point.y,it.y,it.x)
+            if(result.isEmpty() || result.get("distance") >= d){
+                result.coordinate = it
+                result.distance = d
+            }
+        }
+        return result
+    }
+    public org.geotools.graph.structure.Node getClosestNodeWithinRadius(Coordinate center,double radius, Graph graph){
+        org.geotools.graph.structure.Node closest = null;
+        double minDist = radius;
+        Collection<org.geotools.graph.structure.Node> nodes = (Collection<org.geotools.graph.structure.Node>) graph.getNodes();
+
+        for ( org.geotools.graph.structure.Node node : nodes ) {
+            Point point = (Point) node.getObject();
+
+            double d = Calculater.haversine( center.y, center.x, point.x, point.y );
+
+            if ( d < minDist) {
+                closest = node
+                minDist = d
+            }
+        }
+        return closest
     }
     public List<Route> createRandomFixedDistanceRoutes( long routeCount, double fixedKm, SimulationArea simulationArea ) {
 
