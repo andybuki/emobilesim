@@ -62,6 +62,9 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import de.dfki.gs.domain.users.Person
 import org.geotools.graph.structure.basic.BasicEdge
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 /**
  * this controller is to handle all user inputs for configurainf simulation configurations
  * intially config-object is persisted as stub and after finished editing persisted as
@@ -1099,6 +1102,43 @@ class ConfigurationController {
 
     }
 
+    def configureStartTimeOne() {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        bindData(cmd, params)
+
+
+        def m = [:]
+
+        Long probe
+        probe = configurationService.getFleetId(cmd.configurationStubId)
+
+        String startDate = (params.startDate_hour+":"+params.startDate_minute+"-"+params.startDate_day +"/" + params.startDate_month +"/" + params.startDate_year )
+        DateFormat format = new SimpleDateFormat("H:m-d/M/yyyy", Locale.GERMAN);
+        Date carStartTime = format.parse(startDate);
+
+        String carId = (params.carId)
+        Long carIdLong = carId.toLong()
+
+        m.fleetId = cmd.fleetId
+        m.configurationStubId = cmd.configurationStubId
+
+        configurationService.persistStartTimeForCar(carIdLong, carStartTime)
+
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+
+    }
+
     def configureBatteryOne () {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1128,10 +1168,45 @@ class ConfigurationController {
         String carId = (params.carId)
         Long carIdLong = carId.toLong()
 
-
         configurationService.persistBatteryForCar(carIdLong, battery)
 
         redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+    }
+
+    def configureStartTimeAll() {
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        bindData(cmd, params)
+
+
+            def m = [:]
+
+            Long probe
+            probe = configurationService.getFleetId(cmd.configurationStubId)
+
+            String startDate = (params.startDate_hour+":"+params.startDate_minute+"-"+params.startDate_day +"/" + params.startDate_month +"/" + params.startDate_year )
+            DateFormat format = new SimpleDateFormat("H:m-d/M/yyyy", Locale.GERMAN);
+            Date carStartTime = format.parse(startDate);
+            //Date carStartTime = startDate
+
+            m.fleetId = cmd.fleetId
+            m.configurationStubId = cmd.configurationStubId
+            //m.startTime = configurationService.getStartTime(cmd.fleetId)
+
+            configurationService.persistStartTimeForFleet(probe, carStartTime)
+
+            redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
 
     }
 
@@ -1170,7 +1245,7 @@ class ConfigurationController {
 
     }
 
-    def configureStartTime() {
+    def configureStartTimeView () {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1184,6 +1259,8 @@ class ConfigurationController {
         CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
         bindData(cmd, params)
 
+        String carId = (params.carId)
+
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
@@ -1192,11 +1269,14 @@ class ConfigurationController {
             def m = [:]
             m.fleetId = cmd.fleetId
             m.configurationStubId = cmd.configurationStubId
-            m.startTime = configurationService.getStartTime(cmd.fleetId)
+            m.carId = cmd.carId
+
             render template: '/templates/configuration/fleet/configureStartTimeStatus', model: m
         }
 
     }
+
+
 
     def createGroupView() {
 

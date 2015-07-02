@@ -1,5 +1,6 @@
 package de.dfki.gs.controller.ms2.configuration.commands
 
+import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.Fleet
 import grails.validation.Validateable
@@ -12,8 +13,12 @@ class CreateStartTimeCommandObject {
 
     Long configurationStubId
     Long fleetId
+    Date startDate
+    Long carId
 
     static constraints = {
+
+        startDate nullable: true
 
         configurationStubId nullable: false, validator: { val,obj ->
 
@@ -21,6 +26,16 @@ class CreateStartTimeCommandObject {
 
             if ( stub == null ) {
                 return 'configuration.stub.not.exist'
+            }
+
+        }
+
+        carId nullable: false, validator: { val,obj ->
+
+            Car car = Car.get( val )
+
+            if ( car == null ) {
+                return 'configuration.car.not.exist'
             }
 
         }

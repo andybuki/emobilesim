@@ -229,11 +229,43 @@ class ConfigurationService {
             }
     }
 
+    public void persistStartTimeForFleet (Long fleetId, Date carStartTime ) {
+
+        def newCars = []
+
+        Fleet fleet = Fleet.get(fleetId)
+        fleet.cars.each {
+            Car car = Car.get(it.id)
+            car.carStartTime = carStartTime
+            if(!car.save(flush: true)){
+                log.error("failed to save Car ${car.errors}")
+            }
+            newCars.add(car)
+
+        }
+        fleet.cars = newCars
+        if(!fleet.save(flush: true)){
+            log.error("failed to save Fleet ${fleet.errors}")
+        }
+    }
+
     public void persistBatteryForCar (Long carId, Long battery ) {
 
         def newCar = []
         Car car = Car.get(carId)
         car.battery = battery
+        if(!car.save(flush: true)){
+            log.error("failed to save Car ${car.errors}")
+        }
+        newCar.add(car)
+    }
+
+
+    public void persistStartTimeForCar (Long carId, Date carStartTime ) {
+
+        def newCar = []
+        Car car = Car.get(carId)
+        car.carStartTime = carStartTime
         if(!car.save(flush: true)){
             log.error("failed to save Car ${car.errors}")
         }
@@ -1529,7 +1561,7 @@ class ConfigurationService {
 
         fleet.cars.each { Car car ->
 
-            car.simulationStartTime
+            car.carStartTime
             cars << Car.get( car.id )
         }
         return cars

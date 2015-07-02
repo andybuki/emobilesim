@@ -201,12 +201,13 @@
                                                 <td class="col1" name="carId">${car.id}</td>
                                                 <td class="col2">${car.name}</td>
                                                 <td class="col3">
-                                                    <g:form action="configureBatteryView">
+                                                    <g:form action="configureStartTimeView">
                                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                        ${car.simulationStartTime}
+                                                        <g:hiddenField name="carId" value="${car.id}"/>
+                                                        ${car.carStartTime}
                                                         <g:submitToRemote class="addButton"
-                                                                      url="[action: 'configureStartTime']"
+                                                                      url="[action: 'configureStartTimeView']"
                                                                       update="updateMe"
                                                                       name="submit"
                                                                       value="${message(code: 'configuration.index.time')}"
