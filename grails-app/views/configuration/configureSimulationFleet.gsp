@@ -198,10 +198,10 @@
 
                                         <g:each in="${addedFleet.cars}" var="car">
                                             <tr>
-                                                <td class="col1">${car.id}</td>
+                                                <td class="col1" name="carId">${car.id}</td>
                                                 <td class="col2">${car.name}</td>
                                                 <td class="col3">
-                                                    <g:form action="configureBatteryStatus">
+                                                    <g:form action="configureBatteryView">
                                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                                         ${car.simulationStartTime}
@@ -215,13 +215,14 @@
                                                     </g:form>
                                                 </td>
                                                 <td class="col4">
-
-                                                    <g:form action="configureBatteryStatus">
+                                                    <g:form action="configureBatteryView">
                                                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                             <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                        ${car.battery}%
+                                                            <g:hiddenField name="carId" value="${car.id}"/>
+
+                                                            ${car.battery}%<span class="kW">(${(car.battery*car.carType.maxEnergyLoad)/100} kW)</span>
                                                            <g:submitToRemote class="addButton"
-                                                                              url="[action: 'configureBatteryStatus']"
+                                                                              url="[action: 'configureBatteryView']"
                                                                               update="updateMe"
                                                                               name="submit"
                                                                               value="${message(code: 'configuration.index.configureakku')}"

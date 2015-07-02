@@ -5,6 +5,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.AddStationsToUnsavedGrou
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.ConfigureBatteryForConfigurationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateStartTimeCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
@@ -548,7 +549,6 @@ class ConfigurationController {
 
         m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
 
-
         render view: 'configureSimulationFleet', model: m
     }
 
@@ -1068,7 +1068,75 @@ class ConfigurationController {
 
     }
 
-    def configureBatteryStatus () {
+    def configureBatteryAll () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
+        bindData(cmd, params)
+
+            log.error("hua!! ${cmd.configurationStubId}")
+            def m = [:]
+
+            m.configurationStubId = cmd.configurationStubId
+
+            Long probe
+            probe = configurationService.getFleetId(cmd.configurationStubId)
+
+            String batteryCount = (params.batteryCount)
+            Long battery = batteryCount.toLong()
+            configurationService.persistBatteryForFleet(probe, battery)
+
+            redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+    }
+
+    def configureBatteryOne () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
+        bindData(cmd, params)
+
+        log.error("hua!! ${cmd.configurationStubId}")
+        def m = [:]
+
+        m.configurationStubId = cmd.configurationStubId
+
+        Long probe
+        probe = configurationService.getFleetId(cmd.configurationStubId)
+
+        String batteryCount = (params.batteryCount)
+        Long battery = batteryCount.toLong()
+
+        String carId = (params.carId)
+        Long carIdLong = carId.toLong()
+
+
+        configurationService.persistBatteryForCar(carIdLong, battery)
+
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+
+    }
+
+
+    def configureBatteryView () {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1082,6 +1150,9 @@ class ConfigurationController {
         CreateBatteryStatusCommandObject cmd  = new CreateBatteryStatusCommandObject()
         bindData(cmd, params)
 
+        String carId = (params.carId)
+
+
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
@@ -1090,9 +1161,11 @@ class ConfigurationController {
             def m = [:]
             m.fleetId = cmd.fleetId
             m.configurationStubId = cmd.configurationStubId
-            m.batteryStatus = configurationService.getBatteryStatus(cmd.fleetId)
+            m.carId = cmd.carId
+            //m.batteryStatus = configurationService.getBatteryStatusAll(cmd.fleetId)
 
-            render template: '/templates/configuration/fleet/configureBatteryStatus', model: m
+
+            render template: '/templates/configuration/fleet/configureBattery', model: m
         }
 
     }

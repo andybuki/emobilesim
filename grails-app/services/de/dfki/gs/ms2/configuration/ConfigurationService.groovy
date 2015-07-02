@@ -209,6 +209,51 @@ class ConfigurationService {
 
         return addedFleets
     }
+    public void persistBatteryForFleet (Long fleetId, Long battery ) {
+
+        def newCars = []
+
+        Fleet fleet = Fleet.get(fleetId)
+            fleet.cars.each {
+            Car car = Car.get(it.id)
+            car.battery = battery
+            if(!car.save(flush: true)){
+                log.error("failed to save Car ${car.errors}")
+            }
+            newCars.add(car)
+
+            }
+            fleet.cars = newCars
+            if(!fleet.save(flush: true)){
+                log.error("failed to save Fleet ${fleet.errors}")
+            }
+    }
+
+    public void persistBatteryForCar (Long carId, Long battery ) {
+
+        def newCar = []
+        Car car = Car.get(carId)
+        car.battery = battery
+        if(!car.save(flush: true)){
+            log.error("failed to save Car ${car.errors}")
+        }
+        newCar.add(car)
+    }
+
+
+    def getFleetId (Long configurationStubId) {
+
+        Configuration stub = Configuration.get( configurationStubId )
+
+        Long probe
+        stub.fleets.each { Fleet fleet ->
+
+            probe = fleet.id
+
+        }
+        return probe
+    }
+
 
     def getObuDfki (Long configurationStubId) {
         Configuration stub = Configuration.get( configurationStubId )
@@ -1406,6 +1451,20 @@ class ConfigurationService {
         return carList
     }
 
+    def getCarIdConfiguration (Long fleetId) {
+
+        Fleet fleet = Fleet.get(fleetId)
+        Car car
+        fleet.cars.each {
+            car = Car.get(it.id)
+            if(!car.save(flush: true)){
+                log.error("failed to save Car ${car.errors}")
+            }
+
+        }
+        return car.id
+    }
+
     def getNumberOfGroup (Long groupId) {
         FillingStationGroup fillingStationGroup = FillingStationGroup.get(groupId)
         return fillingStationGroup.fillingStations
@@ -1430,19 +1489,37 @@ class ConfigurationService {
         return fillingStationGroup
     }
 
-    def getBatteryStatus(Long fleetId ) {
+    def getBatteryStatusAll(Long fleetId ) {
         Fleet fleet = Fleet.get( fleetId )
-        fleet.cars.carType
         def cars = []
+        Double energy = 0.0
+
         fleet.cars.each { Car car ->
-
-            car.battery = car.carType.maxEnergyLoad
-
-
+            energy = car.carType.maxEnergyLoad
+            car.battery =  100
             cars << Car.get( car.id )
         }
-
         return cars
+    }
+
+    def getBatteryListAll (Long configurationStubId) {
+
+        Configuration stub = Configuration.get( configurationStubId )
+
+
+    }
+
+    def getEnergy(Long fleetId) {
+        Fleet fleet = Fleet.get( fleetId )
+        def cars = []
+        Double energy = 0.0
+        fleet.cars.each { Car car ->
+            energy = car.carType.maxEnergyLoad
+
+
+        }
+        return energy
+
     }
 
     def getStartTime (Long fleetId) {
