@@ -312,7 +312,7 @@ class BootStrap {
             return
         }
         // Create Dfki OBU-Fleet One
-        SimulationArea simulationArea = SimulationArea.BREMEN
+        SimulationArea simulationArea = SimulationArea.BERLIN
         Fleet obu1fleet = new Fleet(
                 company: company,
                 name: "Dfki OBU-Fleet One",
@@ -337,7 +337,7 @@ class BootStrap {
         //Get the simulation Area (we will hardcode it to BREMEN)
 
 
-        def filePathObu = "resources/obu.json"
+        def filePathObu = "resources/obu4.json"
         def textObu = grailsApplication.getParentContext().getResource("classpath:$filePathObu").getInputStream().getText()
         def jsonObu = JSON.parse(textObu)
         def routeList = routeService.createObuRoutes(jsonObu,simulationArea)
