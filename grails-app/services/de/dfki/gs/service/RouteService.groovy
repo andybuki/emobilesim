@@ -1456,7 +1456,7 @@ class RouteService {
             Coordinate startCoordinate = meassurePointCoordinates.pop()
             org.geotools.graph.structure.Node start = getClosestNodeWithinRadius(startCoordinate,toleranceRadius,graph)
             if(start){
-                log.error("sucsess start ist ${startCoordinate.x},${startCoordinate.y}")
+                log.error("sucsess end ist ${startCoordinate.x},${startCoordinate.y}")
                 endNode = start
             }
         }
@@ -1481,22 +1481,27 @@ class RouteService {
             double shortestDistance = 1000000000 // this shoud just be grater then any of the distances
             startNode.edges.each {edge->//we will coose the edge where the next GPS-Coordinate is closest
                 if (edge.nodeA == startNode){//take the propper node of an edge
-                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeB)//get the closest GPS coordinate to this point
-                    if (closeCoordinateAndDistance.distance <shortestDistance){
+                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeB,startNode)//get the closest GPS coordinate to this point
+                    if (!closeCoordinateAndDistance.isEmpty()&&closeCoordinateAndDistance.distance <shortestDistance){
                         shortestDistance = closeCoordinateAndDistance.distance
                         viaEdge = edge
                         closestCoordinate = closeCoordinateAndDistance.coordinate
                     }
                 }
                 else{
-                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeA)//z coordiate is the distance to NodeB
-                    if (closeCoordinateAndDistance.distance <shortestDistance){
+                    def closeCoordinateAndDistance = getClosestCoordinate(meassurePointCoordinates,edge.nodeA,startNode)//z coordiate is the distance to NodeB
+                    if (!closeCoordinateAndDistance.isEmpty() && closeCoordinateAndDistance.distance <shortestDistance){
                         shortestDistance = closeCoordinateAndDistance.distance
                         viaEdge = edge
                         closestCoordinate = closeCoordinateAndDistance.coordinate
                     }
                 }
             }
+            if(!closestCoordinate){
+                break
+            }
+
+
             while(!meassurePointCoordinates.isEmpty() && meassurePointCoordinates.pop().x != closestCoordinate.x){
 
             }
@@ -1510,8 +1515,8 @@ class RouteService {
 
 
         }
-        if(counter == 9999){
-            log.error("counter was full something went wron in Obu-route")
+        if(counter == 99999){
+            log.error("counter was full something went wrong in Obu-route")
         }
         if(singleObuRoute.last().nodeB != endNode){
             log.error("Didn't arrive at the end")
@@ -1522,15 +1527,21 @@ class RouteService {
 
         return obuRoute;
     }
-    def getClosestCoordinate(List<Coordinate> coordinateList,  org.geotools.graph.structure.Node node){
-        Point point = (Point) node.getObject();
+    def getClosestCoordinate(List<Coordinate> coordinateList,  org.geotools.graph.structure.Node target, org.geotools.graph.structure.Node start){
+        Point targetPoint = (Point) target.getObject();
+        Point startPoint = (Point) start.getObject();
         def result = [:]
         Coordinate resultCoordinate;
-        coordinateList.each {
-            double d = Calculater.haversine(point.x,point.y,it.y,it.x)
-            if(result.isEmpty() || result.get("distance") >= d){
-                result.coordinate = it
+        if(coordinateList.isEmpty()){
+            log.error("the given CoordinateList was empty (end arrived?)")
+            return result;
+        }
+        for(int index = coordinateList.size()-1;index >= 0 && index>coordinateList.size()-161;index--) {//only take the last 10(find out what number is good) messure points
+            double d = Calculater.haversine(targetPoint.x,targetPoint.y,coordinateList.get(index).y,coordinateList.get(index).x)
+            if((result.isEmpty() || result.get("distance") >= d)){
+                result.coordinate = coordinateList[index]
                 result.distance = d
+                result.index = index
             }
         }
         return result
