@@ -2449,7 +2449,7 @@ fieldset {
     padding:10px 0px 0px 7px;
     min-height:24px;
     font-weight: bold;
-	font-size: 13px;
+	font-size: 11px;
 }
 
 .leftBoldSimArea {
@@ -3377,7 +3377,7 @@ a.olControlZoomOut {
     padding:10px 0px 0px 7px;
     min-height:34px;
     position: relative;
-    top:4px;
+    bottom:4px;
 }
 
 
@@ -3525,10 +3525,11 @@ label.checkbox :disabled + span{
 
 td {
 	font-size: 11px;
+
 }
 
 th {
-	font-size: 12px;
+	font-size: 10px;
 }
 
 .calendarSet {
