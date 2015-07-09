@@ -308,6 +308,7 @@ class BootStrap {
     //first fleet
         createObuFleet("dfki","obuFleetBerlin_01_07",SimulationArea.BERLIN,CarType.get(7),"resources/obu_berlin_01_07.json","ZOE 12")//
         createObuFleet("dfki","obuFleetBerlin_03_07",SimulationArea.BERLIN,CarType.get(7),"resources/obu_berlin_03_07.json","ZOE 12")
+        createObuFleet("dfki","obuFleetWiesloch_09_07",SimulationArea.WIESLOCH,CarType.get(7),"resources/obu_wiesloch_09_07.json","ZOE 14")
     }
     /**
      * Creates a ObuFleet with one Car with the Route given in the JSON of

@@ -1154,7 +1154,7 @@ body.lightBoxBody{
 }
 
 .leftDistribution60PX{
-    width:65px;
+    width:75px;
     float:left;
     padding:10px 0px 0px 7px;
 }
@@ -1305,7 +1305,7 @@ body.lightBoxBody{
 
 .rowGroup {
     margin-left: 7px;
-    margin-right: 7px;
+    margin-right: 40px;
     margin-top: 2px;
     margin-bottom: 2px;
     background-color: #fff;
@@ -1321,7 +1321,7 @@ body.lightBoxBody{
 
 .rowGroup1 {
 	margin-left: -7px;
-	margin-right: 17px;
+	margin-right: 47px;
 	margin-top: 2px;
 	margin-bottom: 2px;
 	background-color: #fff;
@@ -1469,7 +1469,9 @@ td {
     display: table-cell;
     /*border-radius: 6px;*/
     float:left;
-
+	position: relative;
+	bottom: 35px;
+	left: 10px;
 
 }
 .layoutButtonR {
