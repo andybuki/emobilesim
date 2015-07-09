@@ -303,7 +303,7 @@ class ConfigurationController {
             configurationService.removeFleetFromConfiguration(cmd.configurationStubId, cmd.fleetId)
 
         }
-        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
 
     }
 

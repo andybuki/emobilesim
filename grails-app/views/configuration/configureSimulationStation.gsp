@@ -204,7 +204,7 @@
             <br><br>
             <div class="layoutButton">
                 <span class="layoutButtonL">
-                    <span class="addButtonCancel"><g:link controller="configuration" action="configureSimulationRoute"><g:message code="configuration.index.back"/></g:link></span>
+                    <span class="addButtonCancel"><g:link controller="configuration" action="configureSimulation"><g:message code="configuration.index.back"/></g:link></span>
                     <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
                 </span>
             <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
