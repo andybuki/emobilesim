@@ -72,7 +72,7 @@
                         <div class="clear"></div>
                     </div>--%>
 
-                    <div class="rowGroup">
+                    <div class="rowGroup1">
                         <%--div class="rowBrightGrey">
                             <div class="leftConfigurationExtraLong">
                                 <g:message code="configuration.index.selectfleets"/>

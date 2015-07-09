@@ -261,6 +261,7 @@ polyline {
 
                                                     };
                                                     serialize( data );
+                                                    reloadPage();
                                                 }
                                             }
 
@@ -414,6 +415,8 @@ polyline {
 
                                             }
                                         }--%>
+
+
 
                                     </script>
 

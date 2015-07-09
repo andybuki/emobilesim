@@ -8,6 +8,14 @@ if (typeof jQuery !== 'undefined') {
     })(jQuery);
 }
 
+
+
+
+function reloadPage() {
+    var timeout;
+    timeout = setTimeout("location.reload(true);",40000);
+}
+
 function addHiglightedLines( trackId, layer, fromLon, fromLat, toLon, toLat ) {
 
     var startPoint = new OpenLayers.Geometry.Point( fromLon, fromLat );
@@ -674,13 +682,9 @@ function drawRoute( data ) {
 
 function drawExtraRoute( data ) {
 
-
     var routeToEnergy = data[ 'routeToEnergy' ];
     var routeBackToTarget = data[ 'routeBackToTarget' ];
-
     var routesLayer = data[ 'routesLayer' ];
-
-
     var segmentSize = routeToEnergy.length;
     for ( var j = 0; j < segmentSize; j++ ) {
 

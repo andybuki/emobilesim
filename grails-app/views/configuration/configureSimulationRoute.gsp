@@ -39,10 +39,10 @@
 
     <div class="rowUp">
         <g:form action="changeName">
-            <div class="leftBoldBig1">
-                <g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/>
+            <div class="leftBoldBig2">
+                <g:message code="configuration.index.configuresimulation"/>: ${simulationName} <%--<g:textField name="nameForSimulation" value="${simulationName}"/>--%>
                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                <g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />
+                <%--<g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />--%>
             </div>
         </g:form>
         <g:form action="changeArea">
@@ -52,11 +52,11 @@
                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                     <span class="rightBoldBig2">
                         <g:if test="${(addedGroups == null || addedGroups.size() == 0)}">
-                            <g:submitToRemote class="addButton"
+                            <%--<g:submitToRemote class="addButton"
                                               url="[action: 'changeArea']"
                                               update="updateMe"
                                               name="submit"
-                                              value="${message(code:'configuration.index.changearea')}" />
+                                              value="${message(code:'configuration.index.changearea')}" />--%>
                         </g:if>
                     </span>
                 </span>

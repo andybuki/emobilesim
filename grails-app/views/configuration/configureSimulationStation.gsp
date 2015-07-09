@@ -37,10 +37,10 @@
 
     <div class="rowUp">
         <g:form action="changeName">
-            <div class="leftBoldBig1">
-                <g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/>
+            <div class="leftBoldBig2">
+                <g:message code="configuration.index.configuresimulation"/>: ${simulationName} <%--<g:textField name="nameForSimulation" value="${simulationName}"/>--%>
                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                <g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />
+                <%--<g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />--%>
             </div>
         </g:form>
         <g:form action="changeArea">
@@ -50,11 +50,11 @@
                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                     <span class="rightBoldBig2">
                         <g:if test="${(addedGroups == null || addedGroups.size() == 0)}">
-                            <g:submitToRemote class="addButton"
+                            <%--<g:submitToRemote class="addButton"
                                               url="[action: 'changeArea']"
                                               update="updateMe"
                                               name="submit"
-                                              value="${message(code:'configuration.index.changearea')}" />
+                                              value="${message(code:'configuration.index.changearea')}" />--%>
                         </g:if>
                     </span>
                 </span>
@@ -72,12 +72,12 @@
                     <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                     <div class="clear"></div>
                 </div>--%>
-                <b>Electric Stations:</b>
+
                 <%--<div class="rowSpace">
                     <div class="clear"></div>
                 </div>--%>
 
-                <div class="rowGroup">
+                <div class="rowGroup1">
                 <%--div class="rowBrightGrey">
                     <div class="leftConfigurationExtraLong">
                         <g:message code="configuration.index.selectfleets"/>
@@ -87,15 +87,15 @@
                 </div>--%>
 
                 <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
-                    <div class="rowMiddleWithoutBorder">
-                        <span class="leftConfiguration"><%--<g:message code="simulation.index.selectgroup"/>--%></span>
-                        <span class="rightOnlyButton">
+                    <div class="rowMiddleWithoutBorder22">
+                        <div class="leftText">Electric Stations:<%--<g:message code="simulation.index.selectgroup"/>--%></div>
+                        <div class="rightOnlyButton">
                             <g:form controller="configuration" action="addExistentGroupToConfiguration">
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
                                 <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
                             </g:form>
-                        </span>
+                        </div>
                         <div class="clear"></div>
                     </div>
                 </g:if>
@@ -222,7 +222,7 @@
                     <span class="layoutButtonM"></span>
                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
 
-                    <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
+                    <span class="layoutButtonR"><%--<g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/>--%></span>
                 <%--</g:if>--%>
                 </g:if>
             </div>
