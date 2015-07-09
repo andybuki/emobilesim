@@ -37,7 +37,7 @@
                 <div class="leftBoldBig1">
                     <g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/>
                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                    <g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />
+                    <g:submitButton name="ok" value="Ok" />
                 </div>
             </g:form>
                 <g:form action="changeArea">
@@ -88,7 +88,7 @@
                                     <g:form controller="configuration" action="addExistentFleetToConfiguration">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                                        <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addfleet')}" />
+                                        <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
                                     </g:form>
                                 </div>
                                 <div class="clear"></div>

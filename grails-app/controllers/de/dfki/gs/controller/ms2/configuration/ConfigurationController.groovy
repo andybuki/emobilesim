@@ -357,7 +357,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
 
     }
 
@@ -408,28 +408,9 @@ class ConfigurationController {
 
         }
 
-
-        Long configurationStubId = null
-
         // plug the model..
         def m = [:]
         m.configurations = []
-
-        if (cmd.configurationStubId == null) {
-            configurationStubId = configurationService.createConfigurationStub(person).id;
-        } else {
-            configurationStubId = cmd.configurationStubId
-        }
-
-        /*if (cmd.simulationName==null) {
-            String sim = "Simulation ${configurationStubId}"
-            m.simulationName = sim
-        } else {
-            simulationName = configurationService.createSimulationForCompany( person, cmd.simulationName )
-            m.simulationName = simulationName
-        }*/
-
-        // to know what we are talking about
 
         List<Configuration> configurations = configurationService.getRecentlyEditedConfigurationsOfCompany(person)
 
@@ -487,7 +468,7 @@ class ConfigurationController {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
-
+        //log.error("$params")
         EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
         bindData(cmd, params)
         if (!cmd.validate() && cmd.hasErrors()) {
@@ -509,15 +490,6 @@ class ConfigurationController {
             configurationStubId = cmd.configurationStubId
         }
 
-        /*if (cmd.simulationName==null) {
-            String sim = "Simulation ${configurationStubId}"
-            m.simulationName = sim
-        } else {
-            simulationName = configurationService.createSimulationForCompany( person, cmd.simulationName )
-            m.simulationName = simulationName
-        }*/
-
-        // to know what we are talking about
         m.configurationStubId = configurationStubId
 
         //simulation

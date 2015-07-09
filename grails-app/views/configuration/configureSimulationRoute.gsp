@@ -372,11 +372,19 @@
         </div>
     </div>
     <div class="formConfiguration">
-        <g:form action="saveFinishedConfigurationRoute">
+
             <br><br>
             <div class="layoutButton">
                 <span class="layoutButtonL">
-                    <span class="addButtonCancel"><g:link controller="configuration" action="configureSimulation"><g:message code="configuration.index.back"/></g:link></span>
+                    <g:form controller="configuration" action="configureSimulation">
+                        <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                        <span class="addButtonCancel">
+                            <g:submitButton name="send" value="${message(code: 'configuration.index.back')}"/>
+                            </span>
+                    <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
+                        </span>
+                    </g:form>
+                    <%--<span class="addButtonCancel"><g:link controller="configuration" action="configureSimulation"><g:message code="configuration.index.back"/></g:link></span>--%>
                     <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
                 </span>
             <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
@@ -389,6 +397,7 @@
                           (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
                           (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
             }">--%>
+        <g:form action="saveFinishedConfigurationRoute">
                 <g:if test="${notConfiguredFleets==1 || savedFleets == 1 || configuredFleets==1}">
 
                     <span class="layoutButtonM"></span>
@@ -397,8 +406,9 @@
                     <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.next')}"/></span>
                 <%--</g:if>--%>
                 </g:if>
+                </g:form>
             </div>
-        </g:form>
+
 
 
         <div id="updateMe"></div>

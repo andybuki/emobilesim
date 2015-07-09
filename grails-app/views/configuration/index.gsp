@@ -38,7 +38,7 @@
 <body>
 <table width="800px" class="startSimulation">
     <td>
-        <g:link controller="configuration" class="newSimulation" action="configureSimulation">Create new Simulation</g:link>
+        <g:link controller="configuration" class="newSimulation" action="configureSimulation"><g:message code="configuration.index.createNewSimulation"/> </g:link>
     </td>
     <td>
         <div class="pContainer">

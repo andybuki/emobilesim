@@ -20,17 +20,17 @@ class Configuration {
     /**
      * all executed experiments.. for the stats
      */
-    Set<Experiment> experiments = []
+    List<Experiment> experiments = []
 
     /**
      * possibility to have different fleets, and to plug ready-steady-fleets into Configuration
      */
-    Set<Fleet> fleets = []
+    List<Fleet> fleets = []
 
     /**
      * same same for fillingstations
      */
-    Set<FillingStationGroup> fillingStationGroups = []
+    List<FillingStationGroup> fillingStationGroups = []
 
     Boolean stub
 

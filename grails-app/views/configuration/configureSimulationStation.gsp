@@ -200,11 +200,17 @@
         </div>
     </div>
     <div class="formConfiguration">
-        <g:form action="saveFinishedConfigurationStation">
             <br><br>
-            <div class="layoutButton">
+        <div class="layoutButton">
                 <span class="layoutButtonL">
-                    <span class="addButtonCancel"><g:link controller="configuration" action="configureSimulation"><g:message code="configuration.index.back"/></g:link></span>
+            <g:form controller="configuration" action="configureSimulationRoute">
+                <span class="addButtonCancel">
+                    <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                    <g:submitButton name="send" value="${message(code: 'configuration.index.back')}"/>
+                </span>
+            </g:form>
+
+
                     <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
                 </span>
             <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
@@ -217,6 +223,7 @@
                           (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
                           (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
             }">--%>
+            <g:form action="saveFinishedConfigurationStation">
                 <g:if test="${notConfiguredGroups==1 || savedGroups == 1 || configuredGroups==1}">
 
                     <span class="layoutButtonM"></span>
@@ -225,8 +232,9 @@
                     <span class="layoutButtonR"><%--<g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/>--%></span>
                 <%--</g:if>--%>
                 </g:if>
-            </div>
-        </g:form>
+            </g:form>
+        </div>
+
 
         <g:form controller="execution" action="executeExperiment">
             <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
