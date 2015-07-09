@@ -13,7 +13,7 @@ if (typeof jQuery !== 'undefined') {
 
 function reloadPage() {
     var timeout;
-    timeout = setTimeout("location.reload(true);",40000);
+    timeout = setTimeout("location.reload(true);",30000);
 }
 
 function addHiglightedLines( trackId, layer, fromLon, fromLat, toLon, toLat ) {
