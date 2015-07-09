@@ -52,7 +52,7 @@
         var g = Math.floor(Math.random() * 255);
         var b = Math.floor(Math.random() * 255);
         color= "rgb("+r+" ,"+g+","+ b+")";
-        var colorVariable = ["red","#00ff00","#ff00ff","#00ddff","yellow","yellow"];
+        var colorVariable = ["red","#00ff00","#ff00ff","#00ddff","yellow"];
         markers = new OpenLayers.Layer.Markers( "Markers", {
             strategies: [
                 new OpenLayers.Strategy.Fixed(),

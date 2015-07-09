@@ -1,11 +1,14 @@
 package de.dfki.gs.ms2.stats
 
+import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.simulation.Fleet
+import de.dfki.gs.domain.simulation.Route
+import de.dfki.gs.domain.simulation.TrackEdge
 import de.dfki.gs.domain.stats.ExperimentRunResult
 import de.dfki.gs.domain.stats.PersistedCarAgentResult
 import de.dfki.gs.domain.stats.PersistedFillingStationResult
@@ -98,7 +101,51 @@ class StatisticService {
 
         return fillingStationGroups
     }
+    def getFleetsForMap(Long experimentRunResultId){
+        ExperimentRunResult result = ExperimentRunResult.get(experimentRunResultId)
+        Configuration configuration = Configuration.get(result.configurationId)
+        def fleets = []
+        configuration.fleets.each {
+            fleets.add(getFleetRoute(it.id))
+        }
+        return fleets
+    }
+    def getFleetRoute( Long fleetID ) {
 
+        Fleet fleet = Fleet.get(fleetID)
+        def fleetModel = [:]
+        fleet = Fleet.get( fleet.id )
+
+        fleetModel.cars = []
+        fleetModel.name = fleet.name
+        fleetModel.routesConfigured = fleet.routesConfigured
+        if (fleetModel.routesConfigured == true) {
+            fleet.cars.each { Car car ->
+
+                car = Car.get(car.id)
+
+                def carModel = [:]
+                carModel.name = car.name
+                carModel.route = []
+
+                Route route = Route.get(car.route.id)
+
+                route.edges.each { TrackEdge trackEdge ->
+
+                    trackEdge = TrackEdge.get(trackEdge.id)
+
+                    carModel.route << trackEdge
+
+                }
+
+                fleetModel.cars << carModel
+
+            }
+        }
+
+
+        return fleetModel
+    }
     def generateStatisticMapForExperiment( Long experimentResultId ) {
 
         def m = [ : ]

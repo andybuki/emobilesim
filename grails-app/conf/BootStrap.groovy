@@ -299,23 +299,40 @@ class BootStrap {
 
         }
         log.error( "create default Obu Fleet.." )
-        createObuFleets()
+        createAllObuFleets()
 
 
 
     }
-    def createObuFleets(){
-        Company company = Company.findByName( "dfki" )
+    def createAllObuFleets(){
+    //first fleet
+        createObuFleet("dfki","obuFleetBerlin_01_07",SimulationArea.BERLIN,CarType.get(4),"resources/obu_berlin_01_07.json","Obu_Car_1")//
+        // TODO Chose the proper carType and carName
+        createObuFleet("dfki","obuFleetBerlin_03_07",SimulationArea.BERLIN,CarType.get(4),"resources/obu_berlin_03_07.json","Obu_Car_1")
+    }
+    /**
+     * Creates a ObuFleet with one Car with the Route given in the JSON of
+     * lokated at filePathObu
+     * we could make this to be also for multible Cars by giving lists for carType,
+     * filePathObu and carName
+     * @param companyName
+     * @param fleetName
+     * @param simulationArea
+     * @param carType
+     * @param filePathObu
+     * @param carName
+     * @return void
+     */
+    def createObuFleet(String companyName,String fleetName,SimulationArea simulationArea,CarType carType,String filePathObu,String carName){
+        Company company = Company.findByName(companyName)
 
         if ( company == null ) {
             log.error( "no company for name dfki found" )
             return
         }
-        // Create Dfki OBU-Fleet One
-        SimulationArea simulationArea = SimulationArea.BERLIN
-        Fleet obu1fleet = new Fleet(
+        Fleet fleet = new Fleet(
                 company: company,
-                name: "Dfki OBU-Fleet One",
+                name: fleetName,
                 distribution: Distribution.SELF_MADE_ROUTES,
                 fleetStatus: FleetStatus.NOT_CONFIGURED,
                 stub: false,
@@ -323,44 +340,38 @@ class BootStrap {
                 simulationArea: simulationArea
         )
 
-        if ( !obu1fleet.save( flush: true, failOnError: true ) ) {
+        if ( !fleet.save( flush: true, failOnError: true ) ) {
 
-            log.error( "failed to save fleet: ${dfki2Fleet.errors}" )
+            log.error( "failed to save fleet: ${fleet.errors}" )
             return
         }
-        CarType carType4 = CarType.get( 4 )
-        if ( carType4 == null ) {
+        if ( carType == null ) {
             log.error( "no cartype found" )
             return
         }
 
-        //Get the simulation Area (we will hardcode it to BREMEN)
-
-
-        def filePathObu = "resources/obu_berlin_01_07.json"
         def textObu = grailsApplication.getParentContext().getResource("classpath:$filePathObu").getInputStream().getText()
         def jsonObu = JSON.parse(textObu)
         def routeList = routeService.createObuRoutes(jsonObu,simulationArea)
         Car car = new Car(
-                carType: carType4,
-                name: "Obu_Car_1",
+                carType: carType,
+                name: carName,
                 routesConfigured: false,
-                fleetId: obu1fleet.id
+                fleetId: fleet.id
         )
         if ( !car.save( flush: true, failOnError: true ) ) {
             log.error( "failed to save car: ${car.errors}" )
         }
         routeService.persistRouteToCar( car, routeList )
-        obu1fleet.addToCars( car )
-        obu1fleet.routesConfigured = true
-        obu1fleet.fleetStatus = FleetStatus.CONFIGURED
-        if ( !obu1fleet.save( flush: true, failOnError: true ) ) {
+        fleet.addToCars( car )
+        fleet.routesConfigured = true
+        fleet.fleetStatus = FleetStatus.CONFIGURED
+        if ( !fleet.save( flush: true, failOnError: true ) ) {
 
-            log.error( "failed to update obu1fleet: ${obu1fleet.errors}" )
+            log.error( "failed to update obuFleetBerlin_01_07: ${fleet.errors}" )
 
         }
     }
-
     def createDefaultGroup() {
 
         Company company = Company.findByName( "dfki" )

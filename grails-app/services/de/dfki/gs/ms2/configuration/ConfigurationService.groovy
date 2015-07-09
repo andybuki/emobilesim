@@ -346,6 +346,17 @@ class ConfigurationService {
      * @param currentUser
      * @return
      */
+    def getConfiguredFleetsWithRoute(Long configurationStubId){
+        Configuration configurationStub = Configuration.get(configurationStubId)
+        def fleets = []
+        configurationStub.fleets.each { fleet ->
+            if (fleet.fleetStatus == FleetStatus.CONFIGURED){
+                fleets.add(getFleetRoute(fleet.id))
+            }
+
+        }
+        return fleets
+    }
     def getConfiguredFleets (Long configurationStubId) {
         Configuration stub = Configuration.get( configurationStubId )
         int fleetExecutable = 0

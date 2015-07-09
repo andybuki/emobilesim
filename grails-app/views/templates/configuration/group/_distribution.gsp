@@ -225,7 +225,48 @@
                                         </g:if>
                                         </g:each>
                                         </g:each>
-
+                                        var colorVariable = ["red","#00ff00","#ff00ff","#00ddff","yellow"];
+                                        var a = 0;
+                                        var fleetDat = new Object();
+                                        <g:each var="fleet" in="${fleets}">
+                                        <g:each var="car" in="${fleet.cars}" >
+                                        var segments = new Array();
+                                        var vias = new Array();
+                                        var randomColor;
+                                        var r = Math.floor(Math.random() * 255);
+                                        var g = Math.floor(Math.random() * 255);
+                                        var b = Math.floor(Math.random() * 255);
+                                        randomColor= "rgb("+r+" ,"+g+","+ b+")";
+                                        colorVariable.push(randomColor);
+                                        var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
+                                            styleMap: new OpenLayers.StyleMap({
+                                                'default': {
+                                                    strokeColor: colorVariable[a],// TODO: chose a good color
+                                                    strokeOpacity: 0.4,
+                                                    strokeWidth: 4
+                                                }
+                                            })
+                                        });
+                                        a++;
+                                        <g:each var="seg" in="${car.route}">
+                                        var segm = new Object();
+                                        segm.fromX = ${seg.fromLon};
+                                        segm.fromY = ${seg.fromLat};
+                                        segm.toX = ${seg.toLon};
+                                        segm.toY = ${seg.toLat};
+                                        segments.push( segm );
+                                        <g:if test="${seg.type=='via_target'}">
+                                        vias.push(segm);
+                                        </g:if>
+                                        </g:each>
+                                        fleetDat.route = segments;
+                                        fleetDat.routesLayer = singleRoutesLayer;
+                                        fleetDat.markers = markers;
+                                        fleetDat.vias =vias;
+                                        drawRoute( fleetDat );
+                                        map.addLayer(singleRoutesLayer);
+                                        </g:each>
+                                        </g:each>
 
                                         var boxControl = new OpenLayers.Control.DrawFeature(
                                                 vectors,

@@ -857,7 +857,7 @@ class ConfigurationController {
 
             m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
-
+            m.fleets = configurationService.getConfiguredFleetsWithRoute(cmd.configurationStubId)
             render template: '/templates/configuration/group/distribution', model: m
 
         }
@@ -1444,6 +1444,7 @@ class ConfigurationController {
             def m = [:]
             m.fillingStationGroups = configurationService.getGroupStationsOfConfiguration(cmd.configurationStubId)
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
+            m.fleets = configurationService.getConfiguredFleetsWithRoute(cmd.configurationStubId)
             render template: '/templates/configuration/stations/showStationsOnMap', model: m
         }
     }
