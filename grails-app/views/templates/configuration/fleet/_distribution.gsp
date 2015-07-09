@@ -122,7 +122,7 @@ polyline {
                     <div id="tabs-container">
                         <ul class="tabs-menu">
                             <li class="current"><a href="#tab-1"><g:message code="simulation.index.showonmap"/></a></li>
-                            <li><a href="#tab-2"><g:message code="simulation.index.ownroutes"/></a></li>
+                            <li><a href="#tab-2"><g:message code="simulation.index.selectExistentRoutes"/></a></li>
                             <li><a href="#tab-3"><g:message code="simulation.index.distributed"/></a></li>
                         </ul>
                         <div class="tab">
@@ -426,19 +426,19 @@ polyline {
                             <div id="tab-2" class="tab-content">
                                 <div class="contentLeft1">
                                     <div class="rowUp">
-                                        <div class="leftbig"><g:message code="templates.configuration.group._distribution.distributionsettings"/></div>
+                                        <div class="leftbig"><g:message code="templates.configuration.fleet._distribution.routes"/></div>
                                     </div>
-                                    <div class="rowMiddle">
-                                        <div class="leftDistributionFile">
-                                            <input type="file">
-                                        </div>
-                                        <div class="rightDistribution">
+                                    <g:form controller="configuration" action="setExistentRouteForFleet">
+                                        <div class="rowMiddle">
+                                            <g:if test="${existentRoutes != null && !existentRoutes.isEmpty()}">
+                                                <div class="leftDistribution">
+                                                    <g:select name="selectedRouteId" from="${existentRoutes}" optionKey="id" optionValue="${{it.name}}" />
+                                                </div>
+                                            </g:if>
 
-                                        </div>
                                         <div class="clear"></div>
                                     </div>
-
-                                    <div class="rowDown">
+                                        <div class="rowDown">
                                         <div class="leftLongBold"></div>
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:hiddenField name="fleetId" value="${fleetId}"/>
@@ -448,6 +448,7 @@ polyline {
 
                                         <div class="clear"></div>
                                     </div>
+                                    </g:form>
                                 </div>
                             </div>
                             <div id="tab-3" class="tab-content">

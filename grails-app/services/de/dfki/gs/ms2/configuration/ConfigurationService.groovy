@@ -7,6 +7,7 @@ import de.dfki.gs.domain.GasolineStationType
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.CustomerPositionSet
 import de.dfki.gs.domain.simulation.FillingStation
 import de.dfki.gs.domain.simulation.FillingStationGroup
 import de.dfki.gs.domain.simulation.FillingStationType
@@ -287,13 +288,6 @@ class ConfigurationService {
     }
 
 
-    def getObuDfki (Long configurationStubId) {
-        Configuration stub = Configuration.get( configurationStubId )
-
-        List<DfkiRoutesTimeStatus> obuDfki = new ArrayList<DfkiRoutesTimeStatus>()
-
-    }
-
     /**
      * get all groups added to a certain configuration stub
      *
@@ -305,6 +299,12 @@ class ConfigurationService {
         SimulationArea simulationArea = stub.simulationArea
         return simulationArea
     }
+    def getExistentRoutesForPerson(Person person){
+        Company company = Company.get(person.company.id)
+        List<CustomerPositionSet> allCustomerPositionSets = CustomerPositionSet.findAllByCompany(company,[ sort: "name", order: "asc" ])
+        return allCustomerPositionSets
+    }
+
     def getAddedGroups( Long configurationStubId ) {
 
         Configuration stub = Configuration.get( configurationStubId )

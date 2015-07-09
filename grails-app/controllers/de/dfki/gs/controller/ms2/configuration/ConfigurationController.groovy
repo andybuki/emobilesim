@@ -8,6 +8,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.ChangeNameCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ConfigureBatteryForConfigurationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateStartTimeCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.ExistentRouteForFleetCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowSingleFleetRouteCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
@@ -904,13 +905,78 @@ class ConfigurationController {
             m.carId = configurationService.getCarId (cmd.fleetId)
             m.carTypes = configurationService.getCarsFromFleetTypeOrdered(cmd.fleetId)
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
+            m.existentRoutes = configurationService.getExistentRoutesForPerson(person)
 
 
             render template: '/templates/configuration/fleet/distribution', model: m
 
         }
     }
+    def setExistentRouteForFleet(){
+        Person person = (Person) springSecurityService.currentUser
 
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        ExistentRouteForFleetCommandObject cmd = new ExistentRouteForFleetCommandObject()
+        bindData(cmd, params)
+
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to validate distribution for fleet: ${cmd.errors}")
+
+        } else {
+            CustomerPositionSet customerPositionSet = CustomerPositionSet.get(cmd.selectedRouteId)
+            VrpSolver vrpSolver = new VrpSolver(customerPositionSet, cmd.fleetId);
+            VrpTracks vrpRouteTracks = vrpSolver.solveVrp();
+            Fleet fleet = Fleet.get(cmd.fleetId)
+            SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
+            if(fleet.cars.size()!=vrpRouteTracks.optaTracks.size()){
+                log.error("a bad error accured vrpRouteTracks has not the proper nr. of cars")
+            }
+            else {
+                Stack<SingleVrpTracks> vrpTracksStack = new Stack<SingleVrpTracks>()
+                vrpRouteTracks.optaTracks.each {vrpTracksStack.push(it)}
+                for(Car car: fleet.cars){
+                    def destinationsForCar = []
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    destinationsForCar.addAll(vrpTracksStack.pop().vrpRoute)
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    def pairs = destinationsForCar.collate(2,1,false)
+                    List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+                    pairs.each {
+                        Coordinate currentStart = new Coordinate(it[0].lat,it[0].lon)
+                        Coordinate currentTarget = new Coordinate(it[1].lat,it[1].lon)
+                        List<BasicEdge> pathEdges = [];
+                        if(currentStart.equals(currentTarget)){
+                            log.error("start and target are same from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+
+                        }
+                        else{
+                            pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
+                            if (pathEdges.size() < 1) {
+                                log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+                                return null //Todo: This might resolve in an error FIX IT
+                            }
+                        }
+                        multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
+                    }
+                    routeService.persistRouteToCar( car, multiTargetRoute )
+
+                }
+                fleet.routesConfigured = true
+                fleet.fleetStatus = FleetStatus.CONFIGURED
+                fleet.simulationArea= simulationArea
+                if ( !fleet.save( flush: true ) ) {
+                    log.error( "failed to save fleet: ${fleet.errors}" )
+                }
+            }
+
+        }
+        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: cmd.configurationStubId])
+    }
     def setDistributionForFleet() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -2504,6 +2570,10 @@ class ConfigurationController {
                 id++
             }
             CustomerPositionSet customerPositionSet = new CustomerPositionSet(company: company, depot: depot, customers: destinations)
+            if ( !customerPositionSet.save( flush: true ) ) {
+                log.error( "failed to save customerPositionSet: ${customerPositionSet.errors}" )
+            }
+            customerPositionSet.name ="Route Nr. "+customerPositionSet.id
             if ( !customerPositionSet.save( flush: true ) ) {
                 log.error( "failed to save customerPositionSet: ${customerPositionSet.errors}" )
             }
