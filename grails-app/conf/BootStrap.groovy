@@ -306,9 +306,8 @@ class BootStrap {
     }
     def createAllObuFleets(){
     //first fleet
-        createObuFleet("dfki","obuFleetBerlin_01_07",SimulationArea.BERLIN,CarType.get(4),"resources/obu_berlin_01_07.json","Obu_Car_1")//
-        // TODO Chose the proper carType and carName
-        createObuFleet("dfki","obuFleetBerlin_03_07",SimulationArea.BERLIN,CarType.get(4),"resources/obu_berlin_03_07.json","Obu_Car_1")
+        createObuFleet("dfki","obuFleetBerlin_01_07",SimulationArea.BERLIN,CarType.get(7),"resources/obu_berlin_01_07.json","ZOE 12")//
+        createObuFleet("dfki","obuFleetBerlin_03_07",SimulationArea.BERLIN,CarType.get(7),"resources/obu_berlin_03_07.json","ZOE 12")
     }
     /**
      * Creates a ObuFleet with one Car with the Route given in the JSON of
