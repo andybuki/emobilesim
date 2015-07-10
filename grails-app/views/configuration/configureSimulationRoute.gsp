@@ -167,7 +167,7 @@
             </div>
         </div>
         <div class="layoutRight">
-            <div class="rowGroup">
+            <div class="rowGroup2">
                 <g:each in="${addedFleets}" var="addedFleet">
                     <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                         <g:form action="showFleetRoutesOnMap">
