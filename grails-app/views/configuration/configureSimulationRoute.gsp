@@ -88,7 +88,7 @@
                     <div class="clear"></div>
                 </div>--%>
 
-                    <g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                    <g:if test="${addedFleets != null && addedFleets.size() > 0}">
 
                         <g:each in="${addedFleets}" var="addedFleet">
                         <%--<g:message code="simulation.index.addedfleet"/>--%>
