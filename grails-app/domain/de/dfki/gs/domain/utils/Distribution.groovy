@@ -8,7 +8,8 @@ public enum Distribution {
     NORMAL_DISTRIBUTION( "Normal Distribution" ),
     EQUAL_DISTRIBUTION( "Equal Distribution" ),
     SELF_MADE_ROUTES( "Self Configured Routes" ),
-    NOT_ASSIGNED( "Not Assigned" )
+    NOT_ASSIGNED( "Not Assigned" ),
+    OBU_ROUTES("Routes from Obudata")
 
     final String value
 

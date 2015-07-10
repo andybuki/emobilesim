@@ -53,7 +53,7 @@ class BootStrap {
         Fleet dfki1Fleet = new Fleet(
                 company: company,
                 name: "Dfki-Fleet One",
-                distribution: Distribution.SELF_MADE_ROUTES,
+                distribution: Distribution.OBU_ROUTES,
                 routesConfigured: false,
                 fleetStatus: FleetStatus.NOT_CONFIGURED,
                 stub: false
@@ -179,7 +179,7 @@ class BootStrap {
         Fleet dfki2Fleet = new Fleet(
                 company: company,
                 name: "Dfki-Fleet Two",
-                distribution: Distribution.SELF_MADE_ROUTES,
+                distribution: Distribution.OBU_ROUTES,
                 fleetStatus: FleetStatus.NOT_CONFIGURED,
                 stub: false,
                 routesConfigured: false
@@ -333,7 +333,7 @@ class BootStrap {
         Fleet fleet = new Fleet(
                 company: company,
                 name: fleetName,
-                distribution: Distribution.SELF_MADE_ROUTES,
+                distribution: Distribution.OBU_ROUTES,
                 fleetStatus: FleetStatus.NOT_CONFIGURED,
                 stub: false,
                 routesConfigured: false,

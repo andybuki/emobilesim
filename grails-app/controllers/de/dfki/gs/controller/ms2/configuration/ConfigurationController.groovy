@@ -61,6 +61,7 @@ import de.dfki.gs.utils.ResponseConstants
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import de.dfki.gs.domain.users.Person
+import org.geotools.graph.path.DijkstraShortestPathFinder
 import org.geotools.graph.structure.basic.BasicEdge
 
 import java.text.DateFormat
@@ -304,7 +305,7 @@ class ConfigurationController {
             configurationService.removeFleetFromConfiguration(cmd.configurationStubId, cmd.fleetId)
 
         }
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: params.configurationStubId])
 
     }
 
@@ -828,7 +829,7 @@ class ConfigurationController {
 
             m.groupTypes = configurationService.getFillingStationsFromGroupTypeOrdered(cmd.groupId)
 
-            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES
+            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES - Distribution.OBU_ROUTES
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
             m.fleets = configurationService.getConfiguredFleetsWithRoute(cmd.configurationStubId)
             render template: '/templates/configuration/group/distribution', model: m
@@ -869,7 +870,7 @@ class ConfigurationController {
             m.fleetName = configurationService.getNameOfFleet(cmd.fleetId)
             m.fleetSize = configurationService.getFleetSize (cmd.fleetId)
             // put in available Distributions
-            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES
+            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES -Distribution.OBU_ROUTES
 
             // put all cars from fleet
             // m.cars = configurationService.getCarsFromFleet( cmd.fleetId )
