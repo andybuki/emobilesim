@@ -101,7 +101,9 @@ class VrpSolver {
         Fleet fleet = Fleet.get(fleetId)
         Company company = Company.get(fleet.getCompany().id)
         int numberOfCars = fleet.cars.size();
-
+        if (numberOfCars <= 0) {
+            return null
+        }
 
         VehicleRoutingSolution unsolvedVehicleRoutingSolution = new VehicleRoutingSolution();
         unsolvedVehicleRoutingSolution.setId(0L);
@@ -119,7 +121,7 @@ class VrpSolver {
         for (long id = 0; id < numberOfCars; id++) {
             Vehicle vehicle = new Vehicle();
             vehicle.setId(id);
-            vehicle.setCapacity((int)Math.ceil(customerListSize-1)/numberOfCars);
+            vehicle.setCapacity((int)Math.ceil((customerListSize-1)/numberOfCars));
             vehicle.setDepot(depotList.get(0));
             vehicleList.add(vehicle);
         }
