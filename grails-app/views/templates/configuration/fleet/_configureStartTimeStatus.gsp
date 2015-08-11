@@ -24,6 +24,7 @@
                 </div>
             </div>
         </g:form>
+
         <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
     </div>
 </div>
