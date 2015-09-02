@@ -223,16 +223,15 @@
                           (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
                           (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
             }">--%>
-            <g:form action="saveFinishedConfigurationStation">
+            <%--<g:form action="saveFinishedConfigurationStation">
                 <g:if test="${notConfiguredGroups==1 || savedGroups == 1 || configuredGroups==1}">
 
                     <span class="layoutButtonM"></span>
                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
 
-                    <span class="layoutButtonR"><%--<g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/>--%></span>
-                <%--</g:if>--%>
+                    <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
                 </g:if>
-            </g:form>
+            </g:form> --%>
         </div>
 
 

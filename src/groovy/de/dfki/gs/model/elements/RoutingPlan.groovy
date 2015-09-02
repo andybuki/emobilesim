@@ -27,7 +27,7 @@ class RoutingPlan {
         // grails loads lazely trackedges, so we fetch them here
         List<TrackEdge> fetchedTrackEdges = new ArrayList<TrackEdge>()
 
-        if ( trackEdges.size() > 0 ) {
+        if ( trackEdges && trackEdges.size() > 0 ) {
 
             plan.startPoint = new LatLonPoint( trackEdges.get( 0 ).fromLat, trackEdges.get( 0 ).fromLon );
             plan.endPoint = new LatLonPoint( trackEdges.get( trackEdges.size() - 1 ).toLat, trackEdges.get( trackEdges.size() - 1 ).toLon );

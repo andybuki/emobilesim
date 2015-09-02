@@ -476,31 +476,34 @@ class SimulationExecutionService {
             if ( car ) {
 
                 List<TrackEdge> edges = simRouteMap.get( car.route.id )
+                if(edges){
+                    RoutingPlan routingPlan = RoutingPlan.createRoutingPlan( edges );
 
-                RoutingPlan routingPlan = RoutingPlan.createRoutingPlan( edges );
 
+                    CarType carType = car.carType
 
-                CarType carType = car.carType
+                    // TODO: recheck factory method for creating model car!!!
+                    ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit );
 
-                // TODO: recheck factory method for creating model car!!!
-                ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit );
+                    // TODO: recheck factory method for creating car Agent!!!
+                    CarAgent carAgent = CarAgent.createCarAgentWithFillingStations(
+                            routingPlan,
+                            modelCar,
+                            configurationId,
+                            35,
+                            runningStartTime,
+                            (double) car.route.edges.sum { TrackEdge edge -> edge.km },
+                            car.route.id,
+                            syncronizer,
+                            car.fleetId
+                    )
 
-                // TODO: recheck factory method for creating car Agent!!!
-                CarAgent carAgent = CarAgent.createCarAgentWithFillingStations(
-                        routingPlan,
-                        modelCar,
-                        configurationId,
-                        35,
-                        runningStartTime,
-                        (double) car.route.edges.sum { TrackEdge edge -> edge.km },
-                        car.route.id,
-                        syncronizer,
-                        car.fleetId
-                )
+                    carAgentMap.put( car.route.id, carAgent )
 
-                carAgentMap.put( car.route.id, carAgent )
+                    runningStartTime += intervalStep
 
-                runningStartTime += intervalStep
+                }
+
             }
 
         }

@@ -1005,10 +1005,11 @@ class ConfigurationController {
         } else {
 
             configurationService.setDistributionForGroup(cmd.selectedDist, cmd.groupId)
+            configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
 
         }
 
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
     }
 
 
