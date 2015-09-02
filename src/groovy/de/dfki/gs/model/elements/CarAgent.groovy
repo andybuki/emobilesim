@@ -179,7 +179,7 @@ class CarAgent extends Agent {
     def step( long currentTimeStamp ) {
 
         if ( startTime > 0 && startTime == currentTime ) {
-            log.debug( "${this.id} belated thread: time: ${currentTime}" )
+            log.debug( "${this.id} related thread: time: ${currentTime}" )
         }
 
 

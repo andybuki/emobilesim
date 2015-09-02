@@ -469,7 +469,8 @@ class SimulationExecutionService {
          * distribute all routes to an interval of 0..(60*60*4) -> 4h
          */
         long intervalStep =  Math.floor( ( 60 * 60 * 4 ) / routeIds.size() )
-        long runningStartTime = 0;
+        long runningStartTime = 0; //Zeigt die startzeit an
+        Date startDate = getStartDate(allCars);
 
         for ( Car car : allCars ) {
 
@@ -477,6 +478,18 @@ class SimulationExecutionService {
 
                 List<TrackEdge> edges = simRouteMap.get( car.route.id )
                 if(edges){
+                    def startTime //if user made no input take equally distrebuted startimes else take userinput
+                    if(startDate){
+                        if(car.carStartTime){
+                           startTime= (long)(car.carStartTime.getTime()-startDate.getTime())/1000
+                        }
+                        else{
+                            startTime= 0
+                        }
+                    }
+                    else {
+                        startTime = runningStartTime;
+                    }
                     RoutingPlan routingPlan = RoutingPlan.createRoutingPlan( edges );
 
 
@@ -492,7 +505,7 @@ class SimulationExecutionService {
                             modelCar,
                             configurationId,
                             35,
-                            runningStartTime,
+                            startTime,
                             (double) car.route.edges.sum { TrackEdge edge -> edge.km },
                             car.route.id,
                             syncronizer,
@@ -659,6 +672,16 @@ class SimulationExecutionService {
         }
 
 
+    }
+    def getStartDate( List<Car> allCars){
+        def startDate;
+        for ( Car car : allCars ) {
+                if(!startDate || car.carStartTime<startDate){
+                    startDate = car.carStartTime
+                }
+        }
+
+        return startDate
     }
 
 }
