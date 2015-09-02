@@ -124,12 +124,6 @@ class ExecutionController {
             log.error( "started or proceeded simulation" )
 
         }
-
-        m.stats = stats
-
-        // FIXME: DON'T DO THAT!! just on javaScript side. no chance to get back
-        // TODO: solution: print button ( 'stats' ) which requests state from simulation process
-        // redirect( controller: 'statistics', action: 'showStats', params: [ simulationExperimentResultId : simExpResultId ] )
     }
 
     def getInfo() {

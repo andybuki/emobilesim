@@ -216,7 +216,7 @@ class SimulationThreadFrameworkService {
 
                 CarType carType = simulationRoute.carType
 
-                ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit );
+                ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit ); //TODO Add current energy Load Percentage //IS THIS IN USE?
 
                 CarAgent carAgent = CarAgent.createCarAgent(
                         routingPlan,

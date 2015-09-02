@@ -89,6 +89,21 @@ class ModelCar {
         return modelCar;
     }
 
+    public static ModelCar createModelCar( EnergyConsumptionModel func, CarType carType, Double absoluteSearchLimit, Double relativeSearchLimit , Integer currentEnergyLoadPercentage ) {
+
+        ModelCar modelCar = new ModelCar();
+        modelCar.func = func;
+        modelCar.carType = carType
+        modelCar.absoluteSearchLimit = absoluteSearchLimit;
+        modelCar.relativeSearchLimit = relativeSearchLimit;
+
+        modelCar.maxEnergy = carType.maxEnergyLoad
+        modelCar.currentEnergy = carType.maxEnergyLoad*currentEnergyLoadPercentage/100;
+        modelCar.carName = carType.name
+
+        return modelCar;
+    }
+
     Double getRelativeSearchLimit() {
         return relativeSearchLimit
     }

@@ -481,9 +481,10 @@ class SimulationExecutionService {
 
 
                     CarType carType = car.carType
+                    Integer  currentEnergyLoadPercentage = car.battery;
 
                     // TODO: recheck factory method for creating model car!!!
-                    ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit );
+                    ModelCar modelCar = ModelCar.createModelCar( new EnergyConsumptionModel(), carType, 1, relativeSearchLimit,currentEnergyLoadPercentage );
 
                     // TODO: recheck factory method for creating car Agent!!!
                     CarAgent carAgent = CarAgent.createCarAgentWithFillingStations(
