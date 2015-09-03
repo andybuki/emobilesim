@@ -124,7 +124,7 @@ grails.project.dependency.resolution = {
     plugins {
         runtime ":hibernate:3.6.10.19"
         //runtime ":hibernate:2.3.1"
-        runtime ":jquery:1.11.0.2"
+        runtime ":jquery:1.11.1"
         //runtime ":resources:1.2.7"
         // compile ':asset-pipeline:1.8.3'
 
@@ -135,7 +135,7 @@ grails.project.dependency.resolution = {
 
         // build ":tomcat:$grailsVersion"
         //build ":tomcat:7.0.52.1"
-        build ':tomcat:7.0.55.2'
+        build ':tomcat:8.0.22'
         // build ":tomcat:2.3.1"
 
         runtime ":database-migration:1.4.0"
@@ -147,7 +147,7 @@ grails.project.dependency.resolution = {
         compile ":google-visualization:1.0.2"
         // compile ':cache-ehcache:1.0.0'
 
-        compile ":spring-security-core:2.0-RC4"
+        compile ":spring-security-core:2.0-RC5"
 
         compile ":mail:1.0.7"
 
