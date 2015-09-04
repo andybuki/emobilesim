@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title></title>
@@ -16,9 +16,10 @@
     <g:javascript src="ol/OpenLayers.js" />
 
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
-    <script type="text/javascript" src="http://ol3js.org/en/master/examples/google-map.js"></script>
-    <script type="text/javascript" >
+    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
+    <script type="text/javascript" src="http://openlayers.org/en/v3.0.0/examples/google-map.js"></script>
+    <script type="text/javascript">
 
 
         OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
@@ -48,65 +49,65 @@
                 var size = new OpenLayers.Size(21,25);
                 var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
                 var icon = new OpenLayers.Icon('http://localhost:8080/emobilesim/js/ol/img/marker-blue.png', size, offset);
-                markers.addMarker(new OpenLayers.Marker( lonlat, icon ));
+                markers.addMarker(new OpenLayers.Marker( lonlat, icon ));--%>
 
 
                 <%-- transforms coords into good format --%>
-                lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
+<%-- lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 
-                jQuery.ajax({
-                    url: "/emobilesim/mapView/showCoords",
-                    type: "POST",
-                    data: { 'lat' : lonlat.lat, 'lon' : lonlat.lon }
-                });
+jQuery.ajax({
+   url: "/emobilesim/mapView/showCoords",
+   type: "POST",
+   data: { 'lat' : lonlat.lat, 'lon' : lonlat.lon }
+});
 
-            }
-        });
-
-
-        var map = new OpenLayers.Map;
-        var markers;
-
-        function init() {
-            var p1 = new OpenLayers.Projection( "EPSG:4326" );
-            var pMerc = new OpenLayers.Projection( "EPSG:900913" );
-            var lonlat = new OpenLayers.LonLat( 13.38, 52.52 );
-
-            var zoom = 13;
-
-            map = new OpenLayers.Map( "map", {
-                controls: [
-                    new OpenLayers.Control.KeyboardDefaults(),
-                    new OpenLayers.Control.Navigation(),
-                    new OpenLayers.Control.LayerSwitcher(),
-                    new OpenLayers.Control.PanZoomBar(),
-                    new OpenLayers.Control.MousePosition()
-                ],
-                maxExtent:
-                        new OpenLayers.Bounds( -20037508.34, -20037508.34,
-                                20037508.34,  20037508.34 ),
-                numZoomLevels: 18,
-                maxResolution: 156543,
-                units: 'm',
-                projection: pMerc,
-                displayProjection: p1
-            } );
+}
+});
 
 
-            var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
-            var mapgoogle_layer = new OpenLayers.Layer.Google("Google Streets");
-            // var tah_layer = new OpenLayers.Layer.OSM.Osmarender( "Tiles@Home" );
+var map = new OpenLayers.Map;
+var markers;
 
-            markers = new OpenLayers.Layer.Markers( "Markers" );
+function init() {
+var p1 = new OpenLayers.Projection( "EPSG:4326" );
+var pMerc = new OpenLayers.Projection( "EPSG:900913" );
+var lonlat = new OpenLayers.LonLat( 13.38, 52.52 );
 
-            map.addLayer( markers );
-            map.addLayer( mapnik_layer );
-            map.addlayer(mapgoogle_layer);
+var zoom = 13;
 
-            <%--
-            map.addLayers( [ mapnik_layer, markers ] );
-            --%>
+map = new OpenLayers.Map( "map", {
+controls: [
+   new OpenLayers.Control.KeyboardDefaults(),
+   new OpenLayers.Control.Navigation(),
+   new OpenLayers.Control.LayerSwitcher(),
+   new OpenLayers.Control.PanZoomBar(),
+   new OpenLayers.Control.MousePosition()
+],
+maxExtent:
+       new OpenLayers.Bounds( -20037508.34, -20037508.34,
+               20037508.34,  20037508.34 ),
+numZoomLevels: 18,
+maxResolution: 156543,
+units: 'm',
+projection: pMerc,
+displayProjection: p1
+} );
 
+
+var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
+var mapgoogle_layer = new OpenLayers.Layer.Google("Google Streets");
+// var tah_layer = new OpenLayers.Layer.OSM.Osmarender( "Tiles@Home" );
+
+markers = new OpenLayers.Layer.Markers( "Markers" );
+
+map.addLayer( markers );
+map.addLayer( mapnik_layer );
+map.addlayer(mapgoogle_layer);--%>
+
+<%--
+map.addLayers( [ mapnik_layer, markers ] );
+--%>
+<%--
             lonlat.transform( p1, pMerc );
             map.setCenter( lonlat, zoom );
 
@@ -125,10 +126,10 @@
 
 <div id="map" style="width: 100%; height: 95%; position: absolute; padding-bottom: 100px; "></div>
 
-<r:layoutResources></r:layoutResources>
+<r:layoutResources></r:layoutResources>--%>
 
 <%--
     <g:render template="/layouts/footer" />
 --%>
-</body>
-</html>
+<%--</body>
+</html>--%>

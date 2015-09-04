@@ -5,7 +5,7 @@
   Time: 14:26
   To change this template use File | Settings | File Templates.
 --%>
-
+<%--
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -22,7 +22,7 @@
     <script type="text/javascript"
             src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAVgC48E2RvrDZoQnQeaRCowxshL67fAcM&sensor=true">
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
     <script type="text/javascript" >
         function initialize() {
             var mapOptions = {
@@ -60,4 +60,4 @@
 
 <g:render template="/layouts/footer" />
 </body>
-</html>
+</html>--%>
