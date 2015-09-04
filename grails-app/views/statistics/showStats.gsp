@@ -31,7 +31,7 @@
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 
-    <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
 
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 

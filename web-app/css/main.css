@@ -644,6 +644,11 @@ body {
     */
 }
 
+#map{
+	width: 800px;
+	height: 600px;
+}
+
 #map_canvas {
     position: absolute;
     width: 800px;
@@ -1136,7 +1141,7 @@ body.lightBoxBody{
 }
 
 .leftDistribution{
-    width:138px;
+    width:155px;
     float:left;
     padding:7px 0px 0px 7px;
 }

@@ -128,8 +128,324 @@
                                             ]
                                         } );
 
-                                        var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Mapnik" );
-                                        var mapgoogle_layer = new OpenLayers.Layer.Google( "Google Streets");
+                                        var stylez = [
+                                            {
+                                                "featureType": "all",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "saturation": -100
+                                                    },
+                                                    {
+                                                        "gamma": 0.5
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "all",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "all",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "all",
+                                                "elementType": "labels.text",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "all",
+                                                "elementType": "labels.icon",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "administrative",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "landscape",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "landscape.natural.terrain",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "landscape.natural.terrain",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "landscape.natural.terrain",
+                                                "elementType": "labels.text",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "landscape.natural.terrain",
+                                                "elementType": "labels.icon",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "geometry.fill",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "geometry.stroke",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels.text",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels.text.fill",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels.text.stroke",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels.icon",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "on"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "geometry.fill",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "on"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "geometry.stroke",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "on"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.text",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.text.fill",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.text.stroke",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "simplified"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.icon",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "transit",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "transit.station.airport",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "water",
+                                                "elementType": "all",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            }
+                                        ];
+
+                                        var mapgoogle_layer = new OpenLayers.Layer.Google(
+                                                "Google Maps", {
+                                                    type: "styled"
+
+                                                }
+
+                                        );
+                                        var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Open Street Maps" );
+
+                                        var styledMapOptions = {
+                                            name: "Styled Map"
+                                        };
+
+                                        var styledMapType = new google.maps.StyledMapType(stylez, styledMapOptions);
+
+
+
+                                        map.addLayers( [  mapgoogle_layer,mapnik_layer, markers ] );
+
+
+                                        map.addControl(new OpenLayers.Control.MousePosition());
+
+                                        mapgoogle_layer.mapObject.mapTypes.set('styled', styledMapType);
+                                        mapgoogle_layer.mapObject.setMapTypeId('styled');
 
                                         vectors = new OpenLayers.Layer.Vector("Vector Layer", {
                                             styleMap: new OpenLayers.StyleMap({'default':{
@@ -282,7 +598,7 @@
                                                 }
                                         );
 
-                                        map.addLayers( [ mapnik_layer, mapgoogle_layer,  routesLayer, markers ] );
+                                        map.addLayers( [ mapgoogle_layer, mapnik_layer,  routesLayer, markers ] );
 
                                         //var navControl = new OpenLayers.Control.Navigation({});
 
