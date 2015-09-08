@@ -936,12 +936,10 @@ body.lightBoxBody{
 
 .slide-control-group {
 
-    border: 1px solid #808080;
-    width: 280px;
-    position: absolute;
-    right:1%;
-    opacity: 0.85;
-    overflow: visible;
+    width: 200px;
+    position: relative;
+
+
 }
 
 
@@ -1504,6 +1502,14 @@ td {
     bottom: 35px;
     right: 10px;
 }
+
+.layoutButtonR1 {
+	display: table-cell;
+	float:right;
+	position: relative;
+	bottom: 35px;
+	right: 17px;
+}
 .layoutButtonM {
     width: 87%;
     display: table-cell;
@@ -1534,6 +1540,8 @@ td {
 
 .playButtons {
     padding-top:15px;
+	position: relative;
+	left:5px;
 }
 
 .playButton {
@@ -2186,6 +2194,19 @@ fieldset {
 
 }
 
+.pContainerConfigureSimulationMap {
+	margin-left:2%;
+	margin-top:20px;
+	margin-bottom:10px;
+	margin-right:2%;
+	max-height: 98%;
+	min-height: 95%;
+	min-width: 95%;
+	max-width: 97%;
+	border: 1px solid #ccc;
+
+}
+
 .pContainerConfigure {
 	margin-left:6%;
 	margin-top:20px;
@@ -2705,10 +2726,12 @@ fieldset {
 }
 
 .simulationTypesExecute {
-    padding-left:10px;
-    padding-top:20px;
-    /*border-radius: 6px;*/
+	width:360px;
+	height:270px;
     font-size: 12px;
+	border: 1px solid #ccc;
+	position: relative;
+    left:5px;
 }
 
 .leftCarTypes{
@@ -3176,9 +3199,19 @@ a.olControlZoomOut {
 
 .infoBold {
     font-size:12px;
-    font-weight: bold;
+	margin-left: 5px;
+	position: relative;
+	top: 5px;
+
 }
 
+.infoBold1 {
+	font-size:12px;
+	margin-left: 5px;
+	margin-top: 5px;
+	font-weight: bold;
+
+}
 .loginName {
     font-size:12px;
     font-weight: bold;
@@ -3544,7 +3577,7 @@ label.checkbox :disabled + span{
 
 .tableConfiguration {
 	border: 1px solid #ddd;
-	width: 620px;
+	width: 650px;
 }
 
 td {
@@ -3568,3 +3601,4 @@ th {
 .kW {
 	font-size: 9px;
 }
+

@@ -82,6 +82,67 @@ class ExecutionController {
         render view: 'playSimulation', model: m
     }
 
+
+    def executeExperimentOnMap () {
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        def m = [ : ]
+
+        def sessionId = WebUtils.retrieveGrailsWebRequest().session.id
+
+
+
+        ExperimentExecutionCommandObject cmd = new ExperimentExecutionCommandObject()
+        bindData( cmd, params )
+
+        if ( cmd.validate() && !cmd.hasErrors() ) {
+
+            Configuration configuration = Configuration.get( cmd.configurationId )
+            configuration.stub = false;
+            if ( !configuration.save( flush: true ) ) {
+                log.error( "failed to save configuration: ${configuration.errors}" )
+            } else {
+
+                log.error( "configuration with id ${cmd.configurationId} is now unStubbed!" )
+
+            }
+
+            log.debug( "sessionId: ${sessionId}" )
+
+            int routeCount = 0
+            configuration.fleets.each { Fleet fleet ->
+                fleet = Fleet.get( fleet.id )
+                routeCount += fleet.cars.size()
+            }
+            int stationCount = 0
+
+            configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                fillingStation = FillingStationGroup.get( fillingStation.id )
+                stationCount += fillingStation.fillingStations.size()
+            }
+
+            m.configurationId = cmd.configurationId
+            m.sessionId = sessionId
+            m.routeCount = routeCount
+            m.stationCount = stationCount
+
+            Double relativeSearchLimit = ( cmd.relativeSearchLimit / 100 )
+            Long experimentRunResultId = simulationExecutionService.init( cmd.configurationId, null, sessionId, relativeSearchLimit )
+
+            m.experimentRunResultId = experimentRunResultId
+
+            log.error( "hua1" )
+
+        }
+
+        render view: 'playSimulationOnMap', model: m
+    }
+
     /**
      * only takes the start of experiment from client side
      * never gets back to somewhere!!
