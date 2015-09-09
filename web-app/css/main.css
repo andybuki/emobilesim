@@ -2726,12 +2726,25 @@ fieldset {
 }
 
 .simulationTypesExecute {
+
+	padding-left:10px;
+	padding-top:20px;
+	/*border-radius: 6px;*/
+	font-size: 12px;
+
+}
+
+
+.simulationTypesExecuteMap {
 	width:360px;
 	height:270px;
     font-size: 12px;
 	border: 1px solid #ccc;
-	position: relative;
-    left:5px;
+	position: absolute;
+    right:35px;
+	opacity: 0.65;
+	z-index: 10;
+	background: #ddd;
 }
 
 .leftCarTypes{
