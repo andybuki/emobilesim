@@ -80,7 +80,7 @@ html, body, #map1 {
             <div class="clear"></div>
         </div>
        <br>
-        <div class="simulationTypesExecute">
+        <div class="simulationTypesExecuteMap">
                 <div class="rowUp">
                     <span class="infoBold">
                     <g:message code="execution.playsimulation.info"/>
