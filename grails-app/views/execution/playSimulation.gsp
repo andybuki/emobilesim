@@ -74,7 +74,7 @@
 
         active = window.setInterval( function() {
                     showInfoPane();
-                }, 2000 // 2000 ms
+                }, 10 // 2000 ms
         );
 
     }

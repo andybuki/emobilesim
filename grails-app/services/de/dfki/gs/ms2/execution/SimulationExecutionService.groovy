@@ -601,6 +601,7 @@ class SimulationExecutionService {
 
             m.drivenKm = carAgent.kmDriven;
             m.totalKmToDrive = carAgent.kmToDrive;
+            //m.currentEdge = TrackEdge.get(carAgent.currentEdge.id)
 
 
             if ( carAgent.carStatus.toString().equals( CarStatus.MISSION_ACCOMBLISHED.toString() )||carAgent.carStatus.toString().equals( CarStatus.WAITING_EMPTY.toString() ) ) {
