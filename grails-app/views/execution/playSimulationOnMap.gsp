@@ -209,10 +209,10 @@ html, body, #map1 {
         <script>
             var map, vectors, routesLayer, lonlat, zoom, markers, popup ;
 
-            var startIconSize = new OpenLayers.Size( 40, 40 );
+            var startIconSize = new OpenLayers.Size( 30, 30 );
             var targetIconSize = new OpenLayers.Size( 20, 20 );
             // var offset = new OpenLayers.Pixel( -(size.x/2) , -(size.y/2));
-            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'start.png' )}" , startIconSize );
+            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'Ecar.png' )}" , startIconSize );
             var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
             var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
