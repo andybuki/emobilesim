@@ -645,8 +645,7 @@ body {
 }
 
 #map{
-	width: 800px;
-	height: 600px;
+
 }
 
 #map_canvas {
@@ -2196,8 +2195,8 @@ fieldset {
 
 .pContainerConfigureSimulationMap {
 	margin-left:2%;
-	margin-top:20px;
-	margin-bottom:10px;
+	margin-top:0px;
+	margin-bottom:0px;
 	margin-right:2%;
 	max-height: 98%;
 	min-height: 95%;
@@ -2734,17 +2733,17 @@ fieldset {
 
 }
 
-
 .simulationTypesExecuteMap {
 	width:360px;
-	height:270px;
+	height:250px;
     font-size: 12px;
 	border: 1px solid #ccc;
 	position: absolute;
-    right:35px;
+    left:35px;
 	opacity: 0.85;
 	z-index: 10;
 	background: #ddd;
+	bottom: 35px;
 }
 
 .leftCarTypes{

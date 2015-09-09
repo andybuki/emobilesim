@@ -64,7 +64,7 @@
     <style>
 
 html, body, #map1 {
-    width:100%; height:100%; margin:0;
+    width:100%;  margin:0;
 }
     </style>
 
@@ -79,8 +79,7 @@ html, body, #map1 {
             <div class="right0PX"></div>
             <div class="clear"></div>
         </div>
-       <br>
-        <div class="simulationTypesExecute">
+        <div class="simulationTypesExecuteMap">
                 <div class="rowUp">
                     <span class="infoBold">
                     <g:message code="execution.playsimulation.info"/>
@@ -202,7 +201,7 @@ html, body, #map1 {
         </div>
 
         <br>
-        <div id="map" style="background-color: #eee; width:99%; height:700px; position:relative; margin:0; left:10px;" class="olMap">
+        <div id="map" style="background-color: #eee; width:99%; height:490px; position:relative; margin:0; left:10px;" class="olMap">
 
         </div>
         <br><br>
@@ -593,12 +592,7 @@ html, body, #map1 {
             var b = Math.floor(Math.random() * 255);
             color= "rgb("+r+" ,"+g+","+ b+")";
             var colorVariable = ["red","#00ff00","#ff00ff","#00ddff","yellow"];
-            markers = new OpenLayers.Layer.Markers( "Markers", {
-                strategies: [
-                    new OpenLayers.Strategy.Fixed(),
-                    new OpenLayers.Strategy.Cluster()
-                ]
-            } );
+
 
             var fleetDat = new Object();
             var a = 0;
