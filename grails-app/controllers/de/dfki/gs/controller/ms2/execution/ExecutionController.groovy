@@ -131,8 +131,9 @@ class ExecutionController {
             m.sessionId = sessionId
             m.routeCount = routeCount
             m.stationCount = stationCount
+            m.fillingStationGroups = configurationService.getGroupStationsOfConfiguration(cmd.configurationId)
             m.fleets = configurationService.getConfiguredFleetsWithRoute(cmd.configurationId)
-            m.simulationArea = configurationService.getSimulationArea(cmd.configurationId)
+            m.simulationArea = configurationService.getSimulationArea(cmd.configurationId).name()
 
             Double relativeSearchLimit = ( cmd.relativeSearchLimit / 100 )
             Long experimentRunResultId = simulationExecutionService.init( cmd.configurationId, null, sessionId, relativeSearchLimit )
