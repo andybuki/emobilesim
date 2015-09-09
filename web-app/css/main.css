@@ -2742,7 +2742,7 @@ fieldset {
 	border: 1px solid #ccc;
 	position: absolute;
     right:35px;
-	opacity: 0.65;
+	opacity: 0.85;
 	z-index: 10;
 	background: #ddd;
 }
