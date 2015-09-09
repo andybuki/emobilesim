@@ -560,7 +560,7 @@
                 <div class="clear"></div>
             </div>
 
-        <div class="simulationTypesExecute">
+        <div class="simulationTypesExecuteOnMap">
             <div>
                 <br/>
                 <span class="infoBold"><g:message code="execution.playsimulation.info"/></span><br/>
