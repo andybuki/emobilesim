@@ -20,6 +20,7 @@ class ExecutionController {
     def simulationExecutionService
     def statisticService
     def springSecurityService
+    def configurationService
 
     def executeExperiment() {
 
@@ -130,6 +131,8 @@ class ExecutionController {
             m.sessionId = sessionId
             m.routeCount = routeCount
             m.stationCount = stationCount
+            m.fleets = configurationService.getConfiguredFleetsWithRoute(cmd.configurationId)
+            m.simulationArea = configurationService.getSimulationArea(cmd.configurationId)
 
             Double relativeSearchLimit = ( cmd.relativeSearchLimit / 100 )
             Long experimentRunResultId = simulationExecutionService.init( cmd.configurationId, null, sessionId, relativeSearchLimit )
