@@ -626,6 +626,7 @@ body {
     margin: 0px auto;
     padding: 0px 0px;
     text-align:left;
+	position: relative;
 }
 
 #content {
@@ -639,6 +640,7 @@ body {
     width: 100%;
     text-align: left;
     height: 100%;
+	position: relative;
     /*
     height: 830px;
     */
@@ -1520,6 +1522,17 @@ td {
     font-size: 12px;
     padding-right: 10px;
     padding-left: 10px;
+	position: relative;
+
+}
+
+.addButtonOnMap {
+	text-decoration: none;
+	font-size: 12px;
+	padding-right: 10px;
+	padding-left: 10px;
+	position: relative;
+	left: 5px;
 }
 
 .addButtonCancel a{
@@ -1538,7 +1551,7 @@ td {
 }
 
 .playButtons {
-    padding-top:15px;
+    padding-top:0px;
 	position: relative;
 	left:5px;
 }
@@ -2194,15 +2207,12 @@ fieldset {
 }
 
 .pContainerConfigureSimulationMap {
-	margin-left:2%;
-	margin-top:0px;
+	margin-left:20px;
+	margin-top:10px;
 	margin-bottom:0px;
-	margin-right:2%;
-	max-height: 98%;
-	min-height: 95%;
-	min-width: 95%;
-	max-width: 97%;
+	margin-right:20px;
 	border: 1px solid #ccc;
+	position: relative;
 
 }
 
@@ -3611,6 +3621,12 @@ th {
 }
 
 .kW {
+	position: relative;
+	left:10px;
 	font-size: 9px;
+	padding-right: 10px;
 }
 
+.scale-value {
+	background: #ddd;
+}

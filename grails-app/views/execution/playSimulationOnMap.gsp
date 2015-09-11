@@ -61,19 +61,15 @@
         }
     </script>
 
-    <style>
 
-html, body, #map1 {
-    width:100%;  margin:0;
-}
-    </style>
-
-    <r:layoutResources/>
     <meta name="layout" content="main" />
 </head>
 
 <body>
+
     <div class="pContainerConfigureSimulationMap">
+
+
         <div class="rowUp">
             <div class="leftBoldBig"><g:message code="execution.playsimulation.playsimulation"/></div>
             <div class="right0PX"></div>
@@ -93,7 +89,7 @@ html, body, #map1 {
                                 <tr>
                                     <td>
                                         <div class="slide-control-group" >
-                                            <p id="scale-value">time scale 1:50</p>
+                                            <span id="scale-value">time scale 1:50</span>
                                             <input id="scale-slider" name="r" type="range" min="1" max="500" value="50" onchange="scale()" style="width: 260px"/>
                                         </div>
                                     </td>
@@ -183,7 +179,7 @@ html, body, #map1 {
                         </div>
                 </div>
                 <div class="playButtons" id="the_buttons">
-                    <button class="playButton" id="button_play_pause" onClick="toggle_button_clicked()"><b><g:message code="execution.playsimulation.playsimulation"/></b></button>
+                    <button class="playButton" id="button_play_pause" onClick="toggle_button_clicked()"><g:message code="execution.playsimulation.playsimulation"/></button>
                     <button class="playButton"
                             id="button_stopp"
                             type="submit"
@@ -199,24 +195,22 @@ html, body, #map1 {
                 </div>
 
         </div>
-
-        <br>
-        <div id="map" style="background-color: #eee; width:99%; height:490px; position:relative; margin:0; left:10px;" class="olMap">
+        <div id="mapView" style="background-color: #eee; width:99%; min-height: 600px; max-height: 1200px; height:800px; position: relative; left:10px;" class="olMap">
 
         </div>
-        <br><br>
+
 
         <script>
-            var map, vectors, routesLayer, lonlat, zoom, markers, popup ;
+            var map, vectors, routesLayer, lonlat, zoom, markers, popup, simulationLayer;
 
             var startIconSize = new OpenLayers.Size( 30, 30 );
             var targetIconSize = new OpenLayers.Size( 20, 20 );
             // var offset = new OpenLayers.Pixel( -(size.x/2) , -(size.y/2));
-            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'Ecar.png' )}" , startIconSize );
+            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'Ecar1.png' )}" , startIconSize );
             var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
             var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
-            var gasolineIconSize = new OpenLayers.Size( 30, 30 );
+            var gasolineIconSize = new OpenLayers.Size( 20, 20 );
             var gasolineNormalIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinenormal.png' )}" , gasolineIconSize );
             var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinefast.png' )}" , gasolineIconSize );
             var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinemiddle.png' )}" , gasolineIconSize );
@@ -232,10 +226,10 @@ html, body, #map1 {
             <g:else>
             lonlat = new OpenLayers.LonLat(8.7,49.29);
             </g:else>
-            zoom = 11;
+            zoom = 12;
 
 
-            map = new OpenLayers.Map( "map", {
+            map = new OpenLayers.Map( "mapView", {
                 controls: [
                     new OpenLayers.Control.KeyboardDefaults(),
                     new OpenLayers.Control.Navigation(),
@@ -259,6 +253,39 @@ html, body, #map1 {
                     new OpenLayers.Strategy.Cluster()
                 ]
             } );
+
+            simulationLayer = new OpenLayers.Layer.Vector("Simple Geometry", {
+                styleMap: new OpenLayers.StyleMap({'default':{
+                    strokeColor: "#00FF00",
+                    strokeOpacity: 1,
+                    strokeWidth: 3,
+                    fillColor: "#FF5500",
+                    fillOpacity: 0.5,
+                    pointRadius: 2,
+                    pointerEvents: "visiblePainted",
+// label with \n linebreaks
+                    label : "\$\{speed\} km/h\n\$\{kmDriven\} km \n\$\{batteryLevel\} %\n\$\{currentEnergyUsed\} kW\n\$\{currentPrice\} EUR",
+                    fontColor: "${favColor}",
+                    fontSize: "8px",
+                    fontFamily: "Courier New, monospace",
+                    fontWeight: "bold",
+                    labelAlign: "${align}",
+                    labelXOffset: "${xOffset}",
+                    labelYOffset: "${yOffset}",
+                    labelOutlineColor: "white",
+                    labelOutlineWidth: 1
+                }}),
+                renderers: OpenLayers.Layer.Vector.prototype.renderers
+            });
+
+            simulationLayer.events.on( {
+                'featureclick' : function( feature ) {
+
+                    currentFeatureId = feature.feature[ 'carFeatureId' ];
+
+                }
+            } );
+
             var stylez = [
                 {
                     "featureType": "all",
@@ -568,9 +595,13 @@ html, body, #map1 {
 
             var styledMapType = new google.maps.StyledMapType(stylez, styledMapOptions);
 
-            map.addLayers( [  mapgoogle_layer,mapnik_layer, markers ] );
+            map.addLayers( [  mapgoogle_layer,mapnik_layer, markers, simulationLayer ] );
 
             map.addControl(new OpenLayers.Control.MousePosition());
+
+            var selectFeature = new OpenLayers.Control.SelectFeature( simulationLayer );
+            map.addControl(selectFeature);
+            selectFeature.activate();
 
             mapgoogle_layer.mapObject.mapTypes.set('styled', styledMapType);
             mapgoogle_layer.mapObject.setMapTypeId('styled');
@@ -580,8 +611,10 @@ html, body, #map1 {
                 styleMap: new OpenLayers.StyleMap({'default':{
                     strokeColor: "red",  // TODO: chose a good color
                     strokeOpacity: 0.6,
-                    strokeWidth: 6
+                    strokeWidth: 2
                 }}) } );
+
+
 
 
             layer = new OpenLayers.Layer.OSM( "Simple OSM Map");
@@ -597,43 +630,73 @@ html, body, #map1 {
             var fleetDat = new Object();
             var a = 0;
             <g:each var="fleet" in="${fleets}" >
-            <g:each var="car" in="${fleet.cars}" >
-            var segments = new Array();
-            var vias = new Array();
-            var randomColor;
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            randomColor= "rgb("+r+" ,"+g+","+ b+")";
-            colorVariable.push(randomColor);
-            var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
-                styleMap: new OpenLayers.StyleMap({
-                    'default': {
-                        strokeColor: colorVariable[a],// TODO: chose a good color
-                        strokeOpacity: 0.4,
-                        strokeWidth: 4
-                    }
-                })
-            });
-            a++;
-            <g:each var="seg" in="${car.route}">
-            var segm = new Object();
-            segm.fromX = ${seg.fromLon};
-            segm.fromY = ${seg.fromLat};
-            segm.toX = ${seg.toLon};
-            segm.toY = ${seg.toLat};
-            segments.push( segm );
-            <g:if test="${seg.type=='via_target'}">
-            vias.push(segm);
-            </g:if>
-            </g:each>
-            fleetDat.route = segments;
-            fleetDat.routesLayer = singleRoutesLayer;
-            fleetDat.markers = markers;
-            fleetDat.vias =vias;
-            drawRoute( fleetDat );
-            map.addLayer(singleRoutesLayer);
-            </g:each>
+                <g:each var="car" in="${fleet.cars}" >
+                    var segments = new Array();
+                    var vias = new Array();
+                    var randomColor;
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    randomColor= "rgb("+r+" ,"+g+","+ b+")";
+                    colorVariable.push(randomColor);
+                    var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
+                            styleMap: new OpenLayers.StyleMap({
+                            'default': {
+                            strokeColor: colorVariable[a],// TODO: chose a good color
+                            strokeOpacity: 0.8,
+                            strokeWidth: 2
+                            }
+                            })
+                        });
+                    a++;
+                <g:each var="seg" in="${car.route}">
+                    var segm = new Object();
+                    segm.fromX = ${seg.fromLon};
+                    segm.fromY = ${seg.fromLat};
+                    segm.toX = ${seg.toLon};
+                    segm.toY = ${seg.toLat};
+                    segments.push( segm );
+
+            var startPoint = new OpenLayers.Geometry.Point(
+                    ${car.route[ 0 ].fromLon},
+                    ${car.route[ 0 ].fromLat}
+            );
+
+            startPoint.transform(
+                    new OpenLayers.Projection("EPSG:4326"),
+                    new OpenLayers.Projection("EPSG:900913")
+            );
+
+            var pointFeature = new OpenLayers.Feature.Vector( startPoint );
+            pointFeature.attributes = {
+                speed: "0",
+                kmDriven: "0",
+                favColor: 'red',
+                align: "cm",
+                batteryLevel: "%"<%--"${seg.batteryLevel}"--%>,
+                currentEnergyUsed: "0Kw",<%--${seg.currentEnergyUsed}",--%>
+                currentPrice:"0" <%--$"${seg.currentPrice}"--%>
+
+            };
+
+            pointFeature.carFeatureId = ${seg.id};
+            pointFeature.fid = '${seg.id}';
+
+            simulationLayer.addFeatures( [ pointFeature ] );
+
+
+
+                    <g:if test="${seg.type=='via_target'}">
+                        vias.push(segm);
+                    </g:if>
+                </g:each>
+                fleetDat.route = segments;
+                fleetDat.routesLayer = singleRoutesLayer;
+                fleetDat.markers = markers;
+                fleetDat.vias =vias;
+                drawRoute( fleetDat );
+                map.addLayer(singleRoutesLayer);
+                </g:each>
             </g:each>
 
 
@@ -798,7 +861,7 @@ html, body, #map1 {
                 active = window.setInterval( function() {
                             moveCar(); //TODO implement. Check what Variable is neccesarry
                             showInfoPane();
-                        }, 100//2000 // 2000 ms//TODO Maybe variable intervall here
+                        }, 10000//2000 // 2000 ms//TODO Maybe variable intervall here
                 );
 
             }
@@ -812,7 +875,7 @@ html, body, #map1 {
                     dataType: "json",
                     type: "POST",
                     success: function( data ) {
-/*
+                    /*
                         var info = data[ 'info' ];
                         var time = data[ 'time' ];
 
@@ -892,8 +955,8 @@ html, body, #map1 {
                             }
 
                         }
-                        simulationLayer.redraw();*/
-
+                        simulationLayer.redraw();
+                    */
                     },
                     error: function( data ) {
 
@@ -924,12 +987,34 @@ html, body, #map1 {
 
                             var currentTime = info[ 'currentTime' ];
 
+                            //new parameters
+                            var currentPrice = info[ 'currentPrice' ];
+                            var batteryLevel = info[ 'batteryLevel' ];
+                            var currentEnergyUsed = info[ 'currentEnergyUsed' ];
+                            var speed = info[ 'speed' ];
+                            var kmDriven = info[ 'kmDriven' ];
+                            var street = info[ 'street' ];
+                            //new parameters --//
+
                             drawCarInfos( cars );
-
                             drawStationInfos( stations );
-
                             drawCurrentTime( currentTime );
 
+                            $( '#speedInfo').html( speed );
+                            $( '#kmInfo').html( kmDriven );
+                            $( '#priceInfo' ).html( currentPrice );
+                            $( '#streetInfo' ).html( street );
+                            $( '#fillInfo' ).html( batteryLevel );
+
+                            var batString = batteryLevel + "%";
+                            $( '#progress-bar' ).css("width", batString );
+
+                            if ( batteryLevel <= 30 ) {
+                                var factor = 1 - ( batteryLevel / 30 );
+                                $( '#progress-bar-red' ).css("opacity", factor );
+                            } else {
+                                $( '#progress-bar-red' ).css("opacity", 0 );
+                            }
                             //drawCarsText ();
                             //drawStationsText ();
 
@@ -1378,7 +1463,7 @@ html, body, #map1 {
         <g:render template="/layouts/footer" />
 
 
-        <r:layoutResources></r:layoutResources>
+
 
 
 

@@ -563,9 +563,10 @@
         <div class="simulationTypesExecuteOnMap">
             <div>
                 <br/>
-                <span class="infoBold"><g:message code="execution.playsimulation.info"/></span><br/>
-                <span class="infoBold">${routeCount}</span><span class="info"> <g:message code="execution.playsimulation.cars"/></span><br/>
-                <span class="infoBold">${stationCount}</span><span class="info"> <g:message code="execution.playsimulation.stations"/></span>
+                <span class="infoBold1"><g:message code="execution.playsimulation.info"/></span><br/>
+                <span class="infoBold1">${routeCount}</span><span class="info"> <g:message code="execution.playsimulation.cars"/></span><br/>
+                <span class="infoBold1">${stationCount}</span><span class="info"> <g:message code="execution.playsimulation.stations"/></span>
+                <br/> <br/>
                 <div class="playButtons" id="the_buttons">
                     <button class="playButton" id="button_play_pause" onClick="toggle_button_clicked()"><b><g:message code="execution.playsimulation.playsimulation"/></b></button>
 
