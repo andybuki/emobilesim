@@ -9,67 +9,21 @@
 <html>
 <head>
     <title><g:message code="configuration.executesim.simulation"/></title>
-
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 
     <g:javascript library="jquery-1.11.2" />
-    <g:javascript src="jquery-ui.min.js"/>
-    <g:javascript src="slider/jshashtable-2.1_src.js"/>
-    <g:javascript src="slider/jquery.numberformatter-1.2.3.js"/>
-    <g:javascript src="slider/tmpl.js"/>
-    <g:javascript src="slider/jquery.dependClass-0.1.js"/>
-    <g:javascript src="slider/draggable-0.1.js"/>
-    <g:javascript src="slider/jquery.slider.js"/>
-
     <g:javascript src="application.js" />
     <g:javascript src="ol/OpenLayers.js" />
-    <g:javascript src="jquery.loading.js"/>
 
-    <g:javascript src="jquery-ui-timepicker-addon.js"/>
-
-    <calendar:resources lang="en" theme="tiger"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-    <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui.css')}" type='text/css' />
-    <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
-    <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
-
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
-
-    <script>
-
-
-        function scale() {
-
-            var scaleValue = $('#scale-slider').val();
-            var scaleString = "time scale 1:" + scaleValue;
-
-            $('#scale-value').text( scaleString );
-
-            jQuery.ajax({
-                url: '${g.createLink( controller: 'simulation', action: 'scaleSimulation' )}',
-                type: "POST",
-                data: JSON.stringify( { data: { scaleValue : scaleValue } } ),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function( data ) {
-
-                    console.log( "scaling: " + data )
-
-                }
-            });
-
-        }
-    </script>
 
 
     <meta name="layout" content="main" />
 </head>
 
 <body>
-
     <div class="pContainerConfigureSimulationMap">
-
-
         <div class="rowUp">
             <div class="leftBoldBig"><g:message code="execution.playsimulation.playsimulation"/></div>
             <div class="right0PX"></div>
@@ -195,18 +149,15 @@
                 </div>
 
         </div>
-        <div id="mapView" style="background-color: #eee; width:99%; min-height: 600px; max-height: 1200px; height:800px; position: relative; left:10px;" class="olMap">
-
-        </div>
-
-
+        <div id="mapView" style="background-color: #eee; width:99%; min-height: 600px; max-height: 1200px; height:800px; position: relative; left:10px;" class="olMap"></div>
         <script>
+
             var map, vectors, routesLayer, lonlat, zoom, markers, popup, simulationLayer;
 
             var startIconSize = new OpenLayers.Size( 30, 30 );
             var targetIconSize = new OpenLayers.Size( 20, 20 );
             // var offset = new OpenLayers.Pixel( -(size.x/2) , -(size.y/2));
-            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'Ecar1.png' )}" , startIconSize );
+            var startIcon =  new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'start.png' )}" , startIconSize );
             var targetIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'target.png' )}" , targetIconSize );
             var viaIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'via.png' )}" , targetIconSize );
 
@@ -215,6 +166,13 @@
             var gasolineFastIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinefast.png' )}" , gasolineIconSize );
             var gasolineMiddleIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolinemiddle.png' )}" , gasolineIconSize );
             var gasolineSlowIcon = new OpenLayers.Icon( "${g.resource( dir: '/images', file: 'gasolineslow3.png' )}" , gasolineIconSize );
+
+            var currentFeatureId;
+            var g_playing = false;
+            var active;
+            var simulationId;
+
+            var simulationRoutes = new Array();
 
 
             var p1 = new OpenLayers.Projection( "EPSG:4326" );
@@ -227,7 +185,6 @@
             lonlat = new OpenLayers.LonLat(8.7,49.29);
             </g:else>
             zoom = 12;
-
 
             map = new OpenLayers.Map( "mapView", {
                 controls: [
@@ -266,7 +223,7 @@
 // label with \n linebreaks
                     label : "\$\{speed\} km/h\n\$\{kmDriven\} km \n\$\{batteryLevel\} %\n\$\{currentEnergyUsed\} kW\n\$\{currentPrice\} EUR",
                     fontColor: "${favColor}",
-                    fontSize: "8px",
+                    fontSize: "10px",
                     fontFamily: "Courier New, monospace",
                     fontWeight: "bold",
                     labelAlign: "${align}",
@@ -579,7 +536,6 @@
                     ]
                 }
             ];
-
             var mapgoogle_layer = new OpenLayers.Layer.Google(
                     "Google Maps", {
                         type: "styled"
@@ -630,32 +586,32 @@
             var fleetDat = new Object();
             var a = 0;
             <g:each var="fleet" in="${fleets}" >
-                <g:each var="car" in="${fleet.cars}" >
-                    var segments = new Array();
-                    var vias = new Array();
-                    var randomColor;
-                    var r = Math.floor(Math.random() * 255);
-                    var g = Math.floor(Math.random() * 255);
-                    var b = Math.floor(Math.random() * 255);
-                    randomColor= "rgb("+r+" ,"+g+","+ b+")";
-                    colorVariable.push(randomColor);
-                    var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
-                            styleMap: new OpenLayers.StyleMap({
-                            'default': {
-                            strokeColor: colorVariable[a],// TODO: chose a good color
-                            strokeOpacity: 0.8,
-                            strokeWidth: 2
-                            }
-                            })
-                        });
-                    a++;
-                <g:each var="seg" in="${car.route}">
-                    var segm = new Object();
-                    segm.fromX = ${seg.fromLon};
-                    segm.fromY = ${seg.fromLat};
-                    segm.toX = ${seg.toLon};
-                    segm.toY = ${seg.toLat};
-                    segments.push( segm );
+            <g:each var="car" in="${fleet.cars}" >
+            var segments = new Array();
+            var vias = new Array();
+            var randomColor;
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            randomColor= "rgb("+r+" ,"+g+","+ b+")";
+            colorVariable.push(randomColor);
+            var singleRoutesLayer = new OpenLayers.Layer.Vector("Route of ${car.name}", {
+                styleMap: new OpenLayers.StyleMap({
+                    'default': {
+                        strokeColor: colorVariable[a],// TODO: chose a good color
+                        strokeOpacity: 0.8,
+                        strokeWidth: 2
+                    }
+                })
+            });
+            a++;
+            <g:each var="seg" in="${car.route}">
+            var segm = new Object();
+            segm.fromX = ${seg.fromLon};
+            segm.fromY = ${seg.fromLat};
+            segm.toX = ${seg.toLon};
+            segm.toY = ${seg.toLat};
+            segments.push( segm );
 
             var startPoint = new OpenLayers.Geometry.Point(
                     ${car.route[ 0 ].fromLon},
@@ -686,17 +642,17 @@
 
 
 
-                    <g:if test="${seg.type=='via_target'}">
-                        vias.push(segm);
-                    </g:if>
-                </g:each>
-                fleetDat.route = segments;
-                fleetDat.routesLayer = singleRoutesLayer;
-                fleetDat.markers = markers;
-                fleetDat.vias =vias;
-                drawRoute( fleetDat );
-                map.addLayer(singleRoutesLayer);
-                </g:each>
+            <g:if test="${seg.type=='via_target'}">
+            vias.push(segm);
+            </g:if>
+            </g:each>
+            fleetDat.route = segments;
+            fleetDat.routesLayer = singleRoutesLayer;
+            fleetDat.markers = markers;
+            fleetDat.vias =vias;
+            drawRoute( fleetDat );
+            map.addLayer(singleRoutesLayer);
+            </g:each>
             </g:each>
 
 
@@ -771,17 +727,44 @@
             </g:each>
             </g:each>
 
-
-
             map.addLayer(layer);
-
             map.addLayer(vectorLayer);
 
             var controls = {
                 selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
             };
 
+            map.addControl(controls['selector']);
+            controls['selector'].activate();
 
+            lonlat.transform( p1, pMerc );
+            map.setCenter( lonlat, zoom );
+
+            var g_playing = false;
+            var namesDrawn = false;
+            var maxTotalKm = 0;
+
+            function scale() {
+
+                var scaleValue = $('#scale-slider').val();
+                var scaleString = "time scale 1:" + scaleValue;
+
+                $('#scale-value').text( scaleString );
+
+                jQuery.ajax({
+                    url: '${g.createLink( controller: 'simulation', action: 'scaleSimulation' )}',
+                    type: "POST",
+                    data: JSON.stringify( { data: { scaleValue : scaleValue } } ),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function( data ) {
+
+                        console.log( "scaling: " + data )
+
+                    }
+                });
+
+            }
 
             function createPopup(feature) {
                 feature.popup = new OpenLayers.Popup.FramedCloud("pop",
@@ -795,24 +778,10 @@
                 //feature.popup.closeOnMove = true;
                 map.addPopup(feature.popup);
             }
-
             function destroyPopup(feature) {
                 feature.popup.destroy();
                 feature.popup = null;
             }
-
-            map.addControl(controls['selector']);
-            controls['selector'].activate();
-
-
-            lonlat.transform( p1, pMerc );
-            map.setCenter( lonlat, zoom );
-
-            var g_playing = false;
-            var namesDrawn = false;
-            var maxTotalKm = 0;
-
-
             function toggle_button_clicked() {
                 if(g_playing)
                 {
@@ -824,7 +793,6 @@
                     play();
                 }
             }
-
             function pause() {
 
                 window.clearInterval( active );
@@ -842,7 +810,6 @@
                 var button = document.getElementById('button_play_pause');
                 button.innerHTML = "<b>Play simulation</b>";
             }
-
             function play() {
                 var button = document.getElementById('button_play_pause');
                 button.innerHTML = "";
@@ -865,7 +832,6 @@
                 );
 
             }
-
             function moveCar() {
 
                 // get infos for all simulationRoutes
@@ -875,88 +841,88 @@
                     dataType: "json",
                     type: "POST",
                     success: function( data ) {
-                    /*
-                        var info = data[ 'info' ];
-                        var time = data[ 'time' ];
+                        /*
+                         var info = data[ 'info' ];
+                         var time = data[ 'time' ];
 
-                        $( '#time' ).html( time );
+                         $( '#time' ).html( time );
 
-                        // for each feature update position
-                        // find by carFeatureId in list..
-                        for ( var i = 0; i < info.length; i++ ) {
+                         // for each feature update position
+                         // find by carFeatureId in list..
+                         for ( var i = 0; i < info.length; i++ ) {
 
-                            var simRoute = info[ i ];
+                         var simRoute = info[ i ];
 
-                            var routeToBackTarget = simRoute[ 'routeBackToTarget' ];
-                            var routeToEnergy = simRoute[ 'routeToEnergy' ];
-                            if ( routeToEnergy != null && routeToBackTarget != null ) {
-                                var routeDat = new Object();
+                         var routeToBackTarget = simRoute[ 'routeBackToTarget' ];
+                         var routeToEnergy = simRoute[ 'routeToEnergy' ];
+                         if ( routeToEnergy != null && routeToBackTarget != null ) {
+                         var routeDat = new Object();
 
-                                routeDat.routesLayer = routesLayer;
+                         routeDat.routesLayer = routesLayer;
 
-                                var segmentsToEnergy = new Array();
+                         var segmentsToEnergy = new Array();
 
-                                for ( var i = 0; i < routeToEnergy.length; i++ ) {
-                                    var segm = new Object();
-                                    segm.fromX = routeToEnergy[ i ].fromX;
-                                    segm.fromY = routeToEnergy[ i ].fromY;
-                                    segm.toX = routeToEnergy[ i ].toX;
-                                    segm.toY = routeToEnergy[ i ].toY;
-                                    segmentsToEnergy.push( segm );
-                                }
+                         for ( var i = 0; i < routeToEnergy.length; i++ ) {
+                         var segm = new Object();
+                         segm.fromX = routeToEnergy[ i ].fromX;
+                         segm.fromY = routeToEnergy[ i ].fromY;
+                         segm.toX = routeToEnergy[ i ].toX;
+                         segm.toY = routeToEnergy[ i ].toY;
+                         segmentsToEnergy.push( segm );
+                         }
 
-                                routeDat.routeToEnergy = segmentsToEnergy;
+                         routeDat.routeToEnergy = segmentsToEnergy;
 
-                                var segmentsBackToTarget = new Array();
+                         var segmentsBackToTarget = new Array();
 
-                                for ( var i = 0; i < routeToBackTarget.length; i++ ) {
-                                    var segm = new Object();
-                                    segm.fromX = routeToBackTarget[ i ].fromX;
-                                    segm.fromY = routeToBackTarget[ i ].fromY;
-                                    segm.toX = routeToBackTarget[ i ].toX;
-                                    segm.toY = routeToBackTarget[ i ].toY;
-                                    segmentsBackToTarget.push( segm );
-                                }
+                         for ( var i = 0; i < routeToBackTarget.length; i++ ) {
+                         var segm = new Object();
+                         segm.fromX = routeToBackTarget[ i ].fromX;
+                         segm.fromY = routeToBackTarget[ i ].fromY;
+                         segm.toX = routeToBackTarget[ i ].toX;
+                         segm.toY = routeToBackTarget[ i ].toY;
+                         segmentsBackToTarget.push( segm );
+                         }
 
-                                routeDat.routeBackToTarget = segmentsBackToTarget;
+                         routeDat.routeBackToTarget = segmentsBackToTarget;
 
-                                drawExtraRoute( routeDat );
-                            }
+                         drawExtraRoute( routeDat );
+                         }
 
-                            var feat = simulationLayer.getFeatureByFid( simRoute[ 'featureId' ] );
-                            var lon = simRoute[ 'lon' ];
-                            var lat = simRoute[ 'lat' ];
-                            var currentPrice = simRoute[ 'currentPrice' ];
-                            var batteryLevel = simRoute[ 'batteryLevel' ];
-                            var currentEnergyUsed = simRoute[ 'currentEnergyUsed' ];
+                         var feat = simulationLayer.getFeatureByFid( simRoute[ 'featureId' ] );
+                         var lon = simRoute[ 'lon' ];
+                         var lat = simRoute[ 'lat' ];
+                         var currentPrice = simRoute[ 'currentPrice' ];
+                         var batteryLevel = simRoute[ 'batteryLevel' ];
+                         var currentEnergyUsed = simRoute[ 'currentEnergyUsed' ];
 
-                            var speed = simRoute[ 'speed' ];
-                            var kmDriven = simRoute[ 'kmDriven' ];
+                         var speed = simRoute[ 'speed' ];
+                         var kmDriven = simRoute[ 'kmDriven' ];
 
-                            if ( lat != null && lon != null ) {
+                         if ( lat != null && lon != null ) {
 
-                                var ll = new OpenLayers.LonLat( lon, lat );
+                         var ll = new OpenLayers.LonLat( lon, lat );
 
-                                ll.transform(
-                                        new OpenLayers.Projection("EPSG:4326"),
-                                        new OpenLayers.Projection("EPSG:900913")
-                                );
+                         ll.transform(
+                         new OpenLayers.Projection("EPSG:4326"),
+                         new OpenLayers.Projection("EPSG:900913")
+                         );
 
-                                feat.attributes = {
-                                    speed: speed,
-                                    kmDriven: kmDriven,
-                                    currentPrice : currentPrice,
-                                    batteryLevel: batteryLevel,
-                                    currentEnergyUsed: currentEnergyUsed
-                                };
+                         feat.attributes = {
+                         speed: speed,
+                         kmDriven: kmDriven,
+                         currentPrice : currentPrice,
+                         batteryLevel: batteryLevel,
+                         currentEnergyUsed: currentEnergyUsed
+                         };
 
-                                feat.move( ll );
-                                feat.layer.drawFeature( feat );
-                            }
+                         feat.move( ll );
+                         feat.layer.drawFeature( feat );
+                         }
 
-                        }
-                        simulationLayer.redraw();
-                    */
+                         }
+                         simulationLayer.redraw();
+                         */
                     },
                     error: function( data ) {
 
@@ -966,8 +932,6 @@
                 });
 
             }
-
-
             function showInfoPane() {
 
                 // get infos for one simulationRoutes
@@ -1047,7 +1011,6 @@
                 });
 
             }
-
             function drawShowStatsButton( runResultId ) {
 
                 <%--
@@ -1071,7 +1034,6 @@
                 buttonnode.setAttribute( 'onclick', "location.href='${createLink( controller: 'statistics', action: 'showStats', params: [ simulationExperimentResultId: runResultId ] )}'" );
                 --%>
             }
-
             function enableShowStatsButtonIfFinished( simStatus ) {
 
                 if ( simStatus == "finished" ) {
@@ -1085,13 +1047,11 @@
 
 
             }
-
             function recheckStopButton( simStatus ) {
 
                 document.getElementById( 'button_stopp').disabled = (simStatus != "finished");
 
             }
-
             function drawCurrentTime( currentTime ) {
 
                 var timeCanvas = document.getElementById( 'timeContainer' );
@@ -1109,43 +1069,6 @@
 
 
             }
-
-            /*function drawCarsText () {
-
-             var carCanvas = document.getElementById( 'carContainer' );
-
-             if ( carCanvas.getContext ) {
-             var ctx = carCanvas.getContext( '2d' );
-
-             ctx.clearRect( 0,0,1100,40 );
-             ctx.font = "11px sans-serif ";
-             ctx.fillStyle = "black";
-             //ctx.fillText( "All cars in the simulation", 0, 30 );
-             ctx.onclick= "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'";
-             ctx.class="helpButton";
-             ctx.src="${g.resource( dir: '/images', file: 'help.png' )}";
-             ctx.stroke();
-             }
-
-             }
-
-             function drawStationsText () {
-
-             var stationCanvas = document.getElementById( 'stationContainer' );
-
-             if ( stationCanvas.getContext ) {
-             var ctx = stationCanvas.getContext( '2d' );
-
-             ctx.clearRect( 0,0,1100,40 );
-             ctx.font = "11px sans-serif ";
-             ctx.fillStyle = "black";
-             ctx.fillText( "All electric stations in the simulation", 0, 30 );
-
-             ctx.stroke();
-             }
-
-             }*/
-
             function drawStationInfos( info ) {
 
                 var canvas = document.getElementById('stationsContainer');
@@ -1254,7 +1177,6 @@
                 }
 
             }
-
             function drawCarInfos( info ) {
 
                 var canvas = document.getElementById('experimentContainer');
@@ -1403,7 +1325,6 @@
                 }
 
             }
-
             function drawExperimentContainer( routeCount ){
 
                 // get the canvas element using the DOM
@@ -1461,12 +1382,6 @@
             }
         </script>
         <g:render template="/layouts/footer" />
-
-
-
-
-
-
     </div>
 </body>
 </html>

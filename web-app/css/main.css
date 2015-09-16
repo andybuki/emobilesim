@@ -2448,9 +2448,7 @@ fieldset {
 	min-height:28px;
 	position: relative;
 	padding:8px 0px 0px 6px;
-	border-bottom: 1px solid #ddd;
-
-
+	/*border-bottom: 1px solid #ddd;*/
 }
 
 .rowMiddleWithoutBorder22 {
