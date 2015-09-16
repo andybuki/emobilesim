@@ -80,7 +80,9 @@ class ExecutionController {
 
         }
 
-        render view: 'playSimulation', model: m
+        redirect(action: 'proceedExperiment', params: [ configurationId: cmd.configurationId, experimentRunResultId: m.experimentRunResultId ])
+
+        //render view: 'playSimulation', model: m
     }
 
 
@@ -188,7 +190,9 @@ class ExecutionController {
 
             log.error( "started or proceeded simulation" )
 
+
         }
+        redirect(controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: cmd.experimentRunResultId ])
     }
 
     def getInfo() {

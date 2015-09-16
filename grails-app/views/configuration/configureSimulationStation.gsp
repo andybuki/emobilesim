@@ -247,7 +247,8 @@
 
                     </g:form>
 
-                    <g:form controller="execution" action="executeExperimentOnMap">
+                    <%--To view the execution on a map with the cars moving
+                        <g:form controller="execution" action="executeExperimentOnMap">
                         <span class="layoutButtonM"></span>
                         <g:hiddenField name="relativeSearchLimit" value="20" />
                         <g:hiddenField name="configurationId" value="${configurationStubId}"/>
@@ -255,7 +256,7 @@
                             <g:submitButton name="send" value="${message(code: 'configuration.index.executemap')}"/>
                         </span>
 
-                    </g:form>
+                    </g:form>--%>
                 </div>
             </g:if>
 
