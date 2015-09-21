@@ -2430,6 +2430,16 @@ fieldset {
     min-height:32px;
 }
 
+.rowMiddleStatistics{
+	position: relative;
+
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	display:block;
+	min-height:32px;
+}
+
 .rowDown {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
@@ -2747,7 +2757,8 @@ fieldset {
 }
 
 .statisticsButtons {
-	padding:10px;
+	position: relative;
+	top: 7px;
 
 }
 

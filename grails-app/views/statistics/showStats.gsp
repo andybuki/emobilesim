@@ -48,11 +48,10 @@
         <div class="rowUp">
             <div class="leftBoldStatistics"><b>Statistic: ${stats.simulationName}</b></div>
 
-
         </div>
 
 
-        <div class="rowMiddle">
+        <div class="rowMiddleStatistics">
             <g:each in="${stats.fleets}" var="fleetStat">
                 <g:each in="${fleetStat.carTypes}" var="carType">
                     <g:if test="${carType.name=='All Cars'}">
@@ -61,6 +60,11 @@
                         <span> <span
                                 class="cartypeBold">${carType.countFails}</span> ausgefallen
                         </span>
+
+                        <td align="center" class="shieben" width="100px"
+                            id="successful::${fleetStat.name}::${carType.name}::realTime">
+                            ${TimeCalculator.readableTime(carType.stats.succeededCars.realTime.mean)}
+                        </td>
                     </g:if>
 
                 </g:each>
@@ -68,39 +72,31 @@
             </g:each>
         </div>
 
-        <div class="rowMiddle">
+        <div class="rowMiddleStatistics">
 
         </div>
 
-        <div class="rowMiddle">
+        <div class="rowMiddleStatistics">
 
         </div>
 
-        <div class="rowMiddle">
+        <div class="rowMiddleStatistics">
             <span class="statisticsButtons">
-                <g:form action="showStatisticsOnMap">
-                    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-                    <g:submitButton name="Show on map"
-                            value="${message(code: 'stats.stats.showonmap')}"
 
-                            id="${experimentRunResultId}" target="_blank"/>
-                </g:form>
+                <button class="layoutButtonR3"
+                        type="submit"
+                        onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                    <g:message code="stats.stats.showonmap"/> </button>
 
-                <g:form action="showFleetDetails">
-                    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-                    <g:submitButton name="Detail car information"
-                            value="${message(code: 'stats.stats.detailcar')}"
-                            params="['experimentRunResultId':$experimentRunResultId]"
-                            target="_blank"/>
-                </g:form>
+                <button class="layoutButtonR3"
+                        type="submit"
+                        onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                    <g:message code="stats.stats.detailcar"/> </button>
 
-                <g:form action="showGroupDetails">
-                    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-                    <g:submitButton name="Display station information"
-                            value="${message(code: 'stats.stats.detailstation')}"
-                            target="_blank"/>
-
-                </g:form>
+                <button class="layoutButtonR3"
+                        type="submit"
+                        onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                    <g:message code="stats.stats.detailstation"/> </button>
 
              </span>
         </div>
