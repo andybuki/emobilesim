@@ -973,6 +973,10 @@ body.lightBoxBody{
     height:30px;
 }
 
+ul#menu {
+	font-size: 10px;
+}
+
 #menu span a.registration {
 
     text-decoration: none;
@@ -980,7 +984,7 @@ body.lightBoxBody{
     position: relative;
     right: 5px;
     align: right;
-    font-size: 11px;
+    font-size: 10px;
     margin-left: 10px;
     z-index: 1000;
 
@@ -2167,6 +2171,14 @@ fieldset {
     margin-right: 140px;
     min-height: 300px;
 }
+
+.pContainerStatistics {
+	margin-left: 150px;
+	margin-top:10px;
+	margin-right: 140px;
+	min-height: 300px;
+}
+
 .pContainerResetPassword {
 	margin-left: 110px;
 	margin-top:10px;
@@ -2487,6 +2499,16 @@ fieldset {
 	font-size: 12px;
 }
 
+.leftBoldStatistics {
+	width:400px;
+    position: relative;
+	right:100px;
+	padding:10px 0px 0px 7px;
+	min-height:24px;
+	font-weight: bold;
+	font-size: 12px;
+}
+
 .leftBoldResetPassword {
 	float:left;
 	padding:10px 0px 0px 7px;
@@ -2713,6 +2735,20 @@ fieldset {
     width:300px;
     /*border-radius: 6px;*/
     font-size: 12px;
+}
+
+.statistics {
+
+	padding-left:10px;
+	padding-top:20px;
+	width:600px;
+	/*border-radius: 6px;*/
+	font-size: 12px;
+}
+
+.statisticsButtons {
+	padding:10px;
+
 }
 
 .carTypesResetPassword {

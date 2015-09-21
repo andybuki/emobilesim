@@ -306,4 +306,119 @@ class StatisticsController {
 
     }
 
+    def showStatisticsOnMap () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        ShowStationsCommandObject cmd = new ShowStationsCommandObject()
+        bindData( cmd, params )
+
+
+        if ( !cmd.validate() && cmd.hasErrors() ) {
+            log.error( "failed -- ${cmd.errors}" )
+        } else {
+            def m = [ : ]
+
+            List<String> successCategoriesToShow = new ArrayList<String>()
+            for ( Object key : params.keySet() ) {
+
+                String value = (String) params.get( key )
+                if ( value.equals( "on" ) ) {
+
+                    if ( ((String) key).endsWith( "all" ) ) {
+                        if ( !successCategoriesToShow.contains( "all" ) ) {
+                            successCategoriesToShow.add( "all" )
+                        }
+                    } else if ( ((String) key).endsWith( "successful" ) ) {
+                        if ( !successCategoriesToShow.contains( "successful" ) ) {
+                            successCategoriesToShow.add( "successful" )
+                        }
+                    } else if ( ((String) key).endsWith( "failed" ) ) {
+                        if ( !successCategoriesToShow.contains( "failed" ) ) {
+                            successCategoriesToShow.add( "failed" )
+                        }
+                    }
+
+                }
+
+            }
+            m.fillingStationGroups = statisticService.getStationsForMap( cmd.experimentRunResultId, successCategoriesToShow )
+            m.simulationArea =  (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
+            m.fleets = statisticService.getFleetsForMap(cmd.experimentRunResultId)
+            m.experimentRunResultId = cmd.experimentRunResultId
+            // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
+            render (view: 'mapStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+
+        }
+
+    }
+
+
+    def showFleetDetails () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
+        bindData( cmd, params )
+
+        def m = [ : ]
+
+        if ( !cmd.validate() && cmd.hasErrors() ) {
+
+            log.error( "sth deeply went wrong: ${cmd.errors}" )
+
+        }
+
+        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+
+        m.stats = stats
+        m.groups = stats.groups
+        m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
+        m.experimentRunResultId = cmd.experimentRunResultId
+
+        render ( view: 'detailCarStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+
+    }
+
+    def showGroupDetails () {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if ( !person ) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
+        bindData( cmd, params )
+
+        def m = [ : ]
+
+        if ( !cmd.validate() && cmd.hasErrors() ) {
+
+            log.error( "sth deeply went wrong: ${cmd.errors}" )
+
+        }
+
+        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+
+        m.stats = stats
+        m.groups = stats.groups
+        m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
+        m.experimentRunResultId = cmd.experimentRunResultId
+
+        render (view: 'detailStationsStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
+
+    }
+
 }

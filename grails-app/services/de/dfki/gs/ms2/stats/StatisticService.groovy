@@ -300,6 +300,7 @@ class StatisticService {
 
         fleets << fleetMap
 
+        m.simulationName = configuration.simulationName
         m.fleets = fleets
         m.groups = groups
 

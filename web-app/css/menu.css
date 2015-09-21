@@ -42,7 +42,7 @@
 }
 
 #menu > ul > li > a {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   padding: 15px 20px;
   color: #f7f9fa;
@@ -141,7 +141,7 @@
   width: 130px;
   /*border-bottom: 1px solid #eee;*/
   padding: 10px 20px;
-  font-size: 12px;
+  font-size: 11px;
   color: #000000;
 
   background: #fff;
