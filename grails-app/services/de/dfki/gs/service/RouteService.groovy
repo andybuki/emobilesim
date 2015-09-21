@@ -297,7 +297,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } /*else {
+            } else {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "abomasus.de");
@@ -307,7 +307,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } */else {
+            } /*else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );
@@ -315,7 +315,7 @@ class RouteService {
                 params.put( "database", "emobilesim");
                 params.put( "user", "emobilesim_admin");
                 params.put( "passwd", "7207c471");
-            }
+            }*/
 
             dataStore = DataStoreFinder.getDataStore(params);
 
@@ -323,7 +323,7 @@ class RouteService {
             SimpleFeatureSource featureSource // = dataStore.getFeatureSource("osm_2po_4pgr")
 
             if (SimulationArea.BERLIN == simulationArea) {
-                featureSource = dataStore.getFeatureSource("brandenburg_2po_4pgr");
+                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
             }
             else if (SimulationArea.BREMEN == simulationArea){
                 featureSource = dataStore.getFeatureSource("bremennew_2po_4pgr")
