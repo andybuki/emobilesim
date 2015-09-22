@@ -306,7 +306,9 @@ class StatisticService {
         m.successFullCars = successFullCars
         m.failedCars = failedCars
         m.fillingStations = fillingStations
-        //m.stationsInUse = stationTypes.allStations.timeInUse.valuez
+        m.stationsInUse = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.sum
+        m.wholeRoute = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.realDistance.valuez
+        m.wholePower = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.energyDemanded.valuez
         return m
     }
 

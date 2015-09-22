@@ -53,17 +53,22 @@
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.successFullCars.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/></span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
                 <span class="">${stats.failedCars.size()} -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/></span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/>,</span>
+                <span class="">${Math.round(stats.wholeRoute.sum())} km. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/></span>
             </div>
         </div>
 
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.fillingStations.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/></span>
-                ${TimeCalculator.readableTime(stats.timeInUse)}
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/>,</span>
+                ${TimeCalculator.readableTime(stats.stationsInUse)} -
+                <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/>,</span>
+                <span class="">${Math.round(stats.wholePower.sum())} kW. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
 
             </div>
         </div>
