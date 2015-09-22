@@ -326,7 +326,6 @@
                                             id="failed::${fleetStat.name}::${carType.name}::loadingTime">
                                             ${TimeCalculator.readableTime(carType.stats.failedCars.loadingTime.mean)}
                                         </td>
-
                                         <td align="center" class="shieben" width="100px"
                                             id="failed::${fleetStat.name}::${carType.name}::plannedDistance">
                                             ${carType.stats.failedCars.plannedDistance.mean}
@@ -335,7 +334,6 @@
                                             id="failed::${fleetStat.name}::${carType.name}::realDistance">
                                             ${carType.stats.failedCars.realDistance.mean}
                                         </td>
-
                                         <td align="center" class="shieben" width="100px"
                                             id="failed::${fleetStat.name}::${carType.name}::energyLoaded">
                                             ${carType.stats.failedCars.energyLoaded.mean}
@@ -344,7 +342,6 @@
                                             id="failed::${fleetStat.name}::${carType.name}::energyDemanded">
                                             ${carType.stats.failedCars.energyDemanded.mean}
                                         </td>
-
                                     </tr>
                                     <tr>
                                         <td>

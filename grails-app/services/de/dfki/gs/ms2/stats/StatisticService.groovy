@@ -303,7 +303,10 @@ class StatisticService {
         m.simulationName = configuration.simulationName
         m.fleets = fleets
         m.groups = groups
-
+        m.successFullCars = successFullCars
+        m.failedCars = failedCars
+        m.fillingStations = fillingStations
+        //m.stationsInUse = stationTypes.allStations.timeInUse.valuez
         return m
     }
 

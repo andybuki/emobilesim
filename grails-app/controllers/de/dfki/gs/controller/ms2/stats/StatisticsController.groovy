@@ -45,8 +45,10 @@ class StatisticsController {
         def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
 
         m.stats = stats
+
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
+
         m.experimentRunResultId = cmd.experimentRunResultId
 
         render view: 'showStats', model: m

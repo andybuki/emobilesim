@@ -101,7 +101,7 @@
                                                 new OpenLayers.Control.KeyboardDefaults(),
                                                 new OpenLayers.Control.Navigation(),
                                                 new OpenLayers.Control.LayerSwitcher(),
-                                                new OpenLayers.Control.PanZoomBar(),
+                                                new OpenLayers.Control.Zoom(),
                                                 new OpenLayers.Control.MousePosition()
                                             ],
                                             maxExtent:

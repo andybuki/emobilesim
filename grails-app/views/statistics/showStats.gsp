@@ -50,30 +50,22 @@
 
         </div>
 
-
         <div class="rowMiddleStatistics">
-            <g:each in="${stats.fleets}" var="fleetStat">
-                <g:each in="${fleetStat.carTypes}" var="carType">
-                    <g:if test="${carType.name=='All Cars'}">
-                        <span class="cartypeBold">${carType.countSuccessful}</span>
-                        Cars erfolgreich teilgenommen
-                        <span> <span
-                                class="cartypeBold">${carType.countFails}</span> ausgefallen
-                        </span>
-
-                        <td align="center" class="shieben" width="100px"
-                            id="successful::${fleetStat.name}::${carType.name}::realTime">
-                            ${TimeCalculator.readableTime(carType.stats.succeededCars.realTime.mean)}
-                        </td>
-                    </g:if>
-
-                </g:each>
-
-            </g:each>
+            <div class="statisticsData">
+                <span class="">${stats.successFullCars.size()} -  </span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/></span>
+                <span class="">${stats.failedCars.size()} -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/></span>
+            </div>
         </div>
 
         <div class="rowMiddleStatistics">
+            <div class="statisticsData">
+                <span class="">${stats.fillingStations.size()} -  </span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/></span>
+                ${TimeCalculator.readableTime(stats.timeInUse)}
 
+            </div>
         </div>
 
         <div class="rowMiddleStatistics">

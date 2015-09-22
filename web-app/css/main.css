@@ -3675,3 +3675,16 @@ th {
 .scale-value {
 	background: #ddd;
 }
+
+.statisticsData {
+	font-weight: bold;
+	position: relative;
+	top: 10px;
+	right:70px;
+
+}
+
+.statisticsDataSmall {
+	font-size: 10px;
+	font-weight: normal;
+}
