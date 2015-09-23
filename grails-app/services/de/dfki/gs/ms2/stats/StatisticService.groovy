@@ -307,6 +307,13 @@ class StatisticService {
         m.failedCars = failedCars
         m.fillingStations = fillingStations
         m.stationsInUse = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.sum
+        def usedStationsAll = []
+        usedStationsAll = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.valuez
+        def visitedStations =[]
+        visitedStations = usedStationsAll.findAll({it > "0"})
+        m.usedStations = visitedStations.size()
+
+
         m.wholeRoute = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.realDistance.valuez
         m.wholePower = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.energyDemanded.valuez
         return m

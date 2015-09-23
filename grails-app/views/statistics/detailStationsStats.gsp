@@ -45,22 +45,22 @@
     #e
 --%>
 <br/><br/>
-<g:form action="showStatisticsOnMap">
-    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-    <g:submitButton name="Show on map"
-                    value="${message(code: 'stats.stats.showonmap')}"
 
-                    id="${experimentRunResultId}" target="_blank"/>
-</g:form>
+    <span class="statisticsButtons">
 
-<g:form action="showFleetDetails">
-    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-    <g:submitButton name="Detail car information"
-                    value="${message(code: 'stats.stats.detailcar')}"
-                    params="['experimentRunResultId':$experimentRunResultId]"
-                    target="_blank"/>
-</g:form>
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.showonmap"/> </button>
 
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.detailcar"/> </button>
+
+    </span>
+
+<br/><br/>
 <div class="pContainerConfigureStats">
     <div id="accordion1">
         <g:each in="${stats.groups}" var="groupStat">

@@ -47,26 +47,22 @@
 <br/><br/>
 
 <span class="statisticsButtons">
-    <g:form action="showStatisticsOnMap">
-        <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-        <g:submitButton name="Show on map"
-                        value="${message(code: 'stats.stats.showonmap')}"
+    <span class="statisticsButtons">
 
-                        id="${experimentRunResultId}" target="_blank"/>
-    </g:form>
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.showonmap"/> </button>
 
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.detailstation"/> </button>
 
-
-    <g:form action="showGroupDetails">
-        <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-        <g:submitButton name="Display station information"
-                        value="${message(code: 'stats.stats.detailstation')}"
-                        target="_blank"/>
-
-    </g:form>
+    </span>
 
 </span>
-
+<br/><br/>
 <div class="pContainerConfigureStats">
     <div id="accordion">
         <g:each in="${stats.fleets}" var="fleetStat">

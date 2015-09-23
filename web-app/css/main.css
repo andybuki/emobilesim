@@ -2751,7 +2751,7 @@ fieldset {
 
 	padding-left:10px;
 	padding-top:20px;
-	width:600px;
+	width:700px;
 	/*border-radius: 6px;*/
 	font-size: 12px;
 }
@@ -3680,7 +3680,7 @@ th {
 	font-weight: bold;
 	position: relative;
 	top: 10px;
-	right:50px;
+	right:20px;
 
 }
 
