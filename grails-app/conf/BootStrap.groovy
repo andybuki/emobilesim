@@ -1,8 +1,6 @@
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.Point
 import de.dfki.gs.bootstrap.BootstrapHelper
-import de.dfki.gs.domain.Book
-import de.dfki.gs.domain.Book
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.FillingStation
