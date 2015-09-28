@@ -15,6 +15,8 @@ class StatsController {
     def experimentStatsService
     def generateStatsPictureService
     def statsFileService
+    def exportService
+    def grailsApplication
 
 
     def createCsv() {

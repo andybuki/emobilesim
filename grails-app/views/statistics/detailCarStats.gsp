@@ -8,7 +8,7 @@
 <%@ page import="de.dfki.gs.utils.TimeCalculator" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title></title>
+    <title><g:message code="stats.stats.statistic"/></title>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'prefix-free.js')}"></script>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'jquery-1.9.0.js')}"></script>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">

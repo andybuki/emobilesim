@@ -30,9 +30,7 @@
 
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
-
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 </head>
@@ -57,7 +55,8 @@
                 <span class="">${stats.failedCars.size()} -  </span>
                 <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/>,</span>
                 <span class="">${Math.round(stats.wholeRoute.sum())} km. -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/></span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/>,</span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
             </div>
         </div>
 
@@ -71,10 +70,6 @@
                 <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/>,</span>
                 <span class="">${Math.round(stats.wholePower.sum())} kW. -  </span>
                 <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
-
-
-
-
             </div>
         </div>
 
