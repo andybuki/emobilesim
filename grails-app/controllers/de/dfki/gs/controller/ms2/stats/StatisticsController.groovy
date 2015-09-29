@@ -5,6 +5,7 @@ import de.dfki.gs.controller.ms2.stats.commands.ShowStationStatsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStatsCommandObject
 import de.dfki.gs.domain.simulation.FillingStationType
+import de.dfki.gs.domain.stats.PersistedFillingStationResult
 import de.dfki.gs.domain.users.Person
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.apache.commons.io.FileUtils
@@ -415,18 +416,18 @@ class StatisticsController {
 
         def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
-        List fields = ["name", "type"]
-        Map labels = [name: "Name", type: "Type"]
+        List fields = ["id", "fillingStationType", "startUsing", "timeLiving", "ownerName", "lat", "lon"]
+        Map labels = [id: "ID", fillingStationType:"FillingStationType", startUsing:"Start Using", timeLiving:"Time Living", ownerName:"Owner Name", lat:"Lat", lon: "Lon"]
 
         m.stats = stats
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
               if(!params.max)
-            params.max = 10
+            params.max = 500
         if(params?.format && params.format != "html") {
 
-            exportService.export(params.format, response.outputStream, FillingStationType.list(params),fields, labels, [:], [:])
+            exportService.export(params.format, response.outputStream, PersistedFillingStationResult.list(params),fields, labels, [:], [:])
 
 
         }

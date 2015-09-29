@@ -69,7 +69,7 @@
                         <td class="statsTitle1">${fillingStation.id}</td>
                         <td class="statsTitle1"> ${fillingStation.fillingStationType.name} </td>
                         <td class="statsTitle1">${fillingStation.ownerName} </td>
-                        <td class="statsTitle1">  ( ${fillingStation.lat} ${fillingStation.lon}) </td>
+                        <td class="statsTitle1"> </td>
                         <td class="statsTitle1">
                             <g:if test="${fillingStation.timeInUse==0}">
                                 -
@@ -78,13 +78,14 @@
                                 ${TimeCalculator.readableTime(fillingStation.timeInUse)}
                             </g:else>
                         </td>
-                        <td class="statsTitle1"><g:if test="${fillingStation.timeInUse==0}">
-                            -
-                        </g:if>
+                        <td class="statsTitle1">
+                            <g:if test="${fillingStation.timeInUse==0}">
+                                -
+                            </g:if>
                             <g:else>
-                                ${Math.round((fillingStation.timeInUse*fillingStation.fillingStationType.fillingPortion))}
+                                ${Math.round((fillingStation.timeInUse*fillingStation.fillingStationType.fillingPortion))} kW
                             </g:else></td>
-                        <td class="statsTitle1"></td>
+                        <td class="statsTitle1"> ( ${fillingStation.lat} ${fillingStation.lon}) </td>
                         <td class="statsTitle1"></td>
                         <td class="statsTitle1"></td>
 
