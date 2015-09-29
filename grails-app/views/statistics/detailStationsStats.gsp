@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'styleSort.css')}" type="text/css">
 
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 
@@ -23,6 +24,7 @@
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <g:javascript src="tablesorter.js"/>
 
 </head>
 
@@ -49,25 +51,28 @@
 
     <div class="pContainerConfigureStats1">
         <div class="rowUpStatistic">
-            <table align="left">
+            <table align="left" id="sortTable" class="tablesorter">
+                <thead>
                 <tr class="statsTitle">
-                    <td class="statsTitle"><g:checkBox class="statisticsAll" name="idAll"/></td>
-                    <td class="statsTitle">ID</td>
-                    <td class="statsTitle">Type kW</td>
-                    <td class="statsTitle">Erfolgreich/fehlgeschlagen</td>
-                    <td class="statsTitle">Owner</td>
-                    <td class="statsTitle">Nutzungszeit</td>
-                    <td class="statsTitle">Geladener Strom</td>
-                    <td class="statsTitle">Ladestationen GPS</td>
-                    <td class="statsTitle">Visited car</td>
-                    <td class="statsTitle">Visited time</td>
+                    <th class="statsTitle"><g:checkBox class="statisticsAll" name="idAll"/></th>
+                    <th class="statsTitle">ID</th>
+                    <th class="statsTitle">Type kW</th>
+                    <th class="statsTitle">Erfolgreich/fehlgeschlagen</th>
+                    <th class="statsTitle">Owner</th>
+                    <th class="statsTitle">Nutzungszeit</th>
+                    <th class="statsTitle">Geladener Strom</th>
+                    <th class="statsTitle">Ladestationen GPS</th>
+                    <th class="statsTitle">Visited car</th>
+                    <th class="statsTitle">Visited time</th>
                 </tr>
-
+                </thead>
+            <tbody>
                 <g:each in="${stats.fillingStations}" var="fillingStation">
-                    <tr class="statsTitle1">
-                        <td class="statsTitle1"><g:checkBox class="statisticsAll" name="id"/></td>
+
+                        <tr class="statsTitle1">
+                        <td class="statsTitle1"> <g:checkBox class="statisticsAll" name="id"/></td>
                         <td class="statsTitle1">${fillingStation.id}</td>
-                        <td class="statsTitle1"> ${fillingStation.fillingStationType.name} </td>
+                        <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
                         <td class="statsTitle1">${fillingStation.ownerName} </td>
                         <td class="statsTitle1"> </td>
                         <td class="statsTitle1">
@@ -89,15 +94,19 @@
                         <td class="statsTitle1"></td>
                         <td class="statsTitle1"></td>
 
+                        </tr>
 
-                </tr>
                 </g:each>
+            </tbody>
             </table>
         </div>
     </div>
 
 </div>
 </div>
+
+
+
 
 <br/><br/>
 <div class="pContainerConfigureStatsPanel">
@@ -301,6 +310,8 @@
 
 </g:javascript>
 <script>
+
+
     $("#accordion").accordion({
         active: false,
         heightStyle: "content",
@@ -308,6 +319,8 @@
         alwaysOpen: false
 
     });
+
+    $("#sortTable").tablesorter();
 
 </script>
 </body>
