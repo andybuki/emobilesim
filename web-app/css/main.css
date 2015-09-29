@@ -3728,11 +3728,18 @@ th {
 	right:165px;
 }
 
-.statisticsButtons {
+.statisticsButtonsDetail {
 	position: relative;
     font-size: 11px;
 	display:inline-block;
 	left:165px;
+}
+
+.statisticsButtons {
+	position: relative;
+	font-size: 11px;
+	display:inline-block;
+	top:5px;
 }
 
 .layoutButtonR3 {

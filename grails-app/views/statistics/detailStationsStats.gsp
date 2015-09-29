@@ -114,7 +114,7 @@
                         />
 
     </div>
-    <div class="statisticsButtons">
+    <div class="statisticsButtonsDetail">
 
         <button class="layoutButtonR3"
                 type="submit"
