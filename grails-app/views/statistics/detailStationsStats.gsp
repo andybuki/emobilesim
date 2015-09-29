@@ -54,7 +54,7 @@
             <table align="left" id="sortTable" class="tablesorter">
                 <thead>
                 <tr class="statsTitle">
-                    <th class="statsTitle"><g:checkBox class="statisticsAll" name="idAll"/></th>
+                    <th class="statsTitle"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
                     <th class="statsTitle">ID</th>
                     <th class="statsTitle">Type kW</th>
                     <th class="statsTitle">Erfolgreich/fehlgeschlagen</th>
@@ -66,16 +66,15 @@
                     <th class="statsTitle">Visited time</th>
                 </tr>
                 </thead>
-            <tbody>
-                <g:each in="${stats.fillingStations}" var="fillingStation">
-
+                <tbody>
+                    <g:each in="${stats.fillingStations}" var="fillingStation">
                         <tr class="statsTitle1">
-                        <td class="statsTitle1"> <g:checkBox class="statisticsAll" name="id"/></td>
-                        <td class="statsTitle1">${fillingStation.id}</td>
-                        <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
-                        <td class="statsTitle1">${fillingStation.ownerName} </td>
-                        <td class="statsTitle1"> </td>
-                        <td class="statsTitle1">
+                            <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
+                            <td class="statsTitle1">${fillingStation.id}</td>
+                            <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
+                            <td class="statsTitle1">${fillingStation.ownerName} </td>
+                            <td class="statsTitle1"> </td>
+                            <td class="statsTitle1">
                             <g:if test="${fillingStation.timeInUse==0}">
                                 -
                             </g:if>
@@ -83,25 +82,22 @@
                                 ${TimeCalculator.readableTime(fillingStation.timeInUse)}
                             </g:else>
                         </td>
-                        <td class="statsTitle1">
+                            <td class="statsTitle1">
                             <g:if test="${fillingStation.timeInUse==0}">
                                 -
                             </g:if>
                             <g:else>
                                 ${Math.round((fillingStation.timeInUse*fillingStation.fillingStationType.fillingPortion))} kW
                             </g:else></td>
-                        <td class="statsTitle1"> ( ${fillingStation.lat} ${fillingStation.lon}) </td>
-                        <td class="statsTitle1"></td>
-                        <td class="statsTitle1"></td>
-
+                            <td class="statsTitle1"> ( ${fillingStation.lat} ${fillingStation.lon}) </td>
+                            <td class="statsTitle1"></td>
+                            <td class="statsTitle1"></td>
                         </tr>
-
-                </g:each>
-            </tbody>
+                    </g:each>
+                </tbody>
             </table>
         </div>
     </div>
-
 </div>
 </div>
 
@@ -120,8 +116,7 @@
     <div class="exportTitle"> Show Plot: </div>
     <div class="exportTitle">
         <g:submitButton name="Display graph"
-                        value="${message(code: 'stats.stats.displaygraph')}"
-                        />
+                        value="${message(code: 'stats.stats.displaygraph')}"/>
 
     </div>
     <div class="statisticsButtonsDetail">
@@ -320,7 +315,22 @@
 
     });
 
-    $("#sortTable").tablesorter();
+    $("#sortTable").tablesorter({
+        // pass the headers argument and assing a object
+        headers: {
+            // assign the secound column (we start counting zero)
+            0: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            }
+
+        }
+    });
+
+    $('#stats').click(function() {
+        var checked = this.checked;
+        $('.statisticsAlle').prop('checked', checked);
+    });
 
 </script>
 </body>

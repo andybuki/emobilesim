@@ -424,11 +424,9 @@ class StatisticsController {
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
               if(!params.max)
-            params.max = 500
+            params.max = stats.fillingStations.size()
         if(params?.format && params.format != "html") {
-
             exportService.export(params.format, response.outputStream, PersistedFillingStationResult.list(params),fields, labels, [:], [:])
-
 
         }
         render(view: 'detailStationsStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
