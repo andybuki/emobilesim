@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: glenn
-  Date: 02.10.14
-  Time: 15:47
---%>
-
 <%@ page import="de.dfki.gs.utils.TimeCalculator" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -17,54 +10,95 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
-
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'styleSort.css')}" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css'/>
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css'/>
-
-
     <g:javascript library="jquery-1.9.0"/>
-
     <g:javascript src="application.js"/>
-
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
-
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
+    <g:javascript src="tablesorter.js"/>
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
+<br/>
+    <div class="pContainerConfigureStatsCar">
+        <div class="" id="accordion">
+            <div class="statisticDataBig">
+                <span class="statisticDataBig">${stats.successFullCars.size()} -  </span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
+                <span class="statisticDataBig">${stats.failedCars.size()} -  </span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.failedcars"/>,</span>
 
-<%--
-    for each fleet in stats map print out a tabl
-    #e
---%>
-<br/><br/>
+                <span class="statisticDataBig">${Math.round(stats.wholeRoute.sum())} km. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/>,</span>
+                <span class="statisticDataBig">${Math.round(stats.wholePower.sum())} kW. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
 
-<span class="statisticsButtons">
-    <span class="statisticsButtons">
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span> <span class="statisticDataBig"> ${stats.configurationArea}</span>
+            </div>
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.showonmap"/> </button>
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.detailstation"/> </button>
+            <div class="pContainerConfigureStats1">
+                <div class="rowUpStatistic">
+                    <table align="left" id="sortTable" class="tablesorter">
+                        <thead>
+                        <tr class="statsTitle">
+                            <th class="statsTitle"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
+                            <th class="statsTitle">ID   </th>
+                            <th class="statsTitle">Car name</th>
+                            <th class="statsTitle">Erfolgreich/ fehlgeschlagen</th>
+                            <th class="statsTitle">Reale Distanz</th>
+                            <th class="statsTitle">Geplannte Distanz</th>
+                            <th class="statsTitle">Fahrzeit</th>
+                            <th class="statsTitle">Reale Fahrzeit</th>
+                            <th class="statsTitle">Geladener Strom</th>
+                            <th class="statsTitle">Verbrauchte Strom</th>
+                            <th class="statsTitle">Ladezeit</th>
+                            <th class="statsTitle">Visited electric station</th>
+                            <th class="statsTitle">Detour time</th>
+                            <th class="statsTitle">Nicht geschafte Distanz</th>
+                        </tr>
+                        </thead>
+                        <tbody class="statsUnten">
+                        <g:each in="${stats.carsNumbers}" var="carsNumber">
+                            <tr class="statsTitle1">
+                                <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
+                                <td class="statsTitle1">${carsNumber.id}</td>
+                                <td class="statsTitle1" id="carsNumber"> ${carsNumber.carType.name} </td>
+                                <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
+                                    <td class="statsTitle1"><g:img width="12" height="12" dir="../emobilesim/images/green.png"/></td>
+                                </g:if>
+                                <g:else>
+                                    <td class="statsTitle1"><g:img width="12" height="12" dir="../emobilesim/images/red.png"/></td>
+                                </g:else>
+                                <td class="statsTitle1">
+                                    ${Math.round(carsNumber.realDistance)}km
+                                </td>
+                                <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
+                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}</td>
+                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}</td>
+                                <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
+                                <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
+                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForLoading)}</td>
+                                <td class="statsTitle1"></td>
+                                <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
+                                <td class="statsTitle1"></td>
 
-    </span>
+                            </tr>
 
-</span>
-<br/><br/>
-<div class="pContainerConfigureStats">
-    <div id="accordion">
+                        </g:each>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<%--    <div id="accordion">
         <g:each in="${stats.fleets}" var="fleetStat">
             <div>
                 <span class="titleStats">
@@ -357,10 +391,37 @@
             </div>
         </g:each>
     </div>
+--%>
+<br/>
+<div class="pContainerConfigureStats">
+    <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
+    <div class="exportPanel">
+        <r:require module="export"/>
+        <export:resource />
+        <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
+        </export:formats>
+    </div>
+    <div class="exportTitle"> Show Plot: </div>
+    <div class="exportTitle">
+        <g:submitButton name="Display graph"
+                        value="${message(code: 'stats.stats.displaygraph')}"/>
+
+    </div>
+    <div class="statisticsButtonsDetail">
+
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.showonmap"/> </button>
+
+        <button class="layoutButtonR3"
+                type="submit"
+                onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+            <g:message code="stats.stats.detailstation"/> </button>
+    </div>
 </div>
-
-
 <div id="updateMe"></div>
+<%--
 <g:javascript>
 
     function handleCheckBoxClick(cb) {
@@ -527,6 +588,7 @@
     }
 
 </g:javascript>
+--%>
 <script>
     $("#accordion").accordion({
         active: false,
@@ -535,12 +597,29 @@
         alwaysOpen: false
 
     });
-    $("#accordion1").accordion({
-        active: false,
-        heightStyle: "content",
-        collapsible: true,
-        alwaysOpen: false
+
+    $("#sortTable").tablesorter({
+        // pass the headers argument and assing a object
+        headers: {
+            // assign the secound column (we start counting zero)
+            0: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            },
+
+            1: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            }
+
+        }
     });
+
+    $('#stats').click(function() {
+        var checked = this.checked;
+        $('.statisticsAlle').prop('checked', checked);
+    });
+
 </script>
 </body>
 </html>

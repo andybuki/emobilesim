@@ -6,7 +6,7 @@ import de.dfki.gs.simulation.CarStatus
 
 class PersistedCarAgentResult {
 
-
+    String    name
     Float     energyConsumed
     CarType   carType
     String    carStatus
@@ -31,5 +31,6 @@ class PersistedCarAgentResult {
 
 
     static constraints = {
+        name ( nullable: true, blank: true )
     }
 }

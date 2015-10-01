@@ -2255,8 +2255,21 @@ fieldset {
 	min-width: 1000px;
 	max-width: 1100px;
 
+}
+
+.pContainerConfigureStatsCar {
+	margin-left:6%;
+	/*margin-top:20px;
+	margin-bottom:10px;*/
+	margin-right:100px;
+	/*min-height: 300px;*/
+	position: relative;
+	left: 30px;
+	min-width: 1300px;
+	max-width: 1700px;
 
 }
+
 
 .layout {
     display:table;
@@ -3780,4 +3793,9 @@ th {
 	position: relative;
 	top: 10px;
 	margin-top: 10px;
+}
+
+.tablesorter {
+	margin-bottom: 7px;
+
 }

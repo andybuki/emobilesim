@@ -416,8 +416,8 @@ class StatisticsController {
 
         def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
-        List fields = ["id", "fillingStationType", "startUsing", "timeLiving", "ownerName", "lat", "lon"]
-        Map labels = [id: "ID", fillingStationType:"FillingStationType", startUsing:"Start Using", timeLiving:"Time Living", ownerName:"Owner Name", lat:"Lat", lon: "Lon"]
+        List fields = ["id", "fillingStationType", "name", "startUsing", "timeLiving", "ownerName", "lat", "lon"]
+        Map labels = [id: "ID", fillingStationType:"FillingStationType",name:"Name", startUsing:"Start Using", timeLiving:"Time Living", ownerName:"Owner Name", lat:"Lat", lon: "Lon"]
 
         m.stats = stats
         m.groups = stats.groups
@@ -427,7 +427,6 @@ class StatisticsController {
             params.max = stats.fillingStations.size()
         if(params?.format && params.format != "html") {
             exportService.export(params.format, response.outputStream, PersistedFillingStationResult.list(params),fields, labels, [:], [:])
-
         }
         render(view: 'detailStationsStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
 

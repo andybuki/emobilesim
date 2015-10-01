@@ -307,6 +307,7 @@ class StatisticService {
         m.successFullCars = successFullCars
         m.failedCars = failedCars
         m.fillingStations = fillingStations
+        m.carsNumbers = fleets.get(fleets.size()-1).carResults
         m.stationsInUse = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.sum
         def usedStationsAll = []
         usedStationsAll = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.valuez
@@ -319,6 +320,9 @@ class StatisticService {
         m.wholeRoute = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.realDistance.valuez
         m.wholePower = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.energyDemanded.valuez
         m.configurationArea = configuration.simulationArea
+
+
+
         return m
     }
 

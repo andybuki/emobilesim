@@ -6,7 +6,7 @@ import de.dfki.gs.domain.simulation.FillingStationType
 class PersistedFillingStationResult {
 
     // String gasolineStationType
-
+    String name
     FillingStationType fillingStationType
 
     Long groupId
@@ -22,8 +22,10 @@ class PersistedFillingStationResult {
 
 
     static constraints = {
+
         fillingStationType( nullable: false )
         startUsing ( nullable: true )
         ownerName nullable: true
+        name nullable: true
     }
 }

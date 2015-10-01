@@ -11,13 +11,9 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'styleSort.css')}" type="text/css">
-
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css'/>
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css'/>
-
-
     <g:javascript library="jquery-1.9.0"/>
     <g:javascript src="application.js"/>
     <g:javascript src="ol/OpenLayers.js"/>
@@ -25,17 +21,14 @@
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <g:javascript src="tablesorter.js"/>
-
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-
-<br/><br/>
-
+<br/>
 
 <div class="pContainerConfigureStats">
-<div class="" id="accordion">
+    <div class="" id="accordion">
     <div class="statisticDataBig">
         <span class="statisticDataBig">${stats.fillingStations.size()} -  </span>
         <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/>,</span>
@@ -57,7 +50,7 @@
                     <th class="statsTitle"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
                     <th class="statsTitle">ID</th>
                     <th class="statsTitle">Type kW</th>
-                    <th class="statsTitle">Erfolgreich/fehlgeschlagen</th>
+
                     <th class="statsTitle">Owner</th>
                     <th class="statsTitle">Nutzungszeit</th>
                     <th class="statsTitle">Geladener Strom</th>
@@ -72,8 +65,12 @@
                             <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
                             <td class="statsTitle1">${fillingStation.id}</td>
                             <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
-                            <td class="statsTitle1">${fillingStation.ownerName} </td>
-                            <td class="statsTitle1"> </td>
+                            <g:if test="${fillingStation.name =='Rve' || fillingStation.name =='Vattenfall'}">
+                                <td class="statsTitle1">${fillingStation.name} </td>
+                            </g:if>
+                            <g:else>
+                                <td class="statsTitle1">privat </td>
+                            </g:else>
                             <td class="statsTitle1">
                             <g:if test="${fillingStation.timeInUse==0}">
                                 -
@@ -101,11 +98,8 @@
 </div>
 </div>
 
-
-
-
-<br/><br/>
-<div class="pContainerConfigureStatsPanel">
+<br/>
+<div class="pContainerConfigureStats">
     <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
     <div class="exportPanel">
         <r:require module="export"/>
@@ -133,12 +127,8 @@
 
     </div>
 </div>
-
-<br/><br/>
-
-
 <div id="updateMe"></div>
-<g:javascript>
+<%--<g:javascript>
 
     function handleCheckBoxClick(cb) {
 
@@ -304,6 +294,7 @@
     }
 
 </g:javascript>
+--%>
 <script>
 
 
