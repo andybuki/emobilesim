@@ -2245,7 +2245,7 @@ fieldset {
 }
 
 .pContainerConfigureStats {
-	margin-left:6%;
+	/*margin-left:6%;*/
 	/*margin-top:20px;
 	margin-bottom:10px;*/
 	margin-right:100px;
@@ -2258,14 +2258,14 @@ fieldset {
 }
 
 .pContainerConfigureStatsCar {
-	margin-left:6%;
+	/*margin-left:6%;*/
 	/*margin-top:20px;
 	margin-bottom:10px;*/
 	margin-right:100px;
 	/*min-height: 300px;*/
 	position: relative;
-	left: 30px;
-	min-width: 1300px;
+	left: 10px;
+	min-width: 1260px;
 	max-width: 1700px;
 
 }
@@ -3787,16 +3787,16 @@ th {
 .statsTitle {
 	position: relative;
 	top: 4px;
-	min-width: 50px;
+	min-width: 35px;
 	max-width: 90px;
     bottom: 4px;
 }
 
 .statsTitle1 {
 	position: relative;
-	top: 10px;
+	top: 12px;
 	margin-top: 10px;
-	min-width: 20px;
+	min-width: 10px;
 	max-width: 90px;
 }
 
@@ -3815,6 +3815,8 @@ th {
 	position: relative;
 	left: 4px;
 	top: 4px;
+	font-size: 9px;
+	max-width: 12px;
 }
 
 .statsTitle3 {
@@ -3822,4 +3824,14 @@ th {
 	top: 4px;
 	width: 20px;
 	bottom: 4px;
+	font-size: 9px;
+}
+
+.statsTitleAllStation {
+	padding:4px;
+	position: relative;
+}
+
+.statsTitleAll {
+	font-size: 9px;
 }

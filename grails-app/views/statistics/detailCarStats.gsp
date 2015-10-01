@@ -25,7 +25,7 @@
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-<br/>
+<br/><br/>
     <div class="pContainerConfigureStatsCar">
         <div class="" id="accordion">
             <div class="statisticDataBig">
@@ -50,22 +50,21 @@
                         <tr class="statsTitleAll">
                             <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
                             <th class="statsTitle3">ID</th>
-                            <th class="statsTitle">Car </br> name</th>
+                            <th class="statsTitle">Name</th>
                             <th class="statsTitle">Erfolgreich/</br> fehlgeschlagen</th>
                             <th class="statsTitle">Geplannte </br>Distanz</th>
                             <th class="statsTitle">Reale </br> Distanz</th>
-                            <th class="statsTitle">Umweg </br>Distanz</th>
+                            <th class="statsTitle">Umweg</th>
                             <th class="statsTitle">Geplannte </br> Fahrzeit</th>
                             <th class="statsTitle">Reale </br> Fahrzeit</th>
                             <th class="statsTitle">Zeit für </br>Umweg</th>
                             <th class="statsTitle">Ladezeit</th>
-                            <th class="statsTitle">Visited time </br>electric station</th>
+                            <th class="statsTitle">Visited station</th>
                             <th class="statsTitle">Geladener </br> Strom</th>
                             <th class="statsTitle">Verbrauchte </br> Strom</th>
-                            <th class="statsTitle">Visiten Ladestation </br>(Name, Type)</th>
-                            <th class="statsTitle">Start </br>Akkuzustand %</th>
-                            <th class="statsTitle">Gebliebene </br>Akkuzustand %</th>
-                            <th class="statsTitle">Nicht geschafte </br>Distanz km.</th>
+                            <th class="statsTitle">Visiten </br>Ladestation</th>
+                            <th class="statsTitle">Start&End </br>Akkuzustand</th>
+                            <th class="statsTitle">Gebliebene</br>Distanz</th>
                         </tr>
                         </thead>
                         <tbody class="statsUnten">
@@ -89,7 +88,6 @@
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForLoading)}</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
-                                <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
