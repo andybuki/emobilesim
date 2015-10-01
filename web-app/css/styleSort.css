@@ -1,22 +1,21 @@
 /* tables */
 table.tablesorter {
-
-
 	font-size: 8pt;
 	width: 100%;
 	text-align: left;
 }
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-
 	border: 1px solid #FFF;
 	font-size: 8pt;
-	padding: 4px;
+	padding: 0px;
 }
 table.tablesorter thead tr .header {
 	background-image: url(../images/bg.gif);
 	background-repeat: no-repeat;
 	background-position: center right;
 	cursor: pointer;
+	min-width: 70px;
+	max-width: 110px;
 }
 table.tablesorter tbody td {
 	color: #3D3D3D;

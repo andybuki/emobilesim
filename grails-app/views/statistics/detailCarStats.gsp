@@ -47,21 +47,25 @@
                 <div class="rowUpStatistic">
                     <table align="left" id="sortTable" class="tablesorter">
                         <thead>
-                        <tr class="statsTitle">
-                            <th class="statsTitle"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
-                            <th class="statsTitle">ID   </th>
-                            <th class="statsTitle">Car name</th>
-                            <th class="statsTitle">Erfolgreich/ fehlgeschlagen</th>
-                            <th class="statsTitle">Reale Distanz</th>
-                            <th class="statsTitle">Geplannte Distanz</th>
-                            <th class="statsTitle">Fahrzeit</th>
-                            <th class="statsTitle">Reale Fahrzeit</th>
-                            <th class="statsTitle">Geladener Strom</th>
-                            <th class="statsTitle">Verbrauchte Strom</th>
+                        <tr class="statsTitleAll">
+                            <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
+                            <th class="statsTitle3">ID</th>
+                            <th class="statsTitle">Car </br> name</th>
+                            <th class="statsTitle">Erfolgreich/</br> fehlgeschlagen</th>
+                            <th class="statsTitle">Geplannte </br>Distanz</th>
+                            <th class="statsTitle">Reale </br> Distanz</th>
+                            <th class="statsTitle">Umweg </br>Distanz</th>
+                            <th class="statsTitle">Geplannte </br> Fahrzeit</th>
+                            <th class="statsTitle">Reale </br> Fahrzeit</th>
+                            <th class="statsTitle">Zeit für </br>Umweg</th>
                             <th class="statsTitle">Ladezeit</th>
-                            <th class="statsTitle">Visited electric station</th>
-                            <th class="statsTitle">Detour time</th>
-                            <th class="statsTitle">Nicht geschafte Distanz</th>
+                            <th class="statsTitle">Visited time </br>electric station</th>
+                            <th class="statsTitle">Geladener </br> Strom</th>
+                            <th class="statsTitle">Verbrauchte </br> Strom</th>
+                            <th class="statsTitle">Visiten Ladestation </br>(Name, Type)</th>
+                            <th class="statsTitle">Start </br>Akkuzustand %</th>
+                            <th class="statsTitle">Gebliebene </br>Akkuzustand %</th>
+                            <th class="statsTitle">Nicht geschafte </br>Distanz km.</th>
                         </tr>
                         </thead>
                         <tbody class="statsUnten">
@@ -76,21 +80,21 @@
                                 <g:else>
                                     <td class="statsTitle1"><g:img width="12" height="12" dir="../emobilesim/images/red.png"/></td>
                                 </g:else>
-                                <td class="statsTitle1">
-                                    ${Math.round(carsNumber.realDistance)}km
-                                </td>
+                                <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForLoading)}</td>
-                                <td class="statsTitle1"></td>
+                                <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
-                                <td class="statsTitle1"></td>
-
+                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">-</td>
                             </tr>
-
                         </g:each>
                         </tbody>
                     </table>
@@ -608,6 +612,11 @@
             },
 
             1: {
+                // disable it by setting the property sorter to false
+                sorter: false
+            },
+
+            3: {
                 // disable it by setting the property sorter to false
                 sorter: false
             }

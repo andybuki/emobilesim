@@ -3787,15 +3787,39 @@ th {
 .statsTitle {
 	position: relative;
 	top: 4px;
+	min-width: 50px;
+	max-width: 90px;
+    bottom: 4px;
 }
 
 .statsTitle1 {
 	position: relative;
 	top: 10px;
 	margin-top: 10px;
+	min-width: 20px;
+	max-width: 90px;
 }
 
 .tablesorter {
 	margin-bottom: 7px;
 
+}
+
+.statsTitleAll {
+	position: relative;
+	bottom: 4px;
+
+}
+
+.statsTitle2 {
+	position: relative;
+	left: 4px;
+	top: 4px;
+}
+
+.statsTitle3 {
+	position: relative;
+	top: 4px;
+	width: 20px;
+	bottom: 4px;
 }
