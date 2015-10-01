@@ -637,6 +637,7 @@ class CarAgent extends Agent {
         carAgentResult.fillingStationsVisited = fillingStationsVisited;
         carAgentResult.energyConsumed = energyConsumed;
         carAgentResult.carAgentStatus = carStatus.toString();
+        carAgentResult.trackEdges = routingPlan.getTrackEdges();
     }
 
 

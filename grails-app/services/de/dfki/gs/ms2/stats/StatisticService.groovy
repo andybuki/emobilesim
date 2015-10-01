@@ -16,10 +16,13 @@ import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.simulation.CarStatus
 import de.dfki.gs.stats.StatsCalculator
+import grails.converters.JSON
 import grails.transaction.Transactional
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution
 import org.apache.commons.math3.distribution.NormalDistribution
 import org.apache.commons.math3.random.RandomDataGenerator
+
+import java.awt.Color
 
 @Transactional
 class StatisticService {
@@ -101,6 +104,45 @@ class StatisticService {
 
         return fillingStationGroups
     }
+    def getStationsResults( Long experimentRunResultId) {
+
+        ExperimentRunResult result = ExperimentRunResult.get( experimentRunResultId )
+
+        List<PersistedFillingStationResult> fillingStations = result.persistedFillingStationResults
+        def featuresUsed = []
+        def featuresUnused = []
+        fillingStations.each { PersistedFillingStationResult fillingStationResult ->
+            if(PersistedFillingStationResult.get(fillingStationResult.id).timeInUse != 0){
+                featuresUsed.add(getStationResultJson(fillingStationResult.id))
+            }
+            else{
+                featuresUnused.add(getStationResultJson(fillingStationResult.id))
+            }
+        }
+        def usedStations = ["type":"FeatureCollection","features":featuresUsed] as JSON
+        def unusedStations = ["type":"FeatureCollection","features":featuresUnused] as JSON
+        return ["usedStations":usedStations,"unusedStations":unusedStations]
+    }
+    def getStationResultJson ( Long persistedFillingStationResulId){
+        PersistedFillingStationResult persistedFillingStationResult = PersistedFillingStationResult.get(persistedFillingStationResulId)
+
+        //TODO Write a method to create GeoJSON and put it somewhere where it makes sense
+
+        if(persistedFillingStationResult.timeInUse == 0){
+            return ["type":"Feature",
+                          "geometry":["type":"Point","coordinates":[persistedFillingStationResult.lat,persistedFillingStationResult.lon]],//TODO Lat and Lon are wrong in persistedFillingStationResults
+                          "properties":["used":"false"]
+            ]
+        }
+
+        else{
+            return["type":"Feature",
+                          "geometry":["type":"Point","coordinates":[persistedFillingStationResult.lat,persistedFillingStationResult.lon]],//TODO Lat and Lon are wrong in persistedFillingStationResults
+                          "properties":["used":"true"]
+            ]
+        }
+    }
+
     def getFleetsForMap(Long experimentRunResultId){
         ExperimentRunResult result = ExperimentRunResult.get(experimentRunResultId)
         Configuration configuration = Configuration.get(result.configurationId)
@@ -109,6 +151,20 @@ class StatisticService {
             fleets.add(getFleetRoute(it.id))
         }
         return fleets
+    }
+    def getRealRoutesForAllFleets(Long experimentRunResultId){ //TODO Schould return a Map with carId and real route
+        ExperimentRunResult result = ExperimentRunResult.get(experimentRunResultId)
+        /*def allRealFleetRoutes = [:]
+        result.persistedCarAgentResults.each {
+            allRealFleetRoutes.put(it.id,getTrackEdges(it.id))
+        }*/
+        def allRealFleetRoutes = []
+        result.persistedCarAgentResults.each {
+            allRealFleetRoutes.add(getTrackEdges(it.id))
+        }
+        return allRealFleetRoutes
+
+
     }
     def getFleetRoute( Long fleetID ) {
 
@@ -145,6 +201,80 @@ class StatisticService {
 
 
         return fleetModel
+    }
+    def getTrackEdges( Long persistedCarAgentResulId){
+        PersistedCarAgentResult persistedCarAgentResult = PersistedCarAgentResult.get(persistedCarAgentResulId)
+
+        TrackEdge startEdge = TrackEdge.get(persistedCarAgentResult.trackEdges.first().id)
+        TrackEdge finalPosition = TrackEdge.get(persistedCarAgentResult.trackEdges.last().id)
+
+        def viaTargets = []
+        def coordinatesOfRoute = []
+        def previousCoordinates
+        persistedCarAgentResult.trackEdges.each {TrackEdge trackEdge ->
+            trackEdge = TrackEdge.get(trackEdge.id)
+            if(trackEdge.type=='via_target'){
+                viaTargets.add(trackEdge)
+            }
+            def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+            if(previousCoordinates == null || previousCoordinates == coordinates){
+                coordinatesOfRoute.add(coordinates)
+            }
+            else
+            {
+                //TODO make visible that route is broken here
+                coordinatesOfRoute.add(coordinates)
+                log.error("route Broken From $previousCoordinates To $coordinates")
+            }
+            previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
+        }
+        coordinatesOfRoute.add([finalPosition.toLon,finalPosition.toLat])
+        Random random = new Random();
+        final float hue = random.nextFloat();
+        final float saturation = 0.7f;//1.0 for brilliant, 0.0 for dull
+        final float luminance = 0.9f; //1.0 for brighter, 0.0 for black
+        def randomColorHsb = Color.getHSBColor(hue, saturation, luminance);
+        def red = randomColorHsb.getRed()
+        def green = randomColorHsb.getGreen()
+        def blue = randomColorHsb.getBlue()
+        def randomColor = "#${Integer.toHexString(red)}${Integer.toHexString(green)}${Integer.toHexString(blue)}";
+
+        //Creating a GeoJSON for start,target,and via_target
+        def features = [] //TODO Write a method to create GeoJSON and put it somewhere where it makes sense
+        //TODO TEST THIS
+        features.add(["type":"Feature","geometry":["type":"LineString","coordinates":coordinatesOfRoute],"properties":["geoType":"route","color":randomColor,
+                                                                                                                       "carStatus":persistedCarAgentResult.carStatus,
+                                                                                                                       "carType":CarType.get(persistedCarAgentResult.carType.id).name,
+                                                                                                                       "consumedEnergy":"${persistedCarAgentResult.energyConsumed}",
+                                                                                                                       "loadedEnergy":"${persistedCarAgentResult.energyLoaded}",
+                                                                                                                       "plannedDistance":"${persistedCarAgentResult.plannedDistance}",
+                                                                                                                       "realDistance":"${persistedCarAgentResult.realDistance}",
+                                                                                                                       "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+        ]])
+        //adding start
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])
+        //adding finalPosition
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":[finalPosition.toLon,finalPosition.toLat]],"properties":["geoType":"finalPosition","color":randomColor,"streetName":finalPosition.streetName]])
+        //adding all viatargets
+        int viaCounter=1 //To know the order of the via_targets
+        viaTargets.each {TrackEdge viaTarget ->
+            features.add(["type":"Feature","geometry":["type":"Point","coordinates":[viaTarget.fromLon,viaTarget.fromLat]],"properties":["geoType":"via_target","color":randomColor,"streetName":viaTarget.streetName,"viaCounter":"$viaCounter"]])
+            viaCounter++
+        }
+
+        def startViaTargetPoints = ["type":"FeatureCollection","features":features] as JSON
+        return  startViaTargetPoints
+
+
+        /*       ["Coordinates":[startEdge.fromLon,startEdge.fromLat],"StreetName":startEdge.streetName]
+       trackEdgesModel.finalPosition = ["Coordinates":[finalPosition.toLon,finalPosition.toLat],"StreetName":finalPosition.streetName]
+       trackEdgesModel.via_target = viaTargets
+
+       def geometry = ["type":"LineString","coordinates":[[14.38,52.52],[12.37,52.52],[13.37,52.53]]]
+       def properties = ["name":"route1"]
+       def features = ["type":"Feature","geometry":geometry,"properties":properties]
+       def route1MapJSON = ["type":"FeatureCollection","features":[features]] as JSON
+*/
     }
     def generateStatisticMapForExperiment( Long experimentResultId ) {
 

@@ -68,21 +68,25 @@ class RouteService {
             int f = featureIdString.lastIndexOf( "." ) + 1
             int t = featureIdString.length()
             Long fId = Long.parseLong( featureIdString.substring( f, t ) )
+            TrackEdge trackEdge = new TrackEdge(
+                    type: TrackEdgeType.normal,
+                    fromLat: from.getY(),
+                    fromLon: from.getX(),
+                    toLat: to.getY(),
+                    toLon: to.getX(),
+                    cost: (Double) feature.getAttribute( "cost" ),
+                    gisId: fId,
+                    km: (Double) feature.getAttribute( "km" ),
+                    streetName: feature.getAttribute( "osm_name" ),
+                    kmh: (Integer) feature.getAttribute( "kmh" ),
+                    area:feature.featureType.name
+            )
 
+            if(!trackEdge.save(flush: true)){
+                log.error("failed to save additional Track edges to station - ${trackEdge.errors}")
+            }
             trackEdges.add(
-                    new TrackEdge(
-                            type: TrackEdgeType.normal,
-                            fromLat: from.getY(),
-                            fromLon: from.getX(),
-                            toLat: to.getY(),
-                            toLon: to.getX(),
-                            cost: (Double) feature.getAttribute( "cost" ),
-                            gisId: fId,
-                            km: (Double) feature.getAttribute( "km" ),
-                            streetName: feature.getAttribute( "osm_name" ),
-                            kmh: (Integer) feature.getAttribute( "kmh" ),
-                            area:feature.featureType.name
-                    )
+                trackEdge
             )
         }
 

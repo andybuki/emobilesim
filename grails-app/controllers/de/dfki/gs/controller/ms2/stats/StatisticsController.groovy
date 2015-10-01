@@ -327,6 +327,7 @@ class StatisticsController {
             def m = [ : ]
 
             List<String> successCategoriesToShow = new ArrayList<String>()
+            successCategoriesToShow.add( "all" )
             for ( Object key : params.keySet() ) {
 
                 String value = (String) params.get( key )
@@ -353,8 +354,10 @@ class StatisticsController {
             m.simulationArea =  (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
             m.fleets = statisticService.getFleetsForMap(cmd.experimentRunResultId)
             m.experimentRunResultId = cmd.experimentRunResultId
+            m.realRoutes = statisticService.getRealRoutesForAllFleets(cmd.experimentRunResultId)
+            m.fillingStations = statisticService.getStationsResults(cmd.experimentRunResultId)
             // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
-            render (view: 'mapStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+            render (view: 'mapStatsOl3', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
 
         }
 

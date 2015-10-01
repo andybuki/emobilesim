@@ -35,6 +35,7 @@ class TrackEdge {
         type( nullable: false, blank: false, inList: TrackEdgeType.values()*.toString(), inlist:SimulationArea.values()*.toString() )
 
         streetName ( nullable: true, blank: true )
+        routeId(nullable: true)
 
     }
 

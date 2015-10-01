@@ -656,7 +656,7 @@ function drawRoute( data ) {
 
         if ( j == segmentSize-1 ) {
             // set target flag
-            var lonlatTarget = new OpenLayers.LonLat( routeSegment.fromX, routeSegment.fromY );
+            var lonlatTarget = new OpenLayers.LonLat( routeSegment.toX, routeSegment.toY );
             lonlatTarget.transform(
                 new OpenLayers.Projection("EPSG:4326"),
                 new OpenLayers.Projection("EPSG:900913")
