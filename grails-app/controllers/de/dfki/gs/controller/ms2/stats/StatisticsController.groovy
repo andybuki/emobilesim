@@ -359,7 +359,7 @@ class StatisticsController {
             m.realRoutes = statisticService.getRealRoutesForAllFleets(cmd.experimentRunResultId)
             m.fillingStations = statisticService.getStationsResults(cmd.experimentRunResultId)
             // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
-            render (view: 'mapStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+            render(view: 'mapStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
 
         }
 
