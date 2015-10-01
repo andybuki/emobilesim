@@ -81,14 +81,21 @@
                                 </g:else>
                                 <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
+                                <td class="statsTitle1">${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}</td>
                                 <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}</td>
+                                <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
+                                <td class="statsTitle1">
+                                    <g:if test="${(TimeCalculator.readableTime(carsNumber.timeForLoading))=='00:00:00'}">
+                                        -
+                                    </g:if>
+                                    <g:else>
+                                        ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
+                                    </g:else>
+                                </td>
+                                <td class="statsTitle1"></td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
-                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForLoading)}</td>
-                                <td class="statsTitle1">-</td>
-                                <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
-                                <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
