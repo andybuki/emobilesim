@@ -5,7 +5,8 @@ package de.dfki.gs.domain
  */
 public enum Owners {
 
-    RWE,VATTENFALL,
+    RWE,
+    VATTENFALL,
     undefined
 
 }

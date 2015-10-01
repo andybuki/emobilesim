@@ -79,7 +79,8 @@ class StatisticService {
                 stationModel.time = fillingStation.timeInUse
                 stationModel.lat = fillingStation.lat
                 stationModel.lon = fillingStation.lon
-
+                stationModel.owner = fillingStation.ownerName
+                stationModel.powerCar  =fillingStation.fillingStationType.fillingPortion
 
                 if ( successCategoriesToShow.contains( "all" ) ) {
 
@@ -436,7 +437,22 @@ class StatisticService {
         m.successFullCars = successFullCars
         m.failedCars = failedCars
         m.fillingStations = fillingStations
-        //m.stationsInUse = stationTypes.allStations.timeInUse.valuez
+        m.carsNumbers = fleets.get(fleets.size()-1).carResults
+        m.stationsInUse = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.sum
+        def usedStationsAll = []
+        usedStationsAll = stationTypes.get(stationTypes.size()-1).stats.succeededStations.timeInUse.valuez
+        def visitedStations =[]
+        visitedStations = usedStationsAll.findAll({it > "0"})
+        m.usedStations = visitedStations.size()
+        m.stationTypes = stationTypes.get(0).name
+
+        m.powerStation = fillingStations.fillingStationType.fillingPortion
+        m.wholeRoute = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.realDistance.valuez
+        m.wholePower = fleets.get(fleets.size()-1).carTypes.get(carTypes.size()-1).stats.succeededCars.energyDemanded.valuez
+        m.configurationArea = configuration.simulationArea
+
+
+
         return m
     }
 

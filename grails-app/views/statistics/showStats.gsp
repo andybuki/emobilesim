@@ -8,7 +8,7 @@
 <%@ page import="de.dfki.gs.utils.TimeCalculator" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title></title>
+    <title><g:message code="stats.stats.statistic"/></title>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'prefix-free.js')}"></script>
     <script type='text/javascript' src="${resource(dir: 'js', file: 'jquery-1.9.0.js')}"></script>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
@@ -30,9 +30,7 @@
 
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
-
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 </head>
@@ -53,24 +51,28 @@
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.successFullCars.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/></span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
                 <span class="">${stats.failedCars.size()} -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/></span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/>,</span>
+                <span class="">${Math.round(stats.wholeRoute.sum())} km. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/>,</span>
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
             </div>
         </div>
 
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.fillingStations.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/></span>
-                ${TimeCalculator.readableTime(stats.timeInUse)}
-
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/>,</span>
+                ${stats.usedStations} -
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.stationsvisited"/>,</span>
+                ${TimeCalculator.readableTime(stats.stationsInUse)} -
+                <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/>,</span>
+                <span class="">${Math.round(stats.wholePower.sum())} kW. -  </span>
+                <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
             </div>
         </div>
 
-        <div class="rowMiddleStatistics">
-
-        </div>
 
         <div class="rowMiddleStatistics">
             <span class="statisticsButtons">

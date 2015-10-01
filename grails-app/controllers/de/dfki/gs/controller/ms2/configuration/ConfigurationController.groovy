@@ -2032,40 +2032,6 @@ class ConfigurationController {
         render view: 'help', model: m
     }
 
-    /*def configurator1() {
-
-        Person person = (Person) springSecurityService.currentUser
-
-        if (!person) {
-            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
-            return
-        }
-
-        def m = [:]
-
-        def authorClassicGrid = {
-            domainClass Author
-            gridImpl 'classic'
-            columns {
-                id {
-                    type 'id'
-                }
-                name
-                minEstSales {
-                    formatName 'nrToString'
-                }
-                maxEstSales {
-                    formatName 'nrToString'
-                }
-                language
-                nrBooks
-                nationality
-            }
-        }
-
-        render view: 'configurator1', model: m
-    }*/
-
     def contact() {
 
         Person person = (Person) springSecurityService.currentUser

@@ -2245,16 +2245,31 @@ fieldset {
 }
 
 .pContainerConfigureStats {
-	margin-left:6%;
+	/*margin-left:6%;*/
 	/*margin-top:20px;
 	margin-bottom:10px;*/
 	margin-right:100px;
 	/*min-height: 300px;*/
-	min-width: 1100px;
-	max-width: 1300px;
-
+	position: relative;
+	left: 30px;
+	min-width: 1000px;
+	max-width: 1100px;
 
 }
+
+.pContainerConfigureStatsCar {
+	/*margin-left:6%;*/
+	/*margin-top:20px;
+	margin-bottom:10px;*/
+	margin-right:100px;
+	/*min-height: 300px;*/
+	position: relative;
+	left: 10px;
+	min-width: 1260px;
+	max-width: 1700px;
+
+}
+
 
 .layout {
     display:table;
@@ -2405,7 +2420,15 @@ fieldset {
     display:block;
     min-height:32px;
     font-size: 14px;
+}
 
+.rowUpStatistic {
+	border: 1px solid #ddd;
+	/*border-top-right-radius: 6px;
+    border-top-left-radius: 6px;*/
+	display:block;
+	min-height:32px;
+	font-size: 14px;
 
 }
 
@@ -2751,16 +2774,13 @@ fieldset {
 
 	padding-left:10px;
 	padding-top:20px;
-	width:600px;
+	min-width:710px;
+	max-width: 780px;
 	/*border-radius: 6px;*/
 	font-size: 12px;
 }
 
-.statisticsButtons {
-	position: relative;
-	top: 7px;
 
-}
 
 .carTypesResetPassword {
 	padding-left:40px;
@@ -3676,15 +3696,142 @@ th {
 	background: #ddd;
 }
 
-.statisticsData {
-	font-weight: bold;
-	position: relative;
-	top: 10px;
-	right:70px;
 
-}
 
 .statisticsDataSmall {
 	font-size: 10px;
 	font-weight: normal;
+	position: relative;
+	top: 0px;
+}
+
+
+
+.menuButton a {
+	font-size: 10px;
+	text-transform: lowercase;
+	text-decoration: none;
+
+}
+
+
+.pContainerConfigureStatsPanel {
+	width: 1080px; /* or whatever */
+	overflow: hidden;
+	white-space: nowrap;
+	left:110px;
+	position: relative;
+
+
+}
+
+.exportTitle {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	right:165px;
+	position: relative;
+}
+
+.exportPanel {
+	width: 150px;
+	position: relative;
+	display:inline-block;
+	margin-right: 20px;
+	right:165px;
+}
+
+.statisticsButtonsDetail {
+	position: relative;
+    font-size: 11px;
+	display:inline-block;
+	left:165px;
+}
+
+.statisticsButtons {
+	position: relative;
+	font-size: 11px;
+	display:inline-block;
+	top:5px;
+}
+
+.layoutButtonR3 {
+	font-size: 12px;
+	background-color: #fcfcfc;
+	border: 1px solid #cccccc;
+	padding: 0.2em 0.2em;
+}
+
+.statisticsData {
+	font-weight: bold;
+	position: relative;
+	top: 15px;
+	font-size: 12px;
+	right: 10px;
+	min-height: 20px;
+
+
+}
+
+.ui-accordion .ui-accordion-header {
+	min-height: 20px;
+}
+
+.statisticDataBig {
+	font-size: 12px;
+	font-weight: bold;
+	position: relative;
+	top: 2px;
+}
+
+.statsTitle {
+	position: relative;
+	top: 4px;
+	min-width: 35px;
+	max-width: 90px;
+    bottom: 4px;
+}
+
+.statsTitle1 {
+	position: relative;
+	top: 12px;
+	margin-top: 10px;
+	min-width: 10px;
+	max-width: 90px;
+}
+
+.tablesorter {
+	margin-bottom: 7px;
+
+}
+
+.statsTitleAll {
+	position: relative;
+	bottom: 4px;
+
+}
+
+.statsTitle2 {
+	position: relative;
+	left: 4px;
+	top: 4px;
+	font-size: 9px;
+	max-width: 12px;
+}
+
+.statsTitle3 {
+	position: relative;
+	top: 4px;
+	width: 20px;
+	bottom: 4px;
+	font-size: 9px;
+}
+
+.statsTitleAllStation {
+	padding:4px;
+	position: relative;
+}
+
+.statsTitleAll {
+	font-size: 9px;
 }

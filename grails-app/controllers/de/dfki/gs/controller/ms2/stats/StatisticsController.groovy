@@ -4,6 +4,7 @@ import de.dfki.gs.controller.ms2.stats.commands.ExperimentResultCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationStatsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStatsCommandObject
+import de.dfki.gs.domain.simulation.FillingStationType
 import de.dfki.gs.domain.stats.PersistedFillingStationResult
 import de.dfki.gs.domain.users.Person
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -14,6 +15,8 @@ class StatisticsController {
     def statisticService
     def generateStatsPictureService
     def springSecurityService
+    def exportService
+    def grailsApplication
 
     /**
      * FIXED: after sim run, javascript never get back to controller,
@@ -26,23 +29,23 @@ class StatisticsController {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
         ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
-        bindData( cmd, params )
+        bindData(cmd, params)
 
-        def m = [ : ]
+        def m = [:]
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
+        if (!cmd.validate() && cmd.hasErrors()) {
 
-            log.error( "sth deeply went wrong: ${cmd.errors}" )
+            log.error("sth deeply went wrong: ${cmd.errors}")
 
         }
 
-        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+        def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
         m.stats = stats
 
@@ -59,7 +62,7 @@ class StatisticsController {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
@@ -67,10 +70,10 @@ class StatisticsController {
         // log.error( "params: ${params}" )
 
         ShowStatsCommandObject cmd = new ShowStatsCommandObject()
-        bindData( cmd, params )
+        bindData(cmd, params)
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
-            log.error( "failed to show stats: ${cmd.errors}" )
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to show stats: ${cmd.errors}")
         }
 
 
@@ -78,31 +81,31 @@ class StatisticsController {
         List<String> featuresToShow = new ArrayList<String>()
 
         // now grap the "on"-checksboxes -> "plannedTime"...
-        for ( Object key : params.keySet() ) {
+        for (Object key : params.keySet()) {
 
-            String value = (String) params.get( key )
-            if ( value.equals( "on" ) ) {
+            String value = (String) params.get(key)
+            if (value.equals("on")) {
 
-                if ( ((String) key).endsWith( "all" ) ) {
-                    if ( !successPartsToShow.contains( "all" ) ) {
-                        successPartsToShow.add( "all" )
+                if (((String) key).endsWith("all")) {
+                    if (!successPartsToShow.contains("all")) {
+                        successPartsToShow.add("all")
                     }
-                } else if ( ((String) key).endsWith( "successful" ) ) {
-                    if ( !successPartsToShow.contains( "successful" ) ) {
-                        successPartsToShow.add( "successful" )
+                } else if (((String) key).endsWith("successful")) {
+                    if (!successPartsToShow.contains("successful")) {
+                        successPartsToShow.add("successful")
                     }
-                } else if ( ((String) key).endsWith( "failed" ) ) {
-                    if ( !successPartsToShow.contains( "failed" ) ) {
-                        successPartsToShow.add( "failed" )
+                } else if (((String) key).endsWith("failed")) {
+                    if (!successPartsToShow.contains("failed")) {
+                        successPartsToShow.add("failed")
                     }
                 } else {
 
-                    String[] featureNames = ((String)key).split( "\\:\\:" )
-                    if ( featureNames && featureNames.length > 0 ) {
+                    String[] featureNames = ((String) key).split("\\:\\:")
+                    if (featureNames && featureNames.length > 0) {
 
-                        String feature = featureNames[ featureNames.length - 1 ];
-                        if ( !featuresToShow.contains( feature ) ) {
-                            featuresToShow.add( feature )
+                        String feature = featureNames[featureNames.length - 1];
+                        if (!featuresToShow.contains(feature)) {
+                            featuresToShow.add(feature)
                         }
 
                     }
@@ -114,16 +117,16 @@ class StatisticsController {
         }
 
         // create stats for features and for success parts matrix
-        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+        def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
 
 
         File pictureFile = generateStatsPictureService.createDataChartFileForStats(
-                                stats,
-                                successPartsToShow,
-                                featuresToShow,
-                                cmd.fleetName,
-                                cmd.carTypeName
+                stats,
+                successPartsToShow,
+                featuresToShow,
+                cmd.fleetName,
+                cmd.carTypeName
         );
 
         byte[] imageBytes = pictureFile.bytes
@@ -132,11 +135,11 @@ class StatisticsController {
         response.contentLength = imageBytes.size()
 
         OutputStream out = response.outputStream
-        out.write( imageBytes )
+        out.write(imageBytes)
 
         out.close()
 
-        FileUtils.deleteQuietly( pictureFile )
+        FileUtils.deleteQuietly(pictureFile)
     }
 
 
@@ -144,7 +147,7 @@ class StatisticsController {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
@@ -152,10 +155,10 @@ class StatisticsController {
         // log.error( "params: ${params}" )
 
         ShowStationStatsCommandObject cmd = new ShowStationStatsCommandObject()
-        bindData( cmd, params )
+        bindData(cmd, params)
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
-            log.error( "failed to show stats: ${cmd.errors}" )
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to show stats: ${cmd.errors}")
         }
 
 
@@ -163,31 +166,31 @@ class StatisticsController {
         List<String> featuresToShow = new ArrayList<String>()
 
         // now grap the "on"-checksboxes -> "timInUse"...
-        for ( Object key : params.keySet() ) {
+        for (Object key : params.keySet()) {
 
-            String value = (String) params.get( key )
-            if ( value.equals( "on" ) ) {
+            String value = (String) params.get(key)
+            if (value.equals("on")) {
 
-                if ( ((String) key).endsWith( "all" ) ) {
-                    if ( !successPartsToShow.contains( "all" ) ) {
-                        successPartsToShow.add( "all" )
+                if (((String) key).endsWith("all")) {
+                    if (!successPartsToShow.contains("all")) {
+                        successPartsToShow.add("all")
                     }
-                } else if ( ((String) key).endsWith( "successful" ) ) {
-                    if ( !successPartsToShow.contains( "successful" ) ) {
-                        successPartsToShow.add( "successful" )
+                } else if (((String) key).endsWith("successful")) {
+                    if (!successPartsToShow.contains("successful")) {
+                        successPartsToShow.add("successful")
                     }
-                } else if ( ((String) key).endsWith( "failed" ) ) {
-                    if ( !successPartsToShow.contains( "failed" ) ) {
-                        successPartsToShow.add( "failed" )
+                } else if (((String) key).endsWith("failed")) {
+                    if (!successPartsToShow.contains("failed")) {
+                        successPartsToShow.add("failed")
                     }
                 } else {
 
-                    String[] featureNames = ((String)key).split( "\\:\\:" )
-                    if ( featureNames && featureNames.length > 0 ) {
+                    String[] featureNames = ((String) key).split("\\:\\:")
+                    if (featureNames && featureNames.length > 0) {
 
-                        String feature = featureNames[ featureNames.length - 1 ];
-                        if ( !featuresToShow.contains( feature ) ) {
-                            featuresToShow.add( feature )
+                        String feature = featureNames[featureNames.length - 1];
+                        if (!featuresToShow.contains(feature)) {
+                            featuresToShow.add(feature)
                         }
 
                     }
@@ -199,7 +202,7 @@ class StatisticsController {
         }
 
         // create stats for features and for success parts matrix
-        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+        def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
 
         File pictureFile = generateStatsPictureService.createDataChartFileForStationStats(
@@ -216,32 +219,31 @@ class StatisticsController {
         response.contentLength = imageBytes.size()
 
         OutputStream out = response.outputStream
-        out.write( imageBytes )
+        out.write(imageBytes)
 
         out.close()
 
-        FileUtils.deleteQuietly( pictureFile )
+        FileUtils.deleteQuietly(pictureFile)
     }
-
 
 
     def showDetailsPicture() {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
-        log.error( "params: ${params}" )
+        log.error("params: ${params}")
 
-        String timeDistanceOption = ( params.time != null )?"time":"distance"
+        String timeDistanceOption = (params.time != null) ? "time" : "distance"
 
-        def m = experimentStatsService.createStatsForDetailPicture( params.experimentResultId as Long, params.carType )
+        def m = experimentStatsService.createStatsForDetailPicture(params.experimentResultId as Long, params.carType)
 
         // File file = generateStatsPictureService
-        File distanceFile = generateStatsPictureService.createDataChartFileForDistanceDetails( m, timeDistanceOption  );
+        File distanceFile = generateStatsPictureService.createDataChartFileForDistanceDetails(m, timeDistanceOption);
 
         byte[] imageBytes = distanceFile.bytes
 
@@ -249,11 +251,11 @@ class StatisticsController {
         response.contentLength = imageBytes.size()
 
         OutputStream out = response.outputStream
-        out.write( imageBytes )
+        out.write(imageBytes)
 
         out.close()
 
-        FileUtils.deleteQuietly( distanceFile )
+        FileUtils.deleteQuietly(distanceFile)
 
     }
 
@@ -261,45 +263,45 @@ class StatisticsController {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
         ShowStationsCommandObject cmd = new ShowStationsCommandObject()
-        bindData( cmd, params )
+        bindData(cmd, params)
 
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
-            log.error( "failed -- ${cmd.errors}" )
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed -- ${cmd.errors}")
         } else {
-            def m = [ : ]
+            def m = [:]
 
             List<String> successCategoriesToShow = new ArrayList<String>()
-            for ( Object key : params.keySet() ) {
+            for (Object key : params.keySet()) {
 
-                String value = (String) params.get( key )
-                if ( value.equals( "on" ) ) {
+                String value = (String) params.get(key)
+                if (value.equals("on")) {
 
-                    if ( ((String) key).endsWith( "all" ) ) {
-                        if ( !successCategoriesToShow.contains( "all" ) ) {
-                            successCategoriesToShow.add( "all" )
+                    if (((String) key).endsWith("all")) {
+                        if (!successCategoriesToShow.contains("all")) {
+                            successCategoriesToShow.add("all")
                         }
-                    } else if ( ((String) key).endsWith( "successful" ) ) {
-                        if ( !successCategoriesToShow.contains( "successful" ) ) {
-                            successCategoriesToShow.add( "successful" )
+                    } else if (((String) key).endsWith("successful")) {
+                        if (!successCategoriesToShow.contains("successful")) {
+                            successCategoriesToShow.add("successful")
                         }
-                    } else if ( ((String) key).endsWith( "failed" ) ) {
-                        if ( !successCategoriesToShow.contains( "failed" ) ) {
-                            successCategoriesToShow.add( "failed" )
+                    } else if (((String) key).endsWith("failed")) {
+                        if (!successCategoriesToShow.contains("failed")) {
+                            successCategoriesToShow.add("failed")
                         }
                     }
 
                 }
 
             }
-            m.fillingStationGroups = statisticService.getStationsForMap( cmd.experimentRunResultId, successCategoriesToShow )
-            m.simulationArea =  (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
+            m.fillingStationGroups = statisticService.getStationsForMap(cmd.experimentRunResultId, successCategoriesToShow)
+            m.simulationArea = (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
             m.fleets = statisticService.getFleetsForMap(cmd.experimentRunResultId)
             m.experimentRunResultId = cmd.experimentRunResultId
             // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
@@ -308,121 +310,128 @@ class StatisticsController {
 
     }
 
-    def showStatisticsOnMap () {
+    def showStatisticsOnMap() {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
         ShowStationsCommandObject cmd = new ShowStationsCommandObject()
-        bindData( cmd, params )
+        bindData(cmd, params)
 
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
-            log.error( "failed -- ${cmd.errors}" )
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed -- ${cmd.errors}")
         } else {
-            def m = [ : ]
+            def m = [:]
 
             List<String> successCategoriesToShow = new ArrayList<String>()
             successCategoriesToShow.add( "all" )
             for ( Object key : params.keySet() ) {
 
-                String value = (String) params.get( key )
-                if ( value.equals( "on" ) ) {
+                String value = (String) params.get(key)
+                if (value.equals("on")) {
 
-                    if ( ((String) key).endsWith( "all" ) ) {
-                        if ( !successCategoriesToShow.contains( "all" ) ) {
-                            successCategoriesToShow.add( "all" )
+                    if (((String) key).endsWith("all")) {
+                        if (!successCategoriesToShow.contains("all")) {
+                            successCategoriesToShow.add("all")
                         }
-                    } else if ( ((String) key).endsWith( "successful" ) ) {
-                        if ( !successCategoriesToShow.contains( "successful" ) ) {
-                            successCategoriesToShow.add( "successful" )
+                    } else if (((String) key).endsWith("successful")) {
+                        if (!successCategoriesToShow.contains("successful")) {
+                            successCategoriesToShow.add("successful")
                         }
-                    } else if ( ((String) key).endsWith( "failed" ) ) {
-                        if ( !successCategoriesToShow.contains( "failed" ) ) {
-                            successCategoriesToShow.add( "failed" )
+                    } else if (((String) key).endsWith("failed")) {
+                        if (!successCategoriesToShow.contains("failed")) {
+                            successCategoriesToShow.add("failed")
                         }
                     }
 
                 }
 
             }
-            m.fillingStationGroups = statisticService.getStationsForMap( cmd.experimentRunResultId, successCategoriesToShow )
-            m.simulationArea =  (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
+            m.fillingStationGroups = statisticService.getStationsForMap(cmd.experimentRunResultId, successCategoriesToShow)
+            m.simulationArea = (statisticService.getSimulationAreaForMap(cmd.experimentRunResultId)).name()
             m.fleets = statisticService.getFleetsForMap(cmd.experimentRunResultId)
             m.experimentRunResultId = cmd.experimentRunResultId
             m.realRoutes = statisticService.getRealRoutesForAllFleets(cmd.experimentRunResultId)
             m.fillingStations = statisticService.getStationsResults(cmd.experimentRunResultId)
             // configurationService.getGroupStationsOfConfiguration( cmd.configurationStubId )
-            render (view: 'mapStatsOl3', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+            render (view: 'mapStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
 
         }
 
     }
 
 
-    def showFleetDetails () {
+    def showFleetDetails() {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
         ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
-        bindData( cmd, params )
+        bindData(cmd, params)
 
-        def m = [ : ]
+        def m = [:]
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
+        if (!cmd.validate() && cmd.hasErrors()) {
 
-            log.error( "sth deeply went wrong: ${cmd.errors}" )
+            log.error("sth deeply went wrong: ${cmd.errors}")
 
         }
 
-        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+        def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
         m.stats = stats
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
 
-        render ( view: 'detailCarStats', model: m , params: [experimentRunResultId: cmd.experimentRunResultId])
+        render(view: 'detailCarStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
 
     }
 
-    def showGroupDetails () {
+    def showGroupDetails() {
 
         Person person = (Person) springSecurityService.currentUser
 
-        if ( !person ) {
+        if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
 
         ExperimentResultCommandObject cmd = new ExperimentResultCommandObject();
-        bindData( cmd, params )
+        bindData(cmd, params)
 
-        def m = [ : ]
+        def m = [:]
 
-        if ( !cmd.validate() && cmd.hasErrors() ) {
+        if (!cmd.validate() && cmd.hasErrors()) {
 
-            log.error( "sth deeply went wrong: ${cmd.errors}" )
+            log.error("sth deeply went wrong: ${cmd.errors}")
 
         }
 
-        def stats = statisticService.generateStatisticMapForExperiment( cmd.experimentRunResultId )
+        def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
+
+        List fields = ["id", "fillingStationType", "name", "startUsing", "timeLiving", "ownerName", "lat", "lon"]
+        Map labels = [id: "ID", fillingStationType:"FillingStationType",name:"Name", startUsing:"Start Using", timeLiving:"Time Living", ownerName:"Owner Name", lat:"Lat", lon: "Lon"]
 
         m.stats = stats
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
-
-        render (view: 'detailStationsStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
+              if(!params.max)
+            params.max = stats.fillingStations.size()
+        if(params?.format && params.format != "html") {
+            exportService.export(params.format, response.outputStream, PersistedFillingStationResult.list(params),fields, labels, [:], [:])
+        }
+        render(view: 'detailStationsStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
 
     }
 
