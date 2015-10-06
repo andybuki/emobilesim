@@ -74,10 +74,10 @@
                                 <td class="statsTitle1">${carsNumber.id}</td>
                                 <td class="statsTitle1" id="carsNumber"> ${carsNumber.carType.name} </td>
                                 <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
-                                    <td class="statsTitle1"><g:img width="12" height="12" dir="../emobilesim/images/green.png"/></td>
+                                    <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'green.png' )}"/></td>
                                 </g:if>
                                 <g:else>
-                                    <td class="statsTitle1"><g:img width="12" height="12" dir="../emobilesim/images/red.png"/></td>
+                                    <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'red.png' )}"/></td>
                                 </g:else>
                                 <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
@@ -93,10 +93,10 @@
                                         ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
                                     </g:else>
                                 </td>
-                                <td class="statsTitle1"></td>
+                                <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
-                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">-</td>
                             </tr>

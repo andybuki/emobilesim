@@ -615,9 +615,11 @@ class BootStrap {
         def simonUser = helper.findOrCreatePersonInRole( company, "simon.treu@dfki.de", "Simon", "Treu", roleUser )
         helper.findOrCreatePersonInRole( company, "simon.treu@dfki.de", "Simon", "Treu", roleAdmin )
 
+        def norbertUser = helper.findOrCreatePersonInRole( company, "norbert.reithinger@dfki.de", "Norbert", "Reithinger", roleUser )
+        helper.findOrCreatePersonInRole( company, "norbert.reithinger@dfki.de", "Norbert", "Reithinger", roleAdmin )
 
-        helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleUser)
-        helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleAdmin)
+        //helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleUser)
+        //helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleAdmin)
 
 
         // helper.findOrCreateRequestmap( "/login/success", "IS_AUTHENTICATED_ANONYMOUSLY" )

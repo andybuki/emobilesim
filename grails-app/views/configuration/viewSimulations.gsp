@@ -27,7 +27,7 @@
 
                     <table border="0">
                         <tr class="tr30px" valign="middle">
-                            <th width="120px"><g:message code="configuration.executesim.name"/> </th>
+                            <th width="190px"><g:message code="configuration.executesim.name"/> </th>
                             <th><g:message code="configuration.executesim.description"/></th>
                             <th><g:message code="configuration.executesim.executebutton"/></th>
                         </tr>
@@ -43,7 +43,7 @@
                         <tr class="tr30px">
                             <td width="130px">${conf.simulationName}</td>
                             <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
-                            <td width="70px">
+                            <td width="200px">
                                 <button class="layoutButtonR3"
                                         type="submit"
                                         onclick="location.href='${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: conf.experimentRunResultId ] )}'">

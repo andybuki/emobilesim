@@ -295,13 +295,15 @@ class RouteService {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
-                params.put( "port", 5432);
+                params.put( "port", 5433);
                 params.put( "schema", "public");
-                params.put( "database", "gis2");
+                params.put( "database", "postgres");
                 params.put( "user", "postgres");
-                params.put( "passwd", "quirin154");
+                params.put( "passwd", "postgres");
 
-            } else {
+            }
+
+            /*else {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "abomasus.de");
@@ -311,7 +313,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } /*else {
+            } */else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );
@@ -319,7 +321,7 @@ class RouteService {
                 params.put( "database", "emobilesim");
                 params.put( "user", "emobilesim_admin");
                 params.put( "passwd", "7207c471");
-            }*/
+            }
 
             dataStore = DataStoreFinder.getDataStore(params);
 
@@ -391,11 +393,11 @@ class RouteService {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
-                params.put( "port", 5432);
+                params.put( "port", 5433);
                 params.put( "schema", "public");
-                params.put( "database", "gis2");
+                params.put( "database", "postgres");
                 params.put( "user", "postgres");
-                params.put( "passwd", "quirin154");
+                params.put( "passwd", "postgres");
 
             } /*else {
 
@@ -407,7 +409,7 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } */else {
+            }*/ else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );
@@ -415,7 +417,17 @@ class RouteService {
                 params.put( "database", "emobilesim");
                 params.put( "user", "emobilesim_admin");
                 params.put( "passwd", "7207c471");
-            } /*else{
+            } /*
+            else {
+                params.put( "dbtype", "postgis");
+                params.put( "host", "localhost");
+                params.put( "port", 5433);
+                params.put( "schema", "public");
+                params.put( "database", "postgres");
+                params.put( "user", "postgres");
+                params.put( "passwd", "postgres");
+            }
+            /*else{
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "localhost");
@@ -434,7 +446,7 @@ class RouteService {
             SimpleFeatureSource featureSource
 
             if (SimulationArea.BERLIN) {
-                featureSource = dataStore.getFeatureSource("brandenburg_2po_4pgr");
+                featureSource = dataStore.getFeatureSource("berlin_2po_4pgr");
             } else {
                 featureSource = dataStore.getFeatureSource("wiesloch_2po_4pgr");
             }

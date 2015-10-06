@@ -5,44 +5,40 @@
   Time: 17:09
 --%>
 
-
 <%@ page import="de.dfki.gs.utils.TimeCalculator" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title><g:message code="stats.stats.mapView"/></title>
-
+    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css'/>
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css'/>
     <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <%-- TODO Make this work <g:javascript src="ol3/loader.js"/></script>--%>
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://openlayers.org/en/v3.9.0/css/ol.css" type="text/css">
     <script src="http://openlayers.org/en/v3.9.0/build/ol.js" type="text/javascript"></script> <%--TODO don't use debug mode if not necessary--%>
-
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-<g:form action="showFleetDetails">
-    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-    <g:submitButton name="Detail car information"
-                    value="${message(code: 'stats.stats.detailcar')}"
-                    params="['experimentRunResultId':$experimentRunResultId]"
-                    target="_blank"/>
-</g:form>
 
-<g:form action="showGroupDetails">
-    <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-    <g:submitButton name="Display station information"
-                    value="${message(code: 'stats.stats.detailstation')}"
-                    target="_blank"/>
+<div class="statisticsButtonsDetailMap">
+    <button class="layoutButtonR3"
+            type="submit"
+            onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+        <g:message code="stats.stats.detailcar"/> </button>
 
-</g:form>
+    <button class="layoutButtonR3"
+            type="submit"
+            onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+        <g:message code="stats.stats.detailstation"/> </button>
+</div>
+
 <div id="popup"></div>
 <div id="openModal1" class="modalDialogMap1">
     <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>
@@ -91,7 +87,7 @@
                     })})];
                 return styles
         }
-           function styleFunctionForUsedStations(feature, resolution){
+        function styleFunctionForUsedStations(feature, resolution){
 
                 var styles = [ new ol.style.Style({
                     image: new ol.style.Circle({
@@ -105,7 +101,6 @@
                     })})];
                 return styles
         }
-
         function styleFunctionForRoutes(feature, resolution){
             //Get color for the car
             var routeColor = feature.get('color');
@@ -150,7 +145,6 @@
                 })];
             }
         }
-
         function selectStyleFunctionForRoutes(feature, resolution){
            //Get color for the car
 
@@ -203,16 +197,29 @@
         //Creating an Layer containing points of interest on the driven routes(for each Car)
         var allRouteLayers = [];
 
-
         //var layersForMap =
 
         var map = new ol.Map({
             target: 'map',
+            /*layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM({
+                        layer: 'watercolor'
+                    }) //TODO add google map?
+                })
+            ],*/
+
+
             layers: [
                 new ol.layer.Tile({
-                    source: new ol.source.OSM() //TODO add google map?
+                    source: new ol.source.Stamen({
+                        layer: 'toner'
+                    })
                 })
             ],
+
+
+
             interactions: ol.interaction.defaults().extend([new ol.interaction.Select({
                 /*condition: function(evt){
                     return (evt.originalEvent.type == 'mousemove');
@@ -226,10 +233,13 @@
                 zoom: 11
             })
         });
+
+
         <g:each var = "realRoute" in = "${realRoutes}">
         var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute},{featureProjection:'EPSG:3857'});
         var realRoutes_source = new ol.source.Vector();
         realRoutes_source.addFeatures(realRoutes_features);
+
         var realRoutes_layer = new ol.layer.Vector({
             title: 'Real Routes',
             source:realRoutes_source,
@@ -286,13 +296,13 @@
                             'placement': 'top',
                             'animation': false,
                             'html': true,
-                            'content':  '<p>Car Status = '+feature.get('carStatus') +'</p>' +
-                                        '<p>Car Type = '+feature.get('carType')+ '</p>' +
-                                        '<p>Consumed Energy = '+feature.get('consumedEnergy')+' kWh </p>' +
-                                        '<p>Loaded Energy = '+ feature.get('loadedEnergy')+' kWh </p>' +
-                                        '<p>Planned Distance = '+feature.get('plannedDistance')+' km</p>' +
-                                        '<p>Real Distance = '+feature.get('realDistance')+' km</p>'+
-                                        '<p>Nr. of Visited Filling-Stations = '+feature.get('fillingStationsVisited')+'</p>'
+                            'content':  '<p>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</p>' +
+                                        '<p>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</p>' +
+                                        '<p>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></p>' +
+                                        '<p>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></p>' +
+                                        '<p>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></p>' +
+                                        '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
+                                        '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
                         });
                         popup.setPosition(evtCoordinate);
                         break;
@@ -333,14 +343,8 @@
             }
         });
 
-
-
-
-
-
-
     </script>
-    <a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>
+
 </div>
 </body>
 </html>
