@@ -16,6 +16,7 @@ import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.simulation.CarStatus
 import de.dfki.gs.stats.StatsCalculator
+import de.dfki.gs.utils.TimeCalculator
 import grails.converters.JSON
 import grails.transaction.Transactional
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution
@@ -250,6 +251,8 @@ class StatisticService {
                                                                                                                        "loadedEnergy":"${persistedCarAgentResult.energyLoaded}",
                                                                                                                        "plannedDistance":"${persistedCarAgentResult.plannedDistance}",
                                                                                                                        "realDistance":"${persistedCarAgentResult.realDistance}",
+                                                                                                                       "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
+                                                                                                                       "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
         ]])
         //adding start

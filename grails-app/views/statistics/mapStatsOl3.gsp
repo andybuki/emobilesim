@@ -53,6 +53,7 @@
         lat = 49.29;
         </g:else>
 
+
         //Defining circle style for
         var routeColor = '#0000BB';
         var circle = new ol.style.Style({
@@ -90,8 +91,9 @@
         function styleFunctionForUsedStations(feature, resolution){
 
                 var styles = [ new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 5,
+                    image: new ol.style.Icon({
+                        src: "${g.resource( dir: '/images', file: 'gasolinefast.png' )}",
+                        //size: [20,20],
                         fill: new ol.style.Fill({
                             color: "red"
                         }),
@@ -101,6 +103,23 @@
                     })})];
                 return styles
         }
+
+        function styleFunctionForStartEndPosition (feature, resolution) {
+            var styles = [ new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: "${g.resource( dir: '/images', file: 'start.png' )}",
+                    //size: [20,20],
+                    fill: new ol.style.Fill({
+                        color: "red"
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#000000'
+                    })
+                })})];
+            return styles
+
+        }
+
         function styleFunctionForRoutes(feature, resolution){
             //Get color for the car
             var routeColor = feature.get('color');
@@ -270,7 +289,12 @@
             source:usedStations_source,
             opacity:0.7,
             style: styleFunctionForUsedStations
+
+
         });
+
+
+
         map.addLayer(usedStations_layer);
 
         //create popup box
@@ -290,6 +314,7 @@
                 $(element).popover('destroy');
                 // the keys are quoted to prevent renaming in ADVANCED mode.
                 var featureGeoType = feature.get('geoType');
+
                 switch(featureGeoType){
                     case 'route':
                         $(element).popover({
@@ -302,6 +327,9 @@
                                         '<p>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></p>' +
                                         '<p>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></p>' +
                                         '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
+                                        '<p>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></p>'+
+                                        '<p>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></p>'+
+                                        '<p>Start/End Time = '+'<b>' +' </b></p>'+
                                         '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
                         });
                         popup.setPosition(evtCoordinate);
@@ -312,11 +340,28 @@
                             'placement': 'top',
                             'animation': false,
                             'html': true,
-                            'content': "<p>This is the "+feature.get('viaCounter')+". customer</p><p>Address: "+ address +" </p>" //TODO message.code (german)
+                            'content':  "<p>This is the: "+ '<b>' + feature.get('viaCounter')+". customer </b></p>" +
+                                        "<p>Akku: "+ '<b>'  + '%' +'</b>'+" </p>" +
+                                        "<p>Time: "+ '<b>'   +'</b>'+" </p>" +
+                                        "<p>Address: "+ '<b>' + address + '</b>'+" </p>" //TODO message.code (german)
                         });
-                            var featureCoordinates = feature.getGeometry().getCoordinates();;
+                            var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
+
+
+                    case 'finalPosition':
+                        var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
+                        $(element).popover({
+                            'placement': 'top',
+                            'animation': false,
+                            'html': true,
+                            'content':  "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        });
+                        var featureCoordinates = feature.getGeometry().getCoordinates();
+                        popup.setPosition(featureCoordinates);
+                        break;
+
                     default:
                         $(element).popover({
                             'placement': 'top',
