@@ -1,5 +1,6 @@
 package de.dfki.gs.ms2.stats
 
+import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.Configuration
@@ -14,6 +15,7 @@ import de.dfki.gs.domain.stats.PersistedCarAgentResult
 import de.dfki.gs.domain.stats.PersistedFillingStationResult
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.SimulationArea
+import de.dfki.gs.domain.utils.TrackEdgeType
 import de.dfki.gs.simulation.CarStatus
 import de.dfki.gs.stats.StatsCalculator
 import de.dfki.gs.utils.TimeCalculator
@@ -212,25 +214,69 @@ class StatisticService {
 
         def viaTargets = []
         def coordinatesOfRoute = []
+        def lineString = []
+        def trackEdgesToEnergy =[]
+        def routeToEnergy = []
+        def allRoutesToEnergy = []
         def previousCoordinates
         persistedCarAgentResult.trackEdges.each {TrackEdge trackEdge ->
+            //If there are breaks in the route or some part goes to the filling station then we have multible line strings
             trackEdge = TrackEdge.get(trackEdge.id)
-            if(trackEdge.type=='via_target'){
-                viaTargets.add(trackEdge)
+            if(trackEdge.type == TrackEdgeType.to_filling_station.toString()){
+                //Add The coordinates of the normal route to the multilineString the first time we change to route to energy
+                if(lineString.size()>0){
+                    coordinatesOfRoute.add(lineString)
+                    lineString = []
+                    previousCoordinates = null
+                }
+
+                def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+                if(previousCoordinates == null || previousCoordinates == coordinates){
+                    routeToEnergy.add(coordinates)
+                }
+                else
+                {
+                    //TODO make visible that route is broken here
+                    allRoutesToEnergy.add(routeToEnergy)
+                    routeToEnergy = []
+                    previousCoordinates = null
+                    log.error("route Broken From $previousCoordinates To $coordinates")
+                }
+                previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
             }
-            def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
-            if(previousCoordinates == null || previousCoordinates == coordinates){
-                coordinatesOfRoute.add(coordinates)
+            else{//Normal Route
+                if(routeToEnergy.size()>0){
+                    allRoutesToEnergy.add(routeToEnergy)
+                    routeToEnergy = []
+                    previousCoordinates = null
+                }
+                if(trackEdge.type=='via_target'){
+                    viaTargets.add(trackEdge)
+                }
+                def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+                if(previousCoordinates == null || previousCoordinates == coordinates){
+                    lineString.add(coordinates)
+                }
+                else
+                {
+                    //TODO make visible that route is broken here
+                    coordinatesOfRoute.add(lineString)
+                    lineString = []
+                    previousCoordinates = null
+                    log.error("route Broken From $previousCoordinates To $coordinates")
+                }
+                previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
             }
-            else
-            {
-                //TODO make visible that route is broken here
-                coordinatesOfRoute.add(coordinates)
-                log.error("route Broken From $previousCoordinates To $coordinates")
-            }
-            previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
+
         }
-        coordinatesOfRoute.add([finalPosition.toLon,finalPosition.toLat])
+        if(finalPosition.type == TrackEdgeType.to_filling_station.toString()){
+            routeToEnergy.add([finalPosition.toLon,finalPosition.toLat])
+            allRoutesToEnergy.add(routeToEnergy)
+        }
+        else{
+            lineString.add([finalPosition.toLon,finalPosition.toLat])
+            coordinatesOfRoute.add(lineString)
+        }
         Random random = new Random();
         final float hue = random.nextFloat();
         final float saturation = 0.7f;//1.0 for brilliant, 0.0 for dull
@@ -244,7 +290,7 @@ class StatisticService {
         //Creating a GeoJSON for start,target,and via_target
         def features = [] //TODO Write a method to create GeoJSON and put it somewhere where it makes sense
         //TODO TEST THIS
-        features.add(["type":"Feature","geometry":["type":"LineString","coordinates":coordinatesOfRoute],"properties":["geoType":"route","color":randomColor,
+        features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":coordinatesOfRoute],"properties":["geoType":"route","color":randomColor,
                                                                                                                        "carStatus":persistedCarAgentResult.carStatus,
                                                                                                                        "carType":CarType.get(persistedCarAgentResult.carType.id).name,
                                                                                                                        "consumedEnergy":"${persistedCarAgentResult.energyConsumed}",
@@ -254,6 +300,17 @@ class StatisticService {
                                                                                                                        "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+        ]])
+        features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergy],"properties":["geoType":"to_filling_station","color":randomColor,
+                                                                                                                            "carStatus":persistedCarAgentResult.carStatus,
+                                                                                                                            "carType":CarType.get(persistedCarAgentResult.carType.id).name,
+                                                                                                                            "consumedEnergy":"${persistedCarAgentResult.energyConsumed}",
+                                                                                                                            "loadedEnergy":"${persistedCarAgentResult.energyLoaded}",
+                                                                                                                            "plannedDistance":"${persistedCarAgentResult.plannedDistance}",
+                                                                                                                            "realDistance":"${persistedCarAgentResult.realDistance}",
+                                                                                                                            "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
+                                                                                                                            "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
+                                                                                                                            "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
         ]])
         //adding start
         features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])
@@ -280,7 +337,7 @@ class StatisticService {
        def route1MapJSON = ["type":"FeatureCollection","features":[features]] as JSON
 */
     }
-    def generateStatisticMapForExperiment( Long experimentResultId ) {
+    def generateStatisticMapForExperiment( Long experimentResultId ) {//TODO rewrite this!!!
 
         def m = [ : ]
 

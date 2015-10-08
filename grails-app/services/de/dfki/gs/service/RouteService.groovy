@@ -69,7 +69,7 @@ class RouteService {
             int t = featureIdString.length()
             Long fId = Long.parseLong( featureIdString.substring( f, t ) )
             TrackEdge trackEdge = new TrackEdge(
-                    type: TrackEdgeType.normal,
+                    type: TrackEdgeType.to_filling_station,
                     fromLat: from.getY(),
                     fromLon: from.getX(),
                     toLat: to.getY(),

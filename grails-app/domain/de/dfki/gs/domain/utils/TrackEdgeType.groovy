@@ -9,6 +9,7 @@ public enum TrackEdgeType {
     start,
     via_target,
     target,
-    normal
+    normal,
+    to_filling_station
 
 }

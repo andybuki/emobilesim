@@ -9,7 +9,8 @@ public enum Distribution {
     EQUAL_DISTRIBUTION( "Equal Distribution" ),
     SELF_MADE_ROUTES( "Self Configured Routes" ),
     NOT_ASSIGNED( "Not Assigned" ),
-    OBU_ROUTES("Routes from Obudata")
+    OBU_ROUTES("Routes from Obudata"),
+    OPTA_ROUTES("Routs gained from optaPlanner Algorithm")
 
     final String value
 

@@ -104,7 +104,7 @@
                 return styles
         }
 
-        function styleFunctionForStartEndPosition (feature, resolution) {
+        function styleFunctionForStartEndPosition (feature, resolution) { //TODO This comes in styleFunctionForRoutes in a case Switch
             var styles = [ new ol.style.Style({
                 image: new ol.style.Icon({
                     src: "${g.resource( dir: '/images', file: 'start.png' )}",
@@ -123,7 +123,7 @@
         function styleFunctionForRoutes(feature, resolution){
             //Get color for the car
             var routeColor = feature.get('color');
-            var circle = new ol.style.Style({
+            var circleViaTarget = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 10,
                     fill: new ol.style.Fill({
@@ -134,43 +134,83 @@
                     })
                 })
             });
+            var circleFinalPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Circle({
+                    radius: 10,
+                    fill: new ol.style.Fill({
+                        color: '#000000'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: routeColor,
+                        width:5
+                    })
+                })
+            });
 
-            var stroke = new ol.style.Stroke({
+            var routeStroke = new ol.style.Stroke({
                 color: routeColor,
                 width: 7
             });
-            if (feature.get("geoType") != "route") {
-                var textStroke = new ol.style.Stroke({
-                    color: '#fff',
-                    width: 3
-                });
-                var textFill = new ol.style.Fill({
-                    color: '#000'
-                });
-                var text = new ol.style.Style({
-                    text: new ol.style.Text({
-                        font: '12px Calibri,sans-serif',
-                        text:feature.get('viaCounter'),
-                        fill: textFill,
-                        stroke: textStroke
-                    })
-                });
-                var styles = [circle,text];
-                return styles
-            }
-            else{
-                return [new ol.style.Style({
-                    stroke: stroke
-                })];
+            var toEnergyStroke = new ol.style.Stroke({
+                color: '#000000',// routeColor,
+                lineDash: [.1,10],
+                lineCap:'round',
+                width: 4
+            });
+            var geoType = feature.get("geoType");
+            switch(geoType) {
+                case 'route':
+                    return [new ol.style.Style({
+                        stroke: routeStroke
+                    })];
+                break;
+
+                case 'to_filling_station':
+                    return [new ol.style.Style({
+                        stroke: routeStroke
+
+                    }),
+                        new ol.style.Style({
+                            stroke: toEnergyStroke
+
+                        })];
+
+                case 'via_target':
+                    var textStroke = new ol.style.Stroke({
+                        color: '#fff',
+                        width: 3
+                    });
+                    var textFill = new ol.style.Fill({
+                        color: '#000'
+                    });
+                    var text = new ol.style.Style({
+                        text: new ol.style.Text({
+                            font: '12px Calibri,sans-serif',
+                            text:feature.get('viaCounter'),
+                            fill: textFill,
+                            stroke: textStroke
+                        })
+                    });
+                    var styles = [circleViaTarget,text];
+                    return styles;
+                break;
+
+                case 'finalPosition':
+                    var styles = [circleFinalPosition];
+                    return styles;
+                break;
+
+                default:
+                    return[circleViaTarget]
             }
         }
         function selectStyleFunctionForRoutes(feature, resolution){
            //Get color for the car
 
             var routeColor = feature.get('color');
-            var circle = new ol.style.Style({
+            var circleViaTarget = new ol.style.Style({
                 image: new ol.style.Circle({
-                    radius: 14,
+                    radius: 13,
                     fill: new ol.style.Fill({
                         color: routeColor
                     }),
@@ -179,34 +219,70 @@
                     })
                 })
             });
-
-            var stroke = new ol.style.Stroke({
-                color: routeColor,
-                width: 6
-            });
-            if (feature.get("geoType") != "route") {
-                var textStroke = new ol.style.Stroke({
-                    color: '#fff',
-                    width: 5
-                });
-                var textFill = new ol.style.Fill({
-                    color: '#000'
-                });
-                var text = new ol.style.Style({
-                    text: new ol.style.Text({
-                        font: '12px Calibri,sans-serif',
-                        text:feature.get('viaCounter'),
-                        fill: textFill,
-                        stroke: textStroke
+            var circleFinalPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Circle({
+                    radius: 10,
+                    fill: new ol.style.Fill({
+                        color: '#000000'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: routeColor,
+                        width:5
                     })
-                });
-                var styles = [circle,text];
-                return styles
-            }
-            else{
-                return [new ol.style.Style({
-                    stroke: stroke
-                })];
+                })
+            });
+
+            var routeStroke = new ol.style.Stroke({
+                color: routeColor,
+                width: 7
+            });
+            var toEnergyStroke = new ol.style.Stroke({
+                color: '#000000',// routeColor,
+                lineDash: [.1,10],
+                lineCap:'round',
+                width: 4
+            });
+            var geoType = feature.get("geoType");
+            switch(geoType) {
+                case 'route':
+                    return [new ol.style.Style({
+                        stroke: routeStroke
+                    })];
+                    break;
+                    case 'to_filling_station':
+                    return [new ol.style.Style({
+                        stroke: routeStroke
+
+                    }),
+                        new ol.style.Style({
+                            stroke: toEnergyStroke
+
+                        })];
+                    case 'via_target':
+                        var textStroke = new ol.style.Stroke({
+                            color: '#fff',
+                            width: 5
+                        });
+                        var textFill = new ol.style.Fill({
+                            color: '#000'
+                        });
+                        var text = new ol.style.Style({
+                            text: new ol.style.Text({
+                                font: '12px Calibri,sans-serif',
+                                text: feature.get('viaCounter'),
+                                fill: textFill,
+                                stroke: textStroke
+                            })
+                        });
+                        var styles = [circleViaTarget, text];
+                        return styles
+                        break;
+                case 'finalPosition':
+                    var styles = [circleFinalPosition];
+                    return styles;
+                    break;
+                default:
+                    return[circleViaTarget]
             }
         }
 
