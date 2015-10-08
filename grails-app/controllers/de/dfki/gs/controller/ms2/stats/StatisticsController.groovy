@@ -5,6 +5,7 @@ import de.dfki.gs.controller.ms2.stats.commands.ShowStationStatsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStationsCommandObject
 import de.dfki.gs.controller.ms2.stats.commands.ShowStatsCommandObject
 import de.dfki.gs.domain.simulation.FillingStationType
+import de.dfki.gs.domain.stats.PersistedCarAgentResult
 import de.dfki.gs.domain.stats.PersistedFillingStationResult
 import de.dfki.gs.domain.users.Person
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -388,10 +389,19 @@ class StatisticsController {
 
         def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
+        List fields = ["id", "carStatus", "carTypeId", "energyConsumed", "energyLoaded", "fillingStationsVisited", "plannedDistance", "realDistance"]
+        Map labels = [id: "ID", carStatus:"Car Status",carTypeId:"car Type Id", energyConsumed:"Energy Consumed", energyLoaded:"Energy Loaded", fillingStationsVisited:"Filling Stations Visited", plannedDistance:"Planned Distance", realDistance: "Real Distance"]
+
         m.stats = stats
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
+
+        if(!params.max)
+            params.max = stats.cars.size()
+        if(params?.format && params.format != "html") {
+            exportService.export(params.format, response.outputStream, PersistedCarAgentResult.list(params),fields, labels, [:], [:])
+        }
 
         render(view: 'detailCarStats', model: m, params: [experimentRunResultId: cmd.experimentRunResultId])
 
@@ -426,7 +436,7 @@ class StatisticsController {
         m.groups = stats.groups
         m.time = stats.groups.stationTypes.stats.allStations.timeInUse.valuez
         m.experimentRunResultId = cmd.experimentRunResultId
-              if(!params.max)
+        if(!params.max)
             params.max = stats.fillingStations.size()
         if(params?.format && params.format != "html") {
             exportService.export(params.format, response.outputStream, PersistedFillingStationResult.list(params),fields, labels, [:], [:])
