@@ -52,6 +52,7 @@
                             <th class="statsTitle3">ID</th>
                             <th class="statsTitle">Name</th>
                             <th class="statsTitle">Erfolgreich/</br> fehlgeschlagen</th>
+                            <th class="statsTitle">Start</th>
                             <th class="statsTitle">Geplannte </br>Distanz</th>
                             <th class="statsTitle">Reale </br> Distanz</th>
                             <th class="statsTitle">Umweg</th>
@@ -79,6 +80,7 @@
                                 <g:else>
                                     <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'red.png' )}"/></td>
                                 </g:else>
+                                <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm dd-MM-yyyy")} </td>
                                 <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</td>
@@ -97,7 +99,7 @@
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
                                 <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
-                                <td class="statsTitle1">${carsNumber.battery}</td>
+                                <td class="statsTitle1">${carsNumber.battery}% / </td>
                                 <td class="statsTitle1">-</td>
                             </tr>
                         </g:each>

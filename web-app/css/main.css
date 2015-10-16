@@ -3807,6 +3807,15 @@ th {
 	max-width: 90px;
 }
 
+.statsTitle5 {
+	position: relative;
+	top: 12px;
+	font-size: 9px;
+	margin-top: 10px;
+	min-width: 10px;
+	max-width: 90px;
+}
+
 .tablesorter {
 	margin-bottom: 7px;
 
