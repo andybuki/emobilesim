@@ -509,7 +509,9 @@ class SimulationExecutionService {
                             (double) car.route.edges.sum { TrackEdge edge -> edge.km },
                             car.route.id,
                             syncronizer,
-                            car.fleetId
+                            car.fleetId,
+                            car.battery,
+                            car.carStartTime
                     )
 
                     carAgentMap.put( car.route.id, carAgent )

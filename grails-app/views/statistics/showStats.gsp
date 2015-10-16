@@ -76,26 +76,23 @@
 
         <div class="rowMiddleStatistics">
             <span class="statisticsButtons">
-
                 <button class="layoutButtonR3"
                         type="submit"
                         onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                    <g:message code="stats.stats.showonmap"/> </button>
-
+                        <g:message code="stats.stats.showonmap"/>
+                </button>
                 <button class="layoutButtonR3"
                         type="submit"
                         onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                    <g:message code="stats.stats.detailcar"/> </button>
-
+                    <g:message code="stats.stats.detailcar"/>
+                </button>
                 <button class="layoutButtonR3"
                         type="submit"
                         onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                    <g:message code="stats.stats.detailstation"/> </button>
-
+                    <g:message code="stats.stats.detailstation"/>
+                </button>
              </span>
         </div>
-
-
     </div>
 </div>
 

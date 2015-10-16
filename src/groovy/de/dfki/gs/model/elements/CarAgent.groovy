@@ -88,6 +88,8 @@ class CarAgent extends Agent {
     double energyConsumed = 0;
 
     long fleetId;
+    int battery;
+    Date carStartTime;
 
     List<Long> unroutableCurrentStations = new ArrayList<Long>()
 
@@ -113,15 +115,19 @@ class CarAgent extends Agent {
             Double plannedDistance,
             long routeId,
             FillingStationAgentSyncronizer syncronizer,
-            long fleetId ) {
+            long fleetId,
+            int battery,
+            Date carStartTime ) {
 
 
         CarAgent carAgent = new CarAgent()
         carAgent.routingPlan = routingPlan;
         carAgent.modelCar = modelCar;
 
-        carAgent.fleetId = fleetId
 
+        carAgent.fleetId = fleetId
+        carAgent.battery = battery
+        carAgent.carStartTime = carStartTime
         carAgent.syncronizer = syncronizer
 
         carAgent.currentEdgeIndex = 0;
@@ -166,7 +172,9 @@ class CarAgent extends Agent {
                 timeForPlannedDistance: Math.ceil( secondsPlanned ),
                 configurationId:        configurationId,
                 relativeSearchLimit:    modelCar.relativeSearchLimit,
-                fleetId:                fleetId
+                fleetId:                fleetId,
+                battery:                battery,
+                carStartTime:           carStartTime
         );
 
         return carAgent;

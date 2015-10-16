@@ -97,7 +97,7 @@
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
                                 <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
-                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">${carsNumber.battery}</td>
                                 <td class="statsTitle1">-</td>
                             </tr>
                         </g:each>

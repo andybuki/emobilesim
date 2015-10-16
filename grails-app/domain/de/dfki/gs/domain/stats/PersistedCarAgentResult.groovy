@@ -35,8 +35,8 @@ class PersistedCarAgentResult {
 
     static constraints = {
         name ( nullable: true, blank: true )
-        carStartTime (nullable: true)
-
+        battery nullable: true
+        carStartTime nullable: true
     }
     static hasMany = [
             trackEdges: TrackEdge

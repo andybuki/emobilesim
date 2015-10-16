@@ -1,5 +1,6 @@
 package de.dfki.gs.model.elements.results
 
+import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
 import de.dfki.gs.domain.simulation.TrackEdge
 
@@ -31,7 +32,7 @@ class CarAgentResult {
     int fillingStationsVisited
 
     long configurationId
-
+    Date  carStartTime
     float relativeSearchLimit
 
     long fleetId
