@@ -22,6 +22,51 @@
     <script src="http://openlayers.org/en/v3.9.0/build/ol.js" type="text/javascript"></script> <%--TODO don't use debug mode if not necessary--%>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+
+    <style>
+    .ol-popup {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+    }
+    .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+    }
+    .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+    }
+    .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+    }
+    .ol-popup-closer:after {
+        content: "✖";
+    }
+
+    </style>
 </head>
 
 <body>
@@ -39,10 +84,42 @@
         <g:message code="stats.stats.detailstation"/> </button>
 </div>
 
-<div id="popup"></div>
+
+<div id="map" class="map"></div>
+<div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+</div>
+
+
 <div id="openModal1" class="modalDialogMap1">
-    <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>
     <script type="text/javascript">
+
+        var container = document.getElementById('popup');
+        var content = document.getElementById('popup-content');
+        var closer = document.getElementById('popup-closer');
+        /**
+         * Add a click handler to hide the popup.
+         * @return {boolean} Don't follow the href.
+         */
+        closer.onclick = function() {
+            popup.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+
+        /**
+         * Create an overlay to anchor the popup to the map.
+         */
+        var popup = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+            element: container,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
+        }));
+
+
         var lon,lat; //This is the center of the picture
         <g:if test="${simulationArea == 'BERLIN'}">
         lon = 13.38;
@@ -104,21 +181,6 @@
                 return styles
         }
 
-        function styleFunctionForStartEndPosition (feature, resolution) { //TODO This comes in styleFunctionForRoutes in a case Switch
-            var styles = [ new ol.style.Style({
-                image: new ol.style.Icon({
-                    src: "${g.resource( dir: '/images', file: 'start.png' )}",
-                    //size: [20,20],
-                    fill: new ol.style.Fill({
-                        color: "red"
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: '#000000'
-                    })
-                })})];
-            return styles
-
-        }
 
         function styleFunctionForRoutes(feature, resolution){
             //Get color for the car
@@ -373,94 +435,61 @@
 
         map.addLayer(usedStations_layer);
 
-        //create popup box
-        var popup = new ol.Overlay({
-            element: document.getElementById('popup')
-        });
         map.addOverlay(popup);
         map.on('click', function (evt) {
             var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
                 return feature;
             });
-            var element = popup.getElement();
             if(feature){
 
                 var evtCoordinate = evt.coordinate;
 
-                $(element).popover('destroy');
+                //$(element).popover('destroy');
                 // the keys are quoted to prevent renaming in ADVANCED mode.
                 var featureGeoType = feature.get('geoType');
 
                 switch(featureGeoType){
                     case 'route':
-                        $(element).popover({
-                            'placement': 'top',
-                            'animation': false,
-                            'html': true,
-                            'content':  '<p>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</p>' +
-                                        '<p>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</p>' +
-                                        '<p>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></p>' +
-                                        '<p>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></p>' +
-                                        '<p>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></p>' +
-                                        '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
-                                        '<p>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></p>'+
-                                        '<p>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></p>'+
-                                        '<p>Start/End Time = '+'<b>' +' </b></p>'+
-                                        '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
-                        });
-                        popup.setPosition(evtCoordinate);
+                            content.innerHTML = '<p>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</p>' +
+                            '<p>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</p>' +
+                            '<p>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></p>' +
+                            '<p>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></p>' +
+                            '<p>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></p>' +
+                            '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
+                            '<p>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></p>'+
+                            '<p>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></p>'+
+                            '<p>Start/End Time = '+'<b>' +' </b></p>'+
+                            '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
+                         popup.setPosition(evtCoordinate);
                         break;
                     case 'via_target':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                        $(element).popover({
-                            'placement': 'top',
-                            'animation': false,
-                            'html': true,
-                            'content':  "<p>This is the: "+ '<b>' + feature.get('viaCounter')+". customer </b></p>" +
-                                        "<p>Akku: "+ '<b>'  + '%' +'</b>'+" </p>" +
-                                        "<p>Time: "+ '<b>'   +'</b>'+" </p>" +
-                                        "<p>Address: "+ '<b>' + address + '</b>'+" </p>" //TODO message.code (german)
-                        });
-                            var featureCoordinates = feature.getGeometry().getCoordinates();
+                         content.innerHTML = "<p>This is the: "+ '<b>' + feature.get('viaCounter')+". customer </b></p>" +
+                         "<p>Akku: "+ '<b>'  + '%' +'</b>'+" </p>" +
+                         "<p>Time: "+ '<b>'   +'</b>'+" </p>" +
+                         "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
 
 
                     case 'finalPosition':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                        $(element).popover({
-                            'placement': 'top',
-                            'animation': false,
-                            'html': true,
-                            'content':  "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
-                        });
+                            content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
 
                     default:
-                        $(element).popover({
-                            'placement': 'top',
-                            'animation': false,
-                            'html': true,
-                            'content': '<p>No information for this feature available</p>'
-                        });
+                        content.innerHTML = "<p>No information for this feature available</p>" ;
                         popup.setPosition(evtCoordinate);
 
                 }
-                $(element).popover({
-                    'placement': 'top',
-                    'animation': false,
-                    'html': true,
-                    'content': '<p>Sucsess! you reached the feature</p><code>'
-                });
-                $(element).popover('show');
 
                 map.addOverlay(popup);
             }
             else if(popup.getPosition()){
-               // map.removeOverlay(popup);
-             $(element).popover('destroy')
+                popup.setPosition(undefined);
             }
         });
 
