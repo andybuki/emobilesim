@@ -35,6 +35,7 @@ class CarAgentResult {
     float relativeSearchLimit
 
     long fleetId
+    int battery
 
     List<TrackEdge> trackEdges
 
