@@ -16,7 +16,8 @@ class PersistedCarAgentResult {
     Integer   targets
 
     Long      fleetId
-
+    Date      carStartTime
+    Integer   battery
     Long      timeForPlannedDistance
     Long      timeForRealDistance
     Long      timeForLoading
@@ -34,6 +35,8 @@ class PersistedCarAgentResult {
 
     static constraints = {
         name ( nullable: true, blank: true )
+        carStartTime (nullable: true)
+
     }
     static hasMany = [
             trackEdges: TrackEdge
