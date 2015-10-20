@@ -52,7 +52,8 @@
                             <th class="statsTitle3">ID</th>
                             <th class="statsTitle">Name</th>
                             <th class="statsTitle">Erfolgreich/</br> fehlgeschlagen</th>
-                            <th class="statsTitle">Start</th>
+                            <th class="statsTitle">Start time</th>
+                            <th class="statsTitle">End time</th>
                             <th class="statsTitle">Geplannte </br>Distanz</th>
                             <th class="statsTitle">Reale </br> Distanz</th>
                             <th class="statsTitle">Umweg</th>
@@ -80,26 +81,32 @@
                                 <g:else>
                                     <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'red.png' )}"/></td>
                                 </g:else>
-                                <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm dd-MM-yyyy")} </td>
+                                <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm dd.MM")} </td>
+                                <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm dd.MM")} </td>
                                 <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</td>
-                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}</td>
-                                <td class="statsTitle1">${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}</td>
-                                <td class="statsTitle1">${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}</td>
+                                <td class="statsTitle1">${(TimeCalculator.readableTime(carsNumber.timeForPlannedDistance).substring(0,4))}</td>
+                                <td class="statsTitle1">${(TimeCalculator.readableTime(carsNumber.timeForRealDistance).substring(0,4))}</td>
+
+                                <td class="statsTitle1">
+                                    <g:if test="${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}=='00:00:00'">
+                                        ${TimeCalculator.readableTime(-1*carsNumber.timeForDetour).substring(0,5)}
+                                    </g:if>
+                                </td>
                                 <td class="statsTitle1">
                                     <g:if test="${(TimeCalculator.readableTime(carsNumber.timeForLoading))=='00:00:00'}">
                                         -
                                     </g:if>
                                     <g:else>
-                                        ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
+                                        ${TimeCalculator.readableTime(carsNumber.timeForLoading).substring(0,4)}
                                     </g:else>
                                 </td>
                                 <td class="statsTitle1">-</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
                                 <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
-                                <td class="statsTitle1">${carsNumber.battery}% / </td>
+                                <td class="statsTitle1">${carsNumber.battery}% /${Math.round(carsNumber.endBattery*100)}% </td>
                                 <td class="statsTitle1">-</td>
                             </tr>
                         </g:each>

@@ -37,6 +37,7 @@ class CarAgentResult {
 
     long fleetId
     int battery
+    double endBattery
 
     List<TrackEdge> trackEdges
 

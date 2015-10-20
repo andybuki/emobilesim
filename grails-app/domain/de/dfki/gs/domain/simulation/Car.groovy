@@ -13,6 +13,7 @@ class Car {
     Configuration simulationStartTime
     Date carStartTime
     Integer battery=80  // Percentage from CarType maxEnergyLoad
+    Double endBattery
     Integer pauseTimes
     String ownerName
     Boolean routesConfigured
@@ -23,6 +24,7 @@ class Car {
         name ( nullable: true, blank: true )
         route nullable: true
         battery nullable: true
+        endBattery  nullable: true
         carStartTime nullable: true
         routesConfigured nullable: false
         fleetId nullable: false

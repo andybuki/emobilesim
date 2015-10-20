@@ -55,6 +55,7 @@ class ExperimentDataService {
                     fleetId:                carAgentResult.fleetId,
                     trackEdges:             carAgentResult.trackEdges,
                     battery:                carAgentResult.battery,
+                    endBattery:             carAgentResult.endBattery,
                     carStartTime:           carAgentResult.carStartTime
             )
 

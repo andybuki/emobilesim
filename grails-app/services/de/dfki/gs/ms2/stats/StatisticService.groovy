@@ -206,6 +206,31 @@ class StatisticService {
 
         return fleetModel
     }
+
+    def getFleetInfo( Long fleetID ) {
+
+        Fleet fleet = Fleet.get(fleetID)
+        def fleetModel = [:]
+        fleet = Fleet.get( fleet.id )
+        fleetModel.cars = fleet.cars.battery
+
+        if (fleetModel.routesConfigured == true) {
+            fleet.cars.each { Car car ->
+                car = Car.get(car.id)
+
+                def carModel = [:]
+                carModel.name = car.name
+                carModel.battery = car.battery
+                carModel.carStartTime = car.carStartTime
+                fleetModel.cars << carModel
+
+            }
+        }
+
+
+        return fleetModel.cars
+    }
+
     def getTrackEdges( Long persistedCarAgentResulId){
         PersistedCarAgentResult persistedCarAgentResult = PersistedCarAgentResult.get(persistedCarAgentResulId)
 
@@ -299,7 +324,8 @@ class StatisticService {
                                                                                                                        "realDistance":"${persistedCarAgentResult.realDistance}",
                                                                                                                        "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
-                                                                                                                       "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+                                                                                                                       "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
+                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
         ]])
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergy],"properties":["geoType":"to_filling_station","color":randomColor,
                                                                                                                             "carStatus":persistedCarAgentResult.carStatus,
@@ -553,6 +579,7 @@ class StatisticService {
         def energyLoaded = [ : ]
         def energyDemanded = [ : ]
         def realDrivingTime = [ : ]
+        def endBattery = [ : ]
 
         plannedTime.mean        = StatsCalculator.meanPlannedTime( persistedCarAgentResults*.timeForPlannedDistance )
         plannedTime.valuez      = persistedCarAgentResults*.timeForPlannedDistance
@@ -577,6 +604,10 @@ class StatisticService {
         energyLoaded.mean       = StatsCalculator.meanEnergyLoaded( persistedCarAgentResults*.energyLoaded )
         energyLoaded.valuez     = persistedCarAgentResults*.energyLoaded
         details.energyLoaded    = energyLoaded
+
+        endBattery.mean       = StatsCalculator.meanEndBattery( persistedCarAgentResults*.endBattery )
+        endBattery.valuez     = persistedCarAgentResults*.endBattery
+        details.endBattery    = endBattery
 
         energyDemanded.mean     = StatsCalculator.meanEnergyDemanded( persistedCarAgentResults*.energyConsumed )
         energyDemanded.valuez   = persistedCarAgentResults*.energyConsumed

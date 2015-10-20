@@ -89,6 +89,7 @@ class CarAgent extends Agent {
 
     long fleetId;
     int battery;
+    double endBattery = 0;
     Date carStartTime;
 
     List<Long> unroutableCurrentStations = new ArrayList<Long>()
@@ -579,7 +580,9 @@ class CarAgent extends Agent {
             energyConsumed += energyUsed;
 
             modelCar.setCurrentEnergy( modelCar.getCurrentEnergy() - energyUsed )
+            modelCar.setEndBattery(modelCar.currentEnergy/modelCar.maxEnergy)
 
+            endBattery = (modelCar.currentEnergy/modelCar.maxEnergy)
             lastStepKm = km
 
             // set index to next Edge
@@ -641,6 +644,7 @@ class CarAgent extends Agent {
 
         carAgentResult.energyLoaded = energyLoaded;
         carAgentResult.timeForLoading = timeForLoading;
+        carAgentResult.endBattery    = endBattery;
         carAgentResult.timeForDetour = ( carAgentResult.timeForRealDistance - carAgentResult.timeForPlannedDistance ) - timeForLoading
         carAgentResult.fillingStationsVisited = fillingStationsVisited;
         carAgentResult.energyConsumed = energyConsumed;

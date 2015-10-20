@@ -458,7 +458,7 @@
                             '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
                             '<p>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></p>'+
                             '<p>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></p>'+
-                            '<p>Start/End Time = '+'<b>' +' </b></p>'+
+                            '<p>Start/End Time = '+'<b>' +((feature.get('carStartTime')))   +' </b></p>'+
                             '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
                          popup.setPosition(evtCoordinate);
                         break;
