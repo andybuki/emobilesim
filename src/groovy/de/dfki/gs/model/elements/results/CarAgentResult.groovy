@@ -38,7 +38,10 @@ class CarAgentResult {
     long fleetId
     int battery
 
+    int lastPositionIndex
+
     List<TrackEdge> trackEdges
+
 
 
 

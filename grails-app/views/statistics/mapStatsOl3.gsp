@@ -213,6 +213,11 @@
                 color: routeColor,
                 width: 7
             });
+            var failedRouteStroke = new ol.style.Stroke({
+                color: routeColor,
+                width: 7,
+                lineDash:[.1,10]
+            });
             var toEnergyStroke = new ol.style.Stroke({
                 color: '#000000',// routeColor,
                 lineDash: [.1,10],
@@ -227,6 +232,12 @@
                     })];
                 break;
 
+                case 'route_failed':
+                    return [new ol.style.Style({
+                        stroke: failedRouteStroke
+                    })];
+                    break;
+
                 case 'to_filling_station':
                     return [new ol.style.Style({
                         stroke: routeStroke
@@ -236,7 +247,17 @@
                             stroke: toEnergyStroke
 
                         })];
+                    break;
+                case 'to_filling_station_failed':
+                    return [new ol.style.Style({
+                        stroke: failedRouteStroke
 
+                    }),
+                        new ol.style.Style({
+                            stroke: toEnergyStroke
+
+                        })];
+                    break;
                 case 'via_target':
                     var textStroke = new ol.style.Stroke({
                         color: '#fff',
@@ -298,6 +319,11 @@
                 color: routeColor,
                 width: 7
             });
+            var failedRouteStroke = new ol.style.Stroke({
+                color: routeColor,
+                width: 7,
+                lineDash:[.1,10]
+            });
             var toEnergyStroke = new ol.style.Stroke({
                 color: '#000000',// routeColor,
                 lineDash: [.1,10],
@@ -311,7 +337,14 @@
                         stroke: routeStroke
                     })];
                     break;
-                    case 'to_filling_station':
+
+                case 'route_failed':
+                    return [new ol.style.Style({
+                        stroke: failedRouteStroke
+                    })];
+                    break;
+
+                case 'to_filling_station':
                     return [new ol.style.Style({
                         stroke: routeStroke
 
@@ -320,7 +353,20 @@
                             stroke: toEnergyStroke
 
                         })];
-                    case 'via_target':
+                    break;
+
+                case 'to_filling_station_failed':
+                    return [new ol.style.Style({
+                        stroke:failedRouteStroke
+
+                    }),
+                        new ol.style.Style({
+                            stroke: toEnergyStroke
+
+                        })];
+                    break;
+
+                case 'via_target':
                         var textStroke = new ol.style.Stroke({
                             color: '#fff',
                             width: 5
@@ -378,9 +424,6 @@
 
 
             interactions: ol.interaction.defaults().extend([new ol.interaction.Select({
-                /*condition: function(evt){
-                    return (evt.originalEvent.type == 'mousemove');
-                },*/
                 condition:  (ol.events.condition.pointerMove || ol.events.condition.click),
                 layers:allRouteLayers,
                 style: selectStyleFunctionForRoutes

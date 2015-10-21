@@ -210,16 +210,23 @@ class StatisticService {
         PersistedCarAgentResult persistedCarAgentResult = PersistedCarAgentResult.get(persistedCarAgentResulId)
 
         TrackEdge startEdge = TrackEdge.get(persistedCarAgentResult.trackEdges.first().id)
-        TrackEdge finalPosition = TrackEdge.get(persistedCarAgentResult.trackEdges.last().id)
+
 
         def viaTargets = []
         def coordinatesOfRoute = []
+        def coordinatesOfRouteFailedToDrive =[]
         def lineString = []
-        def trackEdgesToEnergy =[]
+        def lineStringFailedToDrive = []
         def routeToEnergy = []
+        def routeToEnergyFailedToDrive = []
         def allRoutesToEnergy = []
+        def allRoutesToEnergyFailedToDrive = []
         def previousCoordinates
-        persistedCarAgentResult.trackEdges.each {TrackEdge trackEdge ->
+        def drivenTrack = persistedCarAgentResult.trackEdges.subList(0,persistedCarAgentResult.lastPositionIndex-1)
+        def failedToDrive=persistedCarAgentResult.trackEdges.subList(persistedCarAgentResult.lastPositionIndex-1,persistedCarAgentResult.trackEdges.size()-1)
+        def finalPosition = drivenTrack.last()
+
+        drivenTrack.each{TrackEdge trackEdge ->
             //If there are breaks in the route or some part goes to the filling station then we have multible line strings
             trackEdge = TrackEdge.get(trackEdge.id)
             if(trackEdge.type == TrackEdgeType.to_filling_station.toString()){
@@ -277,6 +284,60 @@ class StatisticService {
             lineString.add([finalPosition.toLon,finalPosition.toLat])
             coordinatesOfRoute.add(lineString)
         }
+
+        previousCoordinates = null
+        failedToDrive.each{TrackEdge trackEdge ->
+            //If there are breaks in the route or some part goes to the filling station then we have multible line strings
+            trackEdge = TrackEdge.get(trackEdge.id)
+            if(trackEdge.type == TrackEdgeType.to_filling_station.toString()){
+                //Add The coordinates of the normal route to the multilineString the first time we change to route to energy
+                if(lineStringFailedToDrive.size()>0){
+                    coordinatesOfRouteFailedToDrive.add(lineStringFailedToDrive)
+                    lineStringFailedToDrive = []
+                    previousCoordinates = null
+                }
+
+                def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+                if(previousCoordinates == null || previousCoordinates == coordinates){
+                    routeToEnergyFailedToDrive.add(coordinates)
+                }
+                else
+                {
+                    //TODO make visible that route is broken here
+                    allRoutesToEnergyFailedToDrive.add(routeToEnergyFailedToDrive)
+                    routeToEnergyFailedToDrive = []
+                    previousCoordinates = null
+                    log.error("route Broken From $previousCoordinates To $coordinates")
+                }
+                previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
+            }
+
+            else{//Normal Route
+                if(routeToEnergyFailedToDrive.size()>0){
+                    allRoutesToEnergyFailedToDrive.add(routeToEnergyFailedToDrive)
+                    routeToEnergyFailedToDrive = []
+                    previousCoordinates = null
+                }
+                if(trackEdge.type=='via_target'){
+                    viaTargets.add(trackEdge)
+                }
+                def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+                if(previousCoordinates == null || previousCoordinates == coordinates){
+                    lineStringFailedToDrive.add(coordinates)
+                }
+                else
+                {
+                    //TODO make visible that route is broken here
+                    coordinatesOfRouteFailedToDrive.add(lineStringFailedToDrive)
+                    lineStringFailedToDrive = []
+                    previousCoordinates = null
+                    log.error("route Broken From $previousCoordinates To $coordinates")
+                }
+                previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
+            }
+
+        }
+        coordinatesOfRouteFailedToDrive.add(lineStringFailedToDrive)
         Random random = new Random();
         final float hue = random.nextFloat();
         final float saturation = 0.7f;//1.0 for brilliant, 0.0 for dull
@@ -289,7 +350,7 @@ class StatisticService {
 
         //Creating a GeoJSON for start,target,and via_target
         def features = [] //TODO Write a method to create GeoJSON and put it somewhere where it makes sense
-        //TODO TEST THIS
+//TODO the last edge should not go back, continue planned route...
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":coordinatesOfRoute],"properties":["geoType":"route","color":randomColor,
                                                                                                                        "carStatus":persistedCarAgentResult.carStatus,
                                                                                                                        "carType":CarType.get(persistedCarAgentResult.carType.id).name,
@@ -301,6 +362,19 @@ class StatisticService {
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
         ]])
+
+        features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":coordinatesOfRouteFailedToDrive],"properties":["geoType":"route_failed","color":randomColor,
+                                                                                                                            "carStatus":persistedCarAgentResult.carStatus,
+                                                                                                                            "carType":CarType.get(persistedCarAgentResult.carType.id).name,
+                                                                                                                            "consumedEnergy":"${persistedCarAgentResult.energyConsumed}",
+                                                                                                                            "loadedEnergy":"${persistedCarAgentResult.energyLoaded}",
+                                                                                                                            "plannedDistance":"${persistedCarAgentResult.plannedDistance}",
+                                                                                                                            "realDistance":"${persistedCarAgentResult.realDistance}",
+                                                                                                                            "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
+                                                                                                                            "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
+                                                                                                                            "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+        ]])
+
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergy],"properties":["geoType":"to_filling_station","color":randomColor,
                                                                                                                             "carStatus":persistedCarAgentResult.carStatus,
                                                                                                                             "carType":CarType.get(persistedCarAgentResult.carType.id).name,
@@ -311,6 +385,17 @@ class StatisticService {
                                                                                                                             "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                             "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                             "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+        ]])
+        features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergyFailedToDrive],"properties":["geoType":"to_filling_station_failed","color":randomColor,
+                                                                                                                           "carStatus":persistedCarAgentResult.carStatus,
+                                                                                                                           "carType":CarType.get(persistedCarAgentResult.carType.id).name,
+                                                                                                                           "consumedEnergy":"${persistedCarAgentResult.energyConsumed}",
+                                                                                                                           "loadedEnergy":"${persistedCarAgentResult.energyLoaded}",
+                                                                                                                           "plannedDistance":"${persistedCarAgentResult.plannedDistance}",
+                                                                                                                           "realDistance":"${persistedCarAgentResult.realDistance}",
+                                                                                                                           "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
+                                                                                                                           "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
+                                                                                                                           "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
         ]])
         //adding start
         features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])
