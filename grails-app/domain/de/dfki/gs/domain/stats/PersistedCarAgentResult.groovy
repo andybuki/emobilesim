@@ -33,6 +33,7 @@ class PersistedCarAgentResult {
     float     relativeSearchLimit
 
     List  trackEdges
+    int lastPositionIndex
 
 
 

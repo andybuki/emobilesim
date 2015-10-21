@@ -665,6 +665,7 @@ class CarAgent extends Agent {
         carAgentResult.energyConsumed = energyConsumed;
         carAgentResult.carAgentStatus = carStatus.toString();
         carAgentResult.trackEdges = routingPlan.getTrackEdges();
+        carAgentResult.lastPositionIndex = currentEdgeIndex;
     }
 
 

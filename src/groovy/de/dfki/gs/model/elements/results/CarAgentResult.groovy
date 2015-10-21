@@ -39,7 +39,10 @@ class CarAgentResult {
     int battery
     double endBattery
 
+    int lastPositionIndex
+
     List<TrackEdge> trackEdges
+
 
 
 
