@@ -18,10 +18,13 @@ class PersistedCarAgentResult {
     Long      fleetId
     Date      carStartTime
     Integer   battery
+    Double    endBattery
     Long      timeForPlannedDistance
     Long      timeForRealDistance
     Long      timeForLoading
     Long      timeForDetour
+    Date      endCarTime
+
 
     Float     energyLoaded
 
@@ -37,7 +40,9 @@ class PersistedCarAgentResult {
     static constraints = {
         name ( nullable: true, blank: true )
         battery nullable: true
+        endBattery nullable: true
         carStartTime nullable: true
+        endCarTime   nullable: true
     }
     static hasMany = [
             trackEdges: TrackEdge

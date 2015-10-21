@@ -19,6 +19,11 @@ class ModelCar {
      */
     private double currentEnergy
 
+    /**
+     * endBattery state in persent
+     */
+
+    private double endBattery
 
     private CarType carType
 
@@ -99,6 +104,8 @@ class ModelCar {
 
         modelCar.maxEnergy = carType.maxEnergyLoad
         modelCar.currentEnergy = carType.maxEnergyLoad*currentEnergyLoadPercentage/100;
+
+        modelCar.endBattery = carType.maxEnergyLoad*currentEnergyLoadPercentage/modelCar.currentEnergy
         modelCar.carName = carType.name
 
         return modelCar;
@@ -122,6 +129,14 @@ class ModelCar {
 
     double getMaxEnergy() {
         return maxEnergy
+    }
+
+    float getEndBattery(){
+        return endBattery
+    }
+
+    void setEndBattery (double endBattery) {
+        this.endBattery = endBattery
     }
 
     void setCurrentEnergy(double currentEnergy) {

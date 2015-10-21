@@ -46,6 +46,10 @@ class StatsCalculator {
         return mean( energyLoads )
     }
 
+    public static float meanEndBattery( List<Float> endBattery ) {
+        return mean( endBattery )
+    }
+
     public static float meanEnergyDemanded( List<Float> energyDemandeds ) {
         return mean( energyDemandeds )
     }

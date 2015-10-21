@@ -205,7 +205,13 @@
                                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                                         <g:hiddenField name="carId" value="${car.id}"/>
-                                                        ${car.carStartTime}
+
+                                                        <g:if test="${(car.carStartTime)=='NULL'}">
+                                                            ${(car.carStartTime)}
+                                                        </g:if>
+                                                        <g:if test="${(car.carStartTime)!=''}">
+                                                            ${(car.carStartTime)}
+                                                        </g:if>
                                                         <g:submitToRemote class="addButton"
                                                                       url="[action: 'configureStartTimeView']"
                                                                       update="updateMe"

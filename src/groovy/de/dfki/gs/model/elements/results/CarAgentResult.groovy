@@ -25,7 +25,7 @@ class CarAgentResult {
     long timeForPlannedDistance
     long timeForRealDistance
     long timeForLoading
-
+    Date endCarTime
     long timeForDetour
     float energyLoaded
 
@@ -37,6 +37,7 @@ class CarAgentResult {
 
     long fleetId
     int battery
+    double endBattery
 
     int lastPositionIndex
 

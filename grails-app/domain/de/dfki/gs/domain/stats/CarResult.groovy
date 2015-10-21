@@ -40,6 +40,7 @@ class CarResult {
 
     long timeForDetour
     double energyLoaded
+    double endBattery
 
     int fillingStationsVisited
 
