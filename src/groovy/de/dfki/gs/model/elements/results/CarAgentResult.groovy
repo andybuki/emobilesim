@@ -25,7 +25,7 @@ class CarAgentResult {
     long timeForPlannedDistance
     long timeForRealDistance
     long timeForLoading
-
+    Date endCarTime
     long timeForDetour
     float energyLoaded
 

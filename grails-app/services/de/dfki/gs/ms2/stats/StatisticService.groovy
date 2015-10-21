@@ -336,7 +336,8 @@ class StatisticService {
                                                                                                                             "realDistance":"${persistedCarAgentResult.realDistance}",
                                                                                                                             "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                             "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
-                                                                                                                            "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited
+                                                                                                                            "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
+                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
         ]])
         //adding start
         features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])

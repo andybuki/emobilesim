@@ -91,6 +91,7 @@ class CarAgent extends Agent {
     int battery;
     double endBattery = 0;
     Date carStartTime;
+    Date endCarTime
 
     List<Long> unroutableCurrentStations = new ArrayList<Long>()
 
@@ -207,6 +208,12 @@ class CarAgent extends Agent {
 
                     totalTimeNeeded = currentTimeStamp - startTime;
                     carAgentResult.timeForRealDistance = currentTimeStamp - startTime
+
+                    long carTime =  carStartTime.getTime()+carAgentResult.timeForRealDistance*1000
+                    Date date = new Date(carTime);
+
+                    carAgentResult.endCarTime = date
+
                     carStatus = CarStatus.MISSION_ACCOMBLISHED;
 
                     // log.error( "accomblished... ${carStatus}" )
@@ -271,6 +278,12 @@ class CarAgent extends Agent {
 
                     totalTimeNeeded = currentTimeStamp - startTime;
                     carAgentResult.timeForRealDistance = currentTimeStamp - startTime
+
+                    long carTime =  carStartTime.getTime()+carAgentResult.timeForRealDistance*1000
+                    Date date = new Date(carTime);
+
+                    carAgentResult.endCarTime = date
+
                     carStatus = CarStatus.MISSION_ACCOMBLISHED;
 
                 } else {
@@ -309,12 +322,14 @@ class CarAgent extends Agent {
                         }
 
                         carAgentResult.timeForRealDistance = currentTimeStamp - startTime
-                        carStatus = CarStatus.WAITING_EMPTY
+                        long carTime =  carStartTime.getTime()+carAgentResult.timeForRealDistance*1000
+                        Date date = new Date(carTime);
 
+                        carAgentResult.endCarTime = date
+                        carStatus = CarStatus.WAITING_EMPTY
                     }
 
                 }
-
 
 
                 break;

@@ -56,7 +56,8 @@ class ExperimentDataService {
                     trackEdges:             carAgentResult.trackEdges,
                     battery:                carAgentResult.battery,
                     endBattery:             carAgentResult.endBattery,
-                    carStartTime:           carAgentResult.carStartTime
+                    carStartTime:           carAgentResult.carStartTime,
+                    endCarTime:             carAgentResult.endCarTime
             )
 
             if ( !persistedCarAgentResult.save( flush: true ) ) {
