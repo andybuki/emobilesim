@@ -17,7 +17,7 @@ plpgsql, postgis, postgis_tiger_geocoder, postgis_topology.
 Emobilesim uses openstreetmap graph. You need to import data and create a tables with 
 requied regions. For example Berlin and so on.
 - load region from http://download.geofabrik.de/
-- convert data to postgres database with osm2po from http://osm2po.de/
+- convert data to postgres database with osm2po from http://osm2po.de/  
    java -Xmx1408m -jar osm2po-core-5.0.0-signed.jar prefix=berlin tileSize=x,c /Users/anbu02/Downloads/OSM/berlin.osm
    (instructions in web site)
--  import sql data to database   
+-  import sql data to database
