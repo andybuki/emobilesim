@@ -86,17 +86,35 @@
                                 <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
                                 <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
                                 <td class="statsTitle1">${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</td>
-                                <td class="statsTitle1"> ${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}</td>
-
-                                <td class="statsTitle1">${(TimeCalculator.readableTime(carsNumber.timeForRealDistance))}</td>
 
                                 <td class="statsTitle1">
-                                    <g:if test="${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}=='00:00:00'">
-                                        ${TimeCalculator.readableTime(-1*carsNumber.timeForDetour)}
+                                    <g:if test="${((carsNumber.timeForPlannedDistance))==0}">
+                                        -
                                     </g:if>
+                                    <g:else>
+                                        ${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}
+                                    </g:else>
+                                </td>
+
+                                <td class="statsTitle1">
+                                    <g:if test="${((carsNumber.timeForRealDistance))==0}">
+                                        -
+                                    </g:if>
+                                    <g:else>
+                                        ${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}
+                                    </g:else>
+                                </td>
+
+                                <td class="statsTitle1">
+                                    <g:if test="${(carsNumber.timeForDetour)<0}">
+                                        ${TimeCalculator.readableTime((carsNumber.timeForDetour)*-1)}
+                                    </g:if>
+                                    <g:else>
+                                        ${TimeCalculator.readableTime((carsNumber.timeForDetour))}
+                                    </g:else>
                                 </td>
                                 <td class="statsTitle1">
-                                    <g:if test="${(TimeCalculator.readableTime(carsNumber.timeForLoading))=='00:00:00'}">
+                                    <g:if test="${((carsNumber.timeForLoading))==0}">
                                         -
                                     </g:if>
                                     <g:else>
