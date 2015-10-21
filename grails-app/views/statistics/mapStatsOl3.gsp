@@ -358,22 +358,22 @@
 
         var map = new ol.Map({
             target: 'map',
-            /*layers: [
+            layers: [
                 new ol.layer.Tile({
                     source: new ol.source.OSM({
                         layer: 'watercolor'
                     }) //TODO add google map?
                 })
-            ],*/
+            ],
 
 
-            layers: [
+            /*layers: [
                 new ol.layer.Tile({
                     source: new ol.source.Stamen({
                         layer: 'toner'
                     })
                 })
-            ],
+            ],*/
 
 
 
