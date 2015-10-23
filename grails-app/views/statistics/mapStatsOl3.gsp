@@ -10,18 +10,23 @@
 <head>
     <title><g:message code="stats.stats.mapView"/></title>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery-ui.css')}" type="text/css"/>
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css'/>
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css'/>
-    <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css"/>
     <%-- TODO Make this work <g:javascript src="ol3/loader.js"/></script>--%>
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://openlayers.org/en/v3.9.0/build/ol.js" type="text/javascript"></script> <%--TODO don't use debug mode if not necessary--%>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
+    </script> <%--TODO don't use debug mode if not necessary--%>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type='text/css'/>
+    <script src="http://openlayers.org/en/v3.10.0/build/ol.js"></script>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
+
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+    <script src="${resource(dir: 'js',file:'ol3-layerswitcher.js')}"></script>
+
 
     <style>
     .ol-popup {
@@ -403,23 +408,48 @@
         //var layersForMap =
 
         var map = new ol.Map({
+
             target: 'map',
             layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM({
-                        layer: 'watercolor'
-                    }) //TODO add google map?
+                new ol.layer.Group({
+                    'title': 'Base maps',
+                    layers: [
+                        new ol.layer.Tile({
+                            title: 'Water color',
+                            type: 'base',
+                            visible: false,
+                            source: new ol.source.Stamen({
+                                layer: 'watercolor'
+                            })
+                        }),
+                        new ol.layer.Tile({
+                            title: 'OSM',
+                            type: 'base',
+                            visible: true,
+                            source: new ol.source.OSM()
+                        }),
+                        new ol.layer.Tile({
+                            title: 'Satellite',
+                            type: 'base',
+                            visible: false,
+                            source: new ol.source.MapQuest({layer: 'sat'})
+                        })
+                    ]
+                }),
+                new ol.layer.Group({
+                    title: 'Overlays',
+                    layers: [
+                        new ol.layer.Tile({
+                            title: 'Countries',
+                            source: new ol.source.TileWMS({
+                                url: 'http://demo.opengeo.org/geoserver/wms',
+                                params: {'LAYERS': 'ne:ne_10m_admin_1_states_provinces_lines_shp'},
+                                serverType: 'geoserver'
+                            })
+                        })
+                    ]
                 })
             ],
-
-
-            /*layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.Stamen({
-                        layer: 'toner'
-                    })
-                })
-            ],*/
 
 
 
@@ -434,6 +464,10 @@
             })
         });
 
+        var layerSwitcher = new ol.control.LayerSwitcher({
+            tipLabel: 'Légende' // Optional label for button
+        });
+        map.addControl(layerSwitcher);
 
         <g:each var = "realRoute" in = "${realRoutes}">
         var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute},{featureProjection:'EPSG:3857'});
@@ -538,6 +572,7 @@
 
     </script>
 
+    <%--<script src="${resource(dir: 'js',file:'layerswitcher.js')}"></script>--%>
 </div>
 </body>
 </html>
