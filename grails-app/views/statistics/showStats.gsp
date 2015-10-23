@@ -51,33 +51,33 @@
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.successFullCars.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
+                <span class="statisticsDataSmall2"> <g:message code="stats.stats.succsesfulcars"/>,</span>
                 <span class="">${stats.failedCars.size()} -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.failedcars"/>,</span>
+                <span class="statisticsDataSmall2"><g:message code="stats.stats.failedcars"/>,</span>
                 <span class="">
                     <g:if test="${stats.wholeRoute.size()==0}"></g:if>
                     <g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())?:0} km. -
-                        <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/>,</span>
+                        <span class="statisticsDataSmall2"><g:message code="stats.stats.wholeroute"/>,</span>
                     </g:if>
                 </span>
 
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
+                <span class="statisticsDataSmall2"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
             </div>
         </div>
 
         <div class="rowMiddleStatistics">
             <div class="statisticsData">
                 <span class="">${stats.fillingStations.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/>,</span>
+                <span class="statisticsDataSmall2"> <g:message code="stats.stats.stations"/>,</span>
                 ${stats.usedStations} -
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.stationsvisited"/>,</span>
+                <span class="statisticsDataSmall2"> <g:message code="stats.stats.stationsvisited"/>,</span>
                 ${TimeCalculator.readableTime(stats.stationsInUse)} -
-                <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/></span>
+                <span class="statisticsDataSmall2"><g:message code="stats.stats.timeinusesum"/></span>
                 <span class="">
                     <g:if test="${stats.wholePower.size()!=0}">
-                        <span class="statisticsDataSmall">,</span>
+                        <span class="statisticsDataSmall2">,</span>
                         ${Math.round(stats.wholePower.sum())} kW. -
-                        <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
+                        <span class="statisticsDataSmall2"><g:message code="stats.stats.energy"/></span>
                     </g:if>
                 </span>
 

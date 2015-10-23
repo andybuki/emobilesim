@@ -3702,6 +3702,13 @@ th {
 	font-size: 10px;
 	font-weight: normal;
 	position: relative;
+	top: 2px;
+}
+
+.statisticsDataSmall2 {
+	font-size: 10px;
+	font-weight: normal;
+	position: relative;
 	top: 0px;
 }
 

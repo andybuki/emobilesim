@@ -29,17 +29,23 @@
     <div class="pContainerConfigureStatsCar">
         <div class="" id="accordion">
             <div class="statisticDataBig">
-                <span class="statisticDataBig">${stats.successFullCars.size()} -  </span>
+                <span class="statisticDataBig">${stats.successFullCars.size()} -</span>
                 <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
                 <span class="statisticDataBig">${stats.failedCars.size()} -  </span>
                 <span class="statisticsDataSmall"> <g:message code="stats.stats.failedcars"/>,</span>
 
-                <span class="statisticDataBig">${Math.round(stats.wholeRoute.sum())} km. -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.wholeroute"/>,</span>
-                <span class="statisticDataBig">${Math.round(stats.wholePower.sum())} kW. -  </span>
-                <span class="statisticsDataSmall"><g:message code="stats.stats.energy"/></span>
+                    <g:if test="${stats.wholeRoute.size()==0}"></g:if>
+                    <span class="statisticDataBig"><g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())} km. -
+                        <span class="statisticsDataSmall2"><g:message code="stats.stats.wholeroute"/>,</span>
+                    </g:if></span>
 
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span> <span class="statisticDataBig"> ${stats.configurationArea}</span>
+                    <span class="statisticDataBig"><g:if test="${stats.wholePower.size()==0}"></g:if>
+                    <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
+                        <span class="statisticsDataSmall2"><g:message code="stats.stats.energy"/></span>,
+                    </g:if></span>
+
+                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span>
+                <span class="statisticDataBig"> ${stats.configurationArea}</span>
             </div>
 
 

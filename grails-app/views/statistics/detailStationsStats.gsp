@@ -30,15 +30,24 @@
 <div class="pContainerConfigureStats">
     <div class="" id="accordion">
     <div class="statisticDataBig">
-        <span class="statisticDataBig">${stats.fillingStations.size()} -  </span>
-        <span class="statisticsDataSmall"> <g:message code="stats.stats.stations"/>,</span>
+        <span class="statisticDataBig">
+            <g:if test="${stats.fillingStations.size()==0}"></g:if>
+            <g:if test="${stats.fillingStations.size()!=0}"> ${stats.fillingStations.size()}-</g:if>
+        </span>
+        <span class="statisticsDataSmall"><g:message code="stats.stats.stations"/>,</span>
         <span class="statisticDataBig"> ${stats.usedStations} - </span>
         <span class="statisticsDataSmall"> <g:message code="stats.stats.stationsvisited"/>,</span>
         <span class="statisticDataBig"> ${TimeCalculator.readableTime(stats.stationsInUse)} - </span>
         <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/>,</span>
-        <span class="statisticDataBig">${Math.round(stats.wholePower.sum())} kW. -  </span>
-        <span class="statisticsDataSmall"> <g:message code="stats.stats.energy"/>,</span>
-        <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span><span class="statisticDataBig"> ${stats.configurationArea} </span>
+        <span class="statisticDataBig">
+            <g:if test="${stats.wholePower.size()==0}"></g:if>
+            <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
+                <span class="statisticsDataSmall2"> <g:message code="stats.stats.energy"/>,</span>
+            </g:if>
+        </span>
+
+        <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span>
+        <span class="statisticDataBig"> ${stats.configurationArea} </span>
     </div>
 
 
@@ -296,8 +305,6 @@
 </g:javascript>
 --%>
 <script>
-
-
     $("#accordion").accordion({
         active: false,
         heightStyle: "content",
