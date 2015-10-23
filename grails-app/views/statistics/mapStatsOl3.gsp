@@ -478,8 +478,8 @@
             source:realRoutes_source,
             opacity:0.6,
             style: styleFunctionForRoutes,
-            title: 'Route'+<g:each var="fleet" in="${fleets}">
-            "${fleet.cars.name}"
+            title: 'Route'<g:each var="fleet" in="${fleets}">
+            +"${fleet.cars.name}"
             </g:each>
 
         });
