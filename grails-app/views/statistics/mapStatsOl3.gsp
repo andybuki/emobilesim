@@ -475,10 +475,13 @@
         realRoutes_source.addFeatures(realRoutes_features);
 
         var realRoutes_layer = new ol.layer.Vector({
-            title: 'Real Routes',
             source:realRoutes_source,
             opacity:0.6,
-            style: styleFunctionForRoutes
+            style: styleFunctionForRoutes,
+            title: 'Route'+<g:each var="fleet" in="${fleets}">
+            "${fleet.cars.name}"
+            </g:each>
+
         });
         allRouteLayers.push(realRoutes_layer);
         map.addLayer(realRoutes_layer);
@@ -488,7 +491,7 @@
         var unusedStations_source = new ol.source.Vector();
         unusedStations_source.addFeatures(unusedStations_features);
         var unusedStations_layer = new ol.layer.Vector({
-            title: 'Filling Stations',
+            title: 'Not visited filling stations',
             source:unusedStations_source,
             opacity:0.2,
             style: styleFunctionForUnusedStations
@@ -500,7 +503,7 @@
         var usedStations_source = new ol.source.Vector();
         usedStations_source.addFeatures(usedStations_features);
         var usedStations_layer = new ol.layer.Vector({
-            title: 'Filling Stations',
+            title: 'Visited filling stations',
             source:usedStations_source,
             opacity:0.7,
             style: styleFunctionForUsedStations
