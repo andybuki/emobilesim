@@ -5,15 +5,20 @@
     text-align: left;
 }
 
-.layer-switcher .panel {
+.layer-switcher .panelNew {
+    position: relative;
     padding-right: 50px;
     border: 1px solid #cccccc;
     background-color: white;
-    margin: 0;
+    margin: 1px;
     display: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 10px;
+    font-weight: normal;
 }
 
-.layer-switcher.shown .panel {
+.layer-switcher.shown .panelNew {
     display: block;
 }
 

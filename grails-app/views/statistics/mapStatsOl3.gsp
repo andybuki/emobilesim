@@ -22,6 +22,7 @@
     </script> <%--TODO don't use debug mode if not necessary--%>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type='text/css'/>
     <script src="http://openlayers.org/en/v3.10.0/build/ol.js"></script>
+
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
 
     <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
@@ -415,11 +416,11 @@
                     'title': 'Base maps',
                     layers: [
                         new ol.layer.Tile({
-                            title: 'Water color',
+                            title: 'Toner view',
                             type: 'base',
                             visible: false,
                             source: new ol.source.Stamen({
-                                layer: 'watercolor'
+                                layer: 'toner'
                             })
                         }),
                         new ol.layer.Tile({
@@ -433,7 +434,8 @@
                             type: 'base',
                             visible: false,
                             source: new ol.source.MapQuest({layer: 'sat'})
-                        })
+                        }),
+
                     ]
                 }),
                 new ol.layer.Group({
@@ -450,8 +452,6 @@
                     ]
                 })
             ],
-
-
 
             interactions: ol.interaction.defaults().extend([new ol.interaction.Select({
                 condition:  (ol.events.condition.pointerMove || ol.events.condition.click),
@@ -571,8 +571,6 @@
         });
 
     </script>
-
-    <%--<script src="${resource(dir: 'js',file:'layerswitcher.js')}"></script>--%>
 </div>
 </body>
 </html>
