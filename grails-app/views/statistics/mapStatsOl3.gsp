@@ -203,8 +203,24 @@
                 })
             });
             var circleFinalPosition = new ol.style.Style({//TODO add good picture here
-                image: new ol.style.Circle({
-                    radius: 10,
+                image: new ol.style.Icon({
+                    //radius: 10,
+                    src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                    fill: new ol.style.Fill({
+                        color: '#000000'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: routeColor,
+                        width:5
+                    })
+                })
+            });
+
+            var startPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Icon({
+                    //radius: 10,
+                    src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                    scale: 0.5,
                     fill: new ol.style.Fill({
                         color: '#000000'
                     }),
@@ -289,6 +305,10 @@
                     return styles;
                 break;
 
+                case 'start':
+                    var styles = [startPosition];
+                    return styles;
+
                 default:
                     return[circleViaTarget]
             }
@@ -309,15 +329,30 @@
                 })
             });
             var circleFinalPosition = new ol.style.Style({//TODO add good picture here
-                image: new ol.style.Circle({
-                    radius: 10,
+                image: new ol.style.Icon({
+                    src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                    //radius: 10,
                     fill: new ol.style.Fill({
-                        color: '#000000'
-                    }),
+                        color: '#ff0000'
+                    })/*
                     stroke: new ol.style.Stroke({
                         color: routeColor,
                         width:5
-                    })
+                    })*/
+                })
+            });
+
+            var startPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Icon({
+                    src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                    scale: 0.5,
+                    fill: new ol.style.Fill({
+                        color: '#ff0000'
+                    })/*
+                     stroke: new ol.style.Stroke({
+                     color: routeColor,
+                     width:5
+                     })*/
                 })
             });
 
@@ -393,6 +428,11 @@
                         break;
                 case 'finalPosition':
                     var styles = [circleFinalPosition];
+                    return styles;
+                    break;
+
+                case 'start':
+                    var styles = [startPosition];
                     return styles;
                     break;
                 default:
@@ -478,12 +518,10 @@
             source:realRoutes_source,
             opacity:0.6,
             style: styleFunctionForRoutes,
-            title: 'Route'<g:each var="fleet" in="${fleets}">
-                    <g:each var="car" in="${fleet.cars}">
+            title: 'Route'
+                    <g:each var="car" in="${fleets.cars}" status="counter">
                         +"${car.name}"
-                        </g:each>
                     </g:each>
-
         });
         allRouteLayers.push(realRoutes_layer);
         map.addLayer(realRoutes_layer);
@@ -563,6 +601,28 @@
                             content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
+                        break;
+
+                    case 'start':
+                        var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
+                        content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        var featureCoordinates = feature.getGeometry().getCoordinates();
+                        popup.setPosition(featureCoordinates);
+                        break;
+
+                    case 'to_filling_station':
+                        content.innerHTML = "<p>Umweg zu Ladestation</p>";
+                        popup.setPosition(evtCoordinate);
+                        break;
+
+                    case 'route_failed':
+                        content.innerHTML = "<p>Route nicht geschaft</p>";
+                        popup.setPosition(evtCoordinate);
+                        break;
+
+                    case 'unusedStations_features':
+                        content.innerHTML = "<p>Not used charging Stations</p>";
+                        popup.setPosition(evtCoordinate);
                         break;
 
                     default:
