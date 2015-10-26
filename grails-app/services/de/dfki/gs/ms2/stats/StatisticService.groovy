@@ -386,7 +386,11 @@ class StatisticService {
                                                                                                                        "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
+                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                       "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                       "battery":"${persistedCarAgentResult.battery}",
+                                                                                                                       "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
+
         ]])
 
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":coordinatesOfRouteFailedToDrive],"properties":["geoType":"route_failed","color":randomColor,
@@ -411,7 +415,10 @@ class StatisticService {
                                                                                                                             "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                             "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                             "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
+                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                            "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                            "battery":"${persistedCarAgentResult.battery}",
+                                                                                                                            "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
         ]])
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergyFailedToDrive],"properties":["geoType":"to_filling_station_failed","color":randomColor,
                                                                                                                            "carStatus":persistedCarAgentResult.carStatus,

@@ -11,7 +11,7 @@ class Car {
     Route route
 
     Configuration simulationStartTime
-    Date carStartTime
+    Date carStartTime = new Date()
     Integer battery=80  // Percentage from CarType maxEnergyLoad
     Double endBattery
     Integer pauseTimes
