@@ -22,5 +22,8 @@ requied regions. For example Berlin and so on.
    (instructions in web site)
 -  import sql data to database. The table names should be berlin_2po_4pgr, wiesloch_2po_4pgr
 - create MySql database. Name - emobilesim
+- In RouteServe.groovy line 317 put your Postgres Data
+- Line 331 add your Postgress tables
+- In DataSource.groovy are the typical MySql settings
 
 Work in progress...
