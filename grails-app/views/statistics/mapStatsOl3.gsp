@@ -203,8 +203,24 @@
                 })
             });
             var circleFinalPosition = new ol.style.Style({//TODO add good picture here
-                image: new ol.style.Circle({
-                    radius: 10,
+                image: new ol.style.Icon({
+                    //radius: 10,
+                    src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                    fill: new ol.style.Fill({
+                        color: '#000000'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: routeColor,
+                        width:5
+                    })
+                })
+            });
+
+            var startPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Icon({
+                    //radius: 10,
+                    src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                    scale: 0.5,
                     fill: new ol.style.Fill({
                         color: '#000000'
                     }),
@@ -289,6 +305,10 @@
                     return styles;
                 break;
 
+                case 'start':
+                    var styles = [startPosition];
+                    return styles;
+
                 default:
                     return[circleViaTarget]
             }
@@ -309,15 +329,30 @@
                 })
             });
             var circleFinalPosition = new ol.style.Style({//TODO add good picture here
-                image: new ol.style.Circle({
-                    radius: 10,
+                image: new ol.style.Icon({
+                    src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                    //radius: 10,
                     fill: new ol.style.Fill({
-                        color: '#000000'
-                    }),
+                        color: '#ff0000'
+                    })/*
                     stroke: new ol.style.Stroke({
                         color: routeColor,
                         width:5
-                    })
+                    })*/
+                })
+            });
+
+            var startPosition = new ol.style.Style({//TODO add good picture here
+                image: new ol.style.Icon({
+                    src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                    scale: 0.5,
+                    fill: new ol.style.Fill({
+                        color: '#ff0000'
+                    })/*
+                     stroke: new ol.style.Stroke({
+                     color: routeColor,
+                     width:5
+                     })*/
                 })
             });
 
@@ -393,6 +428,11 @@
                         break;
                 case 'finalPosition':
                     var styles = [circleFinalPosition];
+                    return styles;
+                    break;
+
+                case 'start':
+                    var styles = [startPosition];
                     return styles;
                     break;
                 default:
@@ -478,10 +518,10 @@
             source:realRoutes_source,
             opacity:0.6,
             style: styleFunctionForRoutes,
-            title: 'Route'<g:each var="fleet" in="${fleets}">
-            +"${fleet.cars.name}"
-            </g:each>
-
+            title: 'Route'
+                    <g:each var="car" in="${fleets.cars}" status="counter">
+                        +"${car.name}"
+                    </g:each>
         });
         allRouteLayers.push(realRoutes_layer);
         map.addLayer(realRoutes_layer);
@@ -530,24 +570,27 @@
 
                 switch(featureGeoType){
                     case 'route':
-                            content.innerHTML = '<p>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</p>' +
-                            '<p>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</p>' +
-                            '<p>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></p>' +
-                            '<p>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></p>' +
-                            '<p>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></p>' +
-                            '<p>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></p>'+
-                            '<p>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></p>'+
-                            '<p>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></p>'+
-                            '<p>Start/End Time = '+'<b>' +((feature.get('carStartTime')))   +' </b></p>'+
-                            '<p>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></p>'
+                            content.innerHTML = '<table align="left"><tr><td>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</td></tr>' +
+                            '<tr><td>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</td></tr>' +
+                            '<tr><td>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></td></tr>' +
+                            '<tr><td>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></td></tr>' +
+                            '<tr><td>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></td></tr>' +
+                            '<tr><td>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></td></tr>'+
+                            '<tr><td>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></td></tr>'+
+                            '<tr><td>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></td></tr>'+
+                            '<tr><td>Start Time = '+'<b>' +((feature.get('carStartTime')))   +' </b></td></tr>'+
+                            '<tr><td>End Time = '+'<b>' +((feature.get('endCarTime')))   +' </b></td></tr>'+
+                            '<tr><td>Start&End Akkuzustand = '+'<b>' +((feature.get('battery')))+'% - '  + ((feature.get('endBattery'))) + '%'  +' </b></td></tr>'+
+                            '<tr><td>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></td></tr></table>'
                          popup.setPosition(evtCoordinate);
                         break;
+
                     case 'via_target':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                         content.innerHTML = "<p>This is the: "+ '<b>' + feature.get('viaCounter')+". customer </b></p>" +
-                         "<p>Akku: "+ '<b>'  + '%' +'</b>'+" </p>" +
-                         "<p>Time: "+ '<b>'   +'</b>'+" </p>" +
-                         "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        content.innerHTML = '<table align="left"><tr><td>This is the:  '+ '<b>' + feature.get('viaCounter') +'</b>'+ '. customer'  +'</td></tr>' +
+                         '<tr><td>Akku= '+ '<b>'  + '%' +'</b>'+"</td></tr>" +
+                         '<tr><td>Time= '+ '<b>'   +'</b>'+" </td></tr>" +
+                         '<tr><td>Address= '+ '<b>' + address + '</b>'+'</td></tr></table>'
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
@@ -558,6 +601,28 @@
                             content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
+                        break;
+
+                    case 'start':
+                        var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
+                        content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        var featureCoordinates = feature.getGeometry().getCoordinates();
+                        popup.setPosition(featureCoordinates);
+                        break;
+
+                    case 'to_filling_station':
+                        content.innerHTML = "<p>Umweg zu Ladestation</p>";
+                        popup.setPosition(evtCoordinate);
+                        break;
+
+                    case 'route_failed':
+                        content.innerHTML = "<p>Route nicht geschaft</p>";
+                        popup.setPosition(evtCoordinate);
+                        break;
+
+                    case 'unusedStations_features':
+                        content.innerHTML = "<p>Not used charging Stations</p>";
+                        popup.setPosition(evtCoordinate);
                         break;
 
                     default:

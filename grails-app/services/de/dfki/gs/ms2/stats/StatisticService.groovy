@@ -153,9 +153,14 @@ class StatisticService {
         def fleets = []
         configuration.fleets.each {
             fleets.add(getFleetRoute(it.id))
+
         }
         return fleets
+
     }
+
+
+
     def getRealRoutesForAllFleets(Long experimentRunResultId){ //TODO Schould return a Map with carId and real route
         ExperimentRunResult result = ExperimentRunResult.get(experimentRunResultId)
         /*def allRealFleetRoutes = [:]
@@ -223,11 +228,8 @@ class StatisticService {
                 carModel.battery = car.battery
                 carModel.carStartTime = car.carStartTime
                 fleetModel.cars << carModel
-
             }
         }
-
-
         return fleetModel.cars
     }
 
@@ -386,7 +388,11 @@ class StatisticService {
                                                                                                                        "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
+                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                       "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                       "battery":"${persistedCarAgentResult.battery}",
+                                                                                                                       "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
+
         ]])
 
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":coordinatesOfRouteFailedToDrive],"properties":["geoType":"route_failed","color":randomColor,
@@ -411,7 +417,10 @@ class StatisticService {
                                                                                                                             "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                             "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                             "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd-MM-yyyy')}"
+                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                            "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                            "battery":"${persistedCarAgentResult.battery}",
+                                                                                                                            "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
         ]])
         features.add(["type":"Feature","geometry":["type":"MultiLineString","coordinates":allRoutesToEnergyFailedToDrive],"properties":["geoType":"to_filling_station_failed","color":randomColor,
                                                                                                                            "carStatus":persistedCarAgentResult.carStatus,
@@ -426,8 +435,10 @@ class StatisticService {
         ]])
         //adding start
         features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])
+
         //adding finalPosition
         features.add(["type":"Feature","geometry":["type":"Point","coordinates":[finalPosition.toLon,finalPosition.toLat]],"properties":["geoType":"finalPosition","color":randomColor,"streetName":finalPosition.streetName]])
+
         //adding all viatargets
         int viaCounter=1 //To know the order of the via_targets
         viaTargets.each {TrackEdge viaTarget ->
