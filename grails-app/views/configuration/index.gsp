@@ -32,7 +32,7 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
 
-    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
 
 </head>
 <body>

@@ -16,7 +16,7 @@
     <g:javascript src="ol/OpenLayers.js" />
 
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+    <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
 
 
     <meta name="layout" content="main" />
@@ -512,6 +512,8 @@
                     ]
                 }
             ];
+            var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Open Street Maps" );
+
             var mapgoogle_layer = new OpenLayers.Layer.Google(
                     "Google Maps", {
                         type: "styled"
@@ -519,7 +521,7 @@
                     }
 
             );
-            var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Open Street Maps" );
+
 
             var styledMapOptions = {
                 name: "Styled Map"
@@ -527,7 +529,7 @@
 
             var styledMapType = new google.maps.StyledMapType(stylez, styledMapOptions);
 
-            map.addLayers( [  mapgoogle_layer,mapnik_layer, markers, simulationLayer ] );
+            map.addLayers( [  mapnik_layer,mapgoogle_layer, markers, simulationLayer ] );
 
             map.addControl(new OpenLayers.Control.MousePosition());
 

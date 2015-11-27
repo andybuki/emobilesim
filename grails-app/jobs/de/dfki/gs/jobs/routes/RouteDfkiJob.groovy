@@ -13,7 +13,7 @@ class RouteDfkiJob {
     def group = "RouteDfkiGroup"
 
     def execute() {
-        routeDfkiFetcherService.fetchData( "https://efahrung.cloudapp.net/EFahrungPlatform/vehicles/1b3d3519-1cd3-41a4-82c7-6692be9477a2/live" )
+        //routeDfkiFetcherService.fetchData( "https://efahrung.cloudapp.net/EFahrungPlatform/vehicles/1b3d3519-1cd3-41a4-82c7-6692be9477a2/live" )
 
         println "RouteDFKI job finished at ${new Date()}"
     }

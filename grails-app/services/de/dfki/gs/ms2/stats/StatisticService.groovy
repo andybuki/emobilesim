@@ -191,6 +191,7 @@ class StatisticService {
 
                 def carModel = [:]
                 carModel.name = car.name
+                carModel.id   = car.id
                 carModel.route = []
 
                 Route route = Route.get(car.route.id)
@@ -388,8 +389,8 @@ class StatisticService {
                                                                                                                        "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                        "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                        "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
-                                                                                                                       "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                       "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm / dd MMMM yyyy')}",
+                                                                                                                       "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm / dd MMMM yyyy')}",
                                                                                                                        "battery":"${persistedCarAgentResult.battery}",
                                                                                                                        "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
 
@@ -417,8 +418,8 @@ class StatisticService {
                                                                                                                             "plannedTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForPlannedDistance)}",
                                                                                                                             "realTime":"${TimeCalculator.readableTime(persistedCarAgentResult.timeForRealDistance)}",
                                                                                                                             "fillingStationsVisited":persistedCarAgentResult.fillingStationsVisited,
-                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm dd MMMM yyyy')}",
-                                                                                                                            "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm dd MMMM yyyy')}",
+                                                                                                                            "carStartTime":"${persistedCarAgentResult.carStartTime.format('HH:mm/dd MMMM yyyy')}",
+                                                                                                                            "endCarTime":"${persistedCarAgentResult.endCarTime.format('HH:mm/dd MMMM yyyy')}",
                                                                                                                             "battery":"${persistedCarAgentResult.battery}",
                                                                                                                             "endBattery":"${Math.round(persistedCarAgentResult.endBattery*100)}"
         ]])

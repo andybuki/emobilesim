@@ -21,7 +21,7 @@
 <g:javascript src="application.js" />
 
 <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-<script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="http://ol3js.org/en/master/examples/google-map.js"></script>
 <script type='text/javascript' src="${resource(dir: 'js', file: 'menu_jquery.js')}"></script>
 <link rel='stylesheet' href="${resource(dir: 'css', file: 'menu.css')}" type='text/css' />

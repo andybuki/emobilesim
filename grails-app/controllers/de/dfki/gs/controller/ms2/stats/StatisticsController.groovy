@@ -390,7 +390,7 @@ class StatisticsController {
         def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
         List fields = ["id", "carStatus", "carTypeId", "energyConsumed", "energyLoaded", "fillingStationsVisited", "plannedDistance", "realDistance"]
-        Map labels = [id: "ID", carStatus:"Car Status",carTypeId:"car Type Id", energyConsumed:"Energy Consumed", energyLoaded:"Energy Loaded", fillingStationsVisited:"Filling Stations Visited", plannedDistance:"Planned Distance", realDistance: "Real Distance"]
+        Map labels = [id: "ID", carStatus:"Car Status",carTypeId:"car Type Id", energyConsumed:"Energy Consumed", energyLoaded:"Energy Loaded", fillingStationsVisited:"Filling Stations Visited", plannedDistance:"Planned Distance", realDistance: "Real Distance" ]
 
         m.stats = stats
         m.groups = stats.groups
@@ -398,7 +398,7 @@ class StatisticsController {
         m.experimentRunResultId = cmd.experimentRunResultId
 
         if(!params.max)
-            params.max = stats.cars.size()
+            params.max = stats.cars.size()+1
         if(params?.format && params.format != "html") {
             exportService.export(params.format, response.outputStream, PersistedCarAgentResult.list(params),fields, labels, [:], [:])
         }

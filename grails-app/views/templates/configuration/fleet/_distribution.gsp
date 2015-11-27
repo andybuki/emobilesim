@@ -492,6 +492,7 @@ polyline {
                                                 ]
                                             }
                                         ];
+                                        var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Open Street Maps" );
 
                                         var mapgoogle_layer = new OpenLayers.Layer.Google(
                                                 "Google Maps", {
@@ -500,7 +501,7 @@ polyline {
                                                 }
 
                                         );
-                                        var mapnik_layer = new OpenLayers.Layer.OSM.Mapnik( "Open Street Maps" );
+
 
                                         var styledMapOptions = {
                                             name: "Styled Map"
@@ -510,7 +511,7 @@ polyline {
 
 
 
-                                        map.addLayers( [  mapgoogle_layer,mapnik_layer, markers ] );
+                                        map.addLayers( [  mapnik_layer, mapgoogle_layer,markers ] );
 
 
                                         map.addControl(new OpenLayers.Control.MousePosition());

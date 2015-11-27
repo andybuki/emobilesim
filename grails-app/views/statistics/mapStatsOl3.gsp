@@ -511,18 +511,28 @@
 
         <g:each var = "realRoute" in = "${realRoutes}">
         var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute},{featureProjection:'EPSG:3857'});
+
+
         var realRoutes_source = new ol.source.Vector();
         realRoutes_source.addFeatures(realRoutes_features);
+
+        <g:each in="${fleets.cars}" var="cars">
+        <g:each in="${cars}" var="car">
 
         var realRoutes_layer = new ol.layer.Vector({
             source:realRoutes_source,
             opacity:0.6,
             style: styleFunctionForRoutes,
-            title: 'Route'
-                    <g:each var="car" in="${fleets.cars}" status="counter">
-                        +"${car.name}"
-                    </g:each>
+            title: 'Route for:'
+                    <%--<g:each var="car" in="${fleets.cars}" status="counter">--%>
+
+                            +  "${car.name}"
+
+                       <%-- +"${car.name}"
+                    </g:each>--%>
         });
+        </g:each>
+        </g:each>
         allRouteLayers.push(realRoutes_layer);
         map.addLayer(realRoutes_layer);
         </g:each>
@@ -536,7 +546,16 @@
             opacity:0.2,
             style: styleFunctionForUnusedStations
         });
+        
+        var startPosition_layer = new ol.layer.Vector({
+            title: 'Start Position',
+            opacity: 0.5,
+            style:styleFunctionForRoutes
+
+        });
+
         map.addLayer(unusedStations_layer);
+        map.addLayer(startPosition_layer);
 
         <%-- add the used stations --%>
         var usedStations_features = new ol.format.GeoJSON().readFeatures(${fillingStations.usedStations},{featureProjection:'EPSG:3857'});
@@ -598,14 +617,14 @@
 
                     case 'finalPosition':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                            content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                            content.innerHTML = "<p>Finish Address: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
 
                     case 'start':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                        content.innerHTML = "<p>Address: "+ '<b>' + address + '</b>'+" </p>"
+                        content.innerHTML = "<p>Start Address: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;

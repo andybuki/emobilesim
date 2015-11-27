@@ -18,7 +18,7 @@
     <g:javascript src="application.js"/>
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=3.5&sensor=false"></script>
+    <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <g:javascript src="tablesorter.js"/>
 </head>
@@ -89,9 +89,9 @@
                                 </g:else>
                                 <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm-dd.MMMM")} </td>
                                 <td class="statsTitle5">${(carsNumber.endCarTime).format("HH:mm-dd.MMMM")} </td>
-                                <td class="statsTitle1">${Math.round(carsNumber.realDistance)}km</td>
-                                <td class="statsTitle1"> ${Math.round(carsNumber.plannedDistance)}km</td>
-                                <td class="statsTitle1">${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</td>
+                                <td class="statsTitle1">${Math.round(carsNumber.plannedDistance)}km</td>
+                                <td class="statsTitle1"> ${Math.round(carsNumber.realDistance)}km</td>
+                                <td class="statsTitle1">${Math.round(carsNumber.realDistance-carsNumber.plannedDistance)}km</td>
 
                                 <td class="statsTitle1">
                                     <g:if test="${((carsNumber.timeForPlannedDistance))==0}">
@@ -132,7 +132,10 @@
                                 <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
                                 <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
                                 <td class="statsTitle1">${carsNumber.battery}% /${Math.round(carsNumber.endBattery*100)}% </td>
-                                <td class="statsTitle1">-</td>
+                                <td class="statsTitle1">
+                                    <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED'}">-</g:if>
+                                    <g:else>${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</g:else>
+                                </td>
                             </tr>
                         </g:each>
                         </tbody>
