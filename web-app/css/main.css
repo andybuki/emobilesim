@@ -2305,7 +2305,7 @@ fieldset {
     vertical-align: top;
     display: table-cell;
     float:left;
-	width: 625px;
+	width: 100%;
 }
 
 .contentLeft{

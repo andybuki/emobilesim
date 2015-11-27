@@ -4,12 +4,13 @@ import de.dfki.gs.domain.simulation.Configuration
 import grails.validation.Validateable
 
 /**
- * Created by simon on 07.04.15.
+ * Created by simon on 23.11.15.
  */
 @Validateable
-class ChangeNameCommandObject {
+class SetNameAndAreaCommandObject {
     Long configurationStubId
     String nameForSimulation
+    String areaId
     static constraints = {
 
         configurationStubId nullable: false, validator: { val,obj ->
@@ -26,6 +27,6 @@ class ChangeNameCommandObject {
         }
 
         nameForSimulation nullable: true
-
+        areaId nullable:true
     }
 }
