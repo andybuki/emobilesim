@@ -38,7 +38,16 @@
 <body>
 <table width="800px" class="startSimulation">
     <td>
-        <g:link controller="configuration" class="newSimulation" action="configureSimulation"><g:message code="configuration.index.createNewSimulation"/> </g:link>
+        <g:form action="configureSimulation">
+                <g:submitToRemote class="newSimulation"
+                                  url="[controller: 'configuration', action: 'configureSimulation']"
+                                  update="updateMe"
+                                  name="submit"
+                                  value="${message(code: 'configuration.index.createNewSimulation')}" />
+            <div class="clear"></div>
+        </g:form>
+        <div id="updateMe"></div>
+           <%-- <g:link controller="configuration" class="newSimulation" action="configureSimulation"><g:message code="configuration.index.createNewSimulation"/> </g:link>--%>
     </td>
     <td>
         <div class="pContainer">

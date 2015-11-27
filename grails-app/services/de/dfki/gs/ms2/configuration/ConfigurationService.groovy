@@ -1,29 +1,16 @@
 package de.dfki.gs.ms2.configuration
 
 import com.vividsolutions.jts.geom.Coordinate
-import com.vividsolutions.jts.geom.Point
-import de.dfki.gs.domain.DfkiRoutesTimeStatus
 import de.dfki.gs.domain.GasolineStationType
-import de.dfki.gs.domain.simulation.Car
-import de.dfki.gs.domain.simulation.CarType
-import de.dfki.gs.domain.simulation.Configuration
-import de.dfki.gs.domain.simulation.CustomerPositionSet
-import de.dfki.gs.domain.simulation.FillingStation
-import de.dfki.gs.domain.simulation.FillingStationGroup
-import de.dfki.gs.domain.simulation.FillingStationType
-import de.dfki.gs.domain.simulation.Fleet
-import de.dfki.gs.domain.simulation.Route
-import de.dfki.gs.domain.simulation.Simulation
-import de.dfki.gs.domain.simulation.TrackEdge
+import de.dfki.gs.domain.simulation.*
 import de.dfki.gs.domain.stats.ExperimentRunResult
-import de.dfki.gs.domain.stats.FillingStationResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.users.Person
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
 import de.dfki.gs.domain.utils.SimulationArea
-import de.dfki.gs.utils.LatLonPoint
+import grails.converters.JSON
 import grails.transaction.Transactional
 
 @Transactional
@@ -107,6 +94,7 @@ class ConfigurationService {
         Fleet fleet = Fleet.get( fleetId )
 
         configuration.addToFleets( fleet )
+        fleet.save(flush: true)
 
         if ( !configuration.save( flush: true ) ) {
 
@@ -115,6 +103,29 @@ class ConfigurationService {
         }
 
         return
+    }
+
+    def createFleetGeoJson(long configurationStubId,long fleetId){
+        Configuration configuration = Configuration.get( configurationStubId )
+        Fleet fleet = Fleet.get( fleetId )
+        def lonlat = [];
+        SimulationArea simulationArea = fleet.simulationArea;
+        switch (simulationArea){
+            case SimulationArea.BERLIN:
+                lonlat = [13.38,52.52];
+                break;
+            case SimulationArea.WIESLOCH:
+                lonlat = [8.7,49.29];
+                break;
+            case SimulationArea.BREMEN:
+                lonlat = [ 8.77,53.08];
+                break
+            default:
+                lonlat = [13.38,52.52];
+        }
+        def features = []
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetBase"]])
+        return features as JSON;
     }
 
 
@@ -484,8 +495,10 @@ class ConfigurationService {
         stub.fleets.each { Fleet fleet ->
             alreadyAddedFleets.add( Fleet.get( fleet.id ) )
         }
-
-        fleets.removeAll( alreadyAddedFleets )
+        alreadyAddedFleets.each {addedFleet ->
+            def addedFleetInFleets = fleets.findAll{it.id == addedFleet.id}
+            fleets.removeAll(addedFleetInFleets)
+        }
 
         return fleets
     }
