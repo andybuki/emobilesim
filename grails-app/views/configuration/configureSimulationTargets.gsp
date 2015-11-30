@@ -189,6 +189,27 @@
             zoom: 11
         })
     });
+
+    var berlinLayer = new ol.layer.Vector({
+        title: 'Berlin Polygon',
+        source: new ol.source.Vector({
+            projection : map.getView().getProjection(),
+            url:<g:if test="${simulationArea == 'BERLIN'}">
+                    "${g.resource( dir: '/geojson', file: 'berlinPolygon.json' )}",
+                 </g:if>
+                <g:else>
+                    "${g.resource( dir: '/geojson', file: 'berlinPolygon.json' )}", //Should be wieslochPolygon,json
+                </g:else>
+            format: new ol.format.GeoJSON()
+        }),
+        style:  new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#ff0000',
+                width: 2
+            })
+        })
+    })
+    map.addLayer(berlinLayer);
     var baseFeatures = new ol.Collection();
     var featureOverlayForBase = new ol.layer.Vector({
         map: map,
@@ -283,15 +304,27 @@
         draw = new ol.interaction.Draw({
             features: baseFeatures,
             type: 'Point',
-            style: overlayStyleFunctionForBase
+            style: overlayStyleFunctionForBase,
+            condition: function(evt){
+                var cityFeatures = berlinLayer.getSource().getFeaturesAtCoordinate(evt.coordinate);
+                var cityFeature = cityFeatures["0"];
+                return (cityFeatures.length>0&&cityFeature.get('city') == "${simulationArea}");
+            }
         });
         map.addInteraction(draw);
     }
+    var returnvalue = false;
     function addInteractionDrawTarget() {
         draw = new ol.interaction.Draw({
             features: collection,
             type: 'Point',
-            style: overlayStyleFunction
+            style: overlayStyleFunction,
+            condition: function(evt){
+                var cityFeatures = berlinLayer.getSource().getFeaturesAtCoordinate(evt.coordinate);
+                var cityFeature = cityFeatures["0"];
+                return (cityFeatures.length>0&&cityFeature.get('city') == "${simulationArea}");
+            }
+
         });
         map.addInteraction(draw);
     }
