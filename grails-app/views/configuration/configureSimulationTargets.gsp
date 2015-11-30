@@ -70,7 +70,7 @@
             </g:if>
         </div>
     </g:form>
-    <div class="layoutLeft2">
+    <div class="layoutLeft12">
         <div class="contentLeftBigConfiguration1">
             <div class="rowGroup3">
                 <div>
