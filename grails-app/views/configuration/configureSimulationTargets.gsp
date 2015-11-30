@@ -38,25 +38,9 @@
     </div>
 
     <div class="layout">
-        <div class="layoutLeft1">
-            <div class="contentLeftBigConfiguration">
 
-                <div class="rowGroup1">
-                    <div >
 
-                        <g:form name="saveBaseAndTargetsForm" action="saveBaseAndTargets">
-                            <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                            <g:hiddenField name="base" value=""/>
-                            <g:hiddenField name="targets" value=""/>
-                            <g:submitButton name="submit" value="Save"/>
-                        </g:form>
-                    </div>
-                </div>
-
-                <div class="clear"></div>
-            </div>
-        </div>
-
+        <!--
         <div class="rowSpace">
             <div class="clear"></div>
         </div>
@@ -67,7 +51,7 @@
         <div class="rowSpace">
             <div class="clear"></div>
         </div>
-
+        -->
 
 <div class="layoutRight">
     <div id="map" class="map"></div>
@@ -75,8 +59,6 @@
 </div>
 <div class="formConfiguration">
     <g:form action="saveFinishedConfigurationFleet">
-        <br><br>
-
         <div class="layoutButton">
             <span class="layoutButtonL">
             </span>
@@ -88,7 +70,22 @@
             </g:if>
         </div>
     </g:form>
+    <div class="layoutLeft2">
+        <div class="contentLeftBigConfiguration1">
+            <div class="rowGroup3">
+                <div>
+                    <g:form name="saveBaseAndTargetsForm" action="saveBaseAndTargets">
+                        <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                        <g:hiddenField name="base" value=""/>
+                        <g:hiddenField name="targets" value=""/>
+                        <g:submitButton name="submit" value="Save"/>
+                    </g:form>
+                </div>
+            </div>
 
+            <div class="clear"></div>
+        </div>
+    </div>
     <div id="updateMe"></div>
 </div>
 </div>

@@ -2,7 +2,7 @@
 <div>
     <g:form controller="configuration" action="setSimulationNameAndArea">
         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-        <div class="contentModalWindowFleet">
+        <div class="contentModalWindowFleetNew">
             <div class="rowUp">
                 <div class="leftbig"><b><g:message code="simulation.index.setNameForSimulation"/></b></div>
 

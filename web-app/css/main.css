@@ -1359,6 +1359,15 @@ ul#menu {
 	min-height:32px;
 }
 
+
+.rowGroup3 {
+
+
+	position: relative;
+    left:10px;
+	top:10px;
+}
+
 .rowU1 {
     background-color:#ccc;
     display:block;
@@ -2310,6 +2319,15 @@ fieldset {
 
 }
 
+.layoutLeft2 {
+
+	vertical-align: top;
+	display: table-cell;
+	width: 100%;
+	border-right: 1px solid #eee;
+
+}
+
 .layoutRight {
     vertical-align: top;
     display: table-cell;
@@ -2870,6 +2888,16 @@ fieldset {
     padding-bottom: 5px;
 
 }
+
+
+.contentModalWindowFleetNew {
+
+	font-size: 12px;
+	padding-top: 5px;
+
+
+}
+
 
 .contentModalWindowFleetArea {
 	width:320px;
