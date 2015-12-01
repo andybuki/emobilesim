@@ -1,4 +1,4 @@
-<table border="0" xmlns="http://www.w3.org/1999/html">
+<table class="addcars" border="0" xmlns="http://www.w3.org/1999/html">
     <tr>
         <td width="90px" align="left">
             <a href="http://emobilesim.dfki.de"><img class="efahrungLogo" align="left" width="80px" src="${g.resource( dir: '/images', file: 'logo_efahrung.png' )}"/></a>
@@ -19,10 +19,10 @@
                         <%--<li><g:link controller="configuration" action="executeSimulations"><g:message code="layouts._topbar.execute"/></g:link></li>--%>
                         <li><g:link controller="configuration" action="viewSimulations"><g:message code="layouts._topbar.view"/></g:link></li>
 
-                        <li><g:link controller="configuration" action="showCarTypes"><g:message code="layouts._topbar.extras"/></g:link>
+                        <li class="addcars"><g:link controller="configuration" action="showCarTypes"><g:message code="layouts._topbar.extras"/></g:link>
                             <ul>
-                                <li><g:link controller="configuration" action="showCarTypes"><g:message code="layouts._topbar.addnewcartype"/></g:link></li>
-                                <li><g:link controller="configuration" action="showFillingStationTypes"><g:message code="layouts._topbar.addnewelectricstation"/></g:link></li>
+                                <li class="addcars"><g:link controller="configuration" action="showCarTypes"><g:message code="layouts._topbar.addnewcartype"/></g:link></li>
+                                <li class="addcars"><g:link controller="configuration" action="showFillingStationTypes"><g:message code="layouts._topbar.addnewelectricstation"/></g:link></li>
                                 <%--<li><g:link controller="mapView" action="listUsages"><g:message code="layouts._topbar.electricstationstatistic"/></g:link></li>--%>
                             </ul>
                         </li>
