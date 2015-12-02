@@ -43,7 +43,7 @@
 </div>
 </div>
 <div class="formConfiguration">
-    <div class="layoutLeft2">
+    <div class="layoutLeft12">
         <div class="contentLeftBigConfiguration1">
             <div class="rowGroup3">
                 <div>
