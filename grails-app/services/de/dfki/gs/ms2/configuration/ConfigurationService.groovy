@@ -88,6 +88,23 @@ class ConfigurationService {
 
         return
     }
+    def addCustomerPositionSetsToConfiguration( Long configurationStubId , Long customerPositionSetId) {
+
+        Configuration configuration = Configuration.get( configurationStubId )
+        CustomerPositionSet customerPositionSet = CustomerPositionSet.get( customerPositionSetId )
+
+        configuration.addToCustomerPositonSets( customerPositionSet )
+        customerPositionSet.save(flush: true)
+
+        if ( !configuration.save( flush: true ) ) {
+
+            log.error( "failed to add fleet to configuarionStub: ${configuration.errors}" )
+
+        }
+
+        return
+    }
+
     def addFleetToConfiguration( Long configurationStubId , Long fleetId) {
 
         Configuration configuration = Configuration.get( configurationStubId )

@@ -33,31 +33,17 @@
 <body>
     <div class="pContainerConfigure">
         <div class="rowUp">
-            <g:form action="changeName">
-                <div class="leftBoldBig1">
-                    <g:message code="configuration.index.configuresimulation"/> <g:textField name="nameForSimulation" value="${simulationName}"/>
-                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                    <g:submitButton name="ok" value="Ok" />
-                </div>
-            </g:form>
-                <g:form action="changeArea">
-                    <div class="right0PX">
-                        <span class="rightBoldBig1">
-                            <%--<g:message code="configuration.index.simulationarea"/>--%> ${simulationArea}
-                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                <span class="rightBoldBig2">
-                                    <g:if test="${(addedFleets == null || addedFleets.size() == 0)}">
-                                        <g:submitToRemote class="addButton"
-                                            url="[action: 'changeArea']"
-                                            update="updateMe"
-                                            name="submit"
-                                            value="${message(code:'configuration.index.changearea')}" />
-                                    </g:if>
-                                </span>
-                        </span>
-                    </div>
-                </g:form>
-                <div class="clear"></div>
+            <div class="leftBoldBig1">
+                Simulation: ${simulationName}
+            </div>
+
+            <div class="right0PX">
+                <span class="rightBoldBig1">
+                    <g:message code="configuration.index.simulationarea"/> ${simulationArea}
+                </span>
+            </div>
+
+            <div class="clear"></div>
         </div>
         <div class="layout">
             <div class="layoutLeft1">
@@ -243,59 +229,27 @@
                                         </g:each>
 
                                 </table>
-                                <%--<div class="clear"></div>--%>
+
                         </g:each>
                     </g:if>
-                <%--<div class="rowMiddleWithoutBorder2">
-                    <div class="left0PX"></div>
-                    <div class="right0PX"></div>
-                    <div class="clear"></div>
-                </div>--%>
+
             </div>
-            <%--<div class="rowSpace">
-                <div class="clear"></div>
-            </div>--%>
+
             </div>
         </div>
         <div class="formConfiguration">
             <g:form action="saveFinishedConfigurationFleet">
                 <br><br>
                 <div class="layoutButton">
-                    <span class="layoutButtonL">
-                        <%--<span class="addButtonCancel"><g:link controller="configuration" action="configureSimulation"><g:message code="configuration.index.cancel"/></g:link></span>--%>
-                        <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
-                    </span>
-                                <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
-                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 1 && savedFleets == 0 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                              (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
-                                }">--%>
-                                <g:if test="${notConfiguredFleets==1 || savedFleets == 1 || configuredFleets==1}">
+                                <g:if test="${addedFleets}">
                                         <span class="layoutButtonM"></span>
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.next')}"/></span>
-                                <%--</g:if>--%>
                                 </g:if>
                 </div>
             </g:form>
 
-            <%--<g:form controller="execution" action="executeExperiment">
-                <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
-                                <div class="layoutButton">
-                                    <span class="layoutButtonM"></span>
-                                    <g:hiddenField name="relativeSearchLimit" value="20" />
-                                    <g:hiddenField name="configurationId" value="${configurationStubId}"/>
-                                    <span class="layoutButtonR">
-                                        <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
-                                    </span>
-                                </div>
-                </g:if>
-            </g:form>--%>
+
             <div id="updateMe"></div>
         </div>
     </div>
