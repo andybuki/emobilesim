@@ -29,13 +29,8 @@
 
     <div id="content">
     <div id="signup">
-
-
-
         <g:if test="${errors != null}" >
-
             Errors: ${errors}
-
         </g:if>
 
         <div class="pContainerAuth">
