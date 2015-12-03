@@ -38,38 +38,11 @@
     </div>
 
     <div class="layout">
-
-
-        <!--
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-
-        <div class="rowGroup2">
-        </div>
-
-        <div class="rowSpace">
-            <div class="clear"></div>
-        </div>
-        -->
-
 <div class="layoutRight">
     <div id="map" class="map"></div>
 </div>
 </div>
 <div class="formConfiguration">
-    <g:form action="saveFinishedConfigurationFleet">
-        <div class="layoutButton">
-            <span class="layoutButtonL">
-            </span>
-            <g:if test="${notConfiguredFleets == 1 || savedFleets == 1 || configuredFleets == 1}">
-                <span class="layoutButtonM"></span>
-                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                <span class="layoutButtonR"><g:submitButton name="send"
-                                                            value="${message(code: 'configuration.index.next')}"/></span>
-            </g:if>
-        </div>
-    </g:form>
     <div class="layoutLeft12">
         <div class="contentLeftBigConfiguration1">
             <div class="rowGroup3">

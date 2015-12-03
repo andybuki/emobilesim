@@ -31,6 +31,7 @@ class Configuration {
      * same same for fillingstations
      */
     List<FillingStationGroup> fillingStationGroups = []
+    List<CustomerPositionSet> customerPositionSets = []
 
     Boolean stub
 
@@ -39,7 +40,8 @@ class Configuration {
     static hasMany = [
             experiments : Experiment,
             fleets : Fleet,
-            fillingStationGroups : FillingStationGroup
+            fillingStationGroups : FillingStationGroup,
+            customerPositonSets : CustomerPositionSet
     ]
 
     static constraints = {

@@ -43,7 +43,7 @@
                     <div class="rowDown">
                         <div class="left0PX">
                              <%--<g:submitButton name="createCar" value="Cancel"/>--%>
-                            <input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href"/>
+                            <input type="button" value="${message(code: 'templates.configuration.fleet._createFleet.cancel')}" onclick="window.location.href=window.location.href+'?configurationStubId='+${configurationStubId}"/>
                         </div>
                         <div class="right80PX">
                              <g:hiddenField name="fleetStubId" value="${fleetStubId}"/>
