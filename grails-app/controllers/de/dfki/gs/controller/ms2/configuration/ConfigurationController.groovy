@@ -412,15 +412,16 @@ class ConfigurationController {
             log.error("failed to vaildate AddFleetToConfigurationCommandObject: ${cmd.errors}")
         } else {
 
-            fleetGeoJson = configurationService.createFleetGeoJson(cmd.configurationStubId,cmd.fleetId)
+            fleetGeoJson = configurationService.createFleetGeoJson(cmd.configurationStubId, cmd.fleetId)
 
         }
         //render(template: '/templates/configuration/fleet/fleetSelection', model: m)
-         render fleetGeoJson
+        render fleetGeoJson
 
         //redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
 
     }
+
     def addExistentGroupToConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -519,7 +520,7 @@ class ConfigurationController {
         render view: 'index', model: m
     }
 
-    def configureSimulation(){
+    def configureSimulation() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -555,7 +556,7 @@ class ConfigurationController {
     }
 
 
-    def configureSimulationRoute () {
+    def configureSimulationRoute() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -585,7 +586,6 @@ class ConfigurationController {
             configurationStubId = cmd.configurationStubId
         }
 
-
         // to know what we are talking about
         m.configurationStubId = configurationStubId
 
@@ -612,7 +612,7 @@ class ConfigurationController {
         render view: 'configureSimulationRouteOnMap', model: m
     }
 
-    def configureSimulationStation () {
+    def configureSimulationStation() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -893,14 +893,14 @@ class ConfigurationController {
             m.configurationStubId = cmd.configurationStubId
 
             m.fleetName = configurationService.getNameOfFleet(cmd.fleetId)
-            m.fleetSize = configurationService.getFleetSize (cmd.fleetId)
+            m.fleetSize = configurationService.getFleetSize(cmd.fleetId)
             // put in available Distributions
-            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES -Distribution.OBU_ROUTES
+            m.distributions = Distribution.values() - Distribution.SELF_MADE_ROUTES - Distribution.OBU_ROUTES
 
             // put all cars from fleet
             // m.cars = configurationService.getCarsFromFleet( cmd.fleetId )
-            m.simulationTime = configurationService.getSimulationTime (cmd.fleetId)
-            m.carId = configurationService.getCarId (cmd.fleetId)
+            m.simulationTime = configurationService.getSimulationTime(cmd.fleetId)
+            m.carId = configurationService.getCarId(cmd.fleetId)
             m.carTypes = configurationService.getCarsFromFleetTypeOrdered(cmd.fleetId)
             m.simulationArea = (configurationService.getSimulationArea(cmd.configurationStubId)).name()
             m.existentRoutes = configurationService.getExistentRoutesForPerson(person)
@@ -910,7 +910,8 @@ class ConfigurationController {
 
         }
     }
-    def setExistentRouteForFleet(){
+
+    def setExistentRouteForFleet() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -931,50 +932,49 @@ class ConfigurationController {
             VrpTracks vrpRouteTracks = vrpSolver.solveVrp();
             Fleet fleet = Fleet.get(cmd.fleetId)
             SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
-            if(fleet.cars.size()!=vrpRouteTracks.optaTracks.size()){
+            if (fleet.cars.size() != vrpRouteTracks.optaTracks.size()) {
                 log.error("a bad error accured vrpRouteTracks has not the proper nr. of cars")
-            }
-            else {
+            } else {
                 Stack<SingleVrpTracks> vrpTracksStack = new Stack<SingleVrpTracks>()
-                vrpRouteTracks.optaTracks.each {vrpTracksStack.push(it)}
-                for(Car car: fleet.cars){
+                vrpRouteTracks.optaTracks.each { vrpTracksStack.push(it) }
+                for (Car car : fleet.cars) {
                     def destinationsForCar = []
                     destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
                     destinationsForCar.addAll(vrpTracksStack.pop().vrpRoute)
                     destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
-                    def pairs = destinationsForCar.collate(2,1,false)
+                    def pairs = destinationsForCar.collate(2, 1, false)
                     List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
                     pairs.each {
-                        Coordinate currentStart = new Coordinate(it[0].lat,it[0].lon)
-                        Coordinate currentTarget = new Coordinate(it[1].lat,it[1].lon)
+                        Coordinate currentStart = new Coordinate(it[0].lat, it[0].lon)
+                        Coordinate currentTarget = new Coordinate(it[1].lat, it[1].lon)
                         List<BasicEdge> pathEdges = [];
-                        if(currentStart.equals(currentTarget)){
+                        if (currentStart.equals(currentTarget)) {
                             log.error("start and target are same from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
 
-                        }
-                        else{
+                        } else {
                             pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
                             if (pathEdges.size() < 1) {
                                 log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
                                 return null //Todo: This might resolve in an error FIX IT
                             }
                         }
-                        multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
+                        multiTargetRoute.add(routeService.repairEdges(pathEdges))
                     }
-                    routeService.persistRouteToCar( car, multiTargetRoute )
+                    routeService.persistRouteToCar(car, multiTargetRoute)
 
                 }
                 fleet.routesConfigured = true
                 fleet.fleetStatus = FleetStatus.CONFIGURED
-                fleet.simulationArea= simulationArea
-                if ( !fleet.save( flush: true ) ) {
-                    log.error( "failed to save fleet: ${fleet.errors}" )
+                fleet.simulationArea = simulationArea
+                if (!fleet.save(flush: true)) {
+                    log.error("failed to save fleet: ${fleet.errors}")
                 }
             }
 
         }
         redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: cmd.configurationStubId])
     }
+
     def setDistributionForFleet() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1067,9 +1067,10 @@ class ConfigurationController {
 
         }
     }
-    def saveBaseAndTargets(){
+
+    def saveBaseAndTargets() {
         Person person = (Person) springSecurityService.currentUser
-        Company company = Company.get( person.company.id )
+        Company company = Company.get(person.company.id)
         if (!person) {
 
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
@@ -1077,14 +1078,13 @@ class ConfigurationController {
         }
         SaveBaseAndTargetsCommandObject cmd = new SaveBaseAndTargetsCommandObject()
         bindData(cmd, params)
-        def m=[:]
+        def m = [:]
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
 //TODO If user dosen't choose one Base and One Target he should not be able to save!
-            render (view: 'configureSimulationTargets', model: m)
-        }
-        else{
+            render(view: 'configureSimulationTargets', model: m)
+        } else {
             //TODO CHeck if base and targets are there otherwise return with errormessage
 
             def base = JSON.parse(cmd.base)
@@ -1093,40 +1093,41 @@ class ConfigurationController {
             baseCoordinates.lat = base.features[0].geometry.coordinates[1];
             def targets = JSON.parse(cmd.targets)
             def targetsCoordinates = [];
-            targets.features.each{feature ->
+            targets.features.each { feature ->
                 def lonlat = [:]
                 lonlat.lon = feature.geometry.coordinates[0]
                 lonlat.lat = feature.geometry.coordinates[1]
                 targetsCoordinates.add(lonlat)
             }
 
-            CustomerPosition depot = new CustomerPosition(isDepot: true,lat: baseCoordinates.lat, lon: baseCoordinates.lon)
-            if ( !depot.save( flush: true ) ) {
-                log.error( "failed to save depot: ${depot.errors}" )
+            CustomerPosition depot = new CustomerPosition(isDepot: true, lat: baseCoordinates.lat, lon: baseCoordinates.lon)
+            if (!depot.save(flush: true)) {
+                log.error("failed to save depot: ${depot.errors}")
             }
             def destinations = []
             targetsCoordinates.each { coordinate ->
-                CustomerPosition customerPosition =  new CustomerPosition(isDepot: false,lat: coordinate.lat, lon: coordinate.lon)
-                if ( !customerPosition.save( flush: true ) ) {
-                    log.error( "failed to save customerPosition: ${customerPosition.errors}" )
+                CustomerPosition customerPosition = new CustomerPosition(isDepot: false, lat: coordinate.lat, lon: coordinate.lon)
+                if (!customerPosition.save(flush: true)) {
+                    log.error("failed to save customerPosition: ${customerPosition.errors}")
                 }
                 destinations << customerPosition
             }
             CustomerPositionSet customerPositionSet = new CustomerPositionSet(company: company, depot: depot, customers: destinations)
-            if ( !customerPositionSet.save( flush: true ) ) {
-                log.error( "failed to save customerPositionSet: ${customerPositionSet.errors}" )
+            if (!customerPositionSet.save(flush: true)) {
+                log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
             }
-            customerPositionSet.name ="Route Nr. "+customerPositionSet.id
-            if ( !customerPositionSet.save( flush: true ) ) {
-                log.error( "failed to save customerPositionSet: ${customerPositionSet.errors}" )
+            customerPositionSet.name = "Route Nr. " + customerPositionSet.id
+            if (!customerPositionSet.save(flush: true)) {
+                log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
             }
-            configurationService.addCustomerPositionSetsToConfiguration(cmd.configurationStubId,customerPositionSet.id)
+            configurationService.addCustomerPositionSetsToConfiguration(cmd.configurationStubId, customerPositionSet.id)
             redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: cmd.configurationStubId])
         }
 
         //render (view: 'configureSimulationTargets', model: m)
     }
-    def configureSimulationFleet(){
+
+    def configureSimulationFleet() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1143,11 +1144,12 @@ class ConfigurationController {
         m.configurationStubId = cmd.configurationStubId
         m.simulationName = configurationService.getSimulationName(cmd.configurationStubId)
         m.simulationArea = configurationService.getSimulationArea(cmd.configurationStubId).name()
-        m.availableFleets = configurationService.getFleetsForCompany(person,cmd.configurationStubId)
+        m.availableFleets = configurationService.getFleetsForCompany(person, cmd.configurationStubId)
         m.addedFleets = configurationService.getAddedFleets(cmd.configurationStubId)
-        render (view: 'configureSimulationFleet', model: m)
+        render(view: 'configureSimulationFleet', model: m)
     }
-    def setSimulationNameAndArea(){
+
+    def setSimulationNameAndArea() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1163,19 +1165,18 @@ class ConfigurationController {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
 
-        } else if(cmd.nameForSimulation == null) {
+        } else if (cmd.nameForSimulation == null) {
             log.error("no input")
-        }
-        else {
+        } else {
             configurationService.setSimulationName(cmd.configurationStubId, cmd.nameForSimulation)
-            if(cmd.areaId){
+            if (cmd.areaId) {
                 configurationService.changeSimulationArea(cmd.configurationStubId, cmd.areaId)
             }
         }
         m.configurationStubId = cmd.configurationStubId
         m.simulationName = configurationService.getSimulationName(cmd.configurationStubId)
         m.simulationArea = configurationService.getSimulationArea(cmd.configurationStubId).name()
-       render(view: 'configureSimulationTargets',model:m)
+        render(view: 'configureSimulationTargets', model: m)
 
     }
     /**
@@ -1223,7 +1224,7 @@ class ConfigurationController {
 
     }
 
-    def configureBatteryAll () {
+    def configureBatteryAll() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1238,15 +1239,15 @@ class ConfigurationController {
         ConfigureBatteryForConfigurationCommandObject cmd = new ConfigureBatteryForConfigurationCommandObject()
         bindData(cmd, params)
 
-            log.error("hua!! ${cmd.configurationStubId}")
+        log.error("hua!! ${cmd.configurationStubId}")
 
 
-            Long probe
-            probe = configurationService.getFleetId(cmd.configurationStubId)
+        Long probe
+        probe = configurationService.getFleetId(cmd.configurationStubId)
 
-            String batteryCount = (params.batteryCount)
-            Long battery = batteryCount.toLong()
-            configurationService.persistBatteryForFleet(probe, battery)
+        String batteryCount = (params.batteryCount)
+        Long battery = batteryCount.toLong()
+        configurationService.persistBatteryForFleet(probe, battery)
 
         redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: cmd.configurationStubId])
     }
@@ -1262,7 +1263,7 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        CreateStartTimeCommandObject cmd = new CreateStartTimeCommandObject()
         bindData(cmd, params)
 
 
@@ -1271,7 +1272,7 @@ class ConfigurationController {
         Long probe
         probe = configurationService.getFleetId(cmd.configurationStubId)
 
-        String startDate = (params.startDate_hour+":"+params.startDate_minute+"-"+params.startDate_day +"/" + params.startDate_month +"/" + params.startDate_year )
+        String startDate = (params.startDate_hour + ":" + params.startDate_minute + "-" + params.startDate_day + "/" + params.startDate_month + "/" + params.startDate_year)
         DateFormat format = new SimpleDateFormat("H:m-d/M/yyyy", Locale.GERMAN);
         Date carStartTime = format.parse(startDate);
 
@@ -1288,7 +1289,7 @@ class ConfigurationController {
 
     }
 
-    def configureBatteryOne () {
+    def configureBatteryOne() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1334,33 +1335,33 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        CreateStartTimeCommandObject cmd = new CreateStartTimeCommandObject()
         bindData(cmd, params)
 
 
-            def m = [:]
+        def m = [:]
 
-            Long probe
-            probe = configurationService.getFleetId(cmd.configurationStubId)
+        Long probe
+        probe = configurationService.getFleetId(cmd.configurationStubId)
 
-            String startDate = (params.startDate_hour+":"+params.startDate_minute+"-"+params.startDate_day +"/" + params.startDate_month +"/" + params.startDate_year )
-            DateFormat format = new SimpleDateFormat("H:m-d/M/yyyy", Locale.GERMAN);
-            Date carStartTime = format.parse(startDate);
-            //Date carStartTime = startDate
+        String startDate = (params.startDate_hour + ":" + params.startDate_minute + "-" + params.startDate_day + "/" + params.startDate_month + "/" + params.startDate_year)
+        DateFormat format = new SimpleDateFormat("H:m-d/M/yyyy", Locale.GERMAN);
+        Date carStartTime = format.parse(startDate);
+        //Date carStartTime = startDate
 
-            m.fleetId = cmd.fleetId
-            m.configurationStubId = cmd.configurationStubId
-            //m.startTime = configurationService.getStartTime(cmd.fleetId)
+        m.fleetId = cmd.fleetId
+        m.configurationStubId = cmd.configurationStubId
+        //m.startTime = configurationService.getStartTime(cmd.fleetId)
 
-            configurationService.persistStartTimeForFleet(probe, carStartTime)
+        configurationService.persistStartTimeForFleet(probe, carStartTime)
 
-            redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: params.configurationStubId])
 
 
     }
 
 
-    def configureBatteryView () {
+    def configureBatteryView() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1371,7 +1372,7 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        CreateBatteryStatusCommandObject cmd  = new CreateBatteryStatusCommandObject()
+        CreateBatteryStatusCommandObject cmd = new CreateBatteryStatusCommandObject()
         bindData(cmd, params)
 
         String carId = (params.carId)
@@ -1394,7 +1395,7 @@ class ConfigurationController {
 
     }
 
-    def configureStartTimeView () {
+    def configureStartTimeView() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1405,7 +1406,7 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        CreateStartTimeCommandObject cmd  = new CreateStartTimeCommandObject()
+        CreateStartTimeCommandObject cmd = new CreateStartTimeCommandObject()
         bindData(cmd, params)
 
         String carId = (params.carId)
@@ -1424,7 +1425,6 @@ class ConfigurationController {
         }
 
     }
-
 
 
     def createGroupView() {
@@ -1520,6 +1520,7 @@ class ConfigurationController {
             render template: '/templates/configuration/routes/showRoutesOnMap', model: m
         }
     }
+
     def showSingleFleetRouteOnMap() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -1599,9 +1600,7 @@ class ConfigurationController {
     }
 
 
-
-
-    def addCarsToUnsavedFleet(){
+    def addCarsToUnsavedFleet() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1613,24 +1612,24 @@ class ConfigurationController {
         log.error("params: ${params}")
 
         AddCarsToUnsavedFleetCommandObject cmd = new AddCarsToUnsavedFleetCommandObject()
-        bindData(cmd,params)
+        bindData(cmd, params)
 
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to add cars to fleet: ${cmd.errors}")
 
-        }else{
-            configurationService.addCarsToFleet(cmd.fleetStubId, cmd.carCount, cmd.batteryCount ,cmd.carTypeId, cmd.nameForFleet)
+        } else {
+            configurationService.addCarsToFleet(cmd.fleetStubId, cmd.carCount, cmd.batteryCount, cmd.carTypeId, cmd.nameForFleet)
         }
         Fleet fleetStub = Fleet.get(cmd.fleetStubId)
         def carsStub
         def carTypeList = []
         carsStub = fleetStub.cars
-        def carTypeIds = carsStub.collect{ it.carType.id}.unique()
-        for ( Long carTypeId : carTypeIds ) {
+        def carTypeIds = carsStub.collect { it.carType.id }.unique()
+        for (Long carTypeId : carTypeIds) {
 
             def carTypeMap = [:]
-            CarType carType = CarType.get( carTypeId )
+            CarType carType = CarType.get(carTypeId)
             carTypeMap.name = carType.name
             carTypeMap.count = carsStub.count { it.carType.id == carType.id }
             carTypeList << carTypeMap
@@ -1673,15 +1672,15 @@ class ConfigurationController {
         } else {
 
             int count = 0
-            int battery =0
+            int battery = 0
             if (cmd.carCountList != null && cmd.carCountList.size() > 0) {
                 count = cmd.carCountList.get(cmd.carCountList.size() - 1)
             } else {
                 count = cmd.carCount
             }
 
-            if (cmd.batteryCount!= null && cmd.batteryCount.size() > 0) {
-                battery = cmd.batteryCount.get(cmd.batteryCount.size()-1)
+            if (cmd.batteryCount != null && cmd.batteryCount.size() > 0) {
+                battery = cmd.batteryCount.get(cmd.batteryCount.size() - 1)
             } else {
                 battery = cmd.batteryCount
             }
@@ -1707,7 +1706,8 @@ class ConfigurationController {
 
         render template: "/templates/configuration/fleet/anotherCarRow", model: m
     }
-    def addStationsToUnsavedGroup(){
+
+    def addStationsToUnsavedGroup() {
         Person person = (Person) springSecurityService.currentUser
 
         if (!person) {
@@ -1719,24 +1719,24 @@ class ConfigurationController {
         log.error("params: ${params}")
 
         AddStationsToUnsavedGroupCommandObject cmd = new AddStationsToUnsavedGroupCommandObject()
-        bindData(cmd,params)
+        bindData(cmd, params)
 
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to add cars to fleet: ${cmd.errors}")
 
-        }else{
+        } else {
             configurationService.addStationsToGroup(cmd.groupStubId, cmd.stationCount, cmd.stationTypeId, cmd.nameForGroup)
         }
         FillingStationGroup group = FillingStationGroup.get(cmd.groupStubId)
         def stationsStub
         def stationTypeList = []
         stationsStub = group.fillingStations
-        def stationTypeIds = stationsStub.collect{ it.fillingStationType.id}.unique()
-        for ( Long stationTypeId : stationTypeIds ) {
+        def stationTypeIds = stationsStub.collect { it.fillingStationType.id }.unique()
+        for (Long stationTypeId : stationTypeIds) {
 
             def stationTypeMap = [:]
-            FillingStationType stationType = FillingStationType.get( stationTypeId )
+            FillingStationType stationType = FillingStationType.get(stationTypeId)
             stationTypeMap.name = stationType.name
             stationTypeMap.count = stationsStub.count { it.fillingStationType.id == stationType.id }
             stationTypeList << stationTypeMap
@@ -1951,7 +1951,7 @@ class ConfigurationController {
     }
 
 
-    def saveFinishedConfigurationFleet(){
+    def saveFinishedConfigurationFleet() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1966,16 +1966,60 @@ class ConfigurationController {
         if (!cmd.validate() && cmd.hasErrors()) {
             log.error("nothing to save, no coniguration stub found for ${cmd.configurationStubId} : ${cmd.errors}")
         } else {
-
             configurationService.saveFinishedConfigurationStub(cmd.configurationStubId)
+            SimulationArea simulationArea = configurationService.getSimulationArea(cmd.configurationStubId)
+            Configuration configuration = Configuration.get(cmd.configurationStubId)
+            //TODO Add logic for multiple customerPositionSets
+            VrpSolver vrpSolver = new VrpSolver(cmd.configurationStubId);
+            VrpTracks vrpRouteTracks = vrpSolver.solveVrp();
+            Stack<SingleVrpTracks> vrpTracksStack = new Stack<SingleVrpTracks>()
+            vrpRouteTracks.optaTracks.each { vrpTracksStack.push(it) }
+            configuration.fleets.each {
+                Fleet fleet = Fleet.get(it.id)
+                for (Car car : fleet.cars) {
+                    def destinationsForCar = []
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    destinationsForCar.addAll(vrpTracksStack.pop().vrpRoute)
+                    destinationsForCar.add(vrpRouteTracks.customerPositionSet.depot)
+                    def pairs = destinationsForCar.collate(2, 1, false)
+                    List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
+                    pairs.each {
+                        Coordinate currentStart = new Coordinate(it[0].lat, it[0].lon)
+                        Coordinate currentTarget = new Coordinate(it[1].lat, it[1].lon)
+                        List<BasicEdge> pathEdges = [];
+                        if (currentStart.equals(currentTarget)) {
+                            log.error("start and target are same from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+
+                        } else {
+                            pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
+                            if (pathEdges.size() < 1) {
+                                log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+                                return null //Todo: This might resolve in an error FIX IT
+                            }
+                        }
+                        multiTargetRoute.add(routeService.repairEdges(pathEdges))
+                    }
+                    routeService.persistRouteToCar(car, multiTargetRoute)
+
+                }
+                fleet.routesConfigured = true
+                fleet.fleetStatus = FleetStatus.CONFIGURED
+                fleet.simulationArea = simulationArea
+                if (!fleet.save(flush: true)) {
+                    log.error("failed to save fleet: ${fleet.errors}")
+                }
+            }
+
+
+
 
         }
 
         //redirect controller: 'front', action: 'init'
-        redirect(controller: 'configuration', action: 'configureSimulationRoute', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
     }
 
-    def saveFinishedConfigurationRoute(){
+    def saveFinishedConfigurationRoute() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -1999,7 +2043,7 @@ class ConfigurationController {
         redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
     }
 
-    def saveFinishedConfigurationStation () {
+    def saveFinishedConfigurationStation() {
 
         Person person = (Person) springSecurityService.currentUser
 
@@ -2183,8 +2227,6 @@ class ConfigurationController {
         configurations.each { Configuration configuration ->
 
 
-
-
             List<Fleet> existedFleets = new ArrayList<Fleet>()
             configuration.fleets.each { Fleet fleet ->
                 existedFleets.add(Fleet.get(fleet.id))
@@ -2198,46 +2240,45 @@ class ConfigurationController {
             }
 
             List<ExperimentRunResult> experimentRunResultList = configurationService.getRecentlyEditedExperimentResultsOfConfiguration(configuration.id)
-            experimentRunResultList.each{ExperimentRunResult experimentRunResult ->
+            experimentRunResultList.each { ExperimentRunResult experimentRunResult ->
 
 
+                if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0) {
+                    def conf = [:]
+                    int routeCount = 0
+                    configuration.fleets.each { Fleet fleet ->
+                        fleet = Fleet.get(fleet.id)
+                        routeCount += fleet.cars.size()
+                    }
 
-             if (configuration.fleets.size() > 0 && configuration.fillingStationGroups.size() > 0) {
-                def conf = [:]
-                int routeCount = 0
-                configuration.fleets.each { Fleet fleet ->
-                    fleet = Fleet.get(fleet.id)
-                    routeCount += fleet.cars.size()
-                }
+                    int stationCount = 0
 
-                int stationCount = 0
+                    configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
+                        fillingStation = FillingStationGroup.get(fillingStation.id)
+                        stationCount += fillingStation.fillingStations.size()
+                    }
 
-                configuration.fillingStationGroups.each { FillingStationGroup fillingStation ->
-                    fillingStation = FillingStationGroup.get(fillingStation.id)
-                    stationCount += fillingStation.fillingStations.size()
-                }
+                    int experimentCount = 0
 
-                int experimentCount = 0
-
-                /*configuration.experiments.each { Experiment experiment ->
+                    /*configuration.experiments.each { Experiment experiment ->
                     experiment = Experiment.get( experiment.id )
                     experimentCount += experiment.experimentResult.size()
                 }*/
 
 
-                conf.configurationId = configuration.id
-                conf.fleetInfo = existedFleets.cars[0].size()
-                conf.stationsInfo = existedStations.fillingStations[0].size()
-                conf.routeCount = routeCount
-                conf.stationCount = stationCount
-                conf.stationsConfiguration = existedStations[0].groupsConfigured
-                conf.routesConfiguration = existedFleets[0].routesConfigured
-                conf.simulationName = configuration.simulationName
+                    conf.configurationId = configuration.id
+                    conf.fleetInfo = existedFleets.cars[0].size()
+                    conf.stationsInfo = existedStations.fillingStations[0].size()
+                    conf.routeCount = routeCount
+                    conf.stationCount = stationCount
+                    conf.stationsConfiguration = existedStations[0].groupsConfigured
+                    conf.routesConfiguration = existedFleets[0].routesConfigured
+                    conf.simulationName = configuration.simulationName
 
-                conf.experimentRunResultId = experimentRunResult.id
+                    conf.experimentRunResultId = experimentRunResult.id
 
-                m.configurations << conf
-            }
+                    m.configurations << conf
+                }
             }
 
         }
@@ -2387,7 +2428,7 @@ class ConfigurationController {
 
         if (json.type == "gasolinePoint") {
 
-            Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(cmd.startPoint.x, cmd.startPoint.y),configurationService.getSimulationArea(cmd.configurationStubId));
+            Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(cmd.startPoint.x, cmd.startPoint.y), configurationService.getSimulationArea(cmd.configurationStubId));
             data.type = "gasolinePoint"
             data.gasolinePoint = [x: nearestPoint.x, y: nearestPoint.y]
 
@@ -2482,7 +2523,7 @@ class ConfigurationController {
             points << cmd.startPoint;
             cmd.destinationPoints.each { points << it }
 
-            def pairs = points.collate( 2, 1, false );
+            def pairs = points.collate(2, 1, false);
             List<List<BasicEdge>> multiTargetRoute = new ArrayList<List<BasicEdge>>()
             data.routes = [];
             data.type = "lineRoute"
@@ -2492,53 +2533,52 @@ class ConfigurationController {
             Fleet fleet = Fleet.get(cmd.fleetId)
             Car carToRoute
 
-            for(Car car : fleet.cars){
+            for (Car car : fleet.cars) {
                 car = Car.get(car.id)
-                if(!car.routesConfigured) {
+                if (!car.routesConfigured) {
                     carToRoute = car
                     break
                 }
             }
 
-           // int counter = 0
+            // int counter = 0
             pairs.each {
-                  //  Boolean pathBroken = true
-                    Coordinate currentStart = new Coordinate(it[0].x, it[0].y);
-                    Coordinate currentTarget = new Coordinate(it[1].x, it[1].y);
-              //  while (pathBroken && counter<100) {
-                    List<BasicEdge> pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
+                //  Boolean pathBroken = true
+                Coordinate currentStart = new Coordinate(it[0].x, it[0].y);
+                Coordinate currentTarget = new Coordinate(it[1].x, it[1].y);
+                //  while (pathBroken && counter<100) {
+                List<BasicEdge> pathEdges = routeService.calculatePath(currentStart, currentTarget, simulationArea)
 //calculatePath will use the graph for the selected simulationArea
 
-                    if (pathEdges.size() < 1) {
-                        log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
-                       // pathBroken = true
-                       // counter++
-                       // currentStart = new Coordinate(currentStart.x+0.001,currentStart.y)
-                       // currentTarget = new Coordinate(currentTarget.x+0.001,currentTarget.y)
-                        return null //Todo: This might resolve in an error FIX IT
-                    }
-                   // else {
-                   //     pathBroken = false
-                        multiTargetRoute.add( routeService.repairEdges( pathEdges ) )
-                        edgesToRender.addAll( pathEdges )}
-               // }
+                if (pathEdges.size() < 1) {
+                    log.error("path broken.. from: ${currentStart.x},${currentStart.y}  to: ${currentTarget.x},${currentTarget.y}")
+                    // pathBroken = true
+                    // counter++
+                    // currentStart = new Coordinate(currentStart.x+0.001,currentStart.y)
+                    // currentTarget = new Coordinate(currentTarget.x+0.001,currentTarget.y)
+                    return null //Todo: This might resolve in an error FIX IT
+                }
+                // else {
+                //     pathBroken = false
+                multiTargetRoute.add(routeService.repairEdges(pathEdges))
+                edgesToRender.addAll(pathEdges)
+            }
+            // }
 
+            // }
 
-
-           // }
-
-            routeService.persistRouteToCar( carToRoute, multiTargetRoute )
+            routeService.persistRouteToCar(carToRoute, multiTargetRoute)
 
             Car lastCar = fleet.cars.last()
             lastCar = Car.get(lastCar.id)
-            if (carToRoute== lastCar) {
+            if (carToRoute == lastCar) {
                 fleet.routesConfigured = true
                 fleet.fleetStatus = FleetStatus.CONFIGURED
             }
-            if ( !fleet.save( flush: true ) ) {
-                log.error( "failed to save fleet: ${fleet.errors}" )
+            if (!fleet.save(flush: true)) {
+                log.error("failed to save fleet: ${fleet.errors}")
             }
-            fleet.simulationArea= simulationArea
+            fleet.simulationArea = simulationArea
             data.fleet = fleet
         }
 
@@ -2555,7 +2595,7 @@ class ConfigurationController {
      * it uses optaplanner to get this solution.
      * @return
      */
-    def calculateVrp(){
+    /*def calculateVrp(){
         Person person = (Person) springSecurityService.currentUser
         Company company = Company.get( person.company.id )
         if (!person) {
@@ -2664,7 +2704,7 @@ class ConfigurationController {
 
 
         render "${(data as JSON).toString()}"
-    }
+    }*/
 
 
 

@@ -41,7 +41,7 @@ class Configuration {
             experiments : Experiment,
             fleets : Fleet,
             fillingStationGroups : FillingStationGroup,
-            customerPositonSets : CustomerPositionSet
+            customerPositionSets : CustomerPositionSet
     ]
 
     static constraints = {

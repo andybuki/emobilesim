@@ -17,19 +17,10 @@ import org.optaplanner.core.api.solver.Solver
 import org.optaplanner.core.api.solver.SolverFactory
 
 class VrpSolver {
-    CustomerPositionSet customerPositionSet;
-    private long fleetId;
-    private int customerListSize = customerPositionSet.customers.size()+1;//we only have one depot
+    private long configurationId;
 
-    private List<Location> customerLocationList = new ArrayList<Location>(customerListSize);
-    //private Map<Long, Location> locationMap= new LinkedHashMap<Long, Location>(customerListSize);
-
-    private List<Customer> customerList = new ArrayList<Customer>(customerListSize-1);
-    private List<Depot> depotList = new ArrayList<Depot>(customerListSize);
-    //constructor
-    public VrpSolver(CustomerPositionSet customerPositionSet, long fleetId){
-        this.customerPositionSet = customerPositionSet;
-        this.fleetId = fleetId;
+    public VrpSolver(configurationId){
+        this.configurationId = configurationId;
     }
 
 
@@ -37,8 +28,10 @@ class VrpSolver {
 
 
     //methods
-    private void setLocationList(){
+    def setLocationList(customerPositionSet){
         //put depot location
+        def customerListSize = customerPositionSet.customers.size()+1;//we only have one depot
+        List<Location> customerLocationList = new ArrayList<Location>(customerListSize);
         Location location = new AirLocation();
         location.setId(customerPositionSet.depot.id)
         location.setLatitude(customerPositionSet.depot.lat)
@@ -57,10 +50,12 @@ class VrpSolver {
 
             customerLocationList.add(customerLocation);
         }
+        return customerLocationList
     }
 
     //only if LocationList is there
-    private void setCustomerList(){
+    def setCustomerList(customerLocationList,customerPositionSet){
+        List<Customer> customerList = new ArrayList<Customer>(customerLocationList.size() -1);
         customerLocationList.each {
             Customer customer = new Customer();
             customer.setId(it.id);
@@ -74,8 +69,10 @@ class VrpSolver {
             }
 
         }
+        return customerList
     }
-    private  void setDepotList(){
+    def setDepotList(customerLocationList,customerPositionSet){
+        List<Depot> depotList = new ArrayList<Depot>(customerLocationList.size());
         Depot depot = new Depot();
         depot.setId(customerPositionSet.depot.id);
         Location location = customerLocationList.get(0);
@@ -85,6 +82,7 @@ class VrpSolver {
         }
         depot.setLocation(location);
         depotList.add(depot);
+        return depotList
     }
     /**
      * Uses optaplanner to solve the given vehicle routing problem (vrp).
@@ -93,14 +91,19 @@ class VrpSolver {
     public VrpTracks solveVrp(){
 
         //set up the solver
+        Configuration configuration = Configuration.get(configurationId)
+        CustomerPositionSet customerPositionSet = CustomerPositionSet.get(configuration.customerPositionSets.first().id)
         SolverFactory solverFactory = SolverFactory.createFromXmlResource(
                 "de/dfki/gs/vehicleRoutingOptaplanner/resources/solver/vehicleRoutingSolverConfig.xml");
         Solver solver = solverFactory.buildSolver();
 
         //set up the solutionclass
-        Fleet fleet = Fleet.get(fleetId)
-        Company company = Company.get(fleet.getCompany().id)
-        int numberOfCars = fleet.cars.size();
+        int numberOfCars = 0;
+        configuration.fleets.each {
+            Fleet fleet = Fleet.get(it.id)
+            numberOfCars += fleet.cars.size()
+        }
+        Company company = Company.get(configuration.company.id)
         if (numberOfCars <= 0) {
             return null
         }
@@ -111,17 +114,17 @@ class VrpSolver {
         unsolvedVehicleRoutingSolution.setDistanceType(DistanceType.AIR_DISTANCE);
         unsolvedVehicleRoutingSolution.setDistanceUnitOfMeasurement("distance");
 
-        setLocationList();
+        def customerLocationList = setLocationList(customerPositionSet);
         unsolvedVehicleRoutingSolution.setLocationList(customerLocationList)
-        setCustomerList();
+        def customerList = setCustomerList(customerLocationList,customerPositionSet);
         unsolvedVehicleRoutingSolution.setCustomerList(customerList)
-        setDepotList();
+        def depotList = setDepotList(customerLocationList,customerPositionSet);
         unsolvedVehicleRoutingSolution.setDepotList(depotList)
         List<Vehicle> vehicleList = new ArrayList<Vehicle>(numberOfCars);
         for (long id = 0; id < numberOfCars; id++) {
             Vehicle vehicle = new Vehicle();
             vehicle.setId(id);
-            vehicle.setCapacity((int)Math.ceil((customerListSize-1)/numberOfCars));
+            vehicle.setCapacity((int)Math.ceil((customerList.size())/numberOfCars));
             vehicle.setDepot(depotList.get(0));
             vehicleList.add(vehicle);
         }

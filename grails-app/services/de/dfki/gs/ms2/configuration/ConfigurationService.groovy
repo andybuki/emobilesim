@@ -93,7 +93,7 @@ class ConfigurationService {
         Configuration configuration = Configuration.get( configurationStubId )
         CustomerPositionSet customerPositionSet = CustomerPositionSet.get( customerPositionSetId )
 
-        configuration.addToCustomerPositonSets( customerPositionSet )
+        configuration.addToCustomerPositionSets( customerPositionSet )
         customerPositionSet.save(flush: true)
 
         if ( !configuration.save( flush: true ) ) {
