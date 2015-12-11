@@ -51,7 +51,7 @@
                         <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
                         <g:hiddenField name="base" value=""/>
                         <g:hiddenField name="targets" value=""/>
-                        <g:submitButton name="submit" value="Save"/>
+                        <div id="saveSubmitButton"></div>
                     </g:form>
                 </div>
             </div>
@@ -333,6 +333,9 @@
         savedFeaturesTarget =  format.writeFeatures(collection.getArray(),{
             featureProjection: map.getView().getProjection()
         });
+        if(collection.getLength()==1){
+            <g:remoteFunction action="createSaveButton" update="saveSubmitButton"/>
+        }
     }
     jQuery(function () {
         jQuery("[name='saveBaseAndTargetsForm']").submit(function () {
