@@ -36,7 +36,7 @@
     </div>
     <g:render template="/layouts/topbar" />
 
-    <div id="content">
+    <div class="contentNew2">
         <g:layoutBody />
     </div>
 

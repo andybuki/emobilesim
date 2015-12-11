@@ -15,52 +15,116 @@
     <g:javascript src="jq/jquery-1.9.1.js" />
     <script src="http://openlayers.org/en/v3.11.2/build/ol-debug.js"></script><%--TODO put /ol.js here --%>
     <script src="${resource(dir: 'js', file: 'ol3-layerswitcher.js')}"></script>
+    <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
 
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
     <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css"/>
 
+
+    <script type="text/javascript">
+
+
+        $(function()
+        {
+            var tabs = $('#tab-container');
+            tabs.easytabs({ animate: false });
+            disable_easytabs(tabs, [1,2]);
+            tabs.bind("easytabs:before", function (e, clicked) {
+                if(clicked.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+        });
+
+        function on_disable_b_and_c_clicked()
+        {
+            var tabs = $('#tab-container');
+            disable_easytabs(tabs, [1,2]);
+            return false;
+        }
+
+
+        function disable_easytabs(tabs, indexes)
+        {
+            var lis = tabs.children('ul').children();
+            var index = 0;
+            lis.each(function()
+            {
+                var li = $(this);
+                var a = li.children('a');
+                var disabled = $.inArray(index, indexes) != -1;
+                if (disabled)
+                {
+                    li.addClass('disabled');
+                }
+                else
+                {
+                    li.removeClass('disabled');
+                }
+                index++;
+            });
+        }
+
+    </script>
 </head>
 
 <body>
-<div class="pContainerConfigure">
-    <div class="rowUp">
-        <div class="leftBoldBig1">
-            Simulation: ${simulationName}
-        </div>
 
-        <div class="right0PX">
-            <span class="rightBoldBig1">
-                <g:message code="configuration.index.simulationarea"/> ${simulationArea}
-            </span>
-        </div>
+<div id="tab-container" class='tab-container'>
+    <ul class='etabs1'>
+        <li class='tab' id="tabo1"><a  href="#tabs1">Route konfigurieren</a></li>
+        <li class='tab' id="tabo2"><a  href="#tabs2">Flotte konfigurieren</a></li>
+        <li class='tab' id="tabo3"><a  href="#tabs3">Ladestationen konfigurieren</a></li>
+    </ul>
+    <div class='panel-container'>
+        <div id="tabs1">
+            <div class="pContainerConfigure">
+                <div class="rowUp">
+                    <div class="leftBoldBig1">
+                        Simulation: ${simulationName}
+                    </div>
 
-        <div class="clear"></div>
-    </div>
+                    <div class="right0PX">
+                        <span class="rightBoldBig1">
+                            <g:message code="configuration.index.simulationarea"/> ${simulationArea}
+                        </span>
+                    </div>
 
-    <div class="layout">
-<div class="layoutRight">
-    <div id="map" class="map"></div>
-</div>
-</div>
-<div class="formConfiguration">
-    <div class="layoutLeft12">
-        <div class="contentLeftBigConfiguration1">
-            <div class="rowGroup3">
-                <div>
-                    <g:form name="saveBaseAndTargetsForm" action="saveBaseAndTargets">
-                        <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                        <g:hiddenField name="base" value=""/>
-                        <g:hiddenField name="targets" value=""/>
-                        <g:submitButton name="submit" value="Save"/>
-                    </g:form>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="layout">
+                    <div class="layoutRight">
+                        <div id="map" class="map"></div>
+                    </div>
+                </div>
+                <div class="formConfiguration">
+                    <div class="layoutLeft12">
+                        <div class="contentLeftBigConfiguration1">
+                            <div class="rowGroup3">
+                                <div>
+                                    <g:form name="saveBaseAndTargetsForm" action="saveBaseAndTargets">
+                                        <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                                        <g:hiddenField name="base" value=""/>
+                                        <g:hiddenField name="targets" value=""/>
+                                        <g:submitButton name="submit" value="Save"/>
+                                    </g:form>
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div id="updateMe"></div>
                 </div>
             </div>
-
-            <div class="clear"></div>
+        </div>
+        <div id="tabs2">
+        </div>
+        <div id="tabs3">
         </div>
     </div>
-    <div id="updateMe"></div>
-</div>
+
 </div>
 <script type="text/javascript">
     var lon, lat; //This is the center of the picture
@@ -339,6 +403,7 @@
             jQuery("[name='base']").val(savedFeaturesBase);
             jQuery("[name='targets']").val(savedFeaturesTarget);
         });
+
     });
 
 </script>

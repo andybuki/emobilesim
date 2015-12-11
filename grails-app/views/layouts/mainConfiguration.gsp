@@ -34,11 +34,11 @@
         <img src="${createLinkTo(dir:'images',   file:'spinner.gif')}"
              alt="Spinner" />
     </div>
-    <g:render template="/layouts/topbar" />
+    <g:render template="/login/topbar" />
 
-    <div id="content">
+    <%--<div class="contentNew">
         <g:layoutBody />
-    </div>
+    </div>--%>
 
 
     <g:render template="/layouts/footer" />

@@ -10,7 +10,7 @@
 <html>
 <head>
     <title><g:message code="configuration.index.newsimulation"/></title>
-    <meta name="layout" content="mainConfiguration" />
+    <meta name="layout" content="main" />
     <g:javascript library="jquery-1.11.2" />
     <g:javascript src="jquery-ui.min.js"/>
     <g:javascript src="slider/jshashtable-2.1_src.js"/>
@@ -36,18 +36,52 @@
 
 </head>
 <body>
+
+<%--<table align="center" class="imagetable" border="0">
+    <tr valign="middle">
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'routenconf.png')}"/></td>
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'carsconf.png')}"/></td>
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'stationconf.png')}"/></td>
+    </tr>
+    <tr valign="middle">
+        <td align="center" class="fontBig"><g:message code="registration.index.route"/>
+        </td>
+        <td></td>
+        <td align="center" class="fontBig"><g:message code="registration.index.car"/></td>
+        <td></td>
+        <td align="center" class="fontBig"><g:message code="registration.index.station"/></td>
+    </tr>
+    <tr valign="middle">
+        <td height="100px"></td>
+        <td></td>
+
+        <td></td>
+        <td></td>
+    </tr>
+    <tr valign="middle">
+        <td></td>
+        <td></td>
+        <td align="center"><g:img uri="${resource(dir: '/images', file: 'simstarten.png')}"/></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>--%>
+
+
 <table width="800px" class="startSimulation">
     <td>
         <g:form action="configureSimulation">
-                <g:submitToRemote class="newSimulation"
-                                  url="[controller: 'configuration', action: 'configureSimulation']"
-                                  update="updateMe"
-                                  name="submit"
-                                  value="${message(code: 'configuration.index.createNewSimulation')}" />
+            <g:submitToRemote class="newSimulation"
+                              url="[controller: 'configuration', action: 'configureSimulation']"
+                              update="updateMe"
+                              name="submit"
+                              value="${message(code: 'configuration.index.createNewSimulation')}" />
             <div class="clear"></div>
         </g:form>
         <div id="updateMe"></div>
-           <%-- <g:link controller="configuration" class="newSimulation" action="configureSimulation"><g:message code="configuration.index.createNewSimulation"/> </g:link>--%>
+
     </td>
     <td>
         <div class="pContainer">
@@ -59,7 +93,6 @@
                 </div>
                 <g:if test="${ configurations.size() > 0}">
                     <div class="rowMiddle">
-
                         <table border="0">
                             <tr class="tr30px" valign="middle">
                                 <th width="120px"><g:message code="configuration.executesim.name"/> </th>
@@ -67,7 +100,6 @@
 
                             </tr>
                         </table>
-
                     </div>
                 </g:if>
                 <div class="rowDown">
@@ -77,9 +109,7 @@
                                 <tr class="tr30px">
                                     <td width="130px"><g:link uri="/configuration/configureSimulation?configurationStubId=${conf.configurationId}" url="/configuration/configureSimulation?configurationStubId=${conf.configurationId}">${conf.simulationName}</g:link></td>
                                     <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
-                                    <%--<td width="70px">
-                                        <g:link uri="/configuration/index?configurationStubId=${conf.configurationId}" url="/configuration/index?configurationStubId=${conf.configurationId}"><g:message code="configuration.executesim.configure"/></g:link>
-                                    </td>--%>
+
                                 </tr>
                             </g:each>
                         </table>
@@ -92,6 +122,7 @@
         </div>
     </td>
 </table>
+
 
 </body>
 

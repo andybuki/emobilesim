@@ -1,7 +1,7 @@
 /* FONT STACK */
 body,
 input, select, textarea {
-	font-family: verdana, tahoma, sans-serif, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-family: Source-Sans-Pro-Light, verdana, tahoma, sans-serif, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 polyline {
@@ -110,8 +110,7 @@ img {
 	margin: 1em;
 }
 
-.content {
-}
+
 
 .content h1 {
 	border-bottom: 1px solid #CCCCCC;
@@ -266,7 +265,7 @@ label {
 input, select, textarea {
 	background-color: #fcfcfc;
 	border: 1px solid #cccccc;
-	font-size: 1em;
+	font-size: 13px;
 	padding: 0.2em 0.2em;
 }
 
@@ -599,7 +598,7 @@ a.skip {
     margin: 0px auto;
 }
 #header h1 {
-    font-family:verdana, tahoma, sans-serif, Arial,sans-serif;
+    font-family:Source-Sans-Pro-Light, verdana, tahoma, sans-serif, Arial,sans-serif;
     color: white;
     padding: 20px 0 0 6px;
     font-size:1.6em;
@@ -609,7 +608,7 @@ body {
     margin: 0px;
     padding: 0px;
     text-align:center;
-    font-family: verdana, tahoma, sans-serif, "Trebuchet MS",Arial,Helvetica,sans-serif;
+    font-family: Source-Sans-Pro-Light ,verdana, tahoma, sans-serif, "Trebuchet MS",Arial,Helvetica,sans-serif;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
@@ -636,17 +635,58 @@ body {
     /*
     color: #000;
     */
-    /*padding: 2px 2px 2px 2px;*/
-    width: 100%;
+    padding: 5px 0px 0px 30px;
+    width: 95%;
     text-align: left;
-    height: 100%;
+    height: 85%;
 	position: relative;
     /*
     height: 830px;
     */
 }
 
+
+.contentNew {
+	float: left;
+	/*
+    color: #000;
+    */
+	/*padding: 2px 2px 2px 2px;*/
+	width: 100%;
+	text-align: left;
+	height: 100%;
+	position: relative;
+
+}
+
+.contentNew2 {
+	float: left;
+	/*
+    color: #000;
+    */
+	/*padding: 2px 2px 2px 2px;*/
+	width: 100%;
+	text-align: left;
+	height: 100%;
+	position: relative;
+	min-height: 800px;
+
+}
+
+.imagetable {
+	position:absolute;
+	color:#fff;
+	top:50%;
+	left:50%;
+	padding:15px;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+
 #map{
+	width: 100%;
+	height: 100%;
 
 }
 
@@ -1560,7 +1600,7 @@ td {
     left:10px;
     color: #000;
     text-decoration: none;
-    font-family: verdana, tahoma, sans-serif, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: Source-Sans-Pro-Light, verdana, tahoma, sans-serif, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 .playButtons {
@@ -1916,16 +1956,7 @@ a#login_pop:hover, a#join_pop1:hover {
     color: #2e7da3;
 }
 
-.tab {
-	border: 1px solid #d4d4d1;
-	background-color: #fff;
-	margin-bottom: 20px;
-	width: auto;
 
-	height: auto;
-	position: relative;
-	top: 41px;
-}
 
 .tab-content {
 	position: relative;
@@ -2112,10 +2143,11 @@ fieldset {
 .logout{
     text-decoration: none;
     font-size: 12px;
-    background-color: #fcfcfc;
-    border: 1px solid #cccccc;
-    font-size: 1em;
-    padding: 0.2em 0.4em;
+	position: relative;
+	bottom:6px;
+	color:#0e0e0e;
+	border: none;
+	background: #fff;
 }
 
 .confirmationMessage {
@@ -2140,6 +2172,9 @@ fieldset {
 .loggedIndrin {
     padding-right: 10px;
 	color:black;
+	font-size: 11px;
+	position: relative;
+	bottom: 6px;
 }
 
 .simulations {
@@ -2188,6 +2223,14 @@ fieldset {
     margin-top:10px;
     margin-right: 140px;
     min-height: 300px;
+}
+
+.pContainerSimulation {
+	margin-left: 50px;
+	margin-top:10px;
+	margin-right: 140px;
+	height: 100%;
+	width:100%
 }
 
 .pContainerStatistics {
@@ -2247,14 +2290,16 @@ fieldset {
 }
 
 .pContainerConfigure {
-	margin-left:6%;
-	margin-top:20px;
+	height: 100%;
+	width: 100%;
+	/*margin-left:6%;*/
+	/*margin-top:20px;
 	margin-bottom:10px;
 	margin-right:5%;
 	min-height: 300px;
 	min-width: 1100px;
 	max-width: 1300px;
-	border: 1px solid #ccc;
+	border: 1px solid #ccc;*/
 	/*border-top-right-radius: 6px;
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
@@ -2292,7 +2337,7 @@ fieldset {
 .layout {
     display:table;
     width: 100%;
-    min-height:400px;
+    height:100%;
     font-size: 12px;
     background: #fff;
     border-radius: 6px;
@@ -2301,6 +2346,20 @@ fieldset {
     bottom: 0px;
     margin-bottom: 20px;
 }
+
+.layoutRegistration {
+	display:table;
+	width: 100%;
+
+	font-size: 12px;
+	background: #fff;
+	border-radius: 6px;
+	position: relative;
+	top:0px;
+	bottom: 0px;
+	margin-bottom: 5px;
+}
+
 .layoutLeft {
     min-width: 300px;
     vertical-align: top;
@@ -2315,7 +2374,7 @@ fieldset {
 	vertical-align: top;
 	display: table-cell;
 	max-width: 380px;
-	border-right: 1px solid #eee;
+	/*border-right: 1px solid #eee;*/
 
 }
 
@@ -2333,6 +2392,7 @@ fieldset {
     display: table-cell;
     float:left;
 	width: 100%;
+	height:100%;
 }
 
 .contentLeft{
@@ -2343,7 +2403,7 @@ fieldset {
 }
 
 .formConfiguration {
-	border-top: 1px solid #eee;
+	/*border-top: 1px solid #eee;*/
 	bottom: 21px;
 	position: relative;
 }
@@ -2581,8 +2641,8 @@ fieldset {
     float:left;
     padding:10px 0px 0px 7px;
     min-height:24px;
-    font-weight: bold;
-	font-size: 11px;
+    /*font-weight: bold;*/
+	font-size: 13px;
 }
 
 .leftBoldSimArea {
@@ -2602,10 +2662,11 @@ fieldset {
 .leftBoldBig1 {
     /*width:400px;*/
     float:left;
-    padding:10px 0px 0px 7px;
+    padding:10px 0px 0px 10px;
     min-height:24px;
     position: relative;
     bottom:5px;
+	color: #000000;
 }
 
 .leftBoldBig2 {
@@ -2621,6 +2682,7 @@ fieldset {
 
 	position: relative;
 	top:3px;
+	color:black;
 }
 
 .rightBoldBig2 {
@@ -2682,7 +2744,8 @@ fieldset {
 	float:left;
 	padding:0px 0px 0px 7px;
 	min-height:24px;
-	font-weight: bold;
+	/*font-weight: bold;*/
+	font-size: 14px;
 }
 
 .rightOnly0PX{
@@ -2863,6 +2926,7 @@ fieldset {
 .leftText{
     float:left;
     padding:10px 0px 0px 7px;
+	font-size:13px;
 
 }
 
@@ -2907,9 +2971,9 @@ fieldset {
 
 }
 
-.modalDialog {
+.modalDialogRegistration2 {
     position: fixed;
-    font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+    font-family: Source-Sans-Pro-Light,verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
     top: 0;
     right: 0;
     bottom: 0;
@@ -2918,14 +2982,47 @@ fieldset {
     opacity:1;
 }
 
-.modalDialog:target {
+.modalDialogRegistration2:target {
     opacity:1;
     pointer-events: auto;
 }
 
+.modalDialog {
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	opacity: .70;
+	-webkit-opacity: .5;
+	-moz-opacity: .5;
+	filter: alpha(opacity=50);
+	z-index: 1000;
+}
+
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+
+	width: 490px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+	color: #000;
+
+}
+
+
 .modalDialogBig {
 	position: fixed;
-	font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+	font-family: Source-Sans-Pro-Light,verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -2941,7 +3038,7 @@ fieldset {
 
 .modalDialogArea {
 	position: fixed;
-	font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+	font-family:Source-Sans-Pro-Light, verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -2956,13 +3053,16 @@ fieldset {
 }
 
 
-.modalDialog > div {
-    width: 490px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
+
+
+
+.modalDialogRegistration2 > div {
+	width: 790px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
 
 }
 
@@ -2988,7 +3088,7 @@ fieldset {
 
 .modalDialogMap {
     position: fixed;
-    font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+    font-family:Source-Sans-Pro-Light, verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
     top: 70px;
     right: 130px;
     bottom: 30px;
@@ -3013,7 +3113,7 @@ fieldset {
 
 .modalDialogStation {
 	position: absolute;
-	font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+	font-family:Source-Sans-Pro-Light, verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
 	top: 40px;
 	right: 10px;
 	bottom: 10px;
@@ -3039,7 +3139,7 @@ fieldset {
 
 .modalDialogRoutes {
     position: fixed;
-    font-family: verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
+    font-family: Source-Sans-Pro-Light,verdana, tahoma, sans-serif, Arial, Helvetica, sans-serif;
     top: 0;
     right: 0;
     bottom: 0;
@@ -3285,7 +3385,7 @@ div.olControlZoom a {
     padding: 0;
     color: white;
     font-size: 18px;
-    font-family: verdana, tahoma, sans-serif, 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+    font-family: Source-Sans-Pro-Light,verdana, tahoma, sans-serif, 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
@@ -3431,6 +3531,7 @@ a.olControlZoomOut {
     position: relative;
     top:10px;
 	z-index:-20;
+	font-size: 12px;
 }
 
 .descriptionSim {
@@ -3449,9 +3550,8 @@ a.olControlZoomOut {
 
 .flags {
     position: relative;
-    vertical-align: middle;
-    padding: 5px;
-    bottom: 4px;
+	padding: 1px;
+	bottom: 19px;
 }
 
 .flags1{
@@ -3681,6 +3781,7 @@ label.checkbox :disabled + span{
 .efahrungLogo {
 	position: relative;
 	top:8px;
+	z-index: 0;
 }
 
 .dfkiLogo {
@@ -3697,6 +3798,7 @@ label.checkbox :disabled + span{
 	text-decoration: none;
 	border: 1px solid #BBB;
 	padding: 20px;
+	font-size:12px;
 }
 
 .tableConfiguration {
@@ -4023,4 +4125,151 @@ th {
 	position: relative;
 	z-index: 10;
 
+}
+
+
+.borderbottom {
+	border-bottom: 1px solid #bbb;
+}
+
+.efahrungLogo {
+	margin-left:100px;
+}
+
+
+.logoutexit {
+	margin-top: -6px;
+}
+
+.flagslittle {
+	margin-bottom: 3px;
+}
+
+.fontBig {
+	color: #888;
+	font-size: 28px;
+	text-transform: uppercase;
+	font-family: Source-Sans-Pro-Light;
+
+}
+
+@font-face {
+	font-family: Source-Sans-Pro-Light;;
+	src: url('../fonts/source-sans-pro.light.ttf');
+}
+
+#modal-background {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #888;
+	opacity: .50;
+	-webkit-opacity: .5;
+	-moz-opacity: .5;
+	filter: alpha(opacity=50);
+	z-index: 1000;
+}
+
+#modal-content {
+	background-color: white;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0 0 20px 0 #222;
+	-webkit-box-shadow: 0 0 20px 0 #222;
+	-moz-box-shadow: 0 0 20px 0 #222;
+	display: none;
+	height: 420px;
+	left: 40%;
+	margin: -120px 0 0 -160px;
+	padding: 10px;
+	position: absolute;
+	top: 30%;
+	width: 750px;
+	z-index: 1000;
+}
+
+#modal-background.active, #modal-content.active {
+	display: block;
+}
+
+#modal-close {
+	text-decoration: none;
+	font-size: 12px;
+	position: absolute;
+	right:5px;
+	color:#0e0e0e;
+	border: none;
+	background: #fff;
+}
+
+.pContainerAuth3 {
+	padding-top: 25px;
+
+}
+
+.imagesize {
+	max-width: 400px;
+	width:100%;
+}
+
+
+ #map {
+	height:80%;
+	width:100%;
+	max-height: 1000px;
+	 min-height: 500px;
+	padding:0px;
+	margin:0px;
+}
+
+.etabs { margin: 0; padding: 0; }
+.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; margin-bottom: 20px;}
+.tab  {
+	border: 1px solid #d4d4d1;
+	background-color: #fff;
+	margin-bottom: 21px;
+	width: auto;
+	height: auto;
+	position: relative;
+	top: 21px;
+	text-decoration:none;
+}
+.tab a  { font-size: 16px; line-height: 2em; display: block; padding: 0 10px; outline: none; text-decoration:none; color: black; text-transform: uppercase;}
+.tab a:hover { text-decoration:none;}
+
+.tab.active { background: #fff; padding-top: 6px; position: relative; top: 22px; color:#000;}
+.tab.active { background: #fff; padding-top: 6px; position: relative; top: 22px; color:#000;}
+.tab.active { background: #fff; padding-top: 6px; position: relative; top: 22px; color:#000;}
+.tab a.active { font-weight: bold; }
+
+#tabo1{border-color: #ffe680; background: #ffe680; }
+#tabo2{border-color: #AACCFF; background: #AACCFF; color:#ccc;}
+#tabo3{border-color: #ccffaa; background: #ccffaa;}
+
+.tab.disabled #tabo2{color:#ccc;}
+
+.tab-container .panel-container #tabs1{ background: #fff; border: solid #ffe680 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+.tab-container .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-container .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.panel-container { margin-bottom: 10px; }
+
+.pContainerConfigure .rowUp {
+	background-color: #ffe680;
+	border: 0px solid #ddd;
+}
+
+ul.etabs li.disabled a
+{
+	color: #aaa;
+	cursor: default;
+
+}
+
+.rowUp2 {
+	background-color: #AACCFF;
+	border: 0px solid #ddd;
 }

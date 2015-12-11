@@ -8,11 +8,12 @@
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
 <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+
+
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 
 <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css' />
 <link rel='stylesheet' href="${resource(dir: 'css', file: 'iconic.css')}" type='text/css' />
-
 <title><g:message code="login.auth.title"/> </title>
 </head>
 
@@ -26,54 +27,16 @@
     <g:render template="/login/topbar"/>
 
 
-    <div class="contentNew">
+    <div id="content">
     <div id="signup">
         <g:if test="${errors != null}" >
             Errors: ${errors}
         </g:if>
 
-        <table align="center" class="imagetable" border="0">
-            <tr valign="middle">
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'routenconf.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'carsconf.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'stationconf.png')}"/></td>
-            </tr>
-        <tr valign="middle">
-            <td align="center" class="fontBig"><g:message code="registration.index.route"/>
-            </td>
-            <td></td>
-            <td align="center" class="fontBig"><g:message code="registration.index.car"/></td>
-            <td></td>
-            <td align="center" class="fontBig"><g:message code="registration.index.station"/></td>
-        </tr>
-        <tr valign="middle">
-            <td height="100px"></td>
-            <td></td>
-
-            <td></td>
-            <td></td>
-        </tr>
-        <tr valign="middle">
-            <td></td>
-            <td></td>
-            <td align="center"><g:img uri="${resource(dir: '/images', file: 'simstarten.png')}"/></td>
-            <td></td>
-            <td></td>
-        </tr>
-        </table>
-
-        <div id="modal-background"></div>
-        <div id="modal-content" class="modalDialogRegistration">
-            <button id="modal-close">
-                <g:img class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
-            </button>
-
-            <div class="pContainerAuth3">
-            <fieldset class="fieldsetAuth3">
+        <div class="pContainerAuth">
+            <fieldset class="fieldsetAuth">
                 <legend><g:message code="login.auth.registrate" /> <g:message code="login.auth.or"/> <g:message code="login.auth.login"/></legend>
-                <div class="layoutRegistration">
+                <div class="layout">
                     <div class="layoutLeft">
                         <div class="contentAuth">
                             <g:form controller="login" action="signin" id="signinForm" class="cssform" autocomplete="off">
@@ -195,18 +158,66 @@
 
                         </div>
                     </div>
-
+                    <%--<div class="layoutImage">
+                        <div class="contentRight">
+                          <img width="30px"src="${g.resource( dir: '/images', file: 'weather.png' )}"><br><br>
+                            <img width="30px"src="${g.resource( dir: '/images', file: 'settings.png' )}"><br><br><br><br>
+                            <img width="30px"src="${g.resource( dir: '/images', file: 'car.png' )}"><br>
+                            <img width="44px"src="${g.resource( dir: '/images', file: 'station.png' )}">
+                        </div>
+                    </div>--%>
 
 
                 </div>
                 <br><br><br>
-
+                <%--<div class="layoutButton">
+                    <span class="layoutButtonL"><g:submitButton name="send" value="CANCEL"/></span>
+                    <span class="layoutButtonM"></span>
+                    <span class="layoutButtonR"><g:submitButton name="send" value="SAVE"/></span>
+                </div>--%>
                 <span class="confirmationMessage"><g:message code="login.auth.configuration"/></span>
 
             </fieldset>
-            </div>
-
         </div>
+
+
+
+
+
+        <%--<g:form controller="login" action="signin" id="signinForm" class="cssform" autocomplete="off">
+
+            <p>
+                <label for="signinUserName">Email Address</label>
+                <g:textField name="signinUserName" id="signinUserName" value="" />
+            </p>
+            <p>
+                <label for="signinGivenName">Given Name</label>
+                <g:textField name="signinGivenName" id="signinGivenName" value="" />
+            </p>
+            <p>
+                <label for="signinFamilyName">Family Name</label>
+                <g:textField name="signinFamilyName" id="signinFamilyName" value="" />
+            </p>
+
+            <p>
+                <label for="password">Password</label>
+                <g:passwordField name="password" />
+            </p>
+            <p>
+                <label for="confirm">Confirm Password</label>
+                <g:passwordField name="confirm" />
+            </p>
+
+
+            <g:submitButton name="signinButton" value="Sign In"/>
+
+        </g:form>--%>
+
+
+
+
+
+    </div>
 
     <div id='login'>
         <div class='inner'>
@@ -214,7 +225,24 @@
                 <div class='login_message'>${flash.message}</div>
             </g:if>
             <div class='fheader'></div>
-
+            <%--<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+                <p>
+                    <label for='username'>Login ID</label>
+                    <input type='text' class='text_' name='j_username' id='username' />
+                </p>
+                <p>
+                    <label for='password'>Password</label>
+                    <input type='password' class='text_' name='j_password' id='password' />
+                </p>
+                <p>
+                    <label for='remember_me'>Remember me</label>
+                    <input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me'
+                           <g:if test='${hasCookie}'>checked='checked'</g:if> />
+                </p>
+                <p>
+                    <input type='submit' value='Login' />
+                </p>
+            </form>--%>
         </div>
     </div>
     <script type='text/javascript'>
@@ -223,17 +251,9 @@
             document.forms['loginForm'].elements['j_username'].focus();
         })();
         // -->
-
-
-        $(function(){
-            $("#modal-launcher, #modal-background, #modal-close").click(function () {
-                $("#modal-content,#modal-background").toggleClass("active");
-            });
-        });
-
     </script>
-
     </div>
+
 
     <g:render template="/layouts/footer" />
 </div>

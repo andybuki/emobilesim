@@ -51,7 +51,7 @@ table {
 --------------------------------------------------------------------*/
 
 body {
-    font-family: verdana, tahoma, sans-serif, 'Droid Sans', sans-serif;;
+    font-family: Source-Sans-Pro-Light,verdana, tahoma, sans-serif, 'Droid Sans', sans-serif;;
 }
 
 .clearfix {
@@ -66,7 +66,7 @@ nav {
     border-radius: 1px;
     padding: 0 10px;
     position: relative;
-    border-bottom: 1px solid #bbb;
+
 }
 
 #menu li {
@@ -75,12 +75,12 @@ nav {
 }
 
 #menu li a {
-    /*color: #fff;*/
+    color: #000;
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     /*padding: 6px 12px;*/
-    margin: 8px 8px;
+    margin: 8px 20px;
     vertical-align: middle;
     text-decoration: none;
 }
