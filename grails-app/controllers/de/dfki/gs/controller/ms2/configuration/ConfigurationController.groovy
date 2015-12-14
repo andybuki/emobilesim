@@ -2758,4 +2758,16 @@ class ConfigurationController {
         //m.lon = dfkiRoutesTimeStatus.lon
         render view: 'configurator1', model: m
     }
+    def createSaveButton() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        render(template: '/templates/configuration/routes/saveRoute')
+
+    }
 }
