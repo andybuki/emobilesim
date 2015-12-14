@@ -894,7 +894,7 @@ ul#Navigation a:hover, ul#Navigation span {
     position:fixed;
     bottom: 0;
     width: 100%;
-    height: 12px;
+    height: 35px;
     background: #eee;
 
     clear:both;
@@ -4272,4 +4272,36 @@ ul.etabs li.disabled a
 .rowUp2 {
 	background-color: #AACCFF;
 	border: 0px solid #ddd;
+}
+
+.bundLogo {
+	height: 35px;
+	padding-right: 30px;
+}
+
+.emoLogo {
+	height: 25px;
+	vertical-align: super;
+}
+
+.logos {
+	float:right;
+	padding-right: 30px;
+}
+
+.footerText {
+
+	font-size: 12px;
+	position: relative;
+	bottom: 11px;
+	right: 10px;
+}
+
+.footerEmail {
+	font-size: 12px;
+	float:left;
+	position: relative;
+	top: 11px;
+	left: 20px;
+
 }
