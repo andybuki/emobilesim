@@ -124,7 +124,7 @@
         <div id="tabs3">
         </div>
     </div>
-    <div id="updateMe"></div>
+
 </div>
 </div>
 <script type="text/javascript">
