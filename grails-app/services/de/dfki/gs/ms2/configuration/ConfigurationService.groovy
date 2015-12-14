@@ -122,27 +122,31 @@ class ConfigurationService {
         return
     }
 
-    def createFleetGeoJson(long configurationStubId,long fleetId){
-        Configuration configuration = Configuration.get( configurationStubId )
-        Fleet fleet = Fleet.get( fleetId )
-        def lonlat = [];
-        SimulationArea simulationArea = fleet.simulationArea;
-        switch (simulationArea){
-            case SimulationArea.BERLIN:
-                lonlat = [13.38,52.52];
-                break;
-            case SimulationArea.WIESLOCH:
-                lonlat = [8.7,49.29];
-                break;
-            case SimulationArea.BREMEN:
-                lonlat = [ 8.77,53.08];
-                break
-            default:
-                lonlat = [13.38,52.52];
-        }
+    def createRouteGeoJson(long customerPositionSetId){
+        CustomerPositionSet customerPositionSet = CustomerPositionSet.get(customerPositionSetId)
+        def lonlat = [customerPositionSet.depot.lon,customerPositionSet.depot.lat]
         def features = []
-        features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetBase"]])
-        return features as JSON;
+
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetBase","customerPositionSetId":customerPositionSetId]])
+        customerPositionSet.customers.each {customer ->
+            lonlat = [customer.lon,customer.lat]
+            features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetTarget",customerPositionSetId: customerPositionSetId]])
+        }
+
+        return ["type":"FeatureCollection","features":features] as JSON;
+    }
+    def getRoutesForCompany( Person currentUser, Long configurationStubId ) {
+
+        // getting the company
+        Company company = Company.get( currentUser.company.id )
+
+        if ( !company ) {
+            log.error( "no company found for user: ${currentUser.username}" )
+            return
+        }
+        SimulationArea simulationArea = getSimulationArea(configurationStubId)
+        List<CustomerPositionSet> customerPositionSets = CustomerPositionSet.findAllByCompanyAndSimulationArea(company,simulationArea,false, [ sort: "dateCreated", order: "desc" ] )
+        return customerPositionSets
     }
 
 

@@ -1,10 +1,12 @@
 package de.dfki.gs.controller.ms2.configuration
 
 import de.dfki.gs.controller.ms2.configuration.commands.AddCarsToUnsavedFleetCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.AddRouteToConfigurationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.AddStationsToUnsavedGroupCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ChangeAreaCommandObject
 import com.vividsolutions.jts.geom.Coordinate
 import de.dfki.gs.controller.ms2.configuration.commands.ConfigureBatteryForConfigurationCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.ConfigureSimulationTargetsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateBatteryStatusCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.CreateStartTimeCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ExistentRouteForFleetCommandObject
@@ -34,11 +36,9 @@ import de.dfki.gs.controller.ms2.configuration.commands.EditConfigurationStubCom
 import de.dfki.gs.controller.ms2.configuration.commands.EditFillingStationCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowFleetRoutesCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowGroupStationsCommandObject
-import de.dfki.gs.controller.ms2.configuration.commands.UpdateAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateCarTypeCommandObject
 
 import de.dfki.gs.controller.ms2.configuration.commands.UpdateFillingStationTypeCommandObject
-import de.dfki.gs.controller.ms2.configuration.commands.VrpCommandObject
 import de.dfki.gs.domain.DfkiRoutesTimeStatus
 import de.dfki.gs.domain.simulation.Car
 import de.dfki.gs.domain.simulation.CarType
@@ -382,7 +382,7 @@ class ConfigurationController {
         } else {
 
             configurationService.addFleetToConfiguration(cmd.configurationStubId, cmd.fleetId)
-            fleetGeoJson = configurationService.createFleetGeoJson(cmd.configurationStubId,cmd.fleetId)
+            fleetGeoJson = configurationService.createRouteGeoJson(cmd.configurationStubId,cmd.fleetId)
             m.availableFleets = configurationService.getFleetsForCompany(person, cmd.configurationStubId)
             m.fleetGeoJson = fleetGeoJson
             m.configurationStubId = cmd.configurationStubId
@@ -394,10 +394,10 @@ class ConfigurationController {
 
     }*/
 
-    def getJsonForAddedFleet() {
+    def getJsonForAddedRoute() {
 
         Person person = (Person) springSecurityService.currentUser
-        def fleetGeoJson
+        def routeGeoJson
 
         if (!person) {
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
@@ -406,17 +406,17 @@ class ConfigurationController {
 
         log.error("params: ${params}")
 
-        AddFleetToConfigurationCommandObject cmd = new AddFleetToConfigurationCommandObject()
+        AddRouteToConfigurationCommandObject cmd = new AddRouteToConfigurationCommandObject()
         bindData(cmd, params)
         if (!cmd.validate() && cmd.hasErrors()) {
             log.error("failed to vaildate AddFleetToConfigurationCommandObject: ${cmd.errors}")
         } else {
 
-            fleetGeoJson = configurationService.createFleetGeoJson(cmd.configurationStubId, cmd.fleetId)
+            routeGeoJson = configurationService.createRouteGeoJson(cmd.customerPositionSetId)
 
         }
         //render(template: '/templates/configuration/fleet/fleetSelection', model: m)
-        render fleetGeoJson
+        render routeGeoJson
 
         //redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
 
@@ -1078,6 +1078,7 @@ class ConfigurationController {
         }
         SaveBaseAndTargetsCommandObject cmd = new SaveBaseAndTargetsCommandObject()
         bindData(cmd, params)
+        def parameters = params
         def m = [:]
         if (!cmd.validate() && cmd.hasErrors()) {
 
@@ -1085,43 +1086,49 @@ class ConfigurationController {
 //TODO If user dosen't choose one Base and One Target he should not be able to save!
             render(view: 'configureSimulationTargets', model: m)
         } else {
+            long customerPositionSetId = params.long('savedRouteSelected')
             //TODO CHeck if base and targets are there otherwise return with errormessage
-
-            def base = JSON.parse(cmd.base)
-            def baseCoordinates = [:]
-            baseCoordinates.lon = base.features[0].geometry.coordinates[0];
-            baseCoordinates.lat = base.features[0].geometry.coordinates[1];
-            def targets = JSON.parse(cmd.targets)
-            def targetsCoordinates = [];
-            targets.features.each { feature ->
-                def lonlat = [:]
-                lonlat.lon = feature.geometry.coordinates[0]
-                lonlat.lat = feature.geometry.coordinates[1]
-                targetsCoordinates.add(lonlat)
-            }
-
-            CustomerPosition depot = new CustomerPosition(isDepot: true, lat: baseCoordinates.lat, lon: baseCoordinates.lon)
-            if (!depot.save(flush: true)) {
-                log.error("failed to save depot: ${depot.errors}")
-            }
-            def destinations = []
-            targetsCoordinates.each { coordinate ->
-                CustomerPosition customerPosition = new CustomerPosition(isDepot: false, lat: coordinate.lat, lon: coordinate.lon)
-                if (!customerPosition.save(flush: true)) {
-                    log.error("failed to save customerPosition: ${customerPosition.errors}")
+            if(customerPositionSetId == -1){
+                def base = JSON.parse(cmd.base)
+                def baseCoordinates = [:]
+                baseCoordinates.lon = base.features[0].geometry.coordinates[0];
+                baseCoordinates.lat = base.features[0].geometry.coordinates[1];
+                def targets = JSON.parse(cmd.targets)
+                def targetsCoordinates = [];
+                targets.features.each { feature ->
+                    def lonlat = [:]
+                    lonlat.lon = feature.geometry.coordinates[0]
+                    lonlat.lat = feature.geometry.coordinates[1]
+                    targetsCoordinates.add(lonlat)
                 }
-                destinations << customerPosition
+
+                CustomerPosition depot = new CustomerPosition(isDepot: true, lat: baseCoordinates.lat, lon: baseCoordinates.lon)
+                if (!depot.save(flush: true)) {
+                    log.error("failed to save depot: ${depot.errors}")
+                }
+                def destinations = []
+                targetsCoordinates.each { coordinate ->
+                    CustomerPosition customerPosition = new CustomerPosition(isDepot: false, lat: coordinate.lat, lon: coordinate.lon)
+                    if (!customerPosition.save(flush: true)) {
+                        log.error("failed to save customerPosition: ${customerPosition.errors}")
+                    }
+                    destinations << customerPosition
+                }
+                CustomerPositionSet customerPositionSet = new CustomerPositionSet(company: company, depot: depot, customers: destinations,simulationArea: configurationService.getSimulationArea(cmd.configurationStubId))
+                if (!customerPositionSet.save(flush: true)) {
+                    log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
+                }
+                customerPositionSet.name = "Route Nr. " + customerPositionSet.id
+                if (!customerPositionSet.save(flush: true)) {
+                    log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
+                }
+                configurationService.addCustomerPositionSetsToConfiguration(cmd.configurationStubId, customerPositionSet.id)
+                redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: cmd.configurationStubId])
             }
-            CustomerPositionSet customerPositionSet = new CustomerPositionSet(company: company, depot: depot, customers: destinations)
-            if (!customerPositionSet.save(flush: true)) {
-                log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
+            else{
+                configurationService.addCustomerPositionSetsToConfiguration(cmd.configurationStubId,customerPositionSetId)
+                redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: cmd.configurationStubId])
             }
-            customerPositionSet.name = "Route Nr. " + customerPositionSet.id
-            if (!customerPositionSet.save(flush: true)) {
-                log.error("failed to save customerPositionSet: ${customerPositionSet.errors}")
-            }
-            configurationService.addCustomerPositionSetsToConfiguration(cmd.configurationStubId, customerPositionSet.id)
-            redirect(controller: 'configuration', action: 'configureSimulationFleet', params: [configurationStubId: cmd.configurationStubId])
         }
 
         //render (view: 'configureSimulationTargets', model: m)
@@ -1160,7 +1167,6 @@ class ConfigurationController {
         }
         SetNameAndAreaCommandObject cmd = new SetNameAndAreaCommandObject()
         bindData(cmd, params)
-        def m = [:]
         if (!cmd.validate() && cmd.hasErrors()) {
 
             log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
@@ -1173,11 +1179,32 @@ class ConfigurationController {
                 configurationService.changeSimulationArea(cmd.configurationStubId, cmd.areaId)
             }
         }
+        redirect (controller: 'configuration',action: 'configureSimulationTargets',params: [configurationStubId:  cmd.configurationStubId])
+
+    }
+
+    def configureSimulationTargets(){
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        ConfigureSimulationTargetsCommandObject cmd = new ConfigureSimulationTargetsCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+
+        }
+        def m = [:]
         m.configurationStubId = cmd.configurationStubId
         m.simulationName = configurationService.getSimulationName(cmd.configurationStubId)
         m.simulationArea = configurationService.getSimulationArea(cmd.configurationStubId).name()
-        render(view: 'configureSimulationTargets', model: m)
+        m.availableRoutes = configurationService.getRoutesForCompany(person,cmd.configurationStubId)
 
+        render(view: 'configureSimulationTargets', model: m)
     }
     /**
      * this calls a new modal window to put cars into a fleet
