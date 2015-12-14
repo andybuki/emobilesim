@@ -1,21 +1,21 @@
 package de.dfki.gs.controller.ms2.configuration.commands
 
 import de.dfki.gs.domain.simulation.Configuration
+import de.dfki.gs.domain.simulation.CustomerPositionSet
 import grails.validation.Validateable
 
 /**
- * Created by simon on 27.11.15.
+ * Created by simon on 14.12.15.
  */
 @Validateable
-class SaveBaseAndTargetsCommandObject {
+class AddRouteToConfigurationCommandObject
+{
     Long configurationStubId
-    String base
-    String targets
-    String savedRouteSelected
+    Long customerPositionSetId
+
     static constraints = {
 
         configurationStubId nullable: false, validator: { val,obj ->
-
 
             Configuration stub = Configuration.get( val )
 
@@ -24,10 +24,16 @@ class SaveBaseAndTargetsCommandObject {
             }
 
 
-
         }
 
-        base nullable: false
-        targets nullable:false
+        customerPositionSetId nullable: false, validator: { val,obj ->
+
+            CustomerPositionSet customerPositionSet = CustomerPositionSet.get( val )
+
+            if ( customerPositionSet == null ) {
+                return 'configuration.fleet.not.exist'
+            }
+
+        }
     }
 }

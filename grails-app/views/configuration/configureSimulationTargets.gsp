@@ -84,6 +84,14 @@
                         Simulation: ${simulationName}
                     </div>
 
+                    <div id = "RouteSelection">
+                        <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
+                                  noSelection="['':'Select Saved Route']"
+                                  onchange="addRoute(this.value)"
+                        />
+                    </div>
+
+
                     <div class="right0PX">
                         <span class="rightBoldBig1">
                             <g:message code="configuration.index.simulationarea"/> ${simulationArea}
@@ -107,6 +115,7 @@
                                         <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
                                         <g:hiddenField name="base" value=""/>
                                         <g:hiddenField name="targets" value=""/>
+                                        <g:hiddenField name="savedRouteSelected" value=""/>
                                         <div id="saveSubmitButton"></div>
                                     </g:form>
                                 </div>
@@ -128,6 +137,46 @@
 </div>
 </div>
 <script type="text/javascript">
+    var savedRouteSelected = -1;
+    function addRoute(customerPositionSetId){
+
+        ${remoteFunction(controller: 'configuration',
+                                                          action: 'getJsonForAddedRoute',
+                                                          params: '\'customerPositionSetId=\'+customerPositionSetId+\'&configurationStubId=\'+\'' + configurationStubId + '\'' ,
+                                                          onSuccess: 'addRouteToMap(data);'
+                                                  )}
+    }
+    function addRouteToMap(data){
+        baseFeatures.clear();
+        collection.clear();
+        var addedRoute_features = new ol.format.GeoJSON().readFeatures(data,{featureProjection:'EPSG:3857'});
+        var addedTargets_source = new ol.source.Vector({
+            features:collection
+        });
+        var addedBase_source = new ol.source.Vector({
+            features:baseFeatures
+        });
+        addedRoute_features.forEach(function(feature){
+            if (feature.get("geoType")=="fleetBase"){
+                addedBase_source.addFeature(feature);
+                savedRouteSelected = feature.get("customerPositionSetId")
+            }
+            else{
+                addedTargets_source.addFeature(feature);
+                savedRouteSelected = feature.get("customerPositionSetId")
+            }
+        });
+        //addedTargets_source.addFeatures(addedRoute_features);
+
+
+        /*var addedFleet_layer = new ol.layer.Vector({
+            source:addedTargets_source,
+            title: "addedRoute"
+        });
+        map.addLayer(addedFleet_layer)*/
+
+    }
+
     var lon, lat; //This is the center of the picture
     <g:if test="${simulationArea == 'BERLIN'}">
     lon = 13.38;
@@ -333,9 +382,11 @@
     map.addInteraction(modifyTarget);
     modifyBase.on('modifyend',function(){
         saveDataBase();
+        savedRouteSelected = -1;
     });
     modifyTarget.on('modifyend',function(){
         saveDataTarget();
+        savedRouteSelected = -1;
     })
     var draw; // global so we can remove it later
     function addInteractionDrawBase() {
@@ -380,9 +431,11 @@
         map.removeInteraction(draw);
         addInteractionDrawTarget();
         saveDataBase();
+        savedRouteSelected = -1;
     });
     collection.on('change:length',function(){
         saveDataTarget();
+        savedRouteSelected = -1;
     });
     var savedFeaturesBase;
     function saveDataBase(){
@@ -406,6 +459,7 @@
         jQuery("[name='saveBaseAndTargetsForm']").submit(function () {
             jQuery("[name='base']").val(savedFeaturesBase);
             jQuery("[name='targets']").val(savedFeaturesTarget);
+            jQuery("[name='savedRouteSelected']").val(savedRouteSelected)
         });
 
     });
