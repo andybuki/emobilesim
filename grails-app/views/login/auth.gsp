@@ -55,7 +55,7 @@
             <td></td>
             <td></td>
         </tr>
-        <tr valign="middle">
+        <tr class="neuSimulation" valign="middle">
             <td></td>
             <td></td>
             <td align="center"><g:img uri="${resource(dir: '/images', file: 'simstarten.png')}"/></td>

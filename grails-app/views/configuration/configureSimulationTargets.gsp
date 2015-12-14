@@ -34,6 +34,10 @@
                     return false;
                 }
             });
+
+            $("#modal-launcher, #modal-background, #modal-close").click(function () {
+                $("#modal-content,#modal-background").toggleClass("active");
+            });
         });
 
         function on_disable_b_and_c_clicked()
@@ -115,7 +119,7 @@
                             <div class="clear"></div>
                         </div>
                     </div>
-                    <div id="updateMe"></div>
+                    <div id="modal-background"></div>
                 </div>
             </div>
         </div>
@@ -124,7 +128,7 @@
         <div id="tabs3">
         </div>
     </div>
-
+    <div id="updateMe"></div>
 </div>
 </div>
 <script type="text/javascript">

@@ -1,4 +1,6 @@
-<div id="openModal" class="modalDialog">
+<div id="modal-background"></div>
+<div id="modal-content" class="modalDialogRegistration">
+<%--<div id="openModal" class="modalDialog">--%>
 <div>
     <g:form controller="configuration" action="setSimulationNameAndArea">
         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
@@ -50,3 +52,4 @@
     <%--<a class="close" title="${message(code: 'templates.configuration.stations.close')}" href=""></a>--%>
 </div>
 </div>
+

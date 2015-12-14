@@ -32,8 +32,15 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
 
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type='text/javascript'>
 
+        jQuery(function(){
+            jQuery("#modal-launcher, #modal-background, #modal-close").click(function () {
+                jQuery("#modal-content,#modal-background").toggleClass("active");
+            });
+        });
+
+    </script>
 </head>
 <body>
 
@@ -72,15 +79,22 @@
 
 <table width="800px" class="startSimulation">
     <td>
+
+        <div>
         <g:form action="configureSimulation">
             <g:submitToRemote class="newSimulation"
+                              id="modal-launcher"
                               url="[controller: 'configuration', action: 'configureSimulation']"
                               update="updateMe"
                               name="submit"
                               value="${message(code: 'configuration.index.createNewSimulation')}" />
             <div class="clear"></div>
         </g:form>
-        <div id="updateMe"></div>
+        <%--<div id="updateMe"></div>--%>
+
+
+            <g:render template="/templates/configuration/simulation/setSimulationName" />
+        </div>
 
     </td>
     <td>

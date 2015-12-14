@@ -638,11 +638,9 @@ body {
     padding: 5px 0px 0px 30px;
     width: 95%;
     text-align: left;
-    height: 85%;
+    height: 80%;
 	position: relative;
-    /*
-    height: 830px;
-    */
+
 }
 
 
@@ -685,8 +683,8 @@ body {
 }
 
 #map{
-	width: 100%;
-	height: 100%;
+	/*width: 100%;
+	height: 100%;*/
 
 }
 
@@ -1449,13 +1447,7 @@ td img{
     position: relative;
 }
 
-.dfkiLogo {
-    vertical-align:top;
-    position: relative;
-    top:-13px;
-    right:5px;
-    z-index:0;
-}
+
 
 .over{
     background-color:#f0f0f0;
@@ -2290,8 +2282,8 @@ fieldset {
 }
 
 .pContainerConfigure {
-	height: 100%;
-	width: 100%;
+	/*height: 100%;
+	width: 100%;*/
 	/*margin-left:6%;*/
 	/*margin-top:20px;
 	margin-bottom:10px;
@@ -2335,7 +2327,7 @@ fieldset {
 
 
 .layout {
-    display:table;
+    /*display:table;
     width: 100%;
     height:100%;
     font-size: 12px;
@@ -2344,7 +2336,7 @@ fieldset {
     position: relative;
     top:0px;
     bottom: 0px;
-    margin-bottom: 20px;
+    margin-bottom: 20px;*/
 }
 
 .layoutRegistration {
@@ -2388,11 +2380,11 @@ fieldset {
 }
 
 .layoutRight {
-    vertical-align: top;
+    /*vertical-align: top;
     display: table-cell;
     float:left;
 	width: 100%;
-	height:100%;
+	height:100%;*/
 }
 
 .contentLeft{
@@ -3000,6 +2992,16 @@ fieldset {
 	-moz-opacity: .5;
 	filter: alpha(opacity=50);
 	z-index: 1000;
+
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0 0 20px 0 #222;
+	-webkit-box-shadow: 0 0 20px 0 #222;
+	-moz-box-shadow: 0 0 20px 0 #222;
+
+
+
 }
 
 .modalDialog:target {
@@ -3784,9 +3786,16 @@ label.checkbox :disabled + span{
 	z-index: 0;
 }
 
+
+
 .dfkiLogo {
+	/*vertical-align:top;
 	position: relative;
-	top:-6px;
+	top:-13px;*/
+
+	width: 45px;
+	position: relative;
+	top: 11px;
 }
 
 .startSimulation {
@@ -4133,7 +4142,7 @@ th {
 }
 
 .efahrungLogo {
-	margin-left:100px;
+	margin-left:40px;
 }
 
 
@@ -4183,7 +4192,7 @@ th {
 	-moz-box-shadow: 0 0 20px 0 #222;
 	display: none;
 	height: 420px;
-	left: 40%;
+	left: 35%;
 	margin: -120px 0 0 -160px;
 	padding: 10px;
 	position: absolute;
@@ -4206,24 +4215,73 @@ th {
 	background: #fff;
 }
 
+#modal-background1{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #888;
+	opacity: .50;
+	-webkit-opacity: .5;
+	-moz-opacity: .5;
+	filter: alpha(opacity=50);
+	z-index: 1000;
+}
+
+#modal-content1 {
+	background-color: white;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0 0 20px 0 #222;
+	-webkit-box-shadow: 0 0 20px 0 #222;
+	-moz-box-shadow: 0 0 20px 0 #222;
+	display: none;
+	height: 420px;
+	left: 35%;
+	margin: -120px 0 0 -160px;
+	padding: 10px;
+	position: absolute;
+	top: 30%;
+	width: 750px;
+	z-index: 1000;
+}
+
+#modal-background1.active, #modal-content1.active {
+	display: block;
+}
+
+#modal-close1 {
+	text-decoration: none;
+	font-size: 12px;
+	position: absolute;
+	right:5px;
+	color:#0e0e0e;
+	border: none;
+	background: #fff;
+}
+
 .pContainerAuth3 {
 	padding-top: 25px;
 
 }
 
 .imagesize {
-	max-width: 400px;
+	max-width: 300px;
 	width:100%;
 }
 
 
  #map {
-	height:80%;
+
 	width:100%;
-	max-height: 1000px;
-	 min-height: 500px;
-	padding:0px;
-	margin:0px;
+	max-height: 800px;
+	 min-height: 450px;
+	 height:inherit;
+	/*padding:0px;
+	margin:0px;*/
 }
 
 .etabs { margin: 0; padding: 0; }
@@ -4304,4 +4362,21 @@ ul.etabs li.disabled a
 	top: 11px;
 	left: 20px;
 
+}
+
+.neuSimulation {
+
+}
+
+.logoBetween {
+	position: relative;
+	top: 12px;
+	font-size: 14px;
+	left: 10px;
+	text-decoration: none;
+}
+
+a .logoBetween {
+	text-decoration: none;
+	color: #000000;
 }
