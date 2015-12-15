@@ -90,7 +90,7 @@
 
                     <div id = "RouteSelection">
                         <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
-                                  noSelection="['':'Select Saved Route']"
+                                  noSelection='["":"${g.message(code:'configuration.index.savedroute')}"]'
                                   onchange="addRoute(this.value)"
                         />
                     </div>

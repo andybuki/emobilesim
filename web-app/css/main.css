@@ -410,16 +410,21 @@ table {
 
 
 th {
-	font-weight: bold;
+
 	padding: 1.2em 1.6em;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 td {
 
     padding: 0.4em 0.6em;
-    font-size: 12px;
+    font-size: 13px;
 }
+
+td a.logoBetween{
+	text-decoration:none;
+}
+
 
 
 th a {
@@ -2758,8 +2763,8 @@ fieldset {
     float:left;
     padding:9px 0px 0px 7px;
     min-height:24px;
-    font-weight: bold;
-	font-size: 12px;
+    /*font-weight: bold;*/
+	font-size: 13px;
 }
 
 .leftbig1 {
@@ -3016,10 +3021,10 @@ fieldset {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #000000;
+	background-color: #888;
 	opacity: .70;
-	-webkit-opacity: .5;
-	-moz-opacity: .5;
+	-webkit-opacity: 1.0;
+	-moz-opacity: 1.0;
 	filter: alpha(opacity=50);
 	z-index: 1000;
 
@@ -3852,12 +3857,13 @@ label.checkbox :disabled + span{
 }
 
 td {
-	font-size: 11px;
+	font-size: 13px;
 
 }
 
 th {
-	font-size: 10px;
+	font-size: 13px;
+	font-weight: normal;
 }
 
 .calendarSet {
