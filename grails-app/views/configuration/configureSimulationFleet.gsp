@@ -102,6 +102,22 @@
                 <div class="rowUp2">
                     <div class="leftBoldBig1">
                         Simulation: ${simulationName}
+
+                        <span>
+                        <g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                            <div class="rowMiddleWithoutBorder22">
+                                <div class="leftText"><%--<g:message code="simulation.index.existentfleet"/>--%></div>
+                                <div class="rightOnlyButton">
+                                    <g:form controller="configuration" action="addExistentFleetToConfiguration">
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{"${g.message(code:'simulation.index.existentfleet')}: "  +it.name+' ('+it.cars?.size()+' Cars)'}}" />
+                                        <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
+                                    </g:form>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </g:if>
+                        </span>
                     </div>
 
                     <div class="right0PX">
@@ -116,6 +132,9 @@
                 <div class="layout">
                     <div class="layoutLeft1">
                         <div class="contentLeftBigConfiguration">
+
+
+
                             <%--<div class="rowUp">
                                 <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
                                 <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
@@ -135,7 +154,7 @@
                                 <div class="clear"></div>
                             </div>--%>
 
-                                <g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                                <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">
                                     <div class="rowMiddleWithoutBorder22">
                                         <div class="leftText"><g:message code="simulation.index.existentfleet"/></div>
                                         <div class="rightOnlyButton">
@@ -147,7 +166,7 @@
                                         </div>
                                         <div class="clear"></div>
                                     </div>
-                                </g:if>
+                                </g:if>--%>
                                 <br>
                                 <div class="rowMiddleWithoutBorder22">
                                     <g:form action="createFleetView">

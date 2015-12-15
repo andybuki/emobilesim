@@ -2854,6 +2854,8 @@ fieldset {
     padding:5px;
     min-height:24px;
     display: table-cell;
+	position: relative;
+	bottom: 7px;
 }
 .leftOnlyButton {
     float: left;
