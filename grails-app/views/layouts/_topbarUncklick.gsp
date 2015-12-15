@@ -1,7 +1,11 @@
 <table class="addcars" border="0" xmlns="http://www.w3.org/1999/html">
     <tr class="borderbottom">
         <td width="300px" align="left" valign="top">
-            <a href="http://emobilesim.dfki.de"><img class="efahrungLogo" align="left" width="180px" src="${g.resource( dir: '/images', file: 'emobilesimlogo.png' )}"/></a>
+            <a href="http://emobilesim.dfki.de">
+                <img class="efahrungLogo" align="left" width="180px" src="${g.resource( dir: '/images', file: 'emobilesimlogo.png' )}"/>
+                <span class="logoBetween"><g:message code="configuration.index.for"/></span>
+                <img class="dfkiLogo" align="right"  src="${g.resource( dir: '/images', file: 'dfki_logo.png' )}"/>
+            </a>
         </td>
         <td>
             <div class="wrap">

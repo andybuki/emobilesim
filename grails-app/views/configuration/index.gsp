@@ -83,17 +83,17 @@
         <div>
         <g:form action="configureSimulation">
             <g:submitToRemote class="newSimulation"
-                              id="modal-launcher"
+
                               url="[controller: 'configuration', action: 'configureSimulation']"
                               update="updateMe"
                               name="submit"
                               value="${message(code: 'configuration.index.createNewSimulation')}" />
             <div class="clear"></div>
         </g:form>
-        <%--<div id="updateMe"></div>--%>
+        <div id="updateMe"></div>
 
 
-            <g:render template="/templates/configuration/simulation/setSimulationName" />
+            <%--<g:render template="/templates/configuration/simulation/setSimulationName" />--%>
         </div>
 
     </td>

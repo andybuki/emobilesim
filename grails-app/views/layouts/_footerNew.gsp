@@ -1,4 +1,4 @@
-<div id="footer">
+<div id="footerNew">
     <span class="footerEmail"><g:message code="layouts.footer.name"/></span>
     <span class="logos">
         <span class="footerText"><g:message code="layouts.footer.sponsored"/></span>

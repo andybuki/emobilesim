@@ -39,7 +39,7 @@
     <div class="contentNew2">
         <g:layoutBody />
     </div>
-
+    <div class="beforeFooter"></div>
 
     <g:render template="/layouts/footer" />
 </div>

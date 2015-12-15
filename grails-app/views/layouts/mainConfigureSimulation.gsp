@@ -36,11 +36,12 @@
     </div>
     <g:render template="/layouts/topbarUncklick" />
 
-    <div id="content">
+    <div class="content">
         <g:layoutBody />
     </div>
-
-
-    <g:render template="/layouts/footer" />
+    <br/><br/>
+    <div class="beforeFooter"></div>
+    <br/><br/>
+    <g:render template="/layouts/footerNew" />
 </div>
 </body>
