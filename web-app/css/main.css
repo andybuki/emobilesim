@@ -2855,7 +2855,7 @@ fieldset {
     min-height:24px;
     display: table-cell;
 	position: relative;
-	bottom: 7px;
+	bottom: 1px;
 }
 .leftOnlyButton {
     float: left;
@@ -4373,6 +4373,11 @@ ul.etabs li.disabled a
 
 .rowUp2 {
 	background-color: #AACCFF;
+	border: 0px solid #ddd;
+}
+
+.rowUp3 {
+	background-color: #ccffaa;
 	border: 0px solid #ddd;
 }
 

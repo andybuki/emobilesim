@@ -89,9 +89,9 @@
 
     <div id="tab-container" class='tab-container'>
     <ul class='etabs1'>
-        <li class='tab' id="tabo1"><a  href="#tabs1">Route konfigurieren</a></li>
-        <li class='tab' id="tabo2"><a  href="#tabs2">Flotte konfigurieren</a></li>
-        <li class='tab' id="tabo3"><a  href="#tabs3">Ladestationen konfigurieren</a></li>
+        <li class='tab' id="tabo1"><a  href="#tabs1"><g:message code="configuration.index.configureroute" /></a></li>
+        <li class='tab' id="tabo2"><a  href="#tabs2"><g:message code="configuration.index.configurefleet"/></a></li>
+        <li class='tab' id="tabo3"><a  href="#tabs3"><g:message code="configuration.index.configurestation"/></a></li>
     </ul>
     <div class='panel-container'>
         <div id="tabs1">
@@ -354,7 +354,6 @@
     </div>
 
 </div>
-
 
 
 </body>
