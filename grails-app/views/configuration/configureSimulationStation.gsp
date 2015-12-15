@@ -104,8 +104,8 @@
             <div class="pContainerConfigure">
                 <div class="rowUp3">
                     <g:form action="changeName">
-                        <div class="leftBoldBig2">
-                            <g:message code="configuration.index.configuresimulation"/>: ${simulationName} <%--<g:textField name="nameForSimulation" value="${simulationName}"/>--%>
+                        <div class="leftBoldBig1">
+                            Simulation: ${simulationName} <%--<g:textField name="nameForSimulation" value="${simulationName}"/>--%>
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <%--<g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />--%>
                         </div>
@@ -113,7 +113,7 @@
                     <g:form action="changeArea">
                         <div class="right0PX">
                             <span class="rightBoldBig1">
-                                <%--<g:message code="configuration.index.simulationarea"/>--%> ${simulationArea}
+                                <g:message code="configuration.index.simulationarea"/> ${simulationArea}
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <span class="rightBoldBig2">
                                     <g:if test="${(addedGroups == null || addedGroups.size() == 0)}">

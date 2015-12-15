@@ -35,9 +35,9 @@
         <table align="center" class="imagetable" border="0">
             <tr valign="middle">
                 <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'routenconf.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
+                <td align="center"><g:img class="imagesize2" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
                 <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'carsconf.png')}"/></td>
-                <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
+                <td align="center"><g:img class="imagesize2" uri="${resource(dir: '/images', file: 'pfeile.png')}"/></td>
                 <td align="center"><g:img class="imagesize" uri="${resource(dir: '/images', file: 'stationconf.png')}"/></td>
             </tr>
         <tr valign="middle">
@@ -58,7 +58,7 @@
         <tr class="neuSimulation" valign="middle">
             <td></td>
             <td></td>
-            <td align="center"><g:img uri="${resource(dir: '/images', file: 'simstarten.png')}"/></td>
+            <td align="center"><g:img class="simstarten" uri="${resource(dir: '/images', file: 'simstarten.png')}"/></td>
             <td></td>
             <td></td>
         </tr>

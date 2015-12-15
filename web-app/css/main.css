@@ -4200,10 +4200,15 @@ th {
 
 .fontBig {
 	color: #888;
-	font-size: 28px;
+	font-size: 20px;
 	text-transform: uppercase;
 	font-family: Source-Sans-Pro-Light;
 
+}
+
+.simstarten {
+
+	max-width: 300px;
 }
 
 @font-face {
@@ -4313,10 +4318,14 @@ th {
 }
 
 .imagesize {
-	max-width: 300px;
+	max-width: 220px;
 	width:100%;
 }
 
+.imagesize2 {
+	max-width: 60px;
+	width:100%;
+}
 
  #map {
 
@@ -4438,4 +4447,9 @@ a {
 .beforeFooter {
 	position: relative;
 	height:10px;
+}
+
+.nameForSimulation {
+
+	width: 120px;
 }

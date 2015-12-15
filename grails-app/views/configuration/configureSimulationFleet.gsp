@@ -204,6 +204,7 @@
                                     <div class="rowMiddleWithoutBorder">
                                         <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
                                             <div class="leftCollectFleets">
+
                                                 ${addedFleet.name} ( ${addedFleet.cars.size()} <g:message code="execution.playsimulation.car"/> ) <%--<img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>--%>
                                             </div>
 
@@ -225,7 +226,10 @@
                                             <g:form controller="configuration" action="removeFleetFromConfiguration">
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                 <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                <g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}"/>
+                                                <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
+                                                <button id="modal-close">
+                                                <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                                </button>
                                             </g:form>
                                         </div>
                                         <div class="right100PX">

@@ -15,7 +15,7 @@
                 <div class="leftText"><g:message code="templates.configuration.simulation._setSimulationName"/></div>
 
                 <div class="rightOnlyButton">
-                    <input type="text"
+                    <input class="nameForSimulation" type="text"
                            placeholder='<g:message code="templates.configuration.simulation._setSimulationName"/>'
                            name="nameForSimulation"/>
                 </div>
