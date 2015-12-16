@@ -3830,8 +3830,9 @@ label.checkbox :disabled + span{
 }
 
 .tableConfiguration {
-	border: 1px solid #ddd;
+	border: 1px solid #bbb;
 	width: 670px;
+	color:black;
 }
 
 td {

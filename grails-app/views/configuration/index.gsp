@@ -121,7 +121,7 @@
                         <table border="0">
                             <g:each in="${configurations}" var="conf">
                                 <tr class="tr30px">
-                                    <td width="130px"><g:link uri="/configuration/configureSimulation?configurationStubId=${conf.configurationId}" url="/configuration/configureSimulation?configurationStubId=${conf.configurationId}">${conf.simulationName}</g:link></td>
+                                    <td width="130px"><g:link uri="/configuration/configureSimulationTargets?configurationStubId=${conf.configurationId}" url="/configuration/configureSimulation?configurationStubId=${conf.configurationId}">${conf.simulationName}</g:link></td>
                                     <td>${conf.routeCount} <g:message code="configuration.executesim.cars"/>  ${conf.stationCount} <g:message code="configuration.executesim.fillingstations"/></td>
 
                                 </tr>

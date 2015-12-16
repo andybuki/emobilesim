@@ -30,7 +30,6 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
     <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
-
     <script type="text/javascript">
 
         $(function()
@@ -79,7 +78,6 @@
         }
 
     </script>
-
     <style>
         .rowUp2 {
             background-color: #AACCFF;
@@ -88,8 +86,7 @@
     </style>
 </head>
 <body>
-
-    <div id="tab-container" class='tab-container'>
+<div id="tab-container" class='tab-container'>
     <ul class='etabs1'>
         <li class='tab' id="tabo1"><a  href="#tabs1"><g:message code="configuration.index.configureroute" /></a></li>
         <li class='tab' id="tabo2"><a  href="#tabs2"><g:message code="configuration.index.configurefleet"/></a></li>
@@ -119,10 +116,10 @@
                                     <g:form action="createFleetView">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:submitToRemote
-                                                          url="[action: 'createFleetView']"
-                                                          update="updateMe"
-                                                          name="submit"
-                                                          value="${message(code: 'simulation.index.createnewfleet')}" />
+                                                url="[action: 'createFleetView']"
+                                                update="updateMe"
+                                                name="submit"
+                                                value="${message(code: 'simulation.index.createnewfleet')}" />
                                     </g:form>
                                 </span>
                             </div>
@@ -157,13 +154,13 @@
                             </div>--%>
 
                             <div class="rowGroup1">
-                            <%--div class="rowBrightGrey">
-                                <div class="leftConfigurationExtraLong">
-                                    <g:message code="configuration.index.selectfleets"/>
-                                </div>
-                                <div class="right0PX"></div>
-                                <div class="clear"></div>
-                            </div>--%>
+                                <%--div class="rowBrightGrey">
+                                    <div class="leftConfigurationExtraLong">
+                                        <g:message code="configuration.index.selectfleets"/>
+                                    </div>
+                                    <div class="right0PX"></div>
+                                    <div class="clear"></div>
+                                </div>--%>
 
                                 <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">
                                     <div class="rowMiddleWithoutBorder22">
@@ -224,9 +221,9 @@
                                             <g:form controller="configuration" action="removeFleetFromConfiguration">
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                 <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
+                                            <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
                                                 <button id="modal-close">
-                                                <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                                    <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
                                                 </button>
                                             </g:form>
                                         </div>
@@ -326,7 +323,8 @@
 
                     </div>
                 </div>
-                <div class="formConfiguration">
+
+                    <div class="formConfiguration">
                     <div class="layoutLeft12">
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
@@ -349,15 +347,10 @@
                     </div>
                     <div id="updateMe"></div>
                 </div>
+                </div>
             </div>
-        </div>
-        <div id="tabs3">
-        </div>
+            <div id="tabs3"/>
     </div>
-
-</div>
-
-
+    </div>
 </body>
-
 </html>

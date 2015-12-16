@@ -4,7 +4,7 @@
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentModalWindowFleetArea">
                 <div class="rowUpBattery">
-                    <div class="leftbig"><b>Change Start Time</b></div>
+                    <div class="leftbig"><b><g:message code="configuration.index.changedate"/></b></div>
                     <div class="clear"></div>
                 </div>
                 <div class="rowMiddle">
