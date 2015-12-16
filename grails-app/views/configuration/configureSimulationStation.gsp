@@ -103,30 +103,38 @@
         <div id="tabs3">
             <div class="pContainerConfigure">
                 <div class="rowUp3">
-                    <g:form action="changeName">
                         <div class="leftBoldBig1">
-                            Simulation: ${simulationName} <%--<g:textField name="nameForSimulation" value="${simulationName}"/>--%>
+                            Simulation: ${simulationName}
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <%--<g:submitButton name="ok" onclick="window.location.reload()" value="Ok" />--%>
-                        </div>
-                    </g:form>
-                    <g:form action="changeArea">
-                        <div class="right0PX">
-                            <span class="rightBoldBig2">
-                                <g:message code="configuration.index.simulationarea"/> ${simulationArea}
-                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                <span class="rightBoldBig2">
-                                    <g:if test="${(addedGroups == null || addedGroups.size() == 0)}">
-                                    <%--<g:submitToRemote class="addButton"
-                                                      url="[action: 'changeArea']"
-                                                      update="updateMe"
-                                                      name="submit"
-                                                      value="${message(code:'configuration.index.changearea')}" />--%>
-                                    </g:if>
+                            <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
+                                <div class="rowMiddleWithoutBorder22">
+                                <span style="float:left;">
+
+
+                                <g:form controller="configuration" action="addExistentGroupToConfiguration">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{"${g.message(code:'execution.playsimulation.electricstations')}: " + it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
+                                    <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                                </g:form>
+
                                 </span>
-                            </span>
+                                <span style="float:right; padding-left: 5px;">
+                                    <g:form action="createGroupView">
+
+                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                <g:submitToRemote url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
+                                <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
+                        </g:form>
+                                </span>
+                            </div>
+                            </g:if>
                         </div>
-                    </g:form>
+
+                        <div class="right0PX">
+                        <span class="rightBoldBig3">
+                            <g:message code="configuration.index.simulationarea"/> ${simulationArea}
+                        </span>
+                    </div>
 
                     <div class="clear"></div>
                 </div>
@@ -152,31 +160,8 @@
                                 <div class="clear"></div>
                             </div>--%>
 
-                                <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
-                                    <div class="rowMiddleWithoutBorder22">
-                                        <div class="leftText">Electric Stations:<%--<g:message code="simulation.index.selectgroup"/>--%></div>
-                                        <div class="rightOnlyButton">
-                                            <g:form controller="configuration" action="addExistentGroupToConfiguration">
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
-                                                <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
-                                            </g:form>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                </g:if>
-                                <br>
-                                <div class="rowMiddleWithoutBorder22">
-                                    <g:form action="createGroupView">
-                                        <div class="leftCarTypes"><%--<g:message code="simulation.index.createnewgroup"/>--%></div>
-                                        <div class="rightOnlyButton">
-                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                            <g:submitToRemote class="addButton" url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
-                                            <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </g:form>
-                                </div>
+
+
                             </div>
 
                             <div class="rowSpace">

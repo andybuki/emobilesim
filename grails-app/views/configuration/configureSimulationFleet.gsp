@@ -104,7 +104,6 @@
 
                         <g:if test="${availableFleets != null && availableFleets.size() > 0}">
                             <div class="rowMiddleWithoutBorder22">
-
                                 <span style="float:left;">
                                     <g:form controller="configuration" action="addExistentFleetToConfiguration">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
