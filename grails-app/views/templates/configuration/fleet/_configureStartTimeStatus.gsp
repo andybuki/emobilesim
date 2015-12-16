@@ -3,7 +3,7 @@
         <g:form controller="configuration">
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentModalWindowFleetArea">
-                <div class="rowUp">
+                <div class="rowUpBattery">
                     <div class="leftbig"><b>Change Start Time</b></div>
                     <div class="clear"></div>
                 </div>

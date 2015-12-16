@@ -1869,32 +1869,7 @@ a#login_pop:hover, a#join_pop1:hover {
     opacity: 1;
     visibility: visible;
 }
-.close {
-    background-color: rgba(0, 0, 0, 0.8);
-    height: 30px;
-    line-height: 30px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    text-decoration: none;
-    top: -15px;
-    width: 30px;
 
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
-    border-radius: 15px;
-}
-.close:before {
-    color: rgba(255, 255, 255, 0.9);
-    content: "X";
-    font-size: 24px;
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
-}
-.close:hover {
-    background-color: rgba(64, 128, 128, 0.8);
-}
 .popup p, .popup div {
     /*margin-bottom: 10px;*/
 }
@@ -2216,26 +2191,7 @@ fieldset {
 
 }
 
-.close {
-    background: #606061;
-    color: #FFFFFF;
-    line-height: 25px;
-    position: absolute;
-    right: -12px;
-    text-align: center;
-    top: -10px;
-    width: 24px;
-    text-decoration: none;
-    font-weight: bold;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
-}
 
-.close:hover { background: #00d9ff; }
 
 
 /* different containers the bigest div, contains other */
@@ -2561,6 +2517,14 @@ fieldset {
     min-height:32px;
 }
 
+.rowMiddle2{
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	display:block;
+	min-height:35px;
+}
+
 .rowMiddleStatistics{
 	position: relative;
 
@@ -2607,6 +2571,8 @@ fieldset {
 .rowMiddleWithoutBorder22 {
 	position: relative;
 	float: right;
+	bottom: 3px;
+	left: 10px;
 
 }
 
@@ -2708,7 +2674,7 @@ fieldset {
 .rightBoldBig1 {
 
 	position: relative;
-	top:3px;
+	bottom:10px;
 	color:black;
 }
 
@@ -2717,6 +2683,14 @@ fieldset {
 	position: relative;
 	bottom:1px;
 }
+
+.rightBoldBig3 {
+
+	position: relative;
+	top:7px;
+	color:black;
+}
+
 .left0PX{
     width:100px;
     float:left;
@@ -2764,7 +2738,8 @@ fieldset {
     padding:9px 0px 0px 7px;
     min-height:24px;
     /*font-weight: bold;*/
-	font-size: 13px;
+	font-size: 15px;
+	color: black;
 }
 
 .leftbig1 {
@@ -2808,6 +2783,25 @@ fieldset {
     padding:5px;
     display: table-cell;
 }
+
+.sliderNew{
+
+	float:right;
+	display: table-cell;
+	width: 212px;
+	float: right;
+	display: table-cell;
+	top: 11px;
+	right: 20px;
+
+}
+
+.left00PXNew {
+	width: 40px;
+	float: left;
+	/* padding: 5px; */
+}
+
 .right90PX{
     //width:95px;
     float:right;
@@ -3122,13 +3116,13 @@ fieldset {
 }
 
 .modalDialogArea > div {
-	width: 320px;
+	width: 340px;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
 	background: #fff;
-
+	height:100px;
 }
 
 .modalDialogMap {
@@ -3321,36 +3315,17 @@ fieldset {
 }
 
 .close {
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid #ccc;
-    height: 24px;
-    line-height: 24px;
+    background-image: url(../images/closesim.png);
+	background-repeat: no-repeat;
     position: absolute;
-    right: 5px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;padding: 0;
-    top: 2px;
-    width: 24px;
-    z-index: 1026;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
-    border-radius: 15px;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
+	right: 3px;
+	top: 3px;
+	width: 28px;
+	z-index: 1026;
+	height: 28px;
+
 }
-.close:before {
-    color: rgba(255, 255, 255, 0.9);
-    content: "X";
-    font-size: 14px;
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
-}
-.close:hover {
-    background-color: rgba(64, 128, 128, 0.8);
-}
+
 
 
 /**
@@ -3838,7 +3813,8 @@ label.checkbox :disabled + span{
 
 	width: 45px;
 	position: relative;
-	top: 11px;
+	top: 12px;
+	right: 10px;
 }
 
 .startSimulation {
@@ -4186,7 +4162,7 @@ th {
 }
 
 .efahrungLogo {
-	margin-left:40px;
+	margin-left:30px;
 }
 
 
@@ -4385,6 +4361,10 @@ ul.etabs li.disabled a
 	border: 0px solid #ddd;
 }
 
+.rowUpBattery {
+	background-color: #AACCFF;
+}
+
 .rowUp3 {
 	background-color: #ccffaa;
 	border: 0px solid #ddd;
@@ -4422,6 +4402,10 @@ ul.etabs li.disabled a
 
 }
 
+.eFahrungLogo {
+	float:left;
+}
+
 .neuSimulation {
 
 }
@@ -4452,4 +4436,54 @@ a {
 .nameForSimulation {
 
 	width: 120px;
+
+}
+
+#minval {
+
+	border: 0;
+	color: #000;
+	font-weight: bold;
+	font-size: 20px;
+	display:inline-block;
+}
+
+.minval2 {
+	color: #000;
+	font-weight: bold;
+	font-size: 20px;
+	float: left;
+	display:inline-block;
+	position: relative;
+	top: 7px;
+	right: 6px;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+
+	background-color: #428bca;
+	border: 1px solid #428bca;
+
+	cursor: pointer;
+	z-index: 2;
+
+}
+
+.left200PX {
+	position: relative;
+	top: 3px;
+	left: 4px;
+}
+
+#startDate-trigger{
+	width: 26px;
+	position: absolute;
+	top: -2px;
+	left: 120px;
+}
+
+.rightBoldBig2 {
+	position: relative;
+	top: 3px;
+	color: black;
 }

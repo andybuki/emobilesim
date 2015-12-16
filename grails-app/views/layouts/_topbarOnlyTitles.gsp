@@ -12,12 +12,13 @@
                 <nav>
                     <ul id="menu">
                         <li><g:link controller="configuration" action="index"><g:message code="layouts._topbar.simulate"/></g:link>
-                        <%--<ul>
-                            <li><g:link controller="configuration" action="index"><g:message code="layouts._topbar.new"/> </g:link></li>
+                            <ul>
+                           <%-- <li><g:link controller="configuration" action="index"><g:message code="layouts._topbar.new"/> </g:link></li>
                             <li><g:link controller="configuration" action="showRecentlyEditedConfiguration"><g:message code="layouts._topbar.open"/></g:link></li>
                             <%--<li><g:link controller="configuration" action="loadFromFile"><g:message code="layouts._topbar.loadfromfile"/></g:link></li>
                                 <li><a href="<g:createLink controller="login" action="logout" />"><g:message code="layouts._topbar.logout"/></a></li>
-                            </ul>--%>
+                            --%>
+                            </ul>
                         </li>
 
                         <%--<li><g:link controller="configuration" action="executeSimulations"><g:message code="layouts._topbar.execute"/></g:link></li>--%>

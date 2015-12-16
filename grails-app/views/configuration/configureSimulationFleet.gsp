@@ -17,11 +17,11 @@
     <g:javascript src="slider/jquery.numberformatter-1.2.3.js"/>
     <g:javascript src="slider/tmpl.js"/>
     <g:javascript src="slider/jquery.dependClass-0.1.js"/>
-    <g:javascript src="slider/draggable-0.1.js"/>
-    <g:javascript src="slider/jquery.slider.js"/>
+    <%--<g:javascript src="slider/draggable-0.1.js"/>
+    <g:javascript src="slider/jquery.slider.js"/>--%>
     <g:javascript src="application.js" />
     <g:javascript src="ol/OpenLayers.js" />
-    <g:javascript src="jquery.loading.js"/>
+    <%--<g:javascript src="jquery.loading.js"/>--%>
     <g:javascript src="jquery-ui-timepicker-addon.js"/>
     <calendar:resources lang="en" theme="tiger"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
@@ -33,9 +33,9 @@
 
     <script type="text/javascript">
 
-
         $(function()
         {
+
             var tabs = $('#tab-container');
             tabs.easytabs({defaultTab:"#tabo2"} );
             disable_easytabs(tabs, [2,0]);
@@ -45,6 +45,8 @@
                     return false;
                 }
             });
+
+
         });
 
         function on_disable_b_and_c_clicked()
@@ -103,25 +105,34 @@
                     <div class="leftBoldBig1">
                         Simulation: ${simulationName}
 
-                        <span>
                         <g:if test="${availableFleets != null && availableFleets.size() > 0}">
                             <div class="rowMiddleWithoutBorder22">
-                                <div class="leftText"><%--<g:message code="simulation.index.existentfleet"/>--%></div>
-                                <div class="rightOnlyButton">
+
+                                <span style="float:left;">
                                     <g:form controller="configuration" action="addExistentFleetToConfiguration">
                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                         <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{"${g.message(code:'simulation.index.existentfleet')}: "  +it.name+' ('+it.cars?.size()+' Cars)'}}" />
                                         <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
                                     </g:form>
-                                </div>
-                                <div class="clear"></div>
+                                </span>
+                                <span style="float:right; padding-left: 5px;">
+                                    <g:form action="createFleetView">
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <g:submitToRemote
+                                                          url="[action: 'createFleetView']"
+                                                          update="updateMe"
+                                                          name="submit"
+                                                          value="${message(code: 'simulation.index.createnewfleet')}" />
+                                    </g:form>
+                                </span>
                             </div>
                         </g:if>
-                        </span>
+
+
                     </div>
 
                     <div class="right0PX">
-                        <span class="rightBoldBig1">
+                        <span class="rightBoldBig3">
                             <g:message code="configuration.index.simulationarea"/> ${simulationArea}
                         </span>
                     </div>
@@ -168,20 +179,7 @@
                                     </div>
                                 </g:if>--%>
                                 <br>
-                                <div class="rowMiddleWithoutBorder22">
-                                    <g:form action="createFleetView">
-                                    <%--<div class="leftText"><g:message code="configuration.index.enoughfleets"/></div>--%>
-                                        <div class="left1800PX">
-                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                            <g:submitToRemote class="addButton"
-                                                              url="[action: 'createFleetView']"
-                                                              update="updateMe"
-                                                              name="submit"
-                                                              value="${message(code: 'simulation.index.createnewfleet')}" />
-                                        </div>
-                                        <div class="clear"></div>
-                                    </g:form>
-                                </div>
+
                             </div>
 
                             <div class="rowSpace">

@@ -17,4 +17,9 @@ modules = {
         resource url: 'js/easySlider1.7.js'
     }
 
+    'slider_resources' {
+        resource url: 'css/slider.css'
+        resource url: 'js/slider.js'
+    }
 }
+

@@ -88,12 +88,14 @@
                         Simulation: ${simulationName}
                     </div>
 
-                    <div id = "RouteSelection">
-                        <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
+                    <g:if test="${availableRoutes.size()>0}">
+                        <div id = "RouteSelection">
+                            <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
                                   noSelection='["":"${g.message(code:'configuration.index.savedroute')}"]'
                                   onchange="addRoute(this.value)"
-                        />
-                    </div>
+                            />
+                        </div>
+                    </g:if>
 
 
                     <div class="right0PX">

@@ -112,7 +112,7 @@
                     </g:form>
                     <g:form action="changeArea">
                         <div class="right0PX">
-                            <span class="rightBoldBig1">
+                            <span class="rightBoldBig2">
                                 <g:message code="configuration.index.simulationarea"/> ${simulationArea}
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <span class="rightBoldBig2">
@@ -268,7 +268,7 @@
                 <div class="formConfiguration">
                     <br><br>
                     <div class="layoutButton">
-                        <span class="layoutButtonL">
+                        <%--<span class="layoutButtonL">
                             <g:form controller="configuration" action="configureSimulationRoute">
                                 <span class="addButtonCancel">
                                     <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
@@ -276,9 +276,9 @@
                                 </span>
                             </g:form>
 
-
+                        </span>--%>
                         <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
-                        </span>
+
                         <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
                                       (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
                                       (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
