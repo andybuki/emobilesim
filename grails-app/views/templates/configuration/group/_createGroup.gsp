@@ -3,7 +3,7 @@
         <g:form controller="configuration" action="createGroup">
             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentLeft2">
-                <div class="rowUp">
+                <div class="rowUp3">
                     <div class="leftbig"><b><%--<<g:message code="simulation.index.selectcarstype"/>--%> <g:message code="templates.configuration.group._createGroup.selectStationForGroup"/></b></div>
                     <div class="clear"></div>
                 </div>

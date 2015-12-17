@@ -4,7 +4,7 @@
         <g:form controller="configuration" action="createFleet">
         <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
             <div class="contentModalWindowFleet">
-                <div class="rowUp">
+                <div class="rowUp2">
                     <div class="leftbig"><b><g:message code="simulation.index.selectcarstype"/></b></div>
                     <div class="clear"></div>
                 </div>

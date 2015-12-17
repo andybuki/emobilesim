@@ -2487,7 +2487,7 @@ fieldset {
 }
 
 .rowUpStatistic {
-	border: 1px solid #ddd;
+	/*border: 1px solid #ddd;*/
 	/*border-top-right-radius: 6px;
     border-top-left-radius: 6px;*/
 	display:block;
@@ -2719,6 +2719,8 @@ fieldset {
     //width:180px;
     float:left;
     padding:5px;
+	color: #000000;
+	font-size: 12px;
 }
 
 .leftCollectFleets{
@@ -2950,6 +2952,7 @@ fieldset {
     float:left;
     padding:10px 0px 0px 7px;
 	font-size:13px;
+	color: #000000;
 
 }
 
@@ -2957,6 +2960,8 @@ fieldset {
     width:210px;
     float:left;
     padding:10px 0px 0px 7px;
+	color:#000000;
+	font-size: 12px;
 
 }
 
@@ -3033,7 +3038,7 @@ fieldset {
 
 .modalDialog > div {
 
-	width: 490px;
+	width: 520px;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
@@ -3099,7 +3104,7 @@ fieldset {
 }
 
 .modalDialogBig > div {
-	width: 520px;
+	width: 535px;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
@@ -3898,16 +3903,19 @@ th {
 	display: inline-block;
 	font-size: 12px;
 	font-weight: bold;
-	right:165px;
+	right:15px;
 	position: relative;
+	bottom:10px;
 }
 
 .exportPanel {
 	width: 150px;
 	position: relative;
-	display:inline-block;
-	margin-right: 20px;
-	right:165px;
+	display: inline-block;
+	margin-right: 4px;
+	right: 6px;
+	border: none;
+	bottom: 10px;
 }
 
 .statisticsButtonsDetail {
@@ -3986,7 +3994,7 @@ th {
 }
 
 .tablesorter {
-	margin-bottom: 7px;
+	margin-bottom: 16px;
 
 }
 
@@ -4516,4 +4524,15 @@ a {
 	position: relative;
 	top: 3px;
 	color: black;
+}
+
+.gebiet {
+
+	position: relative;
+	bottom:10px;
+}
+
+.export {
+	background-color: transparent;
+	border: none;
 }

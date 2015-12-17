@@ -78,7 +78,7 @@
 
 
 <table width="800px" class="startSimulation">
-    <td>
+    <td style="vertical-align: top; padding-top: 15px; ">
 
         <div>
         <g:form action="configureSimulation">
