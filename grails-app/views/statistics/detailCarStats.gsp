@@ -21,452 +21,194 @@
     <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <g:javascript src="tablesorter.js"/>
+    <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
+    <script type="text/javascript">
+    $(function()
+    {
+
+    var tabs = $('#tab-container');
+    tabs.easytabs({defaultTab:"#tabo2"} );
+
+
+
+    });
+    </script>
+    <style>
+    #tabs1 ,#tabs3, #tabs4{
+        display: none;
+
+    }
+    </style>
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-<br/><br/>
-    <div class="pContainerConfigureStatsCar">
-        <div class="" id="accordion">
-            <div class="statisticDataBig">
-                <span class="statisticDataBig">${stats.successFullCars.size()} -</span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.succsesfulcars"/>,</span>
-                <span class="statisticDataBig">${stats.failedCars.size()} -  </span>
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.failedcars"/>,</span>
-
-                    <g:if test="${stats.wholeRoute.size()==0}"></g:if>
-                    <span class="statisticDataBig"><g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())} km. -
-                        <span class="statisticsDataSmall2"><g:message code="stats.stats.wholeroute"/>,</span>
-                    </g:if></span>
-
-                    <span class="statisticDataBig"><g:if test="${stats.wholePower.size()==0}"></g:if>
-                    <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
-                        <span class="statisticsDataSmall2"><g:message code="stats.stats.energy"/></span>,
-                    </g:if></span>
-
-                <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span>
-                <span class="statisticDataBig"> ${stats.configurationArea}</span>
-            </div>
 
 
-            <div class="pContainerConfigureStats1">
-                <div class="rowUpStatistic">
-                    <table align="left" id="sortTable" class="tablesorter">
-                        <thead>
-                        <tr class="statsTitleAll">
-                            <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
-                            <th class="statsTitle3">ID</th>
-                            <th class="statsTitle">Name</th>
-                            <th class="statsTitle"> + / - </th>
-                            <th class="statsTitle">Start time</th>
-                            <th class="statsTitle">End time</th>
-                            <th class="statsTitle">Geplannte </br>Distanz</th>
-                            <th class="statsTitle">Reale </br> Distanz</th>
-                            <th class="statsTitle">Umweg</th>
-                            <th class="statsTitle">Geplannte </br> Fahrzeit</th>
-                            <th class="statsTitle">Reale </br> Fahrzeit</th>
-                            <th class="statsTitle">Zeit für </br>Umweg</th>
-                            <th class="statsTitle">Ladezeit</th>
-                            <th class="statsTitle">Visited station</th>
-                            <th class="statsTitle">Geladener </br> Strom</th>
-                            <th class="statsTitle">Verbrauchte </br> Strom</th>
-                            <th class="statsTitle">Visiten </br>Ladestation</th>
-                            <th class="statsTitle">Start&End </br>Akkuzustand</th>
-                            <th class="statsTitle">Gebliebene</br>Distanz</th>
-                        </tr>
-                        </thead>
-                        <tbody class="statsUnten">
-                        <g:each in="${stats.carsNumbers}" var="carsNumber">
-                            <tr class="statsTitle1">
-                                <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
-                                <td class="statsTitle1">${carsNumber.id}</td>
-                                <td class="statsTitle1" id="carsNumber"> ${carsNumber.carType.name} </td>
-                                <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
-                                    <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'green.png' )}"/></td>
-                                </g:if>
-                                <g:else>
-                                    <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'red.png' )}"/></td>
-                                </g:else>
-                                <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm-dd.MMMM")} </td>
-                                <td class="statsTitle5">${(carsNumber.endCarTime).format("HH:mm-dd.MMMM")} </td>
-                                <td class="statsTitle1">${Math.round(carsNumber.plannedDistance)}km</td>
-                                <td class="statsTitle1"> ${Math.round(carsNumber.realDistance)}km</td>
-                                <td class="statsTitle1">${Math.round(carsNumber.realDistance-carsNumber.plannedDistance)}km</td>
-
-                                <td class="statsTitle1">
-                                    <g:if test="${((carsNumber.timeForPlannedDistance))==0}">
-                                        -
-                                    </g:if>
-                                    <g:else>
-                                        ${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}
-                                    </g:else>
-                                </td>
-
-                                <td class="statsTitle1">
-                                    <g:if test="${((carsNumber.timeForRealDistance))==0}">
-                                        -
-                                    </g:if>
-                                    <g:else>
-                                        ${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}
-                                    </g:else>
-                                </td>
-
-                                <td class="statsTitle1">
-                                    <g:if test="${(carsNumber.timeForDetour)<0}">
-                                        ${TimeCalculator.readableTime((carsNumber.timeForDetour)*-1)}
-                                    </g:if>
-                                    <g:else>
-                                        ${TimeCalculator.readableTime((carsNumber.timeForDetour))}
-                                    </g:else>
-                                </td>
-                                <td class="statsTitle1">
-                                    <g:if test="${((carsNumber.timeForLoading))==0}">
-                                        -
-                                    </g:if>
-                                    <g:else>
-                                        ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
-                                    </g:else>
-                                </td>
-                                <td class="statsTitle1">-</td>
-                                <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
-                                <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
-                                <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
-                                <td class="statsTitle1">${carsNumber.battery}% /${Math.round(carsNumber.endBattery*100)}% </td>
-                                <td class="statsTitle1">
-                                    <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED'}">-</g:if>
-                                    <g:else>${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</g:else>
-                                </td>
-                            </tr>
-                        </g:each>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div id="tab-container" class='tab-container2'>
+    <ul class='etabs1'>
+        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
+        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
+        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Statistische Ladestationen Daten</a></li>
+        <li class='tab' id="tabo4"><a  href="${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}"><g:message code="stats.stats.showonmap"/></a></li>
+    </ul>
+    <div class='panel-container'>
+        <div id="tabs1">
         </div>
-    </div>
-<%--    <div id="accordion">
-        <g:each in="${stats.fleets}" var="fleetStat">
-            <div>
-                <span class="titleStats">
-                    <g:message code="statistics.showStats.fleetOverview"/>: ${fleetStat.name}
-                    <g:message code="templates.configuration.fleet._distribution.with"/> ${fleetStat.carResults.size()}
+        <div id="tabs2">
+            <div class="pContainerConfigure">
+                    <div class="rowUp2">
+                        <div class="leftBoldBig1">
+                            <div class="rowMiddleWithoutBorder22">
+                                ${stats.successFullCars.size()} -
+                         <g:message code="stats.stats.succsesfulcars"/>,
+                        <span >${stats.failedCars.size()} -  </span>
+                        <span> <g:message code="stats.stats.failedcars"/>,</span>
 
-                    <g:message code="templates.configuration.fleet._distribution.car"/>
-                    <g:if test="${fleetStat.name != "All cars of Experiment"}">
-                        |
-                        <g:message code="templates.configuration.fleet._distribution.distribution"/>
-                        ${fleetStat.distribution}
-                        <g:if test="${fleetStat.plannedFromKm}">
-                            from ${fleetStat.plannedFromKm} km to ${fleetStat.plannedToKm} km
-                        </g:if>
-                    </g:if>
-                </span>
-            </div>
-            <div class="rowUp">
-                <g:each in="${fleetStat.carTypes}" var="carType">
-                    <g:form id="allCarTypes" controller="statistics" action="showPicture" target="_blank">
-                        <g:hiddenField name="carTypeName" value="${carType.name}"/>
-                        <g:hiddenField name="fleetName" value="${fleetStat.name}"/>
-                        <g:hiddenField name="experimentRunResultId" value="${experimentRunResultId}"/>
-                        <div class="contentImageStats">
-                            <div class="rowUpStats">
-                                <div class="cartypeStats">
-                                    <span><g:message code="stats.stats.cartype"/> <span
-                                            class="cartypeBold">${carType.name}</span></span>
-                                    <span><g:message code="stats.stats.succsesful"/> <span
-                                            class="cartypeBold">${carType.countSuccessful}</span> <g:message
-                                            code="stats.stats.of"/> <span class="cartypeBold">${carType.countAll}</span>
-                                    </span>
-                                    <span><g:message code="stats.stats.failed"/> <span
-                                            class="cartypeBold">${carType.countFails}</span> <g:message
-                                            code="stats.stats.of"/> <span class="cartypeBold">${carType.countAll}</span>
-                                    </span>
-                                </div>
-                            </div>
+                        <g:if test="${stats.wholeRoute.size()==0}"></g:if>
+                        <span><g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())} km. -
+                            <span><g:message code="stats.stats.wholeroute"/>,</span>
+                        </g:if></span>
 
-                            <div class="rowMiddle">
-                                <table class="table">
-                                    <tr class="table" align="center">
-                                        <td width="100px" class="shiebenTitle">
-                                            <g:message code="stats.stats.succsesscategory"/>
-                                        </td>
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::plannedTime"
-                                                            id="${fleetStat.name}::${carType.name}::plannedTime"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.planedtime"/>
-                                        </td>
-
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realDrivingTime"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::realDrivingTime"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.realdrivingtime"/>
-                                        </td>
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realTime"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::realTime"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.realtime"/>
-                                        </td>
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::loadingTime"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::loadingTime"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.loadingtime"/>
-                                        </td>
-
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::plannedDistance"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::plannedDistance"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.planneddistance"/>
-                                        </td>
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::realDistance"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::realDistance"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.realdistance"/>
-                                        </td>
-
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::energyLoaded"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::energyLoaded"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.energyloaded"/>
-                                        </td>
-                                        <td width="100px" class="shiebenTitle">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::energyDemanded"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick(this);"
-                                                            id="${fleetStat.name}::${carType.name}::energyDemanded"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.energydemanded"/>
-                                        </td>
-
-                                    </tr>
-                                    <tr class="table">
-
-                                        <td width="100px" class="shieben1">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::all"
-                                                            id="${fleetStat.name}::${carType.name}::all"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick( this )"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.all"/>
-                                        </td>
-
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::plannedTime">
-                                            ${TimeCalculator.readableTime(carType.stats.allCars.plannedTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::realDrivingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.allCars.realDrivingTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::realTime">
-                                            ${TimeCalculator.readableTime(carType.stats.allCars.realTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::loadingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.allCars.loadingTime.mean)}
-                                        </td>
-
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::plannedDistance">
-                                            ${carType.stats.allCars.plannedDistance.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::realDistance">
-                                            ${carType.stats.allCars.realDistance.mean}
-                                        </td>
-
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::energyLoaded">
-                                            ${carType.stats.allCars.energyLoaded.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="all::${fleetStat.name}::${carType.name}::energyDemanded">
-                                            ${carType.stats.allCars.energyDemanded.mean}
-                                        </td>
-
-                                    </tr>
-                                    <tr class="table">
-
-                                        <td width="100px" class="shieben1">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::successful"
-                                                            id="${fleetStat.name}::${carType.name}::successful"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick( this )"/>
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.succsesful"/>
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::plannedTime">
-                                            ${TimeCalculator.readableTime(carType.stats.succeededCars.plannedTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::realDrivingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.succeededCars.realDrivingTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::realTime">
-                                            ${TimeCalculator.readableTime(carType.stats.succeededCars.realTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::loadingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.succeededCars.loadingTime.mean)}
-                                        </td>
-
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::plannedDistance">
-                                            ${carType.stats.succeededCars.plannedDistance.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::realDistance">
-                                            ${carType.stats.succeededCars.realDistance.mean}
-                                        </td>
-
-                                        <td align="center" class="shieben" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::energyLoaded">
-                                            ${carType.stats.succeededCars.energyLoaded.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="successful::${fleetStat.name}::${carType.name}::energyDemanded">
-                                            ${carType.stats.succeededCars.energyDemanded.mean}
-                                        </td>
-
-                                    </tr>
-                                    <tr class="table">
-
-                                        <td width="100px" class="shieben1">
-                                            <label class="checkbox">
-                                                <g:checkBox name="${fleetStat.name}::${carType.name}::failed"
-                                                            id="${fleetStat.name}::${carType.name}::failed"
-                                                            class="${fleetStat.name}::${carType.name}"
-                                                            onclick="handleCheckBoxClick( this )"/>
-
-                                                <span></span>
-                                            </label>
-                                            <g:message code="stats.stats.failed"/>
-                                        </td>
-
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::plannedTime">
-                                            ${TimeCalculator.readableTime(carType.stats.failedCars.plannedTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::realDrivingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.failedCars.realDrivingTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::realTime">
-                                            ${TimeCalculator.readableTime(carType.stats.failedCars.realTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::loadingTime">
-                                            ${TimeCalculator.readableTime(carType.stats.failedCars.loadingTime.mean)}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::plannedDistance">
-                                            ${carType.stats.failedCars.plannedDistance.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::realDistance">
-                                            ${carType.stats.failedCars.realDistance.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::energyLoaded">
-                                            ${carType.stats.failedCars.energyLoaded.mean}
-                                        </td>
-                                        <td align="center" class="shieben" width="100px"
-                                            id="failed::${fleetStat.name}::${carType.name}::energyDemanded">
-                                            ${carType.stats.failedCars.energyDemanded.mean}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="rowMiddleWithoutBorder4">
-                                                <g:submitButton name="Display graph"
-                                                                value="${message(code: 'stats.stats.displaygraph')}"
-                                                                id="${fleetStat.name}::${carType.name}"/>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                        <span><g:if test="${stats.wholePower.size()==0}"></g:if>
+                            <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
+                                <span><g:message code="stats.stats.energy"/></span>
+                            </g:if></span>
                             </div>
                         </div>
-                    </g:form>
-                </g:each>
+
+                        <div class="right0PX">
+                            <span class="rightBoldBig3">
+                                <g:message code="configuration.index.simulationarea"/>-${stats.configurationArea}
+                            </span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="pContainerConfigureStats1">
+                        <div class="rowUpStatistic">
+                            <table align="left" id="sortTable" class="tablesorter">
+                                <thead>
+                                <tr class="statsTitleAll">
+                                    <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
+                                    <th class="statsTitle3">ID</th>
+                                    <th class="statsTitle">Name</th>
+                                    <th class="statsTitle"> + / - </th>
+                                    <th class="statsTitle">Start time</th>
+                                    <th class="statsTitle">End time</th>
+                                    <th class="statsTitle">Geplannte </br>Distanz</th>
+                                    <th class="statsTitle">Reale </br> Distanz</th>
+                                    <th class="statsTitle">Umweg</th>
+                                    <th class="statsTitle">Geplannte </br> Fahrzeit</th>
+                                    <th class="statsTitle">Reale </br> Fahrzeit</th>
+                                    <th class="statsTitle">Zeit für </br>Umweg</th>
+                                    <th class="statsTitle">Ladezeit</th>
+                                    <th class="statsTitle">Visited station</th>
+                                    <th class="statsTitle">Geladener </br> Strom</th>
+                                    <th class="statsTitle">Verbrauchte </br> Strom</th>
+                                    <th class="statsTitle">Visiten </br>Ladestation</th>
+                                    <th class="statsTitle">Start&End </br>Akkuzustand</th>
+                                    <th class="statsTitle">Gebliebene</br>Distanz</th>
+                                </tr>
+                                </thead>
+                                <tbody class="statsUnten">
+                                <g:each in="${stats.carsNumbers}" var="carsNumber">
+                                    <tr class="statsTitle1">
+                                        <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
+                                        <td class="statsTitle1">${carsNumber.id}</td>
+                                        <td class="statsTitle1" id="carsNumber"> ${carsNumber.carType.name} </td>
+                                        <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
+                                            <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'green.png' )}"/></td>
+                                        </g:if>
+                                        <g:else>
+                                            <td class="statsTitle1"><img width="12" height="12" src="${g.resource( dir: '/images', file: 'red.png' )}"/></td>
+                                        </g:else>
+                                        <td class="statsTitle5">${(carsNumber.carStartTime).format("HH:mm-dd.MMMM")} </td>
+                                        <td class="statsTitle5">${(carsNumber.endCarTime).format("HH:mm-dd.MMMM")} </td>
+                                        <td class="statsTitle1">${Math.round(carsNumber.plannedDistance)}km</td>
+                                        <td class="statsTitle1"> ${Math.round(carsNumber.realDistance)}km</td>
+                                        <td class="statsTitle1">${Math.round(carsNumber.realDistance-carsNumber.plannedDistance)}km</td>
+
+                                        <td class="statsTitle1">
+                                            <g:if test="${((carsNumber.timeForPlannedDistance))==0}">
+                                                -
+                                            </g:if>
+                                            <g:else>
+                                                ${TimeCalculator.readableTime(carsNumber.timeForPlannedDistance)}
+                                            </g:else>
+                                        </td>
+
+                                        <td class="statsTitle1">
+                                            <g:if test="${((carsNumber.timeForRealDistance))==0}">
+                                                -
+                                            </g:if>
+                                            <g:else>
+                                                ${TimeCalculator.readableTime(carsNumber.timeForRealDistance)}
+                                            </g:else>
+                                        </td>
+
+                                        <td class="statsTitle1">
+                                            <g:if test="${(carsNumber.timeForDetour)<0}">
+                                                ${TimeCalculator.readableTime((carsNumber.timeForDetour)*-1)}
+                                            </g:if>
+                                            <g:else>
+                                                ${TimeCalculator.readableTime((carsNumber.timeForDetour))}
+                                            </g:else>
+                                        </td>
+                                        <td class="statsTitle1">
+                                            <g:if test="${((carsNumber.timeForLoading))==0}">
+                                                -
+                                            </g:if>
+                                            <g:else>
+                                                ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
+                                            </g:else>
+                                        </td>
+                                        <td class="statsTitle1">-</td>
+                                        <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
+                                        <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
+                                        <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
+                                        <td class="statsTitle1">${carsNumber.battery}% /${Math.round(carsNumber.endBattery*100)}% </td>
+                                        <td class="statsTitle1">
+                                            <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED'}">-</g:if>
+                                            <g:else>${Math.round(carsNumber.plannedDistance-carsNumber.realDistance)}km</g:else>
+                                        </td>
+                                    </tr>
+                                </g:each>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
             </div>
-        </g:each>
-    </div>
---%>
-<br/>
-<div class="pContainerConfigureStats">
-    <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
-    <div class="exportPanel">
-        <r:require module="export"/>
-        <export:resource />
-        <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
-        </export:formats>
-    </div>
-    <div class="exportTitle"> Show Plot: </div>
-    <div class="exportTitle">
-        <g:submitButton name="Display graph"
-                        value="${message(code: 'stats.stats.displaygraph')}"/>
 
-    </div>
-    <div class="statisticsButtonsDetail">
+            <div class="pContainerConfigureStats">
+                <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
+                <div class="exportPanel">
+                    <r:require module="export"/>
+                    <export:resource />
+                    <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
+                    </export:formats>
+                </div>
+                <div class="exportTitle"> Show Plot: </div>
+                <div class="exportTitle">
+                    <g:submitButton name="Display graph"
+                                    value="${message(code: 'stats.stats.displaygraph')}"/>
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.showonmap"/> </button>
+                </div>
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.detailstation"/> </button>
+            </div>
+        </div>
+        <div id="tabs3">
+        </div>
+        <div id="tabs4">
+        </div>
     </div>
+    <div id="updateMe"></div>
 </div>
-<div id="updateMe"></div>
+</div>
+
+
+
+
+
 <%--
 <g:javascript>
 

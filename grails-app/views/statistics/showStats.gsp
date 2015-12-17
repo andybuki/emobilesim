@@ -27,88 +27,119 @@
     <g:javascript library="jquery-1.9.0"/>
 
     <g:javascript src="application.js"/>
-
+    <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
     <g:javascript src="ol/OpenLayers.js"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
     <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function()
+        {
 
+            var tabs = $('#tab-container');
+            tabs.easytabs({defaultTab:"#tabo1"} );
+
+
+
+        });
+    </script>
+    <style>
+    #tabs2 ,#tabs3, #tabs4{
+        display: none;
+
+    }
+    </style>
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
 
 
-<br/>
+<div id="tab-container" class='tab-container'>
+    <ul class='etabs1'>
+        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
+        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
+        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Statistische Ladestationen Daten</a></li>
+        <li class='tab' id="tabo4"><a  href="${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}"><g:message code="stats.stats.showonmap"/></a></li>
+    </ul>
+    <div class='panel-container'>
+        <div id="tabs1">
+            <div class="pContainerConfigure">
+                <div class="statistics33">
+                    <div class="rowUp">
+                        <div class="leftBoldStatistics"><b>Statistic: ${stats.simulationName}</b></div>
 
-<div class="pContainerStatistics">
-    <div class="statistics">
-        <div class="rowUp">
-            <div class="leftBoldStatistics"><b>Statistic: ${stats.simulationName}</b></div>
+                    </div>
 
-        </div>
+                    <div class="rowMiddleStatistics">
+                        <div class="statisticsData">
+                            <span class="">${stats.successFullCars.size()} -  </span>
+                            <span class="statisticsDataSmall2"> <g:message code="stats.stats.succsesfulcars"/>,</span>
+                            <span class="">${stats.failedCars.size()} -  </span>
+                            <span class="statisticsDataSmall2"><g:message code="stats.stats.failedcars"/>,</span>
+                            <span class="">
+                                <g:if test="${stats.wholeRoute.size()==0}"></g:if>
+                                <g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())?:0} km. -
+                                    <span class="statisticsDataSmall2"><g:message code="stats.stats.wholeroute"/>,</span>
+                                </g:if>
+                            </span>
 
-        <div class="rowMiddleStatistics">
-            <div class="statisticsData">
-                <span class="">${stats.successFullCars.size()} -  </span>
-                <span class="statisticsDataSmall2"> <g:message code="stats.stats.succsesfulcars"/>,</span>
-                <span class="">${stats.failedCars.size()} -  </span>
-                <span class="statisticsDataSmall2"><g:message code="stats.stats.failedcars"/>,</span>
-                <span class="">
-                    <g:if test="${stats.wholeRoute.size()==0}"></g:if>
-                    <g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())?:0} km. -
-                        <span class="statisticsDataSmall2"><g:message code="stats.stats.wholeroute"/>,</span>
-                    </g:if>
-                </span>
+                            <span class="statisticsDataSmall2"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
+                        </div>
+                    </div>
 
-                <span class="statisticsDataSmall2"> <g:message code="stats.stats.simulationarea"/> - </span> ${stats.configurationArea}
+                    <div class="rowMiddleStatistics">
+                        <div class="statisticsData">
+                            <span class="">${stats.fillingStations.size()} -  </span>
+                            <span class="statisticsDataSmall2"> <g:message code="stats.stats.stations"/>,</span>
+                            ${stats.usedStations} -
+                            <span class="statisticsDataSmall2"> <g:message code="stats.stats.stationsvisited"/>,</span>
+                            ${TimeCalculator.readableTime(stats.stationsInUse)} -
+                            <span class="statisticsDataSmall2"><g:message code="stats.stats.timeinusesum"/></span>
+                            <span class="">
+                                <g:if test="${stats.wholePower.size()!=0}">
+                                    <span class="statisticsDataSmall2">,</span>
+                                    ${Math.round(stats.wholePower.sum())} kW. -
+                                    <span class="statisticsDataSmall2"><g:message code="stats.stats.energy"/></span>
+                                </g:if>
+                            </span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="rowMiddleStatistics">
+                        <span class="statisticsButtons">
+                            <button class="layoutButtonR3"
+                                    type="submit"
+                                    onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                                <g:message code="stats.stats.showonmap"/>
+                            </button>
+                            <button class="layoutButtonR3"
+                                    type="submit"
+                                    onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                                <g:message code="stats.stats.detailcar"/>
+                            </button>
+                            <button class="layoutButtonR3"
+                                    type="submit"
+                                    onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
+                                <g:message code="stats.stats.detailstation"/>
+                            </button>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="rowMiddleStatistics">
-            <div class="statisticsData">
-                <span class="">${stats.fillingStations.size()} -  </span>
-                <span class="statisticsDataSmall2"> <g:message code="stats.stats.stations"/>,</span>
-                ${stats.usedStations} -
-                <span class="statisticsDataSmall2"> <g:message code="stats.stats.stationsvisited"/>,</span>
-                ${TimeCalculator.readableTime(stats.stationsInUse)} -
-                <span class="statisticsDataSmall2"><g:message code="stats.stats.timeinusesum"/></span>
-                <span class="">
-                    <g:if test="${stats.wholePower.size()!=0}">
-                        <span class="statisticsDataSmall2">,</span>
-                        ${Math.round(stats.wholePower.sum())} kW. -
-                        <span class="statisticsDataSmall2"><g:message code="stats.stats.energy"/></span>
-                    </g:if>
-                </span>
-
-            </div>
+        <div id="tabs2">
         </div>
-
-
-        <div class="rowMiddleStatistics">
-            <span class="statisticsButtons">
-                <button class="layoutButtonR3"
-                        type="submit"
-                        onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                        <g:message code="stats.stats.showonmap"/>
-                </button>
-                <button class="layoutButtonR3"
-                        type="submit"
-                        onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                    <g:message code="stats.stats.detailcar"/>
-                </button>
-                <button class="layoutButtonR3"
-                        type="submit"
-                        onclick="location.href='${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-                    <g:message code="stats.stats.detailstation"/>
-                </button>
-             </span>
+        <div id="tabs3">
+        </div>
+        <div id="tabs4">
         </div>
     </div>
+    <div id="updateMe"></div>
 </div>
-
-<div id="updateMe"></div>
-
+</div>
 
 </body>
 </html>

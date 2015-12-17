@@ -21,121 +21,154 @@
     <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <g:javascript src="tablesorter.js"/>
+    <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
+    <script type="text/javascript">
+        $(function()
+        {
+
+            var tabs = $('#tab-container');
+            tabs.easytabs({defaultTab:"#tabo3"} );
+
+        });
+    </script>
+    <style>
+    #tabs2 ,#tabs1, #tabs4{
+        display: none;
+
+    }
+    </style>
 </head>
 
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
-<br/>
 
-<div class="pContainerConfigureStats">
-    <div class="" id="accordion">
-    <div class="statisticDataBig">
-        <span class="statisticDataBig">
-            <g:if test="${stats.fillingStations.size()==0}"></g:if>
-            <g:if test="${stats.fillingStations.size()!=0}"> ${stats.fillingStations.size()}-</g:if>
-        </span>
-        <span class="statisticsDataSmall"><g:message code="stats.stats.stations"/>,</span>
-        <span class="statisticDataBig"> ${stats.usedStations} - </span>
-        <span class="statisticsDataSmall"> <g:message code="stats.stats.stationsvisited"/>,</span>
-        <span class="statisticDataBig"> ${TimeCalculator.readableTime(stats.stationsInUse)} - </span>
-        <span class="statisticsDataSmall"><g:message code="stats.stats.timeinusesum"/>,</span>
-        <span class="statisticDataBig">
-            <g:if test="${stats.wholePower.size()==0}"></g:if>
-            <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
-                <span class="statisticsDataSmall2"> <g:message code="stats.stats.energy"/>,</span>
-            </g:if>
-        </span>
+<div id="tab-container" class='tab-container2'>
+    <ul class='etabs1'>
+        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
+        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
+        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Statistische Ladestationen Daten</a></li>
+        <li class='tab' id="tabo4"><a  href="${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}"><g:message code="stats.stats.showonmap"/></a></li>
+    </ul>
+    <div class='panel-container'>
+        <div id="tabs1"></div>
+        <div id="tabs2">
+        </div>
+        <div id="tabs3">
+            <div class="pContainerConfigure">
+                <div class="rowUp3">
+                    <div class="leftBoldBig1">
+                        <div class="rowMiddleWithoutBorder22">
+                            <span>
+                                <g:if test="${stats.fillingStations.size()==0}"></g:if>
+                                <g:if test="${stats.fillingStations.size()!=0}"> ${stats.fillingStations.size()}-</g:if>
+                            </span>
+                            <span><g:message code="stats.stats.stations"/>,</span>
+                            <span> ${stats.usedStations} - </span>
+                            <span> <g:message code="stats.stats.stationsvisited"/>,</span>
+                            <span> ${TimeCalculator.readableTime(stats.stationsInUse)} - </span>
+                            <span><g:message code="stats.stats.timeinusesum"/>,</span>
+                            <span>
+                                <g:if test="${stats.wholePower.size()==0}"></g:if>
+                                <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
+                                    <span> <g:message code="stats.stats.energy"/></span>
+                                </g:if>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="right0PX">
+                        <span class="rightBoldBig3">
+                            <g:message code="configuration.index.simulationarea"/>-${stats.configurationArea}
+                        </span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
 
-        <span class="statisticsDataSmall"> <g:message code="stats.stats.simulationarea"/> - </span>
-        <span class="statisticDataBig"> ${stats.configurationArea} </span>
-    </div>
+                <div class="pContainerConfigureStats">
 
 
-    <div class="pContainerConfigureStats1">
-        <div class="rowUpStatistic">
-            <table align="left" id="sortTable" class="tablesorter">
-                <thead>
-                <tr class="statsTitleAllStation">
-                    <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
-                    <th class="statsTitle3">ID</th>
-                    <th class="statsTitle">Type kW</th>
-                    <th class="statsTitle">Owner</th>
-                    <th class="statsTitle">Nutzungszeit</th>
-                    <th class="statsTitle">Geladener Strom</th>
-                    <th class="statsTitle">Ladestationen GPS</th>
-                    <th class="statsTitle">Visited car</th>
-                    <th class="statsTitle">Visited time</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <g:each in="${stats.fillingStations}" var="fillingStation">
-                        <tr class="statsTitle1">
-                            <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
-                            <td class="statsTitle1">${fillingStation.id}</td>
-                            <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
-                            <g:if test="${fillingStation.name =='Rve' || fillingStation.name =='Vattenfall'}">
-                                <td class="statsTitle1">${fillingStation.name} </td>
-                            </g:if>
-                            <g:else>
-                                <td class="statsTitle1">privat </td>
-                            </g:else>
-                            <td class="statsTitle1">
-                            <g:if test="${fillingStation.timeInUse==0}">
-                                -
-                            </g:if>
-                            <g:else>
-                                ${TimeCalculator.readableTime(fillingStation.timeInUse)}
-                            </g:else>
-                        </td>
-                            <td class="statsTitle1">
-                            <g:if test="${fillingStation.timeInUse==0}">
-                                -
-                            </g:if>
-                            <g:else>
-                                ${Math.round((fillingStation.timeInUse*fillingStation.fillingStationType.fillingPortion))} kW
-                            </g:else></td>
-                            <td class="statsTitle1"> ( ${fillingStation.lat} ${fillingStation.lon}) </td>
-                            <td class="statsTitle1"></td>
-                            <td class="statsTitle1"></td>
-                        </tr>
-                    </g:each>
-                </tbody>
-            </table>
+                    <div class="pContainerConfigureStats1">
+                        <div class="rowUpStatistic">
+                            <table align="left" id="sortTable" class="tablesorter">
+                                <thead>
+                                <tr class="statsTitleAllStation">
+                                    <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
+                                    <th class="statsTitle3">ID</th>
+                                    <th class="statsTitle">Type kW</th>
+                                    <th class="statsTitle">Owner</th>
+                                    <th class="statsTitle">Nutzungszeit</th>
+                                    <th class="statsTitle">Geladener Strom</th>
+                                    <th class="statsTitle">Ladestationen GPS</th>
+                                    <th class="statsTitle">Visited car</th>
+                                    <th class="statsTitle">Visited time</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <g:each in="${stats.fillingStations}" var="fillingStation">
+                                    <tr class="statsTitle1">
+                                        <td class="statsTitle1"> <g:checkBox class="statisticsAlle" name="id"/></td>
+                                        <td class="statsTitle1">${fillingStation.id}</td>
+                                        <td class="statsTitle1" id="fillingStationType"> ${fillingStation.fillingStationType.name} </td>
+                                        <g:if test="${fillingStation.name =='Rve' || fillingStation.name =='Vattenfall'}">
+                                            <td class="statsTitle1">${fillingStation.name} </td>
+                                        </g:if>
+                                        <g:else>
+                                            <td class="statsTitle1">privat </td>
+                                        </g:else>
+                                        <td class="statsTitle1">
+                                            <g:if test="${fillingStation.timeInUse==0}">
+                                                -
+                                            </g:if>
+                                            <g:else>
+                                                ${TimeCalculator.readableTime(fillingStation.timeInUse)}
+                                            </g:else>
+                                        </td>
+                                        <td class="statsTitle1">
+                                            <g:if test="${fillingStation.timeInUse==0}">
+                                                -
+                                            </g:if>
+                                            <g:else>
+                                                ${Math.round((fillingStation.timeInUse*fillingStation.fillingStationType.fillingPortion))} kW
+                                            </g:else></td>
+                                        <td class="statsTitle1"> ( ${fillingStation.lat} ${fillingStation.lon}) </td>
+                                        <td class="statsTitle1"></td>
+                                        <td class="statsTitle1"></td>
+                                    </tr>
+                                </g:each>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pContainerConfigureStats">
+                <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
+                <div class="exportPanel">
+                    <r:require module="export"/>
+                    <export:resource />
+                    <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
+                    </export:formats>
+                </div>
+                <div class="exportTitle"> Show Plot: </div>
+                <div class="exportTitle">
+                    <g:submitButton name="Display graph"
+                                    value="${message(code: 'stats.stats.displaygraph')}"/>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="tabs4">
         </div>
     </div>
+    <div id="updateMe"></div>
 </div>
 </div>
 
-<br/>
-<div class="pContainerConfigureStats">
-    <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
-    <div class="exportPanel">
-        <r:require module="export"/>
-        <export:resource />
-        <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
-        </export:formats>
-    </div>
-    <div class="exportTitle"> Show Plot: </div>
-    <div class="exportTitle">
-        <g:submitButton name="Display graph"
-                        value="${message(code: 'stats.stats.displaygraph')}"/>
 
-    </div>
-    <div class="statisticsButtonsDetail">
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.showonmap"/> </button>
 
-        <button class="layoutButtonR3"
-                type="submit"
-                onclick="location.href='${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}'">
-            <g:message code="stats.stats.detailcar"/> </button>
-
-    </div>
-</div>
-<div id="updateMe"></div>
 <%--<g:javascript>
 
     function handleCheckBoxClick(cb) {
