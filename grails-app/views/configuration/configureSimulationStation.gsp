@@ -104,7 +104,7 @@
             <div class="pContainerConfigure">
                 <div class="rowUp3">
                         <div class="leftBoldBig1">
-                            Simulation: ${simulationName}
+                            <g:message code= "stats.stats.statistics"/> ${simulationName}
                             <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                             <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
                                 <div class="rowMiddleWithoutBorder22">

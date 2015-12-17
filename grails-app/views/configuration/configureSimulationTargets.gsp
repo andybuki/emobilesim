@@ -85,7 +85,7 @@
             <div class="pContainerConfigure">
                 <div class="rowUp">
                     <div class="leftBoldBig1">
-                        Simulation: ${simulationName}
+                        <g:message code= "stats.stats.statistics"/> ${simulationName}
                     </div>
 
                     <g:if test="${availableRoutes.size()>0}">

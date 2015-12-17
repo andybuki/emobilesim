@@ -100,7 +100,7 @@
             <div class="pContainerConfigure">
                 <div class="rowUp2">
                     <div class="leftBoldBig1">
-                        Simulation: ${simulationName}
+                        <g:message code= "stats.stats.statistics"/> ${simulationName}
 
                         <g:if test="${availableFleets != null && availableFleets.size() > 0}">
                             <div class="rowMiddleWithoutBorder22">

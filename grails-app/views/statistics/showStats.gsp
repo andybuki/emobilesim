@@ -28,17 +28,16 @@
 
     <g:javascript src="application.js"/>
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
-    <g:javascript src="ol/OpenLayers.js"/>
-    <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
+
+
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script type='text/javascript' src="${resource(dir: 'js', file: 'jquery.knob.js')}"></script>
     <script type="text/javascript">
         $(function()
         {
 
             var tabs = $('#tab-container');
             tabs.easytabs({defaultTab:"#tabo1"} );
-
 
 
         });
@@ -68,7 +67,7 @@
                     <div class="rowUp">
                         <div class="leftBoldBig1">
                             <div class="rowMiddleWithoutBorder22">
-                            Statistic: ${stats.simulationName}
+                                <g:message code= "stats.stats.statistics"/>  ${stats.simulationName}:
 
                                 ${stats.successFullCars.size()} -
                                  <g:message code="stats.stats.succsesfulcars"/>,
@@ -99,6 +98,25 @@
                             </span>
                         </div>
                     </div>
+
+                    <div class="pContainerConfigureStats10">
+                        <br>
+                        <g:each in="${stats.carsNumbers}" var="carsNumber">
+                            <div class="visualisierung">${carsNumber.id}${carsNumber.carType.name}</div>
+                            <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
+                                <div style="border-bottom: 5px solid green; width:${Math.round(carsNumber.realDistance*10)}px"></div>
+                            </g:if>
+                            <g:else>
+                                <div style="border-bottom: 4px solid red; width:${Math.round(carsNumber.realDistance*10)}px"></div>
+                            </g:else>
+
+                            <span class="knobi" style="left:${Math.round(carsNumber.realDistance*10)}px"><input class="knob-dyn2" data-fgColor="chartreuse" data-thickness=".4" readonly value="${Math.round(carsNumber.endBattery*100)}"></span>
+
+                            <div style=" border-bottom: 2px dashed #ccc; width:${Math.round(carsNumber.plannedDistance*10)}px"></div>
+                        </g:each>
+
+                    </div>
+                    <br/><br/>
             </div>
         </div>
         <div id="tabs2">
@@ -111,6 +129,25 @@
     <div id="updateMe"></div>
 </div>
 </div>
+
+
+<script>
+    $(".knob-dyn2").knob({
+                'min':0,
+                'max':100,
+                'readOnly': true,
+                'width': 30,
+                'height': 30,
+                'fgColor': '#000000',
+                'thickness': 0.5
+
+
+
+
+
+
+    });
+</script>
 
 </body>
 </html>
