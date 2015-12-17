@@ -2478,12 +2478,12 @@ fieldset {
 /* ROWS */
 .rowUp {
     background-color:#eee;
-    border: 1px solid #ddd;
+
     /*border-top-right-radius: 6px;
     border-top-left-radius: 6px;*/
     display:block;
-    min-height:32px;
-    font-size: 14px;
+    min-height:35px;
+
 }
 
 .rowUpStatistic {
@@ -3909,11 +3909,11 @@ th {
 }
 
 .exportPanel {
-	width: 150px;
+
 	position: relative;
 	display: inline-block;
 	margin-right: 4px;
-	right: 6px;
+	right: 15px;
 	border: none;
 	bottom: 10px;
 }
@@ -4357,6 +4357,20 @@ th {
 	padding-bottom:10px;
 }
 
+.tab-containerFirst{
+	float: left;
+	/*
+    color: #000;
+    */
+	padding: 5px 0px 0px 30px;
+	width: 94%;
+	text-align: left;
+	height: 85%;
+	position: relative;
+	padding-bottom:10px;
+
+}
+
 .tab-container2 {
 	float: left;
 	/*
@@ -4378,6 +4392,11 @@ th {
 .tab-container2 .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 .tab-container2 .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 .tab-container2 .panel-container #tabs4{ background: #fff; border: solid #D1661F 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-containerFirst .panel-container #tabs1{ background: #fff; border: solid #ffe680 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+.tab-containerFirst .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-containerFirst .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-containerFirst .panel-container #tabs4{ background: #fff; border: solid #D1661F 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+
 
 
 .panel-container { margin-bottom: 10px; }

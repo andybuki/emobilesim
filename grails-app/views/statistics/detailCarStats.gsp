@@ -79,7 +79,20 @@
 
                         <div class="right0PX">
                             <span class="rightBoldBig3">
-                                <g:message code="configuration.index.simulationarea"/>-${stats.configurationArea}
+                                <div class="exportPanel">
+                                    <r:require module="export"/>
+                                    <export:resource />
+                                    <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
+                                    </export:formats>
+                                </div>
+
+                                <div class="exportTitle">
+                                    <g:submitButton name="Display graph"
+                                                    value="${message(code: 'stats.stats.displaygraph')}"/>
+
+                                </div>
+
+                                <span class="gebiet"> <g:message code="configuration.index.simulationarea"/>-${stats.configurationArea}</span>
                             </span>
                         </div>
                         <div class="clear"></div>
@@ -180,19 +193,7 @@
             </div>
 
             <div class="pContainerConfigureStats">
-                <div class="exportTitle"> <g:message code="stats.stats.export"/></div>
-                <div class="exportPanel">
-                    <r:require module="export"/>
-                    <export:resource />
-                    <export:formats formats="['csv', 'excel', 'pdf']" params="${params}">
-                    </export:formats>
-                </div>
-                <div class="exportTitle"> Show Plot: </div>
-                <div class="exportTitle">
-                    <g:submitButton name="Display graph"
-                                    value="${message(code: 'stats.stats.displaygraph')}"/>
-
-                </div>
+                <div class="exportTitle">  </div>
 
             </div>
         </div>

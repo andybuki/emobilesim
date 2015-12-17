@@ -102,6 +102,7 @@
                         <div class="rowUpStatistic">
                             <table align="left" id="sortTable" class="tablesorter">
                                 <thead>
+                                <%--/*TO DO TRANSLATE*/--%>
                                 <tr class="statsTitleAllStation">
                                     <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
                                     <th class="statsTitle3">ID</th>
