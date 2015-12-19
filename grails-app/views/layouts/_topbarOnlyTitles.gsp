@@ -3,7 +3,7 @@
         <td width="300px" align="left" valign="top">
             <a href="http://emobilesim.dfki.de">
                 <img class="efahrungLogo" align="left" width="180px" src="${g.resource( dir: '/images', file: 'emobilesimlogo.png' )}"/>
-                <span class="logoBetween"><g:message code="configuration.index.for"/></span>
+                <%--<span class="logoBetween"><g:message code="configuration.index.for"/></span>--%>
                 <img class="dfkiLogo" align="right"  src="${g.resource( dir: '/images', file: 'dfki_logo.png' )}"/>
             </a>
         </td>

@@ -99,10 +99,36 @@
                         </div>
                     </div>
 
-                    <div class="pContainerConfigureStats10">
+                <div id="opener" title="Legende">
+                    <table>
+                        <tr>
+                            <td style="vertical-align:bottom;"><g:message code="stats.stats.planeddis"/></td>
+                            <td><div style="border-bottom:3px dashed #000; width:60px; padding-top: 6px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td><g:message code="stats.stats.realerfolg"/> </td>
+                            <td><div style="border-bottom: 5px solid green; width:60px; padding-top: 6px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td><g:message code="stats.stats.realfailed"/> </td>
+                            <td><div style="border-bottom: 4px solid red; width:60px; padding-top: 6px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td> <g:message code="stats.stats.battery"/> </td>
+                            <td>
+                                <div>
+                                    <g:img name="removeFleet" class="kiko" uri="${resource(dir: '/images', file: 'kiko.png')}"/></div>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                    <div class="pContainerConfigureStats10" style="width:95%">
                         <br>
                         <g:each in="${stats.carsNumbers}" var="carsNumber">
-                            <div class="visualisierung">${carsNumber.id}${carsNumber.carType.name}</div>
+                            <div class="visualisierung">${carsNumber.id}.${carsNumber.carType.name} - ${Math.round(carsNumber.realDistance)}km</div>
                             <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED' }">
                                 <div style="border-bottom: 5px solid green; width:${Math.round(carsNumber.realDistance*10)}px"></div>
                             </g:if>
@@ -110,11 +136,13 @@
                                 <div style="border-bottom: 4px solid red; width:${Math.round(carsNumber.realDistance*10)}px"></div>
                             </g:else>
 
-                            <span class="knobi" style="left:${Math.round(carsNumber.realDistance*10)}px"><input class="knob-dyn2" data-fgColor="chartreuse" data-thickness=".4" readonly value="${Math.round(carsNumber.endBattery*100)}"></span>
+                            <span class="knobi" style="left:${Math.round(carsNumber.realDistance*10)}px"><input class="knob-dyn2" data-fgColor="chartreuse" data-thickness=".3" readonly value="${Math.round(carsNumber.endBattery*100)}"></span>
 
-                            <div style=" border-bottom: 2px dashed #ccc; width:${Math.round(carsNumber.plannedDistance*10)}px"></div>
+                            <div style="padding-top: 7px; border-left: 1px solid #ccc; border-bottom: 2px dashed #000; width:${Math.round(carsNumber.plannedDistance*10)}px"></div>
                         </g:each>
+                        <div class="stabuki">
 
+                        </div>
                     </div>
                     <br/><br/>
             </div>
@@ -136,19 +164,28 @@
                 'min':0,
                 'max':100,
                 'readOnly': true,
-                'width': 30,
-                'height': 30,
-                'fgColor': '#000000',
-                'thickness': 0.5
-
-
-
-
-
+                'width': 40,
+                'height': 40,
+                'fgColor': '#3399ff',
+                'thickness': 0.3
 
     });
-</script>
 
+    $( "#dialog" ).dialog({
+        autoOpen: false,
+        show: {
+
+        },
+        hide: {
+
+        }
+    });
+
+    $( "#opener" ).click(function() {
+        $( "#dialog" ).dialog( "open" );
+    });
+</script>
+<g:render template="/layouts/footer" />
 </body>
 </html>
 

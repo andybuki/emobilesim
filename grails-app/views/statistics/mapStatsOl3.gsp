@@ -89,7 +89,7 @@
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
 
-<div id="tab-container" class='tab-container'>
+<div id="tab-container" class='tab-container3'>
     <ul class='etabs1'>
         <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
         <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
@@ -683,5 +683,6 @@
 
     </script>
 </div>
+<g:render template="/layouts/footer" />
 </body>
 </html>

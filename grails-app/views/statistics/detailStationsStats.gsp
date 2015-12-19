@@ -363,6 +363,7 @@
     });
 
 </script>
+<g:render template="/layouts/footer" />
 </body>
 </html>
 
