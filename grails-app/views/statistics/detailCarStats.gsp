@@ -103,24 +103,24 @@
                                 <thead>
                                 <tr class="statsTitleAll">
                                     <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
-                                    <th class="statsTitle3">ID</th>
-                                    <th class="statsTitle">Name</th>
-                                    <th class="statsTitle"> + / - </th>
-                                    <th class="statsTitle">Start time</th>
-                                    <th class="statsTitle">End time</th>
-                                    <th class="statsTitle">Geplannte </br>Distanz</th>
-                                    <th class="statsTitle">Reale </br> Distanz</th>
-                                    <th class="statsTitle">Umweg</th>
-                                    <th class="statsTitle">Geplannte </br> Fahrzeit</th>
-                                    <th class="statsTitle">Reale </br> Fahrzeit</th>
-                                    <th class="statsTitle">Zeit für </br>Umweg</th>
-                                    <th class="statsTitle">Ladezeit</th>
-                                    <th class="statsTitle">Visited station</th>
-                                    <th class="statsTitle">Geladener </br> Strom</th>
-                                    <th class="statsTitle">Verbrauchte </br> Strom</th>
-                                    <th class="statsTitle">Visiten </br>Ladestation</th>
-                                    <th class="statsTitle">Start&End </br>Akkuzustand</th>
-                                    <th class="statsTitle">Gebliebene</br>Distanz</th>
+                                    <th class="statsTitle3"><g:message code="stats.stats.id"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.name"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.feer"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.starttime"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.endtime"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.planneddistanz"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.realdistanz"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.detour"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.plannedtime"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.realdrivingtime"/></th>
+                                    <th class="statsTitle">Zeit für Umweg</th>
+                                    <th class="statsTitle"><g:message code="stats.stats.charge"/></th>
+                                    <th class="statsTitle"><g:message code="stats.stats.visitedstation"/></th>
+                                    <th class="statsTitle">Geladener Strom</th>
+                                    <th class="statsTitle">Verbrauchte Strom</th>
+                                    <th class="statsTitle">Visiten Ladestation</th>
+                                    <th class="statsTitle">Start&End Akkuzustand</th>
+                                    <th class="statsTitle">Gebliebene Distanz</th>
                                 </tr>
                                 </thead>
                                 <tbody class="statsUnten">

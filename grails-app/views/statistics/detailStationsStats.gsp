@@ -107,12 +107,12 @@
                                     <th class="statsTitle2"><g:checkBox class="statisticsAll" name="id" id="stats" checked="true"/></th>
                                     <th class="statsTitle3">ID</th>
                                     <th class="statsTitle">Type kW</th>
-                                    <th class="statsTitle">Owner</th>
+                                    <th class="statsTitle">Besitzer</th>
                                     <th class="statsTitle">Nutzungszeit</th>
                                     <th class="statsTitle">Geladener Strom</th>
                                     <th class="statsTitle">Ladestationen GPS</th>
-                                    <th class="statsTitle">Visited car</th>
-                                    <th class="statsTitle">Visited time</th>
+                                    <th class="statsTitle">Besuchtsauto</th>
+                                    <th class="statsTitle">Besuchszeit</th>
                                 </tr>
                                 </thead>
                                 <tbody>

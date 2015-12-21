@@ -109,7 +109,7 @@
 
                 <div class="layout">
                     <div class="layoutRight">
-                        <div id="map" class="map"></div>
+                        <div id="mapNew" class="map"></div>
                     </div>
                 </div>
                 <div class="formConfiguration">
@@ -229,7 +229,7 @@
 
     var map = new ol.Map({
 
-        target: 'map',
+        target: 'mapNew',
         layers: [
             new ol.layer.Group({
                 'title': 'Base maps',

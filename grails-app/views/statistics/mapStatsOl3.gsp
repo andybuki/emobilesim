@@ -105,7 +105,7 @@
         <div id="tabs3">
         </div>
         <div id="tabs4">
-            <div id="map" class="map"></div>
+            <div id="mapol3" class="map"></div>
             <div id="popup" class="ol-popup">
                 <a href="#" id="popup-closer" class="ol-popup-closer"></a>
                 <div id="popup-content"></div>
@@ -474,7 +474,7 @@
 
         var map = new ol.Map({
 
-            target: 'map',
+            target: 'mapol3',
             layers: [
                 new ol.layer.Group({
                     'title': 'Base maps',
@@ -613,18 +613,18 @@
 
                 switch(featureGeoType){
                     case 'route':
-                            content.innerHTML = '<table align="left"><tr><td>Car Status = '+ '<b>' + feature.get('carStatus') +'</b>' +'</td></tr>' +
-                            '<tr><td>Car Type =  '+ '<b>' + feature.get('carType')+ '</b>' + '</td></tr>' +
-                            '<tr><td>Consumed Energy = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></td></tr>' +
-                            '<tr><td>Loaded Energy = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></td></tr>' +
-                            '<tr><td>Planned Distance = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></td></tr>' +
-                            '<tr><td>Real Distance = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></td></tr>'+
-                            '<tr><td>Planned Time = '+'<b>' + ((feature.get('plannedTime')))+' </b></td></tr>'+
-                            '<tr><td>Real Time = '+'<b>' +((feature.get('realTime')))+' </b></td></tr>'+
-                            '<tr><td>Start Time = '+'<b>' +((feature.get('carStartTime')))   +' </b></td></tr>'+
-                            '<tr><td>End Time = '+'<b>' +((feature.get('endCarTime')))   +' </b></td></tr>'+
-                            '<tr><td>Start&End Akkuzustand = '+'<b>' +((feature.get('battery')))+'% - '  + ((feature.get('endBattery'))) + '%'  +' </b></td></tr>'+
-                            '<tr><td>Nr. of Visited Filling-Stations = '+'<b>' +feature.get('fillingStationsVisited')+' </b></td></tr></table>'
+                            content.innerHTML = '<table align="left"><tr><td>Autostatus = '+ '<b>' + feature.get('carStatus') +'</b>' +'</td></tr>' +
+                            '<tr><td>Autotype =  '+ '<b>' + feature.get('carType')+ '</b>' + '</td></tr>' +
+                            '<tr><td>Stromverbrauch = '+ '<b>'  +(Math.round(feature.get('consumedEnergy')))+'  kWh  </b></td></tr>' +
+                            '<tr><td>Eingeladene Energie = '+ '<b>' + (Math.round(feature.get('loadedEnergy')))+' kWh </b></td></tr>' +
+                            '<tr><td>Geplante Distanz = '+ '<b>' + (Math.round(feature.get('plannedDistance')))+' km </b></td></tr>' +
+                            '<tr><td>Reale Distanz = '+'<b>' + (Math.round(feature.get('realDistance')))+' km</b></td></tr>'+
+                            '<tr><td>Geplannte Fahrzeit = '+'<b>' + ((feature.get('plannedTime')))+' </b></td></tr>'+
+                            '<tr><td>Reale Fahrzeit = '+'<b>' +((feature.get('realTime')))+' </b></td></tr>'+
+                            '<tr><td>Startzeit = '+'<b>' +((feature.get('carStartTime')))   +' </b></td></tr>'+
+                            '<tr><td>Endzeit = '+'<b>' +((feature.get('endCarTime')))   +' </b></td></tr>'+
+                            '<tr><td>Start&Endakkuzustand = '+'<b>' +((feature.get('battery')))+'% - '  + ((feature.get('endBattery'))) + '%'  +' </b></td></tr>'+
+                            '<tr><td>Nr. Besuchte Ladestationen = '+'<b>' +feature.get('fillingStationsVisited')+' </b></td></tr></table>'
                          popup.setPosition(evtCoordinate);
                         break;
 
@@ -632,8 +632,8 @@
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
                         content.innerHTML = '<table align="left"><tr><td>This is the:  '+ '<b>' + feature.get('viaCounter') +'</b>'+ '. customer'  +'</td></tr>' +
                          '<tr><td>Akku= '+ '<b>'  + '%' +'</b>'+"</td></tr>" +
-                         '<tr><td>Time= '+ '<b>'   +'</b>'+" </td></tr>" +
-                         '<tr><td>Address= '+ '<b>' + address + '</b>'+'</td></tr></table>'
+                         '<tr><td>Zeit= '+ '<b>'   +'</b>'+" </td></tr>" +
+                         '<tr><td>Adresse= '+ '<b>' + address + '</b>'+'</td></tr></table>'
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
@@ -641,14 +641,14 @@
 
                     case 'finalPosition':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                            content.innerHTML = "<p>Finish Address: "+ '<b>' + address + '</b>'+" </p>"
+                            content.innerHTML = "<p>Finish Adresse: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
 
                     case 'start':
                         var address = feature.get('streetName') ? feature.get('streetName') : "No address available";
-                        content.innerHTML = "<p>Start Address: "+ '<b>' + address + '</b>'+" </p>"
+                        content.innerHTML = "<p>Startadresse: "+ '<b>' + address + '</b>'+" </p>"
                         var featureCoordinates = feature.getGeometry().getCoordinates();
                         popup.setPosition(featureCoordinates);
                         break;
