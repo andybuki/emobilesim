@@ -1575,7 +1575,7 @@ td {
     float:right;
     position: relative;
     bottom: 35px;
-    right: 10px;
+    right: 20px;
 }
 
 .layoutButtonR1 {
@@ -1583,7 +1583,7 @@ td {
 	float:right;
 	position: relative;
 	bottom: 35px;
-	right: 17px;
+	right: 20px;
 }
 .layoutButtonM {
     width: 87%;
@@ -2727,6 +2727,7 @@ fieldset {
     /*width:270px;*/
     float:left;
     padding:9px 0px 0px 7px;
+	color:black;
 }
 
 .leftCollectFleets0{
@@ -4236,11 +4237,12 @@ th {
 #modal-close {
 	text-decoration: none;
 	font-size: 12px;
-	position: absolute;
-	right:5px;
-	color:#0e0e0e;
+	position: relative;
+	left: 15px;
+	color: #0e0e0e;
 	border: none;
 	background: #fff;
+	top: 5px;
 }
 
 #modal-background1{
