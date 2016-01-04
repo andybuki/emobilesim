@@ -4237,12 +4237,12 @@ th {
 #modal-close {
 	text-decoration: none;
 	font-size: 12px;
-	position: relative;
-	left: 15px;
+	position: absolute;
+	right: 1px;
 	color: #0e0e0e;
 	border: none;
 	background: #fff;
-	top: 5px;
+	top: 8px;
 }
 
 #modal-background1{
