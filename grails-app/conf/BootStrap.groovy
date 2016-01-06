@@ -40,7 +40,7 @@ class BootStrap {
     transient def securityContextPersistenceFilter
 
 
-    def createDefaultFleet() {
+    /*def createDefaultFleet() {
 
         Company company = Company.findByName( "dfki" )
 
@@ -302,7 +302,7 @@ class BootStrap {
 
 
 
-    }
+    }*/
     def createAllObuFleets(){
     //first fleet
         createObuFleet("dfki","obuFleetBerlin_01_07",SimulationArea.BERLIN,CarType.get(7),"resources/obu_berlin_01_07.json","ZOE 12")//
@@ -673,7 +673,7 @@ class BootStrap {
 
 
         log.error( "create default fleet.." )
-        createDefaultFleet()
+        //createDefaultFleet()
 
         log.error( "create default group.." )
         createDefaultGroup()
