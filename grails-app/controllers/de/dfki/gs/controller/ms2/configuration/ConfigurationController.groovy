@@ -13,6 +13,7 @@ import de.dfki.gs.controller.ms2.configuration.commands.ExistentRouteForFleetCom
 import de.dfki.gs.controller.ms2.configuration.commands.FleetViewCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.RoutingCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.SaveBaseAndTargetsCommandObject
+import de.dfki.gs.controller.ms2.configuration.commands.SaveStationsCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.SetNameAndAreaCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.ShowSingleFleetRouteCommandObject
 import de.dfki.gs.controller.ms2.configuration.commands.StartAndDestinationsCommandObject
@@ -56,6 +57,7 @@ import de.dfki.gs.domain.stats.ExperimentRunResult
 import de.dfki.gs.domain.users.Company
 import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
+import de.dfki.gs.domain.utils.GroupStatus
 import de.dfki.gs.domain.utils.SimulationArea
 import de.dfki.gs.service.VrpSolver
 import de.dfki.gs.utils.LatLonPoint
@@ -659,36 +661,17 @@ class ConfigurationController {
 
         m.simulationArea = (configurationService.getSimulationArea(configurationStubId)).name()
 
-        // fleets
-        m.availableFleets = configurationService.getFleetsForCompany(person, configurationStubId)
 
         // fleets already added to configuration stub
-        m.addedFleets = configurationService.getAddedFleets(configurationStubId)
+        m.fleets = configurationService.getAddedFleets(configurationStubId)
 
         // filling station groups
         m.availableFillingStationGroups = configurationService.getGroupsForCompany(person, configurationStubId)
 
-        // groups already added to configuration stub
-        m.addedGroups = configurationService.getAddedGroups(configurationStubId)
+        m.availableFillingStationTypes = configurationService.getFillingStationTypesForCompany(person)
+        m.routes = configurationService.getRoutesForConfiguration(configurationStubId)
 
-        // groups that allready configured
-        m.configuredGroups = configurationService.getConfiguredGroups(configurationStubId)
-
-        // fleets that allready configured
-        m.configuredFleets = configurationService.getConfiguredFleets(configurationStubId)
-
-        // groups that need to be saveble
-        m.savedGroups = configurationService.getGroupsToBeSaved(configurationStubId)
-
-        // fleets that need to be saveble
-        m.savedFleets = configurationService.getFleetsToBeSaved(configurationStubId)
-
-        m.notConfiguredFleets = configurationService.getFleetsNotConfigured(configurationStubId)
-
-        m.notConfiguredGroups = configurationService.getGroupsNotConfigured(configurationStubId)
-
-
-        render view: 'configureSimulationStation', model: m
+        render view: 'configureSimulationFillingStations', model: m
     }
 
     def editCarType() {
@@ -1070,15 +1053,14 @@ class ConfigurationController {
 
     def saveBaseAndTargets() {
         Person person = (Person) springSecurityService.currentUser
-        Company company = Company.get(person.company.id)
         if (!person) {
 
             redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
             return
         }
+        Company company = Company.get(person.company.id)
         SaveBaseAndTargetsCommandObject cmd = new SaveBaseAndTargetsCommandObject()
         bindData(cmd, params)
-        def parameters = params
         def m = [:]
         if (!cmd.validate() && cmd.hasErrors()) {
 
@@ -1133,7 +1115,56 @@ class ConfigurationController {
 
         //render (view: 'configureSimulationTargets', model: m)
     }
+    def saveFillingStations(){
+        Person person = (Person) springSecurityService.currentUser
+        if (!person) {
 
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        Company company = Company.get(person.company.id)
+        SaveStationsCommandObject cmd = new SaveStationsCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+        }
+        else{
+            def stations = JSON.parse(cmd.stations)
+            FillingStationGroup fillingStationGroup = configurationService.createGroupStub(person, cmd.configurationStubId)
+            def counter = 0
+            stations.features.each{point->
+                counter++
+                def lonlat = [:]
+                lonlat.lon = point.geometry.coordinates[0]
+                lonlat.lat = point.geometry.coordinates[1]
+                Coordinate nearestPoint = routeService.getNearestValidPoint(new Coordinate(lonlat.lat, lonlat.lon), configurationService.getSimulationArea(cmd.configurationStubId));
+                long fillingStationTypeId = point.properties.fillingStationTypeId.toLong()
+                FillingStationType fillingStationType = FillingStationType.get(fillingStationTypeId)
+                FillingStation fillingStation = new FillingStation(
+                    lon:nearestPoint.y,
+                    lat:nearestPoint.x,
+                        fillingStationType: fillingStationType,
+                        name: "Selfconfigured ${fillingStationType.name} - No.${counter}",
+                        groupsConfigured: true
+                )
+                if ( !fillingStation.save( flush: true ) ) {
+                    log.error( "failed to save station: ${fillingStation.errors}" )
+                } else {
+                    fillingStationGroup.addToFillingStations( fillingStation )
+                }
+            }
+            fillingStationGroup.distribution = Distribution.SELF_MADE_ROUTES
+            fillingStationGroup.groupsConfigured = true
+            fillingStationGroup.stub = false
+            fillingStationGroup.groupStatus = GroupStatus.CONFIGURED
+            if ( !fillingStationGroup.save( flush: true ) ) {
+                log.error( "failed to update group: ${fillingStationGroup.errors}" )
+            }
+            configurationService.addGroupToConfiguration(cmd.configurationStubId,fillingStationGroup.id)
+        }
+        //redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'execution', action: 'executeExperiment', params:[configurationId:cmd.configurationStubId,relativeSearchLimit:20])
+    }
     def configureSimulationFleet() {
         Person person = (Person) springSecurityService.currentUser
 

@@ -10,8 +10,11 @@ import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
 import de.dfki.gs.domain.utils.SimulationArea
+import de.dfki.gs.domain.utils.TrackEdgeType
 import grails.converters.JSON
 import grails.transaction.Transactional
+
+import java.awt.Color
 
 @Transactional
 class ConfigurationService {
@@ -1612,5 +1615,77 @@ class ConfigurationService {
         return cars
     }
 
+    def getRoutesForConfiguration(long configurationStubId){
+        Configuration configuration = Configuration.get(configurationStubId)
+        def allRoutes = []
+        configuration.fleets.each {Fleet fleet ->
+            fleet.cars.each {Car car ->
+                if(!car.route.edges.isEmpty())
+                allRoutes.add(getTrackEdges(car.route.id))
+            }
+        }
+        return allRoutes
+    }
+
+    def getTrackEdges( Long routeId){
+        Route route = Route.get(routeId)
+
+        TrackEdge startEdge = TrackEdge.get(route.edges.first().id)
+
+        def viaTargets = []
+        def lineString = []
+        def previousCoordinates
+        //def drivenTrack = persistedCarAgentResult.trackEdges.subList(0,persistedCarAgentResult.lastPositionIndex-1)
+        //def failedToDrive=persistedCarAgentResult.trackEdges.subList(persistedCarAgentResult.lastPositionIndex-1,persistedCarAgentResult.trackEdges.size()-1)
+        //def finalPosition = drivenTrack.last()
+
+        route.edges.each{TrackEdge trackEdge ->
+            //If there are breaks in the route or some part goes to the filling station then we have multible line strings
+            trackEdge = TrackEdge.get(trackEdge.id)
+                if(trackEdge.type=='via_target'){
+                    viaTargets.add(trackEdge)
+                }
+                def coordinates = [trackEdge.fromLon,trackEdge.fromLat]
+                if(previousCoordinates == null || previousCoordinates == coordinates){
+                    lineString.add(coordinates)
+                }
+                else
+                {
+                    //TODO make visible that route is broken here
+                    previousCoordinates = null
+                    log.error("route Broken From $previousCoordinates To $coordinates")
+                }
+                previousCoordinates = [trackEdge.toLon,trackEdge.toLat]
+        }
+        lineString.add(previousCoordinates)
+
+        Random random = new Random();
+        final float hue = random.nextFloat();
+        final float saturation = 0.7f;//1.0 for brilliant, 0.0 for dull
+        final float luminance = 0.9f; //1.0 for brighter, 0.0 for black
+        def randomColorHsb = Color.getHSBColor(hue, saturation, luminance);
+        def red = randomColorHsb.getRed()
+        def green = randomColorHsb.getGreen()
+        def blue = randomColorHsb.getBlue()
+        def randomColor = "#${Integer.toHexString(red)}${Integer.toHexString(green)}${Integer.toHexString(blue)}";
+
+        //Creating a GeoJSON for start,target,and via_target
+        def features = [] //TODO Write a method to create GeoJSON and put it somewhere where it makes sense
+//TODO the last edge should not go back, continue planned route...
+        features.add(["type":"Feature","geometry":["type":"LineString","coordinates":lineString],"properties":["geoType":"route","color":randomColor]])
+
+        //adding start
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":[startEdge.fromLon,startEdge.fromLat]],"properties":["geoType":"start","color":randomColor,"streetName":startEdge.streetName]])
+
+        //adding all viatargets
+        int viaCounter=1 //To know the order of the via_targets
+        viaTargets.each {TrackEdge viaTarget ->
+            features.add(["type":"Feature","geometry":["type":"Point","coordinates":[viaTarget.fromLon,viaTarget.fromLat]],"properties":["geoType":"via_target","color":randomColor,"streetName":viaTarget.streetName,"viaCounter":"$viaCounter"]])
+            viaCounter++
+        }
+
+        def startViaTargetPoints = ["type":"FeatureCollection","features":features] as JSON
+        return  startViaTargetPoints
+    }
 
 }

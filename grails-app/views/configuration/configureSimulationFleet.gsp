@@ -102,7 +102,7 @@
                     <div class="leftBoldBig1">
                         <g:message code= "stats.stats.statistics"/> ${simulationName}
 
-                        <g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                        <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">--%>
                             <div class="rowMiddleWithoutBorder22">
                                 <span style="float:left;">
                                     <g:form controller="configuration" action="addExistentFleetToConfiguration">
@@ -122,7 +122,7 @@
                                     </g:form>
                                 </span>
                             </div>
-                        </g:if>
+                        <%--</g:if>--%>
 
 
                     </div>

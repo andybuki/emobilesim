@@ -1,11 +1,9 @@
 <%--
   Created by IntelliJ IDEA.
   User: simon
-  Date: 23.11.15
-  Time: 10:05
+  Date: 19.12.15
+  Time: 15:16
 --%>
-
-
 <%@ page import="de.dfki.gs.domain.utils.GroupStatus; de.dfki.gs.domain.utils.FleetStatus" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -88,14 +86,16 @@
                         <g:message code= "stats.stats.statistics"/> ${simulationName}
                     </div>
 
-                    <g:if test="${availableRoutes.size()>0}">
+                    <%--<g:if test="${availableRoutes.size()>0}">
                         <div id = "RouteSelection">
                             <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
-                                  noSelection='["":"${g.message(code:'configuration.index.savedroute')}"]'
-                                  onchange="addRoute(this.value)"
+                                      noSelection='["":"${g.message(code:'configuration.index.savedroute')}"]'
+                                      onchange="addRoute(this.value)"
                             />
                         </div>
-                    </g:if>
+                    </g:if>--%>
+
+                    <g:select id="fillingStationType" name="stationTypeId" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
 
 
                     <div class="right0PX">
@@ -117,10 +117,9 @@
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
                                 <div>
-                                    <g:form name="saveBaseAndTargetsForm" action="saveBaseAndTargets">
+                                    <g:form name="saveFillingStationsForm" action="saveFillingStations">
                                         <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                                        <g:hiddenField name="base" value=""/>
-                                        <g:hiddenField name="targets" value=""/>
+                                        <g:hiddenField name="stations" value=""/>
                                         <g:hiddenField name="savedRouteSelected" value=""/>
                                         <div id="saveSubmitButton"></div>
                                     </g:form>
@@ -144,7 +143,8 @@
 </div>
 <script type="text/javascript">
     var savedRouteSelected = -1;
-    function addRoute(customerPositionSetId){
+   <%--function addRoute(customerPositionSetId){
+     */
 
         ${remoteFunction(controller: 'configuration',
                                                           action: 'getJsonForAddedRoute',
@@ -174,7 +174,7 @@
         });
 
 
-    }
+    }--%>
 
     var lon, lat; //This is the center of the picture
     <g:if test="${simulationArea == 'BERLIN'}">
@@ -232,16 +232,19 @@
             })
         ],
 
-        /*interactions: ol.interaction.defaults().extend([new ol.interaction.Select({
-         condition:  (ol.events.condition.pointerMove || ol.events.condition.click),
-         layers:allRouteLayers,
-         style: selectStyleFunctionForRoutes
-         })]),*/
+
         view: new ol.View({
             center: ol.proj.fromLonLat([lon, lat]),
             zoom: 11
         })
     });
+    var layerSwitcher = new ol.control.LayerSwitcher({
+        tipLabel: 'Légende' // Optional label for button
+    });
+
+    map.addControl(layerSwitcher);
+
+    //Layers
 
     var berlinLayer = new ol.layer.Vector({
         title: 'Berlin Polygon',
@@ -249,10 +252,10 @@
             projection : map.getView().getProjection(),
             url:<g:if test="${simulationArea == 'BERLIN'}">
                     "${g.resource( dir: '/geojson', file: 'berlinPolygon.json' )}",
-                 </g:if>
-                <g:else>
-                    "${g.resource( dir: '/geojson', file: 'berlinPolygon.json' )}", //Should be wieslochPolygon,json
-                </g:else>
+            </g:if>
+            <g:else>
+            "${g.resource( dir: '/geojson', file: 'berlinPolygon.json' )}", //Should be wieslochPolygon,json
+            </g:else>
             format: new ol.format.GeoJSON()
         }),
         style:  new ol.style.Style({
@@ -263,49 +266,173 @@
         })
     })
     map.addLayer(berlinLayer);
-    var baseFeatures = new ol.Collection();
+
+
+    var fillingStationFeatures = new ol.Collection();
     var featureOverlayForBase = new ol.layer.Vector({
         map: map,
         source: new ol.source.Vector({
-            features: baseFeatures,
+            features: fillingStationFeatures,
             useSpatialIndex: false // optional, might improve performance
         }),
-        style: overlayStyleFunctionForBase,
+        style: fillingStationStyleFunction(),
         updateWhileAnimating: true, // optional, for instant visual feedback
         updateWhileInteracting: true // optional, for instant visual feedback
     });
-    function overlayStyleFunctionForBase(feature, resolution){
 
-        var styles = [  new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(255, 255, 255, 0.2)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#ffcc33',
-                width: 2
-            }),
+    <g:each var = "route" in = "${routes}">
+    var realRoutes_features = new ol.format.GeoJSON().readFeatures(${route},{featureProjection:'EPSG:3857'});
+
+    var realRoutes_source = new ol.source.Vector();
+    realRoutes_source.addFeatures(realRoutes_features);
+
+    <g:each in="${fleets.cars}" var="cars">
+    <g:each in="${cars}" var="car">
+
+    var realRoutes_layer = new ol.layer.Vector({
+        source:realRoutes_source,
+        opacity:0.6,
+        style: styleFunctionForRoutes,
+        title: 'Route for:'
+        <%--<g:each var="car" in="${fleets.cars}" status="counter">--%>
+
+        +  "${car.name}"
+
+        <%-- +"${car.name}"
+     </g:each>--%>
+    });
+    </g:each>
+    </g:each>
+    map.addLayer(realRoutes_layer);
+    </g:each>
+
+    function styleFunctionForRoutes(feature, resolution){
+        //Get color for the car
+        var routeColor = feature.get('color');
+        var circleViaTarget = new ol.style.Style({
             image: new ol.style.Circle({
-                radius: 14,
+                radius: 10,
                 fill: new ol.style.Fill({
-                    color: '#ff0000'
+                    color: routeColor
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#000000'
                 })
             })
-        })];
-        return styles
+        });
+        var circleFinalPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                //radius: 10,
+                src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                fill: new ol.style.Fill({
+                    color: '#000000'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: routeColor,
+                    width:5
+                })
+            })
+        });
+
+        var startPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                //radius: 10,
+                src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                scale: 0.5,
+                fill: new ol.style.Fill({
+                    color: '#000000'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: routeColor,
+                    width:5
+                })
+            })
+        });
+
+        var routeStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7
+        });
+        var failedRouteStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7,
+            lineDash:[.1,10]
+        });
+        var toEnergyStroke = new ol.style.Stroke({
+            color: '#000000',// routeColor,
+            lineDash: [.1,10],
+            lineCap:'round',
+            width: 4
+        });
+        var geoType = feature.get("geoType");
+        switch(geoType) {
+            case 'route':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+                })];
+                break;
+
+            case 'route_failed':
+                return [new ol.style.Style({
+                    stroke: failedRouteStroke
+                })];
+                break;
+
+            case 'to_filling_station':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+            case 'to_filling_station_failed':
+                return [new ol.style.Style({
+                    stroke: failedRouteStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+            case 'via_target':
+                var textStroke = new ol.style.Stroke({
+                    color: '#fff',
+                    width: 3
+                });
+                var textFill = new ol.style.Fill({
+                    color: '#000'
+                });
+                var text = new ol.style.Style({
+                    text: new ol.style.Text({
+                        font: '12px Calibri,sans-serif',
+                        text:feature.get('viaCounter'),
+                        fill: textFill,
+                        stroke: textStroke
+                    })
+                });
+                var styles = [circleViaTarget,text];
+                return styles;
+                break;
+
+            case 'finalPosition':
+                var styles = [circleFinalPosition];
+                return styles;
+                break;
+
+            case 'start':
+                var styles = [startPosition];
+                return styles;
+
+            default:
+                return[circleViaTarget]
+        }
     }
 
-    var collection = new ol.Collection();
-    var featureOverlay = new ol.layer.Vector({
-        map: map,
-        source: new ol.source.Vector({
-            features: collection,
-            useSpatialIndex: false // optional, might improve performance
-        }),
-        style: overlayStyleFunction,
-        updateWhileAnimating: true, // optional, for instant visual feedback
-        updateWhileInteracting: true // optional, for instant visual feedback
-    });
-    function overlayStyleFunction(feature, resolution){
+    function fillingStationStyleFunction(feature, resolution){
 
         var styles = [  new ol.style.Style({
             fill: new ol.style.Fill({
@@ -324,8 +451,10 @@
         })];
         return styles
     }
-    var modifyBase = new ol.interaction.Modify({
-        features: baseFeatures,
+    ////////////////////////////////////
+
+    var modifyFillingStations = new ol.interaction.Modify({
+        features: fillingStationFeatures,
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
         // of existing vertices
@@ -334,32 +463,26 @@
                     ol.events.condition.singleClick(event);
         }
     });
-    var modifyTarget = new ol.interaction.Modify({
-        features: collection,
-        // the SHIFT key must be pressed to delete vertices, so
-        // that new vertices can be drawn at the same position
-        // of existing vertices
-        deleteCondition: function(event) {
-            return ol.events.condition.shiftKeyOnly(event) &&
-                    ol.events.condition.singleClick(event);
-        }
-    });
-    map.addInteraction(modifyBase);
-    map.addInteraction(modifyTarget);
-    modifyBase.on('modifyend',function(){
-        saveDataBase();
+    map.addInteraction(modifyFillingStations);
+
+    modifyFillingStations.on('modifyend',function(){
+        saveFillingStation();
         savedRouteSelected = -1;
     });
-    modifyTarget.on('modifyend',function(){
-        saveDataTarget();
-        savedRouteSelected = -1;
-    })
-    var draw; // global so we can remove it later
-    function addInteractionDrawBase() {
+
+    var typeSelect = document.getElementById('fillingStationType');
+    var fillingStationTypeId = typeSelect.value;
+    typeSelect.onchange = function(e) {
+        fillingStationTypeId = typeSelect.value;
+    };
+
+
+    var draw;
+    function addDrawInteraction(){
         draw = new ol.interaction.Draw({
-            features: baseFeatures,
+            features: fillingStationFeatures,
             type: 'Point',
-            style: overlayStyleFunctionForBase,
+            style: fillingStationStyleFunction(),
             condition: function(evt){
                 var cityFeatures = berlinLayer.getSource().getFeaturesAtCoordinate(evt.coordinate);
                 var cityFeature = cityFeatures["0"];
@@ -367,64 +490,37 @@
             }
         });
         map.addInteraction(draw);
-    }
-    var returnvalue = false;
-    function addInteractionDrawTarget() {
-        draw = new ol.interaction.Draw({
-            features: collection,
-            type: 'Point',
-            style: overlayStyleFunction,
-            condition: function(evt){
-                var cityFeatures = berlinLayer.getSource().getFeaturesAtCoordinate(evt.coordinate);
-                var cityFeature = cityFeatures["0"];
-                return (cityFeatures.length>0&&cityFeature.get('city') == "${simulationArea}");
-            }
-
+    };
+    addDrawInteraction()
+    draw.on('drawend', function(e) {
+        e.feature.setProperties({
+            'fillingStationTypeId' : fillingStationTypeId
         });
-        map.addInteraction(draw);
-    }
-        addInteractionDrawBase()
-
-
-    var layerSwitcher = new ol.control.LayerSwitcher({
-        tipLabel: 'Légende' // Optional label for button
+        console.log(e.feature, e.feature.getProperties());
     });
 
-    map.addControl(layerSwitcher);
 
 
-    baseFeatures.on('change:length',function(){
-        map.removeInteraction(draw);
-        addInteractionDrawTarget();
-        saveDataBase();
-        savedRouteSelected = -1;
+
+    fillingStationFeatures.on('change:length',function(){
+        saveFillingStation();
     });
-    collection.on('change:length',function(){
-        saveDataTarget();
-        savedRouteSelected = -1;
-    });
-    var savedFeaturesBase;
-    function saveDataBase(){
+
+    var savedFeaturesFillingStations;
+    function saveFillingStation(){
 
         var format = new ol.format.GeoJSON;
-        savedFeaturesBase = format.writeFeatures(baseFeatures.getArray(), {
+        savedFeaturesFillingStations = format.writeFeatures(fillingStationFeatures.getArray(), {
             featureProjection: map.getView().getProjection()
         });
-    }
-    var savedFeaturesTarget;
-    function saveDataTarget(){
-        var format = new ol.format.GeoJSON;
-        savedFeaturesTarget =  format.writeFeatures(collection.getArray(),{
-            featureProjection: map.getView().getProjection()
-        });
-        if(collection.getLength()==1){
+        if(fillingStationFeatures.getLength()==1){
             <g:remoteFunction action="createSaveButton" update="saveSubmitButton"/>
         }
     }
+
     jQuery(function () {
-        jQuery("[name='saveBaseAndTargetsForm']").submit(function () {
-            jQuery("[name='base']").val(savedFeaturesBase);
-            jQuery("[name='targets']").val(savedFeaturesTarget);
+        jQuery("[name='saveFillingStationsForm']").submit(function () {
+            jQuery("[name='stations']").val(savedFeaturesFillingStations);
             jQuery("[name='savedRouteSelected']").val(savedRouteSelected)
         });
 
