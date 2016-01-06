@@ -139,9 +139,9 @@
                     <div class="clear"></div>
                 </div>
                 <div class="layout">
-                    <div class="layoutLeft1">
+                    <%--<div class="layoutLeft1">
                         <div class="contentLeftBigConfiguration">
-                            <%--<div class="rowUp">
+                            <div class="rowUp">
                                 <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
                                 <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                                 <div class="clear"></div>
@@ -151,14 +151,14 @@
                                 <div class="clear"></div>
                             </div>--%>
 
-                            <div class="rowGroup1">
-                            <%--div class="rowBrightGrey">
+                            <%--<div class="rowGroup1">
+                            div class="rowBrightGrey">
                                 <div class="leftConfigurationExtraLong">
                                     <g:message code="configuration.index.selectfleets"/>
                                 </div>
                                 <div class="right0PX"></div>
                                 <div class="clear"></div>
-                            </div>--%>
+                            </div>
 
 
 
@@ -170,7 +170,7 @@
 
 
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="layoutRight">
                         <div class="rowGroup">
                         <%--<div class="rowBrightGrey">
@@ -204,10 +204,21 @@
                                                 </div>
                                             </g:if>
 
-                                            <div class="right65PX">
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                            <div class="right1165PX">
+                                                <%--<g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                 <g:hiddenField name="groupId" value="${addedGroup.id}"/>
                                                 <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
+                                            </div>--%>
+
+                                            <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                                <g:hiddenField name="groupId" value="${addedGroup.id}"/>
+                                            <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
+                                                <button id="modal-close">
+                                                    <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                                </button>
+                                            </g:form>
+
                                             </div>
 
                                             <div class="right100PX">

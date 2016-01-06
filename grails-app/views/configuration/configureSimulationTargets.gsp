@@ -109,7 +109,7 @@
 
                 <div class="layout">
                     <div class="layoutRight">
-                        <div id="map" class="map"></div>
+                        <div id="mapNew" class="map"></div>
                     </div>
                 </div>
                 <div class="formConfiguration">
@@ -189,7 +189,7 @@
 
     var map = new ol.Map({
 
-        target: 'map',
+        target: 'mapNew',
         layers: [
             new ol.layer.Group({
                 'title': 'Base maps',
@@ -281,7 +281,7 @@
                 color: 'rgba(255, 255, 255, 0.2)'
             }),
             stroke: new ol.style.Stroke({
-                color: '#ffcc33',
+                color: '#3366ff',
                 width: 2
             }),
             image: new ol.style.Circle({
@@ -312,13 +312,13 @@
                 color: 'rgba(255, 255, 255, 0.2)'
             }),
             stroke: new ol.style.Stroke({
-                color: '#ffcc33',
+                color: '#3366ff',
                 width: 2
             }),
             image: new ol.style.Circle({
                 radius: 7,
                 fill: new ol.style.Fill({
-                    color: '#ffcc33'
+                    color: '#3366ff'
                 })
             })
         })];

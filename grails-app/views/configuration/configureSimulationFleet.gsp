@@ -137,12 +137,12 @@
                 </div>
 
                 <div class="layout">
-                    <div class="layoutLeft1">
+                    <%--<div class="layoutLeft1">
                         <div class="contentLeftBigConfiguration">
 
 
 
-                            <%--<div class="rowUp">
+                            <div class="rowUp">
                                 <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
                                 <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
                                 <div class="clear"></div>
@@ -152,8 +152,8 @@
                                 <div class="clear"></div>
                             </div>--%>
 
-                            <div class="rowGroup1">
-                                <%--div class="rowBrightGrey">
+                            <%--<div class="rowGroup1">
+                                div class="rowBrightGrey">
                                     <div class="leftConfigurationExtraLong">
                                         <g:message code="configuration.index.selectfleets"/>
                                     </div>
@@ -173,8 +173,8 @@
                                         </div>
                                         <div class="clear"></div>
                                     </div>
-                                </g:if>--%>
-                                <br>
+                                </g:if>
+
 
                             </div>
 
@@ -184,7 +184,7 @@
 
 
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="layoutRight">
                         <div class="rowGroup">
                         <%--<div class="rowBrightGrey">
@@ -217,14 +217,7 @@
 
                                         </g:if>
                                         <div class="right65PX">
-                                            <g:form controller="configuration" action="removeFleetFromConfiguration">
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                            <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
-                                                <button id="modal-close">
-                                                    <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
-                                                </button>
-                                            </g:form>
+
                                         </div>
                                         <div class="right100PX">
                                             <g:if test="${addedFleet.fleetStatus == FleetStatus.CONFIGURED}">
@@ -261,10 +254,20 @@
 
                                     <table class="tableConfiguration">
                                         <tr>
-                                            <td class="col1"><b>CarId</b></td>
-                                            <td class="col2"><b>Car name</b></td>
-                                            <td class="col3"><b>Simulation StartTime</b></td>
+                                            <td class="col1"><b>AutoID</b></td>
+                                            <td class="col2"><b>Autoname</b></td>
+                                            <td class="col3"><b>Simulationsstartzeit</b></td>
                                             <td class="col3"><b>Akkuzustand</b></td>
+                                            <td class="col3>
+                                                <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                                    <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
+                                                    <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
+                                                    <button id="modal-close">
+                                                        <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                                    </button>
+                                                </g:form>
+                                            </td>
                                         </tr>
 
                                         <g:each in="${addedFleet.cars}" var="car">
@@ -309,6 +312,7 @@
                                                     </g:form>
 
                                                 </td>
+                                                <td></td>
                                             </tr>
 
                                         </g:each>

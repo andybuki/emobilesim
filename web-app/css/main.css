@@ -1575,7 +1575,7 @@ td {
     float:right;
     position: relative;
     bottom: 35px;
-    right: 10px;
+    right: 20px;
 }
 
 .layoutButtonR1 {
@@ -1583,7 +1583,7 @@ td {
 	float:right;
 	position: relative;
 	bottom: 35px;
-	right: 17px;
+	right: 20px;
 }
 .layoutButtonM {
     width: 87%;
@@ -2727,6 +2727,7 @@ fieldset {
     /*width:270px;*/
     float:left;
     padding:9px 0px 0px 7px;
+	color:black;
 }
 
 .leftCollectFleets0{
@@ -3812,7 +3813,7 @@ label.checkbox :disabled + span{
 	width: 45px;
 	position: relative;
 	top: 12px;
-	left: 4px;
+	right: 25px;
 }
 
 .startSimulation {
@@ -4237,10 +4238,11 @@ th {
 	text-decoration: none;
 	font-size: 12px;
 	position: absolute;
-	right:5px;
-	color:#0e0e0e;
+	right: 1px;
+	color: #0e0e0e;
 	border: none;
 	background: #fff;
+	top: 8px;
 }
 
 #modal-background1{
@@ -4307,7 +4309,7 @@ th {
 }
 
  #map {
-
+    max-width: 900px;
 	width:100%;
 	max-height: 800px;
 	 min-height: 450px;
@@ -4354,7 +4356,7 @@ th {
 	text-align: left;
 	height: 85%;
 	position: relative;
-	padding-bottom:10px;
+	padding-bottom:40px;
 }
 
 .tab-containerFirst{
@@ -4367,7 +4369,7 @@ th {
 	text-align: left;
 	height: 85%;
 	position: relative;
-	padding-bottom:10px;
+	padding-bottom:40px;
 
 }
 
@@ -4384,6 +4386,21 @@ th {
 	padding-bottom:10px;
 }
 
+.tab-container3 {
+	float: left;
+	/*
+    color: #000;
+    */
+	padding: 5px 0px 0px 30px;
+
+	text-align: left;
+    /*max-height:800px*/
+	position: relative;
+	padding-bottom:10px;
+
+}
+
+
 .tab-container .panel-container #tabs1{ background: #fff; border: solid #ffe680 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
 .tab-container .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 .tab-container .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
@@ -4396,7 +4413,10 @@ th {
 .tab-containerFirst .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 .tab-containerFirst .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 .tab-containerFirst .panel-container #tabs4{ background: #fff; border: solid #D1661F 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
-
+.tab-container3 .panel-container #tabs1{ background: #fff; border: solid #ffe680 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+.tab-container3 .panel-container #tabs2{ background: #fff; border: solid #AACCFF 2px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-container3 .panel-container #tabs3{ background: #fff; border: solid #ccffaa 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
+.tab-container3 .panel-container #tabs4{ background: #fff; border: solid #D1661F 2px;  -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; color:#ccc;}
 
 
 .panel-container { margin-bottom: 10px; }
@@ -4566,9 +4586,10 @@ a {
 	border-bottom: 5px solid black;
 }
 .visualisierung {
-	padding: 20px;
+	padding: 12px;
 	border-left: 1px solid #ccc;
 	position: relative;
+	font-size: 12px;
 }
 
 .pContainerConfigureStats10 {
@@ -4586,7 +4607,27 @@ a {
 }
 
 .knobi {
-	margin-top: -17px;
+	margin-top: -22px;
 	position: absolute;
+}
 
+.stabuki {
+	padding-top: 30px;
+	border-left: 1px solid #ccc;
+}
+
+#opener {
+	position: relative;
+	float: right;
+	right:10px;
+	top: 10px;
+}
+
+#dialog {
+	width: 320px;
+}
+
+.kiko {
+	width:50px;
+	height: 50px;
 }
