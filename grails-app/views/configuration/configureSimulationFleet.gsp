@@ -79,10 +79,10 @@
 
     </script>
     <style>
-        .rowUp2 {
-            background-color: #AACCFF;
-            border: 0px solid #ddd;
-        }
+    .rowUp2 {
+        background-color: #AACCFF;
+        border: 0px solid #ddd;
+    }
     </style>
 </head>
 <body>
@@ -100,28 +100,28 @@
             <div class="pContainerConfigure">
                 <div class="rowUp2">
                     <div class="leftBoldBig1">
-                        <g:message code= "stats.stats.statistics"/> ${simulationName}
+                        <g:message code= "configuration.index.simulationarea"/> ${simulationName}
 
                         <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">--%>
-                            <div class="rowMiddleWithoutBorder22">
-                                <span style="float:left;">
-                                    <g:form controller="configuration" action="addExistentFleetToConfiguration">
-                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                        <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{"${g.message(code:'simulation.index.existentfleet')}: "  +it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                                        <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
-                                    </g:form>
-                                </span>
-                                <span style="float:right; padding-left: 5px;">
-                                    <g:form action="createFleetView">
-                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                        <g:submitToRemote
-                                                url="[action: 'createFleetView']"
-                                                update="updateMe"
-                                                name="submit"
-                                                value="${message(code: 'simulation.index.createnewfleet')}" />
-                                    </g:form>
-                                </span>
-                            </div>
+                        <div class="rowMiddleWithoutBorder22">
+                            <span style="float:left;">
+                                <g:form controller="configuration" action="addExistentFleetToConfiguration">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{"${g.message(code:'simulation.index.existentfleet')}: "  +it.name+' ('+it.cars?.size()+' Cars)'}}" />
+                                    <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
+                                </g:form>
+                            </span>
+                            <span style="float:right; padding-left: 5px;">
+                                <g:form action="createFleetView">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:submitToRemote
+                                            url="[action: 'createFleetView']"
+                                            update="updateMe"
+                                            name="submit"
+                                            value="${message(code: 'simulation.index.createnewfleet')}" />
+                                </g:form>
+                            </span>
+                        </div>
                         <%--</g:if>--%>
 
 
@@ -152,39 +152,39 @@
                                 <div class="clear"></div>
                             </div>--%>
 
-                            <%--<div class="rowGroup1">
-                                div class="rowBrightGrey">
-                                    <div class="leftConfigurationExtraLong">
-                                        <g:message code="configuration.index.selectfleets"/>
-                                    </div>
-                                    <div class="right0PX"></div>
-                                    <div class="clear"></div>
-                                </div>--%>
-
-                                <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">
-                                    <div class="rowMiddleWithoutBorder22">
-                                        <div class="leftText"><g:message code="simulation.index.existentfleet"/></div>
-                                        <div class="rightOnlyButton">
-                                            <g:form controller="configuration" action="addExistentFleetToConfiguration">
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
-                                                <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
-                                            </g:form>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                </g:if>
-
-
+                    <%--<div class="rowGroup1">
+                        div class="rowBrightGrey">
+                            <div class="leftConfigurationExtraLong">
+                                <g:message code="configuration.index.selectfleets"/>
                             </div>
+                            <div class="right0PX"></div>
+                            <div class="clear"></div>
+                        </div>--%>
 
-                            <div class="rowSpace">
-                                <div class="clear"></div>
+                    <%--<g:if test="${availableFleets != null && availableFleets.size() > 0}">
+                        <div class="rowMiddleWithoutBorder22">
+                            <div class="leftText"><g:message code="simulation.index.existentfleet"/></div>
+                            <div class="rightOnlyButton">
+                                <g:form controller="configuration" action="addExistentFleetToConfiguration">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:select name="fleetId" from="${availableFleets}" optionKey="id" optionValue="${{it.name+' ('+it.cars?.size()+' Cars)'}}" />
+                                    <g:submitButton name="add" value="${message(code: 'configuration.index.addfleet')}" />
+                                </g:form>
                             </div>
-
-
+                            <div class="clear"></div>
                         </div>
-                    </div>--%>
+                    </g:if>
+
+
+                </div>
+
+                <div class="rowSpace">
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+        </div>--%>
                     <div class="layoutRight">
                         <div class="rowGroup">
                         <%--<div class="rowBrightGrey">
@@ -258,16 +258,23 @@
                                             <td class="col2"><b>Autoname</b></td>
                                             <td class="col3"><b>Simulationsstartzeit</b></td>
                                             <td class="col3"><b>Akkuzustand</b></td>
-                                            <td class="col3>
+                                            <td class="col3">
                                                 <g:form controller="configuration" action="removeFleetFromConfiguration">
                                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                     <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
-                                                    <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
-                                                    <button id="modal-close">
-                                                        <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
-                                                    </button>
+                                                    <g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}"/>
                                                 </g:form>
                                             </td>
+                                        <td class="col3>
+                                                <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                            <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
+                                        <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
+                                            <%--<button id="modal-close">
+                                            <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                            </button>--%>
+                                        </g:form>
+                                        </td>
                                         </tr>
 
                                         <g:each in="${addedFleet.cars}" var="car">
@@ -313,6 +320,7 @@
 
                                                 </td>
                                                 <td></td>
+                                                <td></td>
                                             </tr>
 
                                         </g:each>
@@ -327,7 +335,7 @@
                     </div>
                 </div>
 
-                    <div class="formConfiguration">
+                <div class="formConfiguration">
                     <div class="layoutLeft12">
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
@@ -350,10 +358,10 @@
                     </div>
                     <div id="updateMe"></div>
                 </div>
-                </div>
             </div>
-            <div id="tabs3"/>
+        </div>
+        <div id="tabs3"/>
     </div>
-    </div>
+</div>
 </body>
 </html>

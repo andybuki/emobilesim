@@ -25,23 +25,20 @@
         $(function()
         {
             var tabs = $('#tab-container');
-            tabs.easytabs({ animate: false });
-            disable_easytabs(tabs, [1,2]);
+            tabs.easytabs({defaultTab:"#tabo3"} );
+            disable_easytabs(tabs, [1,0]);
+
             tabs.bind("easytabs:before", function (e, clicked) {
                 if(clicked.parent().hasClass('disabled')) {
                     return false;
                 }
-            });
-
-            $("#modal-launcher, #modal-background, #modal-close").click(function () {
-                $("#modal-content,#modal-background").toggleClass("active");
             });
         });
 
         function on_disable_b_and_c_clicked()
         {
             var tabs = $('#tab-container');
-            disable_easytabs(tabs, [1,2]);
+            disable_easytabs(tabs, [1,0]);
             return false;
         }
 
@@ -68,6 +65,13 @@
         }
 
     </script>
+
+    <style>
+    .rowUp3 {
+        background-color: #ccffaa;
+        border: 0px solid #ddd;
+    }
+    </style>
 </head>
 
 <body>
@@ -80,10 +84,15 @@
     </ul>
     <div class='panel-container'>
         <div id="tabs1">
+
+        </div>
+        <div id="tabs2">
+        </div>
+        <div id="tabs3">
             <div class="pContainerConfigure">
-                <div class="rowUp">
+                <div class="rowUp3">
                     <div class="leftBoldBig1">
-                        <g:message code= "stats.stats.statistics"/> ${simulationName}
+                        <g:message code= "configuration.index.simulationarea"/> ${simulationName}
                     </div>
 
                     <%--<g:if test="${availableRoutes.size()>0}">
@@ -94,9 +103,9 @@
                             />
                         </div>
                     </g:if>--%>
-
-                    <g:select id="fillingStationType" name="stationTypeId" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
-
+                    <div id = "RouteSelection">
+                        <g:select id="fillingStationType" name="stationTypeId" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
+                    </div>
 
                     <div class="right0PX">
                         <span class="rightBoldBig1">
@@ -109,7 +118,7 @@
 
                 <div class="layout">
                     <div class="layoutRight">
-                        <div id="map" class="map"></div>
+                        <div id="mapNew" class="map"></div>
                     </div>
                 </div>
                 <div class="formConfiguration">
@@ -132,10 +141,6 @@
                     <div id="modal-background"></div>
                 </div>
             </div>
-        </div>
-        <div id="tabs2">
-        </div>
-        <div id="tabs3">
         </div>
     </div>
     <div id="updateMe"></div>
@@ -189,7 +194,7 @@
 
     var map = new ol.Map({
 
-        target: 'map',
+        target: 'mapNew',
         layers: [
             new ol.layer.Group({
                 'title': 'Base maps',
