@@ -315,12 +315,22 @@
                 color: '#3366ff',
                 width: 2
             }),
-            image: new ol.style.Circle({
-                radius: 7,
+
+                /*radius: 7,
                 fill: new ol.style.Fill({
                     color: '#3366ff'
-                })
-            })
+                })*/
+
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 26],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 0.75,
+                    src: "${g.resource( dir: '/images', file: 'carel.png' )}",
+                    size: [25,25]
+
+                }))
+
         })];
         return styles
     }
