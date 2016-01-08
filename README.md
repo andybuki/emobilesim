@@ -45,7 +45,7 @@ plpgsql, postgis, postgis_tiger_geocoder, postgis_topology.
 - Load needed regions (http://download.geofabrik.de/) for example Berlin or Brandenburg. For small regions it is possible to use (http://openstreetmap.org)  
 
 - convert data to postgres database with osm2po from (http://osm2po.de/)  
-   java -Xmx1408m -jar osm2po-core-5.0.0-signed.jar prefix=berlin tileSize=x,c /Users/anbu02/Downloads/OSM/berlin.osm
+  ``` java -Xmx1408m -jar osm2po-core-5.0.0-signed.jar prefix=berlin tileSize=x,c /Users/anbu02/Downloads/OSM/berlin.osm ```
    (instructions in web site)
 
 -  import sql data to database. The table names should be berlin_2po_4pgr, wiesloch_2po_4pgr. Table names in PostgreSQL database and in programm need to be the same 
@@ -63,9 +63,19 @@ Add JDK 7 or 8. Just add JDK from oracle website
 After short registration it is possible to work local with Emobilesim 
 
 ## 2 <a name="ch2"> Installation - server</a> 
+Installation on server contains some different steps compared to local installation.
+The server is available (http://emobilesim.dfki.de) or (http://lnv-89012.dfki.uni-sb.de:9090) 
+It is possible to get the sever under following command: ssh USER_NAME@lnv-89012.dfki.uni-sb.de
+The application is in tomcat.
+It is possible to stop and start tomcat with typical commands.
+I use probe to see the data in the frontend. (http://lnv-89012.dfki.uni-sb.de:9090/probe/). It is easy using frontend to add emobilesim to
+web server.
 
-Instalation process contains multiple steps. Emobilesim can be install local or 
-on server. In this documentation will introduce both instalation types.
+Using Idea Intellij Pro it is possible to create war. file with following command ```grails -Dgrails.env=lnv war```
+Rename the file into ROOT.war. After it it is possible to upload it on server using probe front end interface.
+
 
 ## 3 <a name="ch3"> How to use Emobilesim</a> 
+This part concentrates on documentation ising the Emobilesim 
+
 Work in progress...
