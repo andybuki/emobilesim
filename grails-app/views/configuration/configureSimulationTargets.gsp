@@ -145,12 +145,14 @@
 <script type="text/javascript">
     var savedRouteSelected = -1;
     function addRoute(customerPositionSetId){
-
-        ${remoteFunction(controller: 'configuration',
+        if(customerPositionSetId){
+            ${remoteFunction(controller: 'configuration',
                                                           action: 'getJsonForAddedRoute',
                                                           params: '\'customerPositionSetId=\'+customerPositionSetId+\'&configurationStubId=\'+\'' + configurationStubId + '\'' ,
                                                           onSuccess: 'addRouteToMap(data);'
                                                   )}
+        }
+
     }
     function addRouteToMap(data){
         baseFeatures.clear();

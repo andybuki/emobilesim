@@ -15,6 +15,7 @@ class EditConfigurationStubCommandObject {
     String areaId
     String simulationName
     String simulationDescription
+    Boolean manualSelection
 
     static constraints = {
 
@@ -22,6 +23,7 @@ class EditConfigurationStubCommandObject {
         simulationName nullable: true, blank: true
 
         simulationDescription nullable: true
+        manualSelection nullable: true
 
         configurationStubId nullable: true, validator: { val,obj ->
 

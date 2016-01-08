@@ -86,18 +86,50 @@
                         <g:message code= "stats.stats.statistics"/> ${simulationName}
                     </div>
 
-                    <%--<g:if test="${availableRoutes.size()>0}">
-                        <div id = "RouteSelection">
-                            <g:select name="customerPositionSetId" from="${availableRoutes}" optionKey="id" optionValue="${{it.name}}"
-                                      noSelection='["":"${g.message(code:'configuration.index.savedroute')}"]'
-                                      onchange="addRoute(this.value)"
-                            />
+                    <g:if test="${manualSelection}">
+                        <g:select id="fillingStationType" name="stationTypeId"
+                                  from="${availableFillingStationTypes}" optionKey="id" optionValue="name"
+                        />
+
+                        <div>
+                            <g:form name="saveFillingStationsForm" action="saveFillingStations">
+                                <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                                <g:hiddenField name="stations" value=""/>
+                                <g:hiddenField name="savedRouteSelected" value=""/>
+                                <div id="saveSubmitButton"></div>
+                            </g:form>
                         </div>
-                    </g:if>--%>
+                        <div>
+                            <g:form name="changeSelectionType" action="changeSelectionType">
+                                <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                                <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
+                                <g:submitButton name="changeToSavedStations" value="${g.message(code:'configuration.index.savedFillingStations')}" />
+                            </g:form>
+                        </div>
 
-                    <g:select id="fillingStationType" name="stationTypeId" from="${availableFillingStationTypes}" optionKey="id" optionValue="name" />
+                    </g:if>
+                    <g:else>
+                        <div>
+                            <g:form controller="configuration" action="addExistentGroupToConfiguration">
+                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id"
+                                          optionValue="${{"${g.message(code:'execution.playsimulation.electricstations')}: " +
+                                                  it.name+' ('+it.fillingStations?.size()+' Stations)'}}"
+                                          onchange="addStations(this.value)"
+                                          noSelection='["":"${g.message(code:'configuration.index.savedFillingStations')}"]'
+                                />
+                                <g:submitButton name="add"  value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                            </g:form>
+                        </div>
 
-
+                        <div>
+                            <g:form name="changeSelectionType" action="changeSelectionType">
+                                <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                                <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
+                                <g:submitButton name="changeToSavedStations" value="Create Stations On Map" />
+                            </g:form>
+                        </div>
+                    </g:else>
                     <div class="right0PX">
                         <span class="rightBoldBig1">
                             <g:message code="configuration.index.simulationarea"/> ${simulationArea}
@@ -107,7 +139,23 @@
                     <div class="clear"></div>
                 </div>
 
+
                 <div class="layout">
+                    <div class="layoutLeftStation">
+                        <g:each in="${addedFillingStationGroups}" var="addedGroup">
+                        <%--<g:message code="simulation.index.addedfleet"/>--%>
+                            <div class="rowMiddleWithoutBorder">
+                                <div class="leftCollectFleets">
+                                    ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.car"/> ) <%--<img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>--%>
+                                </div>
+
+
+                            </div>
+                        </g:each>
+                    </div>
+                    <div class="clear">
+                    </div>
+
                     <div class="layoutRight">
                         <div id="map" class="map"></div>
                     </div>
@@ -116,12 +164,15 @@
                     <div class="layoutLeft12">
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
-                                <div>
-                                    <g:form name="saveFillingStationsForm" action="saveFillingStations">
-                                        <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                                        <g:hiddenField name="stations" value=""/>
-                                        <g:hiddenField name="savedRouteSelected" value=""/>
-                                        <div id="saveSubmitButton"></div>
+                                <div class="layoutButton">
+                                    <g:form controller="execution" action="executeExperiment">
+                                        <span class="layoutButtonM"></span>
+                                        <g:hiddenField name="relativeSearchLimit" value="20" />
+                                        <g:hiddenField name="configurationId" value="${configurationStubId}"/>
+                                        <span class="layoutButtonR">
+                                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
+                                        </span>
+
                                     </g:form>
                                 </div>
                             </div>
@@ -142,39 +193,21 @@
 </div>
 </div>
 <script type="text/javascript">
-    var savedRouteSelected = -1;
-   <%--function addRoute(customerPositionSetId){
-     */
-
-        ${remoteFunction(controller: 'configuration',
-                                                          action: 'getJsonForAddedRoute',
-                                                          params: '\'customerPositionSetId=\'+customerPositionSetId+\'&configurationStubId=\'+\'' + configurationStubId + '\'' ,
-                                                          onSuccess: 'addRouteToMap(data);'
+   function addStations(groupId){
+       if(groupId){
+           ${remoteFunction(controller: 'configuration',
+                                                          action: 'getJsonForGroup',
+                                                          params: '\'groupId=\'+groupId+\'&configurationStubId=\'+\'' + configurationStubId + '\'' ,
+                                                          onSuccess: 'addGroupToMap(data);'
                                                   )}
+       }
     }
-    function addRouteToMap(data){
-        baseFeatures.clear();
-        collection.clear();
-        var addedRoute_features = new ol.format.GeoJSON().readFeatures(data,{featureProjection:'EPSG:3857'});
-        var addedTargets_source = new ol.source.Vector({
-            features:collection
-        });
-        var addedBase_source = new ol.source.Vector({
-            features:baseFeatures
-        });
-        addedRoute_features.forEach(function(feature){
-            if (feature.get("geoType")=="fleetBase"){
-                addedBase_source.addFeature(feature);
-                savedRouteSelected = feature.get("customerPositionSetId")
-            }
-            else{
-                addedTargets_source.addFeature(feature);
-                savedRouteSelected = feature.get("customerPositionSetId")
-            }
-        });
+    function addGroupToMap(data){
+        addedGroup_source.clear()
+        var addedGroup_features = new ol.format.GeoJSON().readFeatures(data,{featureProjection:'EPSG:3857'});
+        addedGroup_source.addFeatures(addedGroup_features)
+    }
 
-
-    }--%>
 
     var lon, lat; //This is the center of the picture
     <g:if test="${simulationArea == 'BERLIN'}">
@@ -241,7 +274,7 @@
     var layerSwitcher = new ol.control.LayerSwitcher({
         tipLabel: 'Légende' // Optional label for button
     });
-
+    //map.addLayer(group_layer);
     map.addControl(layerSwitcher);
 
     //Layers
@@ -267,18 +300,6 @@
     })
     map.addLayer(berlinLayer);
 
-
-    var fillingStationFeatures = new ol.Collection();
-    var featureOverlayForBase = new ol.layer.Vector({
-        map: map,
-        source: new ol.source.Vector({
-            features: fillingStationFeatures,
-            useSpatialIndex: false // optional, might improve performance
-        }),
-        style: fillingStationStyleFunction(),
-        updateWhileAnimating: true, // optional, for instant visual feedback
-        updateWhileInteracting: true // optional, for instant visual feedback
-    });
 
     <g:each var = "route" in = "${routes}">
     var realRoutes_features = new ol.format.GeoJSON().readFeatures(${route},{featureProjection:'EPSG:3857'});
@@ -333,7 +354,6 @@
                 })
             })
         });
-
         var startPosition = new ol.style.Style({//TODO add good picture here
             image: new ol.style.Icon({
                 //radius: 10,
@@ -431,7 +451,6 @@
                 return[circleViaTarget]
         }
     }
-
     function fillingStationStyleFunction(feature, resolution){
 
         var styles = [  new ol.style.Style({
@@ -452,6 +471,8 @@
         return styles
     }
     ////////////////////////////////////
+    <g:if test="${manualSelection}">
+    var fillingStationFeatures = new ol.Collection();
 
     var modifyFillingStations = new ol.interaction.Modify({
         features: fillingStationFeatures,
@@ -467,7 +488,6 @@
 
     modifyFillingStations.on('modifyend',function(){
         saveFillingStation();
-        savedRouteSelected = -1;
     });
 
     var typeSelect = document.getElementById('fillingStationType');
@@ -525,6 +545,18 @@
         });
 
     });
+    </g:if>
+    <g:else>
+    var addedGroup_source = new ol.source.Vector();
+    var group_layer= new ol.layer.Vector({
+        source:addedGroup_source,
+        opacity:0.8,
+        style: fillingStationStyleFunction,
+        title: 'Route for: Group'
+    });
+    map.addLayer(group_layer);
+    </g:else>
+
 
 </script>
 <br/><br/>

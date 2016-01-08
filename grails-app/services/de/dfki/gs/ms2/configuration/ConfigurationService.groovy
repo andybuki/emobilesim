@@ -10,7 +10,6 @@ import de.dfki.gs.domain.utils.Distribution
 import de.dfki.gs.domain.utils.FleetStatus
 import de.dfki.gs.domain.utils.GroupStatus
 import de.dfki.gs.domain.utils.SimulationArea
-import de.dfki.gs.domain.utils.TrackEdgeType
 import grails.converters.JSON
 import grails.transaction.Transactional
 
@@ -130,10 +129,22 @@ class ConfigurationService {
         def lonlat = [customerPositionSet.depot.lon,customerPositionSet.depot.lat]
         def features = []
 
-        features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetBase","customerPositionSetId":customerPositionSetId]])
+        features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetBase","groupId":customerPositionSetId]])
         customerPositionSet.customers.each {customer ->
             lonlat = [customer.lon,customer.lat]
             features.add(["type":"Feature","geometry":["type":"Point","coordinates":lonlat],"properties":["geoType":"fleetTarget",customerPositionSetId: customerPositionSetId]])
+        }
+
+        return ["type":"FeatureCollection","features":features] as JSON;
+    }
+    def createGroupGeoJson(long groupId){
+        FillingStationGroup fillingStationGroup = FillingStationGroup.get(groupId)
+        def features = []
+        fillingStationGroup.fillingStations.each {station->
+
+            features.add(["type":"Feature","geometry":["type":"Point","coordinates":[station.lat,station.lon]],
+                          "properties":["geoType":"fillingStation",groupId: groupId,"stationTypeId":station.
+                                  fillingStationType.id,"stationTypeName":station.fillingStationType.name]])
         }
 
         return ["type":"FeatureCollection","features":features] as JSON;

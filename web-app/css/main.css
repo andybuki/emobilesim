@@ -2336,7 +2336,14 @@ fieldset {
 	bottom: 0px;
 	margin-bottom: 5px;
 }
-
+.layoutLeftStation{
+	min-width: 300px;
+	vertical-align: top;
+	display: table-cell;
+	max-width: 300px;
+	display: inline;
+	float:right;
+}
 .layoutLeft {
     min-width: 300px;
     vertical-align: top;

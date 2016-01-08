@@ -424,6 +424,32 @@ class ConfigurationController {
 
     }
 
+    def getJsonForGroup() {
+
+        Person person = (Person) springSecurityService.currentUser
+
+        if (!person) {
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+
+        log.error("params: ${params}")
+
+        AddGroupToConfigurationCommandObject cmd = new AddGroupToConfigurationCommandObject()
+        bindData(cmd, params)
+        def parameters = params
+        def groupGeoJson
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to vaildate AddFleetToConfigurationCommandObject: ${cmd.errors}")
+        } else {
+
+            groupGeoJson = configurationService.createGroupGeoJson(cmd.groupId)
+
+        }
+
+        render groupGeoJson
+    }
+
     def addExistentGroupToConfiguration() {
 
         Person person = (Person) springSecurityService.currentUser
@@ -447,7 +473,7 @@ class ConfigurationController {
         }
 
 
-        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: params.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: params.configurationStubId,manualSelection:false])
 
     }
 
@@ -670,6 +696,8 @@ class ConfigurationController {
 
         m.availableFillingStationTypes = configurationService.getFillingStationTypesForCompany(person)
         m.routes = configurationService.getRoutesForConfiguration(configurationStubId)
+        m.addedFillingStationGroups = configurationService.getAddedGroups(configurationStubId)
+        m.manualSelection = cmd.manualSelection
 
         render view: 'configureSimulationFillingStations', model: m
     }
@@ -1162,8 +1190,25 @@ class ConfigurationController {
             }
             configurationService.addGroupToConfiguration(cmd.configurationStubId,fillingStationGroup.id)
         }
-        //redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
-        redirect(controller: 'execution', action: 'executeExperiment', params:[configurationId:cmd.configurationStubId,relativeSearchLimit:20])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId,manualSelection: true])
+        //redirect(controller: 'execution', action: 'executeExperiment', params:[configurationId:cmd.configurationStubId,relativeSearchLimit:20])
+    }
+    def changeSelectionType(){
+        Person person = (Person) springSecurityService.currentUser
+        if (!person) {
+
+            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
+            return
+        }
+        EditConfigurationStubCommandObject cmd = new EditConfigurationStubCommandObject()
+        bindData(cmd, params)
+        if (!cmd.validate() && cmd.hasErrors()) {
+            log.error("failed to find configurationStub for id. errors: ${cmd.errors}")
+        }
+        else{
+        }
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId,manualSelection: cmd.manualSelection])
+
     }
     def configureSimulationFleet() {
         Person person = (Person) springSecurityService.currentUser
@@ -2074,7 +2119,7 @@ class ConfigurationController {
         }
 
         //redirect controller: 'front', action: 'init'
-        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId])
+        redirect(controller: 'configuration', action: 'configureSimulationStation', params: [configurationStubId: cmd.configurationStubId,manualSelection: true])
     }
 
     def saveFinishedConfigurationRoute() {
