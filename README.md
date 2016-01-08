@@ -18,28 +18,49 @@ This repository contains all necessary Groovy/Grails files. The description has 
 
 To work with Emobilesim will need to install following applications:
  
- ### 1.1 Development environments 
+### 1.1 Development environments 
+Idea Intellij Pro or Eclipse. It will be better to work with Idea Intellij Pro.
+The whole project was made with it. 
+ (https://www.jetbrains.com/idea/download/download-thanks.html)
  
- ### 1.2 Getting started
+### 1.2 Grails (Version 2.4.3)
+To work with Emobilesim you will need Grails 2.4.3 (https://grails.org/download.html)
  
- Idea Intellij Pro or Eclipse 
-- Grails (Version 2.4.3)
-- MySQL database (create database with name emobilesim, application will create 
-tables himself)
-- PostgreSQL database with following extensions: fuzzymatch, hstore, pgrouting,
+### 1.3 MySQL database
+Install MySQL environment - MySQL Workbench (http://www.mysql.de/products/workbench/)
+Create for localhost emobilesim database. All tables will create automaticly after 
+start the emobilesim aplication.
+
+### 1.4 PostgreSQL database
+PostgreSQL database contains data about routes. It is possible to use local 
+database. In default mode the aplication uses PostgreSQL database on DFKI server.
+To work with PostgreSQL install pgAdmin3 - (http://www.pgadmin.org/)
+Emobilesim can use different tables, for different regions. It is possible to add other regions
+using OpenStreetMaps.
+
+- Add extensions
+The user need to add to your database following extensions: fuzzymatch, hstore, pgrouting,
 plpgsql, postgis, postgis_tiger_geocoder, postgis_topology.
-Emobilesim uses openstreetmap graph. You need to import data and create a tables with 
-requied regions. For example Berlin and so on.
-- load region from http://download.geofabrik.de/
-- convert data to postgres database with osm2po from http://osm2po.de/  
+
+- Load needed regions (http://download.geofabrik.de/) for example Berlin or Brandenburg. For small regions it is possible to use (http://openstreetmap.org)  
+
+- convert data to postgres database with osm2po from (http://osm2po.de/)  
    java -Xmx1408m -jar osm2po-core-5.0.0-signed.jar prefix=berlin tileSize=x,c /Users/anbu02/Downloads/OSM/berlin.osm
    (instructions in web site)
--  import sql data to database. The table names should be berlin_2po_4pgr, wiesloch_2po_4pgr
-- create MySql database. Name - emobilesim
+
+-  import sql data to database. The table names should be berlin_2po_4pgr, wiesloch_2po_4pgr. Table names in PostgreSQL database and in programm need to be the same 
+- Go to ntw-b-120.dfki.net and get the registration or ask Jens Haupert.
+- Using Idea Intellij Pro click "Check out from version control" and than "GIT" The repository name is "git@ntw-b-120.dfki.net:USER_NAME/Emobilesim.git". After it save the repository local.
+In this case it is posible to work with repository to push/pull.
 - In RouteServe.groovy line 317 put your Postgres Data
 - Line 331 add your Postgress tables
 - In DataSource.groovy are the typical MySql settings
 
+### 1.5 Add JDK
+Add JDK 7 or 8. Just add JDK from oracle website
+
+### 1.6 Start project (http://localhost:8080/emobilesim/)
+After short registration it is possible to work local with Emobilesim 
 
 ## 2 <a name="ch2"> Installation - server</a> 
 
