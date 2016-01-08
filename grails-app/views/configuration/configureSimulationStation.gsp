@@ -29,7 +29,13 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
-    <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
+
+    <script src="http://openlayers.org/en/v3.11.2/build/ol-debug.js"></script><%--TODO put /ol.js here --%>
+    <script src="${resource(dir: 'js', file: 'ol3-layerswitcher.js')}"></script>
+    <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
+
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
+    <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css"/>
 
     <script type="text/javascript">
 
@@ -78,6 +84,8 @@
 
     </script>
 
+
+
     <style>
     .rowUp3 {
         background-color: #ccffaa;
@@ -103,34 +111,33 @@
         <div id="tabs3">
             <div class="pContainerConfigure">
                 <div class="rowUp3">
-                        <div class="leftBoldBig1">
-                            <g:message code= "stats.stats.statistics"/> ${simulationName}
-                            <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                            <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
-                                <div class="rowMiddleWithoutBorder22">
+                    <div class="leftBoldBig1">
+                        <g:message code= "stats.stats.statistics"/> ${simulationName}
+                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                        <g:if test="${availableFillingStationGroups != null && availableFillingStationGroups.size() > 0}">
+                            <div class="rowMiddleWithoutBorder22">
                                 <span style="float:left;">
 
 
-                                <g:form controller="configuration" action="addExistentGroupToConfiguration">
-                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                    <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{"${g.message(code:'execution.playsimulation.electricstations')}: " + it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
-                                    <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
-                                </g:form>
+                                    <g:form controller="configuration" action="addExistentGroupToConfiguration">
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id" optionValue="${{"${g.message(code:'execution.playsimulation.electricstations')}: " + it.name+' ('+it.fillingStations?.size()+' Stations)'}}" />
+                                        <g:submitButton name="add" onclick="window.location.reload()" value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                                    </g:form>
 
                                 </span>
                                 <span style="float:right; padding-left: 5px;">
                                     <g:form action="createGroupView">
 
-                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                <g:submitToRemote url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
-                                <%--<img width="22px"src="${g.resource( dir: '/images', file: 'add.png' )}">--%>
-                        </g:form>
+                                        <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                        <g:submitToRemote url="[action: 'createGroupView']" update="updateMe" name="submit" value="${message(code: 'configuration.index.createnewgroup')}" />
+                                    </g:form>
                                 </span>
                             </div>
-                            </g:if>
-                        </div>
+                        </g:if>
+                    </div>
 
-                        <div class="right0PX">
+                    <div class="right0PX">
                         <span class="rightBoldBig3">
                             <g:message code="configuration.index.simulationarea"/> ${simulationArea}
                         </span>
@@ -139,54 +146,13 @@
                     <div class="clear"></div>
                 </div>
                 <div class="layout">
-                    <%--<div class="layoutLeft1">
-                        <div class="contentLeftBigConfiguration">
-                            <div class="rowUp">
-                                <div class="leftbig"><g:message code="simulation.index.fleetconfiguration"/></div>
-                                <div class="right0PX"><img width="35px"src="${g.resource( dir: '/images', file: 'electrocar.png' )}"/></div>
-                                <div class="clear"></div>
-                            </div>--%>
-
-                            <%--<div class="rowSpace">
-                                <div class="clear"></div>
-                            </div>--%>
-
-                            <%--<div class="rowGroup1">
-                            div class="rowBrightGrey">
-                                <div class="leftConfigurationExtraLong">
-                                    <g:message code="configuration.index.selectfleets"/>
-                                </div>
-                                <div class="right0PX"></div>
-                                <div class="clear"></div>
-                            </div>
-
-
-
-                            </div>
-
-                            <div class="rowSpace">
-                                <div class="clear"></div>
-                            </div>
-
-
-                        </div>
-                    </div>--%>
                     <div class="layoutRight">
+                        <div id="mapNew" class="map"></div>
                         <div class="rowGroup">
-                        <%--<div class="rowBrightGrey">
-                            <div class="leftConfigurationExtraLong">
-                                <g:message code="configuration.index.collectfleets"/>
-                            </div>
-                        </div>--%>
                             <g:if test="${addedGroups != null && addedGroups.size() > 0}">
                                 <g:each in="${addedGroups}" var="addedGroup">
                                     <g:form controller="configuration" action="removeGroupFromConfiguration">
-                                    <%--<g:message code="simulation.index.addedfleet"/>--%>
                                         <div class="rowMiddleWithoutBorder">
-                                        <%--<div class="leftCollectFleets">
-                                            ${addedGroup.name} with ${addedGroup.fillingStations.size()*2} Filling Stations
-                                        </div>--%>
-
                                             <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
                                                 <div class="leftCollectFleets0">
                                                     ${addedGroup.name} (${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.station"/> ) <img class="helpButton" title="<g:message code="configuration.index.allstations"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>
@@ -205,24 +171,20 @@
                                             </g:if>
 
                                             <div class="right1165PX">
-                                                <%--<g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <g:hiddenField name="groupId" value="${addedGroup.id}"/>
-                                                <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
-                                            </div>--%>
 
-                                            <g:form controller="configuration" action="removeFleetFromConfiguration">
-                                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <g:hiddenField name="groupId" value="${addedGroup.id}"/>
-                                            <%--<g:submitButton name="removeFleet" value="${message(code: 'configuration.index.unselect')}" />--%>
-                                                <button id="modal-close">
-                                                    <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
-                                                </button>
-                                            </g:form>
+
+                                                <g:form controller="configuration" action="removeFleetFromConfiguration">
+                                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                                    <g:hiddenField name="groupId" value="${addedGroup.id}"/>
+                                                    <button id="modal-close">
+                                                        <g:img name="removeFleet" class="logoutexit" uri="${resource(dir: '/images', file: 'closesim.png')}"/>
+                                                    </button>
+                                                </g:form>
 
                                             </div>
 
                                             <div class="right100PX">
-                                                <g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
+                                                <%--<g:if test="${addedGroup.groupStatus == GroupStatus.CONFIGURED}">
                                                     <g:form action="showGroupStationsOnMap">
                                                         <g:hiddenField name="configurationStubId" value="${configurationStubId}" />
                                                         <g:submitToRemote class="addButton"
@@ -232,7 +194,7 @@
                                                                           value="${message(code: 'configuration.index.showstations')}" />
 
                                                     </g:form>
-                                                </g:if>
+                                                </g:if>--%>
                                                 <span class="konfiguration">
                                                     <g:if test="${addedGroup.groupStatus == GroupStatus.SCHEDULED_FOR_CONFIGURING}">
                                                         <g:message code="configuration.index.pleasewait"/>
@@ -262,41 +224,6 @@
                     </div>
                 </div>
                 <div class="formConfiguration">
-                    <br><br>
-                    <div class="layoutButton">
-                        <%--<span class="layoutButtonL">
-                            <g:form controller="configuration" action="configureSimulationRoute">
-                                <span class="addButtonCancel">
-                                    <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                                    <g:submitButton name="send" value="${message(code: 'configuration.index.back')}"/>
-                                </span>
-                            </g:form>
-
-                        </span>--%>
-                        <%--<g:submitToRemote class="addButton" url="[action: '/front/startSimulation']" update="sim" name="submit" value="CANCEL" />--%>
-
-                        <%--<g:if test="${(savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)  ||
-                                      (savedGroups == 1 && savedFleets == 1 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 1 && savedFleets == 0 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 1 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 0 && savedFleets == 1 && configuredGroups == 1 && configuredFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0) ||
-                                      (savedGroups == 1 && savedFleets == 0 && configuredGroups == 0 && configuredFleets==1 && notConfiguredFleets==0 && notConfiguredGroups==0)
-                        }">--%>
-                        <%--<g:form action="saveFinishedConfigurationStation">
-                            <g:if test="${notConfiguredGroups==1 || savedGroups == 1 || configuredGroups==1}">
-
-                                <span class="layoutButtonM"></span>
-                                <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-
-                                <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.save')}"/></span>
-                            </g:if>
-                        </g:form> --%>
-                    </div>
-
-
                     <g:if test="${(configuredGroups==1 && configuredFleets==1 && savedGroups==0 && savedFleets==0 && notConfiguredFleets==0 && notConfiguredGroups==0)}">
                         <div class="layoutButton">
                             <g:form controller="execution" action="executeExperiment">
@@ -308,22 +235,8 @@
                                 </span>
 
                             </g:form>
-
-                        <%--To view the execution on a map with the cars moving
-                            <g:form controller="execution" action="executeExperimentOnMap">
-                            <span class="layoutButtonM"></span>
-                            <g:hiddenField name="relativeSearchLimit" value="20" />
-                            <g:hiddenField name="configurationId" value="${configurationStubId}"/>
-                            <span class="layoutButtonR1">
-                                <g:submitButton name="send" value="${message(code: 'configuration.index.executemap')}"/>
-                            </span>
-
-                        </g:form>--%>
                         </div>
                     </g:if>
-
-
-
                     <div id="updateMe"></div>
                 </div>
             </div>
@@ -331,5 +244,431 @@
     </div>
 
 </div>
+
+
+<script type="text/javascript">
+
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+    /**
+     * Add a click handler to hide the popup.
+     * @return {boolean} Don't follow the href.
+     */
+    //closer.onclick = function() {
+    //popup.setPosition(undefined);
+    //closer.blur();
+    //return false;
+    //};
+
+    /**
+     * Create an overlay to anchor the popup to the map.
+     */
+    var popup = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    }));
+
+
+    var lon,lat; //This is the center of the picture
+    <g:if test="${simulationArea == 'BERLIN'}">
+    lon = 13.38;
+    lat = 52.52;
+    </g:if>
+    <g:else>
+    lon = 8.7;
+    lat = 49.29;
+    </g:else>
+
+
+    //Defining circle style for
+    var routeColor = '#0000BB';
+    var circle = new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 10,
+            fill: new ol.style.Fill({
+                color: routeColor
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#000000'
+            })
+        })
+    });
+
+    var stroke = new ol.style.Stroke({
+        color: routeColor,
+        width: 6
+    });
+
+
+    function styleFunctionForRoutes(feature, resolution){
+        //Get color for the car
+        var routeColor = feature.get('color');
+        var circleViaTarget = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 10,
+                fill: new ol.style.Fill({
+                    color: routeColor
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#000000'
+                })
+            })
+        });
+        var circleFinalPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                //radius: 10,
+                src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                fill: new ol.style.Fill({
+                    color: '#000000'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: routeColor,
+                    width:5
+                })
+            })
+        });
+
+        var startPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                //radius: 10,
+                src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                scale: 0.5,
+                fill: new ol.style.Fill({
+                    color: '#000000'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: routeColor,
+                    width:5
+                })
+            })
+        });
+
+        var routeStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7
+        });
+        var failedRouteStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7,
+            lineDash:[.1,10]
+        });
+        var toEnergyStroke = new ol.style.Stroke({
+            color: '#000000',// routeColor,
+            lineDash: [.1,10],
+            lineCap:'round',
+            width: 4
+        });
+        var geoType = feature.get("geoType");
+        switch(geoType) {
+            case 'route':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+                })];
+                break;
+
+            case 'route_failed':
+                return [new ol.style.Style({
+                    stroke: failedRouteStroke
+                })];
+                break;
+
+            case 'to_filling_station':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+            case 'to_filling_station_failed':
+                return [new ol.style.Style({
+                    stroke: failedRouteStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+            case 'via_target':
+                var textStroke = new ol.style.Stroke({
+                    color: '#fff',
+                    width: 3
+                });
+                var textFill = new ol.style.Fill({
+                    color: '#000'
+                });
+                var text = new ol.style.Style({
+                    text: new ol.style.Text({
+                        font: '12px Calibri,sans-serif',
+                        text:feature.get('viaCounter'),
+                        fill: textFill,
+                        stroke: textStroke
+                    })
+                });
+                var styles = [circleViaTarget,text];
+                return styles;
+                break;
+
+            case 'finalPosition':
+                var styles = [circleFinalPosition];
+                return styles;
+                break;
+
+            case 'start':
+                var styles = [startPosition];
+                return styles;
+
+            default:
+                return[circleViaTarget]
+        }
+    }
+    function selectStyleFunctionForRoutes(feature, resolution){
+        //Get color for the car
+
+        var routeColor = feature.get('color');
+        var circleViaTarget = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 13,
+                fill: new ol.style.Fill({
+                    color: routeColor
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#000000'
+                })
+            })
+        });
+        var circleFinalPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                src: "${g.resource( dir: '/images', file: 'finish.png' )}",
+                //radius: 10,
+                fill: new ol.style.Fill({
+                    color: '#ff0000'
+                })/*
+                 stroke: new ol.style.Stroke({
+                 color: routeColor,
+                 width:5
+                 })*/
+            })
+        });
+
+        var startPosition = new ol.style.Style({//TODO add good picture here
+            image: new ol.style.Icon({
+                src: "${g.resource( dir: '/images', file: 'homeStart.png' )}",
+                scale: 0.5,
+                fill: new ol.style.Fill({
+                    color: '#ff0000'
+                })/*
+                 stroke: new ol.style.Stroke({
+                 color: routeColor,
+                 width:5
+                 })*/
+            })
+        });
+
+        var routeStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7
+        });
+        var failedRouteStroke = new ol.style.Stroke({
+            color: routeColor,
+            width: 7,
+            lineDash:[.1,10]
+        });
+        var toEnergyStroke = new ol.style.Stroke({
+            color: '#000000',// routeColor,
+            lineDash: [.1,10],
+            lineCap:'round',
+            width: 4
+        });
+        var geoType = feature.get("geoType");
+        switch(geoType) {
+            case 'route':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+                })];
+                break;
+
+            case 'route_failed':
+                return [new ol.style.Style({
+                    stroke: failedRouteStroke
+                })];
+                break;
+
+            case 'to_filling_station':
+                return [new ol.style.Style({
+                    stroke: routeStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+
+            case 'to_filling_station_failed':
+                return [new ol.style.Style({
+                    stroke:failedRouteStroke
+
+                }),
+                    new ol.style.Style({
+                        stroke: toEnergyStroke
+
+                    })];
+                break;
+
+            case 'via_target':
+                var textStroke = new ol.style.Stroke({
+                    color: '#fff',
+                    width: 5
+                });
+                var textFill = new ol.style.Fill({
+                    color: '#000'
+                });
+                var text = new ol.style.Style({
+                    text: new ol.style.Text({
+                        font: '12px Calibri,sans-serif',
+                        text: feature.get('viaCounter'),
+                        fill: textFill,
+                        stroke: textStroke
+                    })
+                });
+                var styles = [circleViaTarget, text];
+                return styles
+                break;
+            case 'finalPosition':
+                var styles = [circleFinalPosition];
+                return styles;
+                break;
+
+            case 'start':
+                var styles = [startPosition];
+                return styles;
+                break;
+            default:
+                return[circleViaTarget]
+        }
+    }
+
+
+    //Create the map
+
+    //Creating an Layer containing points of interest on the driven routes(for each Car)
+    var allRouteLayers = [];
+
+    //var layersForMap =
+
+    var map = new ol.Map({
+
+        target: 'mapNew',
+        layers: [
+            new ol.layer.Group({
+                'title': 'Base maps',
+                layers: [
+                    new ol.layer.Tile({
+                        title: 'Toner view',
+                        type: 'base',
+                        visible: false,
+                        source: new ol.source.Stamen({
+                            layer: 'toner'
+                        })
+                    }),
+                    new ol.layer.Tile({
+                        title: 'OSM',
+                        type: 'base',
+                        visible: true,
+                        source: new ol.source.OSM()
+                    }),
+                    new ol.layer.Tile({
+                        title: 'Satellite',
+                        type: 'base',
+                        visible: false,
+                        source: new ol.source.MapQuest({layer: 'sat'})
+                    }),
+
+                ]
+            }),
+            new ol.layer.Group({
+                title: 'Overlays',
+                layers: [
+                    new ol.layer.Tile({
+                        title: 'Countries',
+                        source: new ol.source.TileWMS({
+                            url: 'http://demo.opengeo.org/geoserver/wms',
+                            params: {'LAYERS': 'ne:ne_10m_admin_1_states_provinces_lines_shp'},
+                            serverType: 'geoserver'
+                        })
+                    })
+                ]
+            })
+        ],
+
+        interactions: ol.interaction.defaults().extend([new ol.interaction.Select({
+            condition:  (ol.events.condition.pointerMove || ol.events.condition.click),
+            layers:allRouteLayers,
+            style: selectStyleFunctionForRoutes
+        })]),
+        view: new ol.View({
+            center: ol.proj.fromLonLat([lon, lat]),
+            zoom: 11
+        })
+    });
+
+    var layerSwitcher = new ol.control.LayerSwitcher({
+        tipLabel: 'Légende' // Optional label for button
+    });
+    map.addControl(layerSwitcher);
+
+    <g:each var = "realRoute" in = "${realRoutes}">
+    var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute},{featureProjection:'EPSG:3857'});
+
+
+    var realRoutes_source = new ol.source.Vector();
+    realRoutes_source.addFeatures(realRoutes_features);
+
+    <g:each in="${fleets.cars}" var="cars">
+    <g:each in="${cars}" var="car">
+
+    var realRoutes_layer = new ol.layer.Vector({
+        source:realRoutes_source,
+        opacity:0.6,
+        style: styleFunctionForRoutes,
+        title: 'Route for:'
+        <%--<g:each var="car" in="${fleets.cars}" status="counter">--%>
+
+        +  "${car.name}"
+
+        <%-- +"${car.name}"
+     </g:each>--%>
+    });
+    </g:each>
+    </g:each>
+
+    allRouteLayers.push(realRoutes_layer);
+    map.addLayer(realRoutes_layer);
+    </g:each>
+    <%-- add the unused stations --%>
+
+
+    var startPosition_layer = new ol.layer.Vector({
+        title: 'Start Position',
+        opacity: 0.5,
+        style:styleFunctionForRoutes
+
+    });
+
+
+    map.addLayer(startPosition_layer);
+    map.addOverlay(popup);
+
+
+</script>
+
 </body>
 </html>
