@@ -480,17 +480,15 @@
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'pixels',
                 opacity: 0.75,
-
-
-                src:  <g:if test="${availableFillingStationTypes.id == 1}">
+                src:  <g:if test='${availableFillingStationTypes = "1" }'>
                         "${g.resource( dir: '/images', file: '2.3aku.png' )}",
                     </g:if>
-                    <g:elseif test="${availableFillingStationTypes.get(1).id == 2}">"${g.resource( dir: '/images', file: '3.7aku.png' )}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes.get(2).id == 3}">"${g.resource( dir: '/images', file: '7.4aku.png' )}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes.get(3).id == 4}">"${g.resource( dir: '/images', file: '11.1aku.png' )}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes.get(4).id == 5}">"${g.resource( dir: '/images', file: '22.2aku.png' )}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes.get(5).id == 6}">"${g.resource( dir: '/images', file: '43aku.png' )}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes.get(6).id == 7}">"${g.resource( dir: '/images', file: '49.8aku.png' )}",</g:elseif>
+                    <g:elseif test='${availableFillingStationTypes= "2"}'>"${g.resource( dir: '/images', file: '3.7aku.png')}",</g:elseif>
+                    <g:elseif test="${availableFillingStationTypes= "3"}">"${g.resource( dir: '/images', file: '7.4aku.png')}",</g:elseif>
+                    <g:elseif test="${availableFillingStationTypes= "4"}">"${g.resource( dir: '/images', file: '11.1aku.png')}",</g:elseif>
+                    <g:elseif test="${fillingStationTypeId= "5"}">"${g.resource( dir: '/images', file: '22.2aku.png')}",</g:elseif>
+                    <g:elseif test="${fillingStationTypeId= "6"}">"${g.resource( dir: '/images', file: '43aku.png')}",</g:elseif>
+                    <g:elseif test="${fillingStationTypeId= "7"}">"${g.resource( dir: '/images', file: '49.8aku.png')}",</g:elseif>
                 size: [52,46]
 
             }))
