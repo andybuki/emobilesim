@@ -171,6 +171,9 @@ class StatisticService {
         result.persistedCarAgentResults.each {
             allRealFleetRoutes.add(getTrackEdges(it.id))
         }
+        /*if(!result.persistedCarAgentResults.isEmpty()){
+            getStartPoint(result.persistedCarAgentResults.first().id)
+        }*/
         return allRealFleetRoutes
 
 
@@ -249,6 +252,7 @@ class StatisticService {
         def routeToEnergyFailedToDrive = []
         def allRoutesToEnergy = []
         def allRoutesToEnergyFailedToDrive = []
+        def drivenRouteComplete = [[]]
         def previousCoordinates
         def drivenTrack = persistedCarAgentResult.trackEdges.subList(0,persistedCarAgentResult.lastPositionIndex-1)
         def failedToDrive=persistedCarAgentResult.trackEdges.subList(persistedCarAgentResult.lastPositionIndex-1,persistedCarAgentResult.trackEdges.size()-1)
@@ -261,6 +265,7 @@ class StatisticService {
                 //Add The coordinates of the normal route to the multilineString the first time we change to route to energy
                 if(lineString.size()>0){
                     coordinatesOfRoute.add(lineString)
+                    drivenRouteComplete += lineString
                     lineString = []
                     previousCoordinates = null
                 }
@@ -273,6 +278,7 @@ class StatisticService {
                 {
                     //TODO make visible that route is broken here
                     allRoutesToEnergy.add(routeToEnergy)
+                    drivenRouteComplete += routeToEnergy
                     routeToEnergy = []
                     previousCoordinates = null
                     log.error("route Broken From $previousCoordinates To $coordinates")
@@ -282,6 +288,7 @@ class StatisticService {
             else{//Normal Route
                 if(routeToEnergy.size()>0){
                     allRoutesToEnergy.add(routeToEnergy)
+                    drivenRouteComplete += routeToEnergy
                     routeToEnergy = []
                     previousCoordinates = null
                 }
@@ -296,6 +303,7 @@ class StatisticService {
                 {
                     //TODO make visible that route is broken here
                     coordinatesOfRoute.add(lineString)
+                    drivenRouteComplete += lineString
                     lineString = []
                     previousCoordinates = null
                     log.error("route Broken From $previousCoordinates To $coordinates")
@@ -307,10 +315,12 @@ class StatisticService {
         if(finalPosition.type == TrackEdgeType.to_filling_station.toString()){
             routeToEnergy.add([finalPosition.toLon,finalPosition.toLat])
             allRoutesToEnergy.add(routeToEnergy)
+            drivenRouteComplete += routeToEnergy
         }
         else{
             lineString.add([finalPosition.toLon,finalPosition.toLat])
             coordinatesOfRoute.add(lineString)
+            drivenRouteComplete += lineString
         }
 
         previousCoordinates = null
@@ -446,9 +456,10 @@ class StatisticService {
             features.add(["type":"Feature","geometry":["type":"Point","coordinates":[viaTarget.fromLon,viaTarget.fromLat]],"properties":["geoType":"via_target","color":randomColor,"streetName":viaTarget.streetName,"viaCounter":"$viaCounter"]])
             viaCounter++
         }
-
+        drivenRouteComplete.remove(drivenRouteComplete.first())
         def startViaTargetPoints = ["type":"FeatureCollection","features":features] as JSON
-        return  startViaTargetPoints
+        def drivenRouteGeoJSON = ["type":"LineString","coordinates":drivenRouteComplete] as JSON
+        return  ["features":startViaTargetPoints,"LineString":drivenRouteGeoJSON]
 
 
         /*       ["Coordinates":[startEdge.fromLon,startEdge.fromLat],"StreetName":startEdge.streetName]

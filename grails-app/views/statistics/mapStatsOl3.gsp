@@ -105,6 +105,7 @@
         <div id="tabs3">
         </div>
         <div id="tabs4">
+            <div><button id="start-animation">Start Animation</button></div>
             <div id="mapol3" class="map"></div>
             <div id="popup" class="ol-popup">
                 <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -475,6 +476,7 @@
         var map = new ol.Map({
 
             target: 'mapol3',
+            loadTilesWhileAnimating: true,
             layers: [
                 new ol.layer.Group({
                     'title': 'Base maps',
@@ -532,9 +534,13 @@
             tipLabel: 'Légende' // Optional label for button
         });
         map.addControl(layerSwitcher);
-
+        var allRouteCoords = [];
         <g:each var = "realRoute" in = "${realRoutes}">
-        var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute},{featureProjection:'EPSG:3857'});
+        var realRoutes_features = new ol.format.GeoJSON().readFeatures(${realRoute['features']},{featureProjection:'EPSG:3857'});
+        <%--This part is for the animation--%>
+        allRouteCoords.push( new ol.format.GeoJSON().readGeometry(${realRoute['LineString']},{featureProjection:'EPSG:3857'}).getCoordinates());
+        <%--End of Animation Part--%>
+
 
 
         var realRoutes_source = new ol.source.Vector();
@@ -560,6 +566,132 @@
         allRouteLayers.push(realRoutes_layer);
         map.addLayer(realRoutes_layer);
         </g:each>
+
+        <%--This part is for the animation--%>
+        var styles = {
+            'route': new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 6, color: [237, 212, 0, 0.8]
+                })
+            }),
+            'icon': new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: 'data/icon.png'
+                })
+            }),
+            'geoMarker': new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 7,
+                    snapToPixel: false,
+                    fill: new ol.style.Fill({color: 'black'}),
+                    stroke: new ol.style.Stroke({
+                        color: 'white', width: 2
+                    })
+                })
+            })
+        };
+        var allRoutesCoordsConsistent = allRouteCoords.slice(0);
+        var animationMarkers = [];
+        for (i=0;i<allRouteCoords.length;i++){
+            var coord = allRouteCoords[i];
+            animationMarkers.push(new ol.Feature({
+                type: 'geoMarker',
+                geometry: new ol.geom.Point(coord[0])
+            }));
+        }
+
+
+        <%--var vectorLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: animationMarkers
+            }),
+            style: function(feature, resolution) {
+                // hide geoMarker if animation is active
+                if (animating && feature.get('type') === 'geoMarker') {
+                    return null;
+                }
+                return styles[feature.get('type')];
+            }
+        });
+        map.addLayer(vectorLayer);--%>
+
+        var moveFeature = function(event) {
+            var vectorContext = event.vectorContext;
+            var frameState = event.frameState;
+
+            if (animating) {
+                var elapsedTime = frameState.time - now;
+                // here the trick to increase speed is to jump some indexes
+                // on lineString coordinates
+                var index = Math.round(speed * elapsedTime / 1000);
+
+                for(i=0;i<allRouteCoords.length;i++){
+                    var routeCoords = allRouteCoords[i];
+                    if(index >= routeCoords.length){
+                        allRouteCoords.splice(i,1);
+                    }
+                    else {
+                        var currentPoint = new ol.geom.Point(routeCoords[index]);
+                        var feature = new ol.Feature(currentPoint);
+                        vectorContext.drawFeature(feature, styles.geoMarker);
+                    }
+                }
+                if(! routeCoords){
+                    stopAnimation(true);
+                    return;
+                }
+            }
+            // tell OL3 to continue the postcompose animation
+            map.render();
+        };
+
+        function startAnimation() {
+            if (animating) {
+                stopAnimation(false);
+            } else {
+                animating = true;
+                now = new Date().getTime();
+                speed = 10;
+                startButton.textContent = 'Cancel Animation';
+                // hide geoMarker
+                for(i = 0; i< animationMarkers.length;i++){
+                    animationMarkers[i].setStyle(null);
+                }
+                // just in case you pan somewhere else
+                map.on('postcompose', moveFeature);
+                map.render();
+            }
+        }
+
+        /**
+         * @param {boolean} ended end of animation.
+         */
+        function stopAnimation(ended) {
+            animating = false;
+            startButton.textContent = 'Start Animation';
+
+            // if animation cancelled set the marker at the beginning
+            for(i=0;i<allRoutesCoordsConsistent.length;i++){
+                var coord = allRoutesCoordsConsistent[i][0];
+                var geoMarker = animationMarkers[i];
+                /** @type {ol.geom.Point} */ (geoMarker.getGeometry())
+                        .setCoordinates(coord);
+            }
+            allRouteCoords = allRoutesCoordsConsistent.slice(0);
+
+            <%--var coord = ended ? routeCoords[routeLength - 1] : routeCoords[0];
+            /** @type {ol.geom.Point} */ (geoMarker.getGeometry())
+                    .setCoordinates(coord);
+            //remove listener--%>
+            map.un('postcompose', moveFeature);
+        }
+        var speed, now;
+        var animating = false;
+        var startButton = document.getElementById('start-animation');
+        startButton.addEventListener('click', startAnimation, false);
+        <%--End of Animation Part--%>
+
         <%-- add the unused stations --%>
         var unusedStations_features = new ol.format.GeoJSON().readFeatures(${fillingStations.unusedStations},{featureProjection:'EPSG:3857'});
         var unusedStations_source = new ol.source.Vector();
