@@ -463,6 +463,41 @@
     }
     function fillingStationStyleFunction(feature, resolution){
 
+        var geoType = feature.get("fillingStationTypeId");
+        var stationImageSrc;
+
+        switch(geoType){
+            case "1":
+                stationImageSrc= "${g.resource( dir: '/images', file: '2.3aku.png' )}";
+                    return styles;
+                break;
+
+            case "2":
+                stationImageSrc= "${g.resource( dir: '/images', file: '3.7aku.png' )}";
+                break;
+
+            case "3":
+                stationImageSrc= "${g.resource( dir: '/images', file: '7.4aku.png' )}";
+                break;
+
+            case "4":
+                stationImageSrc= "${g.resource( dir: '/images', file: '11.1aku.png' )}";
+                break;
+
+            case "5":
+                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
+                break;
+
+            case "6":
+                stationImageSrc= "${g.resource( dir: '/images', file: '43aku.png' )}";
+                break;
+
+            case "7":
+                stationImageSrc= "${g.resource( dir: '/images', file: '49.8aku.png' )}";
+                break;
+
+        }
+
         var styles = [  new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 255, 255, 0.2)'
@@ -474,21 +509,12 @@
 
 
 
-
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 26],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'pixels',
                 opacity: 0.75,
-                src:  <g:if test='${availableFillingStationTypes = "1" }'>
-                        "${g.resource( dir: '/images', file: '2.3aku.png' )}",
-                    </g:if>
-                    <g:elseif test='${availableFillingStationTypes= "2"}'>"${g.resource( dir: '/images', file: '3.7aku.png')}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes= "3"}">"${g.resource( dir: '/images', file: '7.4aku.png')}",</g:elseif>
-                    <g:elseif test="${availableFillingStationTypes= "4"}">"${g.resource( dir: '/images', file: '11.1aku.png')}",</g:elseif>
-                    <g:elseif test="${fillingStationTypeId= "5"}">"${g.resource( dir: '/images', file: '22.2aku.png')}",</g:elseif>
-                    <g:elseif test="${fillingStationTypeId= "6"}">"${g.resource( dir: '/images', file: '43aku.png')}",</g:elseif>
-                    <g:elseif test="${fillingStationTypeId= "7"}">"${g.resource( dir: '/images', file: '49.8aku.png')}",</g:elseif>
+                src:stationImageSrc,
                 size: [52,46]
 
             }))
