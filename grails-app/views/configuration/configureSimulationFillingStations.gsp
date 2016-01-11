@@ -93,32 +93,42 @@
                 <div class="rowUp3">
                     <div class="leftBoldBig1">
                         <g:message code= "configuration.index.simulationarea"/> ${simulationName}
-                    </div>
+
 
                     <g:if test="${manualSelection}">
+                        Ladestationtyp:
                         <g:select id="fillingStationType" name="stationTypeId"
                                   from="${availableFillingStationTypes}" optionKey="id" optionValue="name"
                         />
 
-                        <div>
+                        <span style="float:right; padding-left: 5px;">
                             <g:form name="saveFillingStationsForm" action="saveFillingStations">
                                 <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
                                 <g:hiddenField name="stations" value=""/>
                                 <g:hiddenField name="savedRouteSelected" value=""/>
-                                <div id="saveSubmitButton"></div>
+                                <span  id="saveSubmitButton"></span>
                             </g:form>
-                        </div>
-                        <div>
+                        </span>
+                        <span style="float:right; padding-left: 5px;">
                             <g:form name="changeSelectionType" action="changeSelectionType">
                                 <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
                                 <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
                                 <g:submitButton name="changeToSavedStations" value="${g.message(code:'configuration.index.savedFillingStations')}" />
                             </g:form>
-                        </div>
+                        </span>
 
                     </g:if>
                     <g:else>
-                        <div>
+
+                        <span style="float:right; padding-left: 5px;">
+                            <g:form name="changeSelectionType" action="changeSelectionType">
+                                <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
+                                <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
+                                <g:submitButton name="changeToSavedStations" value="Create Stations On Map" />
+                            </g:form>
+                        </span>
+
+                        <span style="float:right; padding-left: 5px;">
                             <g:form controller="configuration" action="addExistentGroupToConfiguration">
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id"
@@ -127,18 +137,13 @@
                                           onchange="addStations(this.value)"
                                           noSelection='["":"${g.message(code:'configuration.index.savedFillingStations')}"]'
                                 />
-                                <g:submitButton name="add"  value="${message(code: 'configuration.index.addgrouptosimulation')}" />
+                                <span style="float:right; padding-left: 5px;"><g:submitButton name="add"  value="${message(code: 'configuration.index.addgrouptosimulation')}" /></span>
                             </g:form>
-                        </div>
+                        </span>
 
-                        <div>
-                            <g:form name="changeSelectionType" action="changeSelectionType">
-                                <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
-                                <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
-                                <g:submitButton name="changeToSavedStations" value="Create Stations On Map" />
-                            </g:form>
-                        </div>
+
                     </g:else>
+                    </div>
                     <div class="right0PX">
                         <span class="rightBoldBig1">
                             <g:message code="configuration.index.simulationarea"/> ${simulationArea}
@@ -458,6 +463,41 @@
     }
     function fillingStationStyleFunction(feature, resolution){
 
+        var geoType = feature.get("fillingStationTypeId");
+        var stationImageSrc;
+
+        switch(geoType){
+            case "1":
+                stationImageSrc= "${g.resource( dir: '/images', file: '2.3aku.png' )}";
+                    return styles;
+                break;
+
+            case "2":
+                stationImageSrc= "${g.resource( dir: '/images', file: '3.7aku.png' )}";
+                break;
+
+            case "3":
+                stationImageSrc= "${g.resource( dir: '/images', file: '7.4aku.png' )}";
+                break;
+
+            case "4":
+                stationImageSrc= "${g.resource( dir: '/images', file: '11.1aku.png' )}";
+                break;
+
+            case "5":
+                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
+                break;
+
+            case "6":
+                stationImageSrc= "${g.resource( dir: '/images', file: '43aku.png' )}";
+                break;
+
+            case "7":
+                stationImageSrc= "${g.resource( dir: '/images', file: '49.8aku.png' )}";
+                break;
+
+        }
+
         var styles = [  new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 255, 255, 0.2)'
@@ -468,13 +508,14 @@
             }),
 
 
+
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 26],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'pixels',
                 opacity: 0.75,
-                src: "${g.resource( dir: '/images', file: 'gasolineslow3.png' )}",
-                size: [42,38]
+                src:stationImageSrc,
+                size: [52,46]
 
             }))
 
