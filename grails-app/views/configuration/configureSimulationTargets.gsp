@@ -286,12 +286,15 @@
                 color: '#3366ff',
                 width: 2
             }),
-            image: new ol.style.Circle({
-                radius: 14,
-                fill: new ol.style.Fill({
-                    color: '#ff0000'
-                })
-            })
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                anchor: [0.5, 26],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: "${g.resource( dir: '/images', file: 'homeLittle.png' )}",
+                size: [40,40]
+
+            }))
         })];
         return styles
     }

@@ -1574,6 +1574,16 @@ td {
 	/*border-radius: 6px;*/
 	float:right;
 	position: relative;
+	bottom: 20px;
+	right: 20px;
+}
+
+.layoutButtonR2 {
+
+	display: table-cell;
+	/*border-radius: 6px;*/
+	float:right;
+	position: relative;
 	bottom: 35px;
 	right: 20px;
 }
@@ -2337,12 +2347,16 @@ fieldset {
 	margin-bottom: 5px;
 }
 .layoutLeftStation{
-	min-width: 300px;
+	/*min-width: 300px;
 	vertical-align: top;
 	display: table-cell;
 	max-width: 300px;
 	display: inline;
-	float:right;
+	float:right;*/
+	min-width: 300px;
+	vertical-align: top;
+	display: table-cell;
+	max-width: 300px;
 }
 .layoutLeft {
 	min-width: 300px;

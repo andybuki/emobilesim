@@ -346,7 +346,7 @@
                                             <g:if test="${addedFleets}">
                                                 <span class="layoutButtonM"></span>
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <span class="layoutButtonR"><g:submitButton name="send" value="${message(code: 'configuration.index.next')}"/></span>
+                                                <span class="layoutButtonR2"><g:submitButton name="send" value="${message(code: 'configuration.index.next')}"/></span>
                                             </g:if>
                                         </div>
                                     </g:form>
