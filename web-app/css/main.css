@@ -1548,6 +1548,11 @@ td {
 
 }
 
+.layoutNew {
+	max-width: 1200px;
+	min-width: 800px;
+}
+
 #cell {
 	display: table-cell;
 }
@@ -4350,7 +4355,7 @@ th {
 }
 
 .etabs { margin: 0; padding: 0; }
-.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; margin-bottom: 20px;}
+.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; /*margin-bottom: 20px;*/}
 .tab  {
 	border: 1px solid #d4d4d1;
 	background-color: #fff;
@@ -4661,4 +4666,12 @@ a {
 .kiko {
 	width:50px;
 	height: 50px;
+}
+
+#start-animation {
+	position: absolute;
+	right: 10px;
+	top: 70px;
+	z-index: 100;
+	color: black;
 }

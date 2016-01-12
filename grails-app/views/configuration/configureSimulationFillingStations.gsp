@@ -153,7 +153,6 @@
                     <div class="clear"></div>
                 </div>
 
-
                 <div class="layout">
                     <div class="layoutLeftStation">
                         <g:each in="${addedFillingStationGroups}" var="addedGroup">
@@ -463,13 +462,18 @@
     }
     function fillingStationStyleFunction(feature, resolution){
 
-        var geoType = feature.get("fillingStationTypeId");
         var stationImageSrc;
+        if(feature){
+            var stationType = feature.get("fillingStationTypeId");
+        }
+        else{
+            var stationType = fillingStationTypeId;
+        }
 
-        switch(geoType){
+
+        switch(stationType){
             case "1":
                 stationImageSrc= "${g.resource( dir: '/images', file: '2.3aku.png' )}";
-                    return styles;
                 break;
 
             case "2":
@@ -484,17 +488,20 @@
                 stationImageSrc= "${g.resource( dir: '/images', file: '11.1aku.png' )}";
                 break;
 
-            case "5":
-                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
+            case "7":
+                stationImageSrc= "${g.resource( dir: '/images', file: '49.8aku.png' )}";
                 break;
 
             case "6":
                 stationImageSrc= "${g.resource( dir: '/images', file: '43aku.png' )}";
                 break;
 
-            case "7":
-                stationImageSrc= "${g.resource( dir: '/images', file: '49.8aku.png' )}";
+            case "5":
+                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
                 break;
+
+            default:
+                return stationImageSrc;
 
         }
 
@@ -554,8 +561,12 @@
 
     var typeSelect = document.getElementById('fillingStationType');
     var fillingStationTypeId = typeSelect.value;
+
     typeSelect.onchange = function(e) {
         fillingStationTypeId = typeSelect.value;
+        map.removeInteraction(draw);
+        addDrawInteraction();
+
     };
 
 

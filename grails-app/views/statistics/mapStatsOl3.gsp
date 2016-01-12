@@ -89,7 +89,7 @@
 <body>
 <g:render template="/layouts/topbarOnlyTitles"/>
 
-<div id="tab-container" class='tab-container3'>
+    <div id="tab-container" class='tab-container3'>
     <ul class='etabs1'>
         <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
         <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
@@ -106,7 +106,11 @@
         </div>
         <div id="tabs4">
             <div><button id="start-animation">Start Animation</button></div>
-            <div id="mapol3" class="map"></div>
+            <div class="layoutNew">
+                <div class="layoutRight">
+                    <div id="mapNew" class="map"></div>
+                </div>
+            </div>
             <div id="popup" class="ol-popup">
                 <a href="#" id="popup-closer" class="ol-popup-closer"></a>
                 <div id="popup-content"></div>
@@ -115,13 +119,7 @@
     </div>
     <div id="updateMe"></div>
 </div>
-</div>
-
-
-
-
-
-
+    </div>
 
 <div id="openModal1" class="modalDialogMap1">
     <script type="text/javascript">
@@ -475,7 +473,7 @@
 
         var map = new ol.Map({
 
-            target: 'mapol3',
+            target: 'mapNew',
             loadTilesWhileAnimating: true,
             layers: [
                 new ol.layer.Group({
@@ -815,6 +813,8 @@
 
     </script>
 </div>
+
+
 <g:render template="/layouts/footer" />
 </body>
 </html>
