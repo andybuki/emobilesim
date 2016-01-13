@@ -496,13 +496,12 @@
                 stationImageSrc= "${g.resource( dir: '/images', file: '43aku.png' )}";
                 break;
 
-            case "5":
-                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
-                break;
+
 
             default:
-                return stationImageSrc;
-
+                stationImageSrc= "${g.resource( dir: '/images', file: '22.2aku.png' )}";
+                //return stationImageSrc;
+                //break;
         }
 
         var styles = [  new ol.style.Style({

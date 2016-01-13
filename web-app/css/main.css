@@ -1427,12 +1427,11 @@ background-color:#f0f0f0;
 
 .rowGroup3 {
 
-
 	position: relative;
-	left:10px;
-	left: 10px;
+	right: 10px;
 	top: 26px;
 	height: 35px;
+	float: right;
 }
 
 .rowU1 {
@@ -1580,7 +1579,7 @@ td {
 	float:right;
 	position: relative;
 	bottom: 20px;
-	right: 20px;
+	right: 0px;
 }
 
 .layoutButtonR2 {
@@ -1589,8 +1588,8 @@ td {
 	/*border-radius: 6px;*/
 	float:right;
 	position: relative;
-	bottom: 35px;
-	right: 20px;
+	bottom: 50px;
+	left: 5px;
 }
 
 .layoutButtonR1 {
@@ -4354,6 +4353,8 @@ th {
 	margin:0px;*/
 }
 
+
+
 .etabs { margin: 0; padding: 0; }
 .tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; /*margin-bottom: 20px;*/}
 .tab  {
@@ -4379,8 +4380,13 @@ th {
 #tabo3{border-color: #ccffaa; background: #ccffaa;}
 #tabo4{border-color: #D1661F; background: #D1661F;}
 
-.tab.disabled #tabo2{color:#ccc;}
-
+.tab.disabled {color:#ccc; background: #ccc;}
+.tab.disabled#tabo1 {color:#ccc; background: #ccc; border-color:#ccc;}
+.tab.disabled#tabo1 a#tabs2{color:#ccc; background: #ccc;}
+.tab.disabled#tabo2 {color:#ccc; background: #ccc; border-color:#ccc;}
+.tab.disabled#tabo2 a#tabs2{color:#ccc; background: #ccc;}
+.tab.disabled#tabo3 {color:#ccc; background: #ccc; border-color:#ccc;}
+.tab.disabled#tabo3 a#tabs2{color:#ccc; background: #ccc;}
 
 .tab-container {
 	float: left;
@@ -4388,9 +4394,9 @@ th {
     color: #000;
     */
 	padding: 5px 0px 0px 30px;
-	width: 98%;
+	width: 80%;
 	text-align: left;
-	height: 85%;
+	/*height: 85%;*/
 	position: relative;
 	padding-bottom:40px;
 }
@@ -4674,4 +4680,12 @@ a {
 	top: 70px;
 	z-index: 100;
 	color: black;
+}
+
+
+.map {
+
+	height: 100%;
+	width: 100%;
+
 }

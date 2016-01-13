@@ -107,8 +107,8 @@
                     <div class="clear"></div>
                 </div>
 
-                <div class="layout">
-                    <div class="layoutRight">
+                <div class="">
+                    <div class="">
                         <div id="mapNew" class="map"></div>
                     </div>
                 </div>

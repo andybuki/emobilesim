@@ -258,7 +258,7 @@
                                             <td class="col2"><b>Autoname</b></td>
                                             <td class="col3"><b>Simulationsstartzeit</b></td>
                                             <td class="col3"><b>Akkuzustand</b></td>
-                                            <td class="col3">
+                                            <td class="col3" align="right">
                                                 <g:form controller="configuration" action="removeFleetFromConfiguration">
                                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                                     <g:hiddenField name="fleetId" value="${addedFleet.id}"/>

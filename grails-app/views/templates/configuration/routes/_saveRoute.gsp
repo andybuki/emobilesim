@@ -1,1 +1,1 @@
-<g:submitButton name="submit" value="Save"/>
+<g:submitButton name="submit" value="${g.message(code:'simulation.index.save')}"/>
