@@ -72,7 +72,8 @@ I use probe to see the data in the frontend. (http://lnv-89012.dfki.uni-sb.de:90
 web server.
 
 Using Idea Intellij Pro it is possible to create war. file with following command ```grails -Dgrails.env=lnv war```
-Rename the file into ROOT.war. After it it is possible to upload it on server using probe front end interface.
+Rename the file into ROOT.war. After it it is possible to upload it on server using probe front end interface or in any other 
+way placing in tomcat/webapps order with ROOT.war name.
 
 
 ## 3 <a name="ch3"> How to use Emobilesim</a> 

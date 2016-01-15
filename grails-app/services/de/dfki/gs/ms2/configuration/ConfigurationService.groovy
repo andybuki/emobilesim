@@ -143,8 +143,9 @@ class ConfigurationService {
         fillingStationGroup.fillingStations.each {station->
 
             features.add(["type":"Feature","geometry":["type":"Point","coordinates":[station.lat,station.lon]],
-                          "properties":["geoType":"fillingStation",groupId: groupId,"stationTypeId":station.
-                                  fillingStationType.id,"stationTypeName":station.fillingStationType.name]])
+                          "properties":["geoType":"fillingStation",groupId: groupId,
+                                        "fillingStationTypeId":"${station.fillingStationType.id}"
+                                        ,"stationTypeName":station.fillingStationType.name]])
         }
 
         return ["type":"FeatureCollection","features":features] as JSON;
