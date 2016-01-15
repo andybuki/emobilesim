@@ -150,6 +150,29 @@ class ConfigurationService {
 
         return ["type":"FeatureCollection","features":features] as JSON;
     }
+    def getAddedGroupsJson(long configurationStubId){
+
+        Configuration stub = Configuration.get( configurationStubId )
+
+        List<FillingStationGroup> addedGroups = new ArrayList<FillingStationGroup>()
+        stub.fillingStationGroups.each { FillingStationGroup group ->
+
+            addedGroups.add( FillingStationGroup.get( group.id ) )
+
+        }
+        log.error("addedGroups---${addedGroups}")
+        def features = []
+        addedGroups.each {fillingStationGroup->
+            fillingStationGroup.fillingStations.each {station->
+
+                features.add(["type":"Feature","geometry":["type":"Point","coordinates":[station.lat,station.lon]],
+                              "properties":["geoType":"fillingStation",
+                                            "fillingStationTypeId":"${station.fillingStationType.id}"
+                                            ,"stationTypeName":station.fillingStationType.name]])
+            }
+        }
+        return ["type":"FeatureCollection","features":features] as JSON;
+    }
     def getRoutesForCompany( Person currentUser, Long configurationStubId ) {
 
         // getting the company
