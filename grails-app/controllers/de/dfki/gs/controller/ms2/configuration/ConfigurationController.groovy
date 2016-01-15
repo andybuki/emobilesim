@@ -665,6 +665,7 @@ class ConfigurationController {
         m.routes = configurationService.getRoutesForConfiguration(configurationStubId)
         m.addedFillingStationGroups = configurationService.getAddedGroups(configurationStubId)
         m.manualSelection = cmd.manualSelection
+        m.addedFillingStationsJSON = configurationService.getAddedGroupsJson(configurationStubId)
 
         render view: 'configureSimulationFillingStations', model: m
     }

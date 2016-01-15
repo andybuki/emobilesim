@@ -535,7 +535,88 @@
         })];
         return styles
     }
+    function styleFunctionForAddedStations(feature, resolution){
+
+        var stationImageSrc;
+        var stationType = feature.get("fillingStationTypeId");
+
+
+
+
+       switch(stationType){
+           case "1":
+               stationImageSrc= "${g.resource( dir: '/images', file: '2.3akugrau.png' )}";
+               break;
+
+           case "2":
+               stationImageSrc= "${g.resource( dir: '/images', file: '3.7akugrau.png' )}";
+               break;
+
+           case "3":
+               stationImageSrc= "${g.resource( dir: '/images', file: '7.4akugrau.png' )}";
+               break;
+
+           case "4":
+               stationImageSrc= "${g.resource( dir: '/images', file: '11.1akugrau.png' )}";
+               break;
+
+           case "7":
+               stationImageSrc= "${g.resource( dir: '/images', file: '49.8akugrau.png' )}";
+               break;
+
+           case "6":
+               stationImageSrc= "${g.resource( dir: '/images', file: '43akugrau.png' )}";
+               break;
+
+
+
+           default:
+               stationImageSrc= "${g.resource( dir: '/images', file: '22.2akugrau.png' )}";
+           //return stationImageSrc;
+           //break;
+       }
+
+       var styles = [  new ol.style.Style({
+           fill: new ol.style.Fill({
+               color: 'rgba(255, 255, 255, 0.2)'
+           }),
+           stroke: new ol.style.Stroke({
+               color: '#ffcc33',
+               width: 2
+           }),
+
+
+
+           image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+               anchor: [0.5, 26],
+               anchorXUnits: 'fraction',
+               anchorYUnits: 'pixels',
+               opacity: 0.75,
+               src:stationImageSrc,
+               size: [52,46]
+
+           }))
+
+       })];
+       return styles
+   }
     ////////////////////////////////////
+
+   <g:if test="${addedFillingStationsJSON}">
+   var allAddedStations_features = new ol.format.GeoJSON().readFeatures(${addedFillingStationsJSON},{featureProjection:'EPSG:3857'});
+   var allAddedStations_source = new ol.source.Vector({
+       features: allAddedStations_features
+   });
+   var group_layer= new ol.layer.Vector({
+       source:allAddedStations_source,
+       opacity:0.7,
+       style: styleFunctionForAddedStations,
+       title: 'Route for: Group'
+   });
+   map.addLayer(group_layer);
+   </g:if>
+
+
     <g:if test="${manualSelection}">
    var fillingStationFeatures = new ol.Collection();
    var featureOverlayForBase = new ol.layer.Vector({
