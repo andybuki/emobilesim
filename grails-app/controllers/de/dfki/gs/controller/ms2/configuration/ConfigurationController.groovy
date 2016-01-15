@@ -362,39 +362,6 @@ class ConfigurationController {
 
 
     }
-    /*def addExistentFleetToConfiguration() {
-
-        Person person = (Person) springSecurityService.currentUser
-        def fleetGeoJson
-
-        if (!person) {
-
-            redirect uri: SpringSecurityUtils.securityConfig.logout.filterProcessesUrl
-            return
-        }
-
-        log.error("params: ${params}")
-
-        AddFleetToConfigurationCommandObject cmd = new AddFleetToConfigurationCommandObject()
-        bindData(cmd, params)
-        def p = params
-        def m = [:]
-        if (!cmd.validate() && cmd.hasErrors()) {
-            log.error("failed to vaildate AddFleetToConfigurationCommandObject: ${cmd.errors}")
-        } else {
-
-            configurationService.addFleetToConfiguration(cmd.configurationStubId, cmd.fleetId)
-            fleetGeoJson = configurationService.createRouteGeoJson(cmd.configurationStubId,cmd.fleetId)
-            m.availableFleets = configurationService.getFleetsForCompany(person, cmd.configurationStubId)
-            m.fleetGeoJson = fleetGeoJson
-            m.configurationStubId = cmd.configurationStubId
-        }
-       // render(template: '/templates/configuration/fleet/fleetSelection', model: m)
-       // render fleetGeoJson
-
-        redirect(controller: 'configuration', action: 'configureSimulation', params: [configurationStubId: cmd.configurationStubId])
-
-    }*/
 
     def getJsonForAddedRoute() {
 

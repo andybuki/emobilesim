@@ -565,6 +565,8 @@
         fillingStationTypeId = typeSelect.value;
         map.removeInteraction(draw);
         addDrawInteraction();
+        map.removeLayer(featureOverlayForBase);
+        map.addLayer(featureOverlayForBase);
 
     };
 
@@ -582,14 +584,16 @@
             }
         });
         map.addInteraction(draw);
-    };
-    addDrawInteraction()
-    draw.on('drawend', function(e) {
-        e.feature.setProperties({
-            'fillingStationTypeId' : fillingStationTypeId
+        draw.on('drawend', function(e) {
+            e.feature.setProperties({
+                'fillingStationTypeId' : fillingStationTypeId
+            });
+            console.log(e.feature, e.feature.getProperties());
+            featureOverlayForBase.setStyle(fillingStationStyleFunction)
         });
-        console.log(e.feature, e.feature.getProperties());
-    });
+    }
+    addDrawInteraction();
+
 
 
 
