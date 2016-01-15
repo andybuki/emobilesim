@@ -389,8 +389,8 @@ class StatisticsController {
 
         def stats = statisticService.generateStatisticMapForExperiment(cmd.experimentRunResultId)
 
-        List fields = ["id", "carStatus", "carTypeId", "energyConsumed", "energyLoaded", "fillingStationsVisited", "plannedDistance", "realDistance"]
-        Map labels = [id: "ID", carStatus:"Car Status",carTypeId:"car Type Id", energyConsumed:"Energy Consumed", energyLoaded:"Energy Loaded", fillingStationsVisited:"Filling Stations Visited", plannedDistance:"Planned Distance", realDistance: "Real Distance" ]
+        List fields = ["id", "carStatus", "carTypeId", "energyConsumed", "energyLoaded", "fillingStationsVisited", "plannedDistance", "realDistance", "timeForPlannedDistance", "timeForRealDistance", "battery", "endBattery"]
+        Map labels = [id: "ID", carStatus:"Car Status",carTypeId:"car Type Id", energyConsumed:"Energy Consumed", energyLoaded:"Energy Loaded", fillingStationsVisited:"Filling Stations Visited", plannedDistance:"Planned Distance", realDistance: "Real Distance" , timeForPlannedDistance:"Planned Time", timeForRealDistance:"Real Time", battery:"Battery", endBattery:"End Battery"]
 
         m.stats = stats
         m.groups = stats.groups

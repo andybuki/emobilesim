@@ -17,6 +17,8 @@
     <script src="${resource(dir: 'js', file: 'ol3-layerswitcher.js')}"></script>
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
 
+    <g:javascript src="jquery.loading.js"/>
+
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
     <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css"/>
 
@@ -38,6 +40,10 @@
             $("#modal-launcher, #modal-background, #modal-close").click(function () {
                 $("#modal-content,#modal-background").toggleClass("active");
             });
+        });
+
+        $('body').loading({
+            stoppable: true
         });
 
         function on_disable_b_and_c_clicked()

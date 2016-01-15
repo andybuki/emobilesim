@@ -3932,6 +3932,7 @@ th {
 	right:15px;
 	position: relative;
 	bottom:10px;
+	visibility: hidden;
 }
 
 .exportPanel {

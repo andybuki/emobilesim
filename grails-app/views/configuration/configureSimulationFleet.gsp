@@ -21,7 +21,6 @@
     <g:javascript src="slider/jquery.slider.js"/>--%>
     <g:javascript src="application.js" />
     <g:javascript src="ol/OpenLayers.js" />
-    <%--<g:javascript src="jquery.loading.js"/>--%>
     <g:javascript src="jquery-ui-timepicker-addon.js"/>
     <calendar:resources lang="en" theme="tiger"/>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
@@ -29,7 +28,8 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
-    <script src="http://maps.google.com/maps/api/js?v=4&sensor=false"></script>
+    <script src="${resource(dir: 'js', file: 'jquery.loading.js')}"></script>
+    <script src="${resource(dir: 'js', file: 'spin.js')}"></script>
     <script type="text/javascript">
 
         $(function()
@@ -45,7 +45,18 @@
                 }
             });
 
+            $(document).ready(function(){
+                $('#submitButton').click(function() {
+                    $('#spinner').show();
+                });
+            });
 
+        });
+
+        $(document).ready(function(){
+            $('#submitButton').click(function() {
+                $('#spinner').show();
+            });
         });
 
         function on_disable_b_and_c_clicked()
@@ -77,6 +88,13 @@
             });
         }
 
+        function showSpinner() {
+                       document.getElementById('spinner').style.display = 'inline';
+
+                   }
+
+
+
     </script>
     <style>
     .rowUp2 {
@@ -86,6 +104,9 @@
     </style>
 </head>
 <body>
+
+<img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'loader.gif')}" alt="Spinner"/>
+
 <div id="tab-container" class='tab-container'>
     <ul class='etabs1'>
         <li class='tab' id="tabo1"><a  href="#tabs1"><g:message code="configuration.index.configureroute" /></a></li>
@@ -279,7 +300,7 @@
 
                                         <g:each in="${addedFleet.cars}" var="car">
                                             <tr>
-                                                <td class="col1" name="carId">${car.id}</td>
+                                                <td class="col1" name="carId"> ${car.id} </td>
                                                 <td class="col2">${car.name}</td>
                                                 <td class="col3">
                                                     <g:form action="configureStartTimeView">
@@ -335,7 +356,7 @@
                     </div>
                 </div>
 
-                <div class="formConfiguration">
+                <div class="formConfiguration" id="load">
                     <div class="layoutLeft12">
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
@@ -346,7 +367,10 @@
                                             <g:if test="${addedFleets}">
                                                 <span class="layoutButtonM"></span>
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <span class="layoutButtonR2"><g:submitButton name="send" value="${message(code: 'configuration.index.next')}"/></span>
+                                                <div id="spinner" class="spinner" style="display:none;">
+                                                    <img src="${createLinkTo(dir:'images',file:'loader.gif')}" alt="Spinner" />
+                                                </div>
+                                                <span class="layoutButtonR2"><g:submitButton id="submitButton" name="send" value="${message(code: 'configuration.index.next')}" /></span>
                                             </g:if>
                                         </div>
                                     </g:form>
@@ -363,5 +387,13 @@
         <div id="tabs3"/>
     </div>
 </div>
+<g:javascript type="application/javascript">
+    $(document).ready(function(){
+        $('#submitButton').click(function() {
+            $('#spinner').show();
+        });
+    });
+    </g:javascript>
+
 </body>
 </html>
