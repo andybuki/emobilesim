@@ -159,10 +159,15 @@
                         <%--<g:message code="simulation.index.addedfleet"/>--%>
                             <div class="rowMiddleWithoutBorder">
                                 <div class="leftCollectFleets">
-                                    ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="execution.playsimulation.car"/> ) <%--<img class="helpButton" title="<g:message code="configuration.index.allroutes"/>" src="${g.resource( dir: '/images', file: 'checked.png' )}"/>--%>
+                                    ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="configuration.executesim.fillingstations"/> )
                                 </div>
-
-
+                            <div>
+                                 <g:form controller="configuration" action="removeGroupFromConfiguration">
+                                    <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
+                                    <g:hiddenField name="groupId" value="${addedGroup.id}"/>
+                                    <g:submitButton name="removeGroup" value="${message(code: 'configuration.index.unselect')}"/>
+                                </g:form>
+                            </div>
                             </div>
                         </g:each>
                     </div>
@@ -178,6 +183,7 @@
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
                                 <div class="layoutButton">
+                                <g:if test="${addedFillingStationGroups.size()>0}">
                                     <g:form controller="execution" action="executeExperiment">
                                         <span class="layoutButtonM"></span>
                                         <g:hiddenField name="relativeSearchLimit" value="20" />
@@ -187,6 +193,7 @@
                                         </span>
 
                                     </g:form>
+                                </g:if>
                                 </div>
                             </div>
 
