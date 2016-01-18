@@ -60,19 +60,23 @@
                     <div class="rowUp2">
                         <div class="leftBoldBig1">
                             <div class="rowMiddleWithoutBorder22">
-                                ${stats.successFullCars.size()} -
-                         <g:message code="stats.stats.succsesfulcars"/>,
-                        <span >${stats.failedCars.size()} -  </span>
-                        <span> <g:message code="stats.stats.failedcars"/>,</span>
+                                Ziele erreicht: ${stats.successFullCars.size()} Autos
+                         <%--<g:message code="stats.stats.succsesfulcars"/>--%>,
+                        <span >Ziele nicht erreicht: ${stats.failedCars.size()} Autos   </span>
+                        <span> <%--<g:message code="stats.stats.failedcars"/>--%>,</span>
 
                         <g:if test="${stats.wholeRoute.size()==0}"></g:if>
-                        <span><g:if test="${stats.wholeRoute.size()!=0}">${Math.round(stats.wholeRoute.sum())} km. -
-                            <span><g:message code="stats.stats.wholeroute"/>,</span>
+                        <span><g:if test="${stats.wholeRoute.size()!=0}">
+                                Gesamte gefahrene Distanz:
+                                ${Math.round(stats.wholeRoute.sum())} km.
+                            <span><%--<g:message code="stats.stats.wholeroute"/>--%>,</span>
                         </g:if></span>
 
                         <span><g:if test="${stats.wholePower.size()==0}"></g:if>
-                            <g:if test="${stats.wholePower.size()!=0}">${Math.round(stats.wholePower.sum())} kW. -
-                                <span><g:message code="stats.stats.energy"/></span>
+                            <g:if test="${stats.wholePower.size()!=0}">
+                                Energieverbrauch:
+                                ${Math.round(stats.wholePower.sum())} kW.
+                                <span><%--<g:message code="stats.stats.energy"/>--%></span>
                             </g:if></span>
                             </div>
                         </div>

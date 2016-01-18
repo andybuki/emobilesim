@@ -14,7 +14,7 @@
     <script src="http://openlayers.org/en/v3.11.2/build/ol-debug.js"></script><%--TODO put /ol.js here --%>
     <script src="${resource(dir: 'js', file: 'ol3-layerswitcher.js')}"></script>
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
-    <g:javascript src="jquery.loading.js"/>
+
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'ol3-layerswitcher.css')}" type="text/css"/>
     <link rel="stylesheet" href="${resource(dir: 'css/ol3', file: 'ol.css')}" type="text/css"/>
 
@@ -63,6 +63,8 @@
                 index++;
             });
         }
+
+
 
     </script>
 
@@ -184,12 +186,12 @@
                             <div class="rowGroup3">
                                 <div class="layoutButton">
                                 <g:if test="${addedFillingStationGroups.size()>0}">
-                                    <g:form controller="execution" action="executeExperiment">
+                                    <g:form name="form1"   controller="execution" action="executeExperiment" onsubmit="form_submit();">
                                         <span class="layoutButtonM"></span>
                                         <g:hiddenField name="relativeSearchLimit" value="20" />
                                         <g:hiddenField name="configurationId" value="${configurationStubId}"/>
                                         <span class="layoutButtonR">
-                                            <g:submitButton name="send" value="${message(code: 'configuration.index.execute')}"/>
+                                            <g:submitButton name="send" onClick="form_submit();" value="${message(code: 'configuration.index.execute')}"/>
                                         </span>
 
                                     </g:form>

@@ -3604,10 +3604,6 @@ a.olControlZoomOut {
 	top: 7px;
 }
 
-#spinner {
-	background-image: url(../images/loader.gif);
-}
-
 .helpButton {
 	position: relative;
 	top:4px;
@@ -4688,5 +4684,46 @@ a {
 
 	height: 100%;
 	width: 100%;
+
+}
+
+#preloader {
+	display: none;
+}
+
+
+#loadbox {
+	display: none;
+
+}
+
+.modalDialogNew {
+	position: absolute;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 99999;
+	opacity:0.5;
+
+}
+.modalDialogNew:target {
+	opacity:1;
+	pointer-events: auto;
+}
+.modalDialogNew > div {
+
+	position: relative;
+
+
+	background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+}
+
+#loadbox2 {
 
 }

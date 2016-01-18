@@ -1,6 +1,6 @@
 <div id="openModal" class="modalDialogMap">
     <div id="map" style="background-color: #eee; width:100%; height:100%; position: absolute; left:0%; top:0% padding-top:1px" class="olMap"></div>
-    <g:javascript src="jquery.loading.js"/>
+
     <script type="text/javascript">
 
         // global variables

@@ -22,7 +22,7 @@
 
     <g:javascript src="application.js" />
     <g:javascript src="ol/OpenLayers.js" />
-    <g:javascript src="jquery.loading.js"/>
+
 
     <g:javascript src="jquery-ui-timepicker-addon.js"/>
 

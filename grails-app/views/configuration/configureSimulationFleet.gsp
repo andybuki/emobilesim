@@ -28,8 +28,6 @@
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jquery-ui-timepicker-addon.css')}" type='text/css' />
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'jslider.css')}" type='text/css' />
     <script src="${resource(dir: 'js', file: 'jquery.easytabs.js')}"></script>
-    <script src="${resource(dir: 'js', file: 'jquery.loading.js')}"></script>
-    <script src="${resource(dir: 'js', file: 'spin.js')}"></script>
     <script type="text/javascript">
 
         $(function()
@@ -45,19 +43,10 @@
                 }
             });
 
-            $(document).ready(function(){
-                $('#submitButton').click(function() {
-                    $('#spinner').show();
-                });
-            });
+
 
         });
 
-        $(document).ready(function(){
-            $('#submitButton').click(function() {
-                $('#spinner').show();
-            });
-        });
 
         function on_disable_b_and_c_clicked()
         {
@@ -94,6 +83,12 @@
                    }
 
 
+        function form_submit() {
+            var load = document.getElementById('loadbox');
+            document.form1.submit();
+            load.style.display = 'block';
+            load.src = '/emobilesim/images/loader.gif';
+        }
 
     </script>
     <style>
@@ -104,8 +99,10 @@
     </style>
 </head>
 <body>
+<%--<div id="loadbox" class="modalDialogNew">
+<div><img id="loadbox2" src="/emobilesim/images/loader.gif"/>
+</div></div>--%>
 
-<img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'loader.gif')}" alt="Spinner"/>
 
 <div id="tab-container" class='tab-container'>
     <ul class='etabs1'>
@@ -361,16 +358,14 @@
                         <div class="contentLeftBigConfiguration1">
                             <div class="rowGroup3">
                                 <div>
-                                    <g:form action="saveFinishedConfigurationFleet">
+                                    <g:form name="form1" action="saveFinishedConfigurationFleet" onsubmit="form_submit();">
                                         <br><br>
                                         <div class="layoutButton">
                                             <g:if test="${addedFleets}">
                                                 <span class="layoutButtonM"></span>
                                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
-                                                <div id="spinner" class="spinner" style="display:none;">
-                                                    <img src="${createLinkTo(dir:'images',file:'loader.gif')}" alt="Spinner" />
-                                                </div>
-                                                <span class="layoutButtonR2"><g:submitButton id="submitButton" name="send" value="${message(code: 'configuration.index.next')}" /></span>
+
+                                                <span class="layoutButtonR2"><g:submitButton id="submitButton2" onClick="form_submit();" name="send" value="${message(code: 'configuration.index.next')}" /></span>
                                             </g:if>
                                         </div>
                                     </g:form>
@@ -387,13 +382,11 @@
         <div id="tabs3"/>
     </div>
 </div>
-<g:javascript type="application/javascript">
-    $(document).ready(function(){
-        $('#submitButton').click(function() {
-            $('#spinner').show();
-        });
-    });
-    </g:javascript>
+<script type="text/javascript">
+
+
+
+</script>
 
 </body>
 </html>

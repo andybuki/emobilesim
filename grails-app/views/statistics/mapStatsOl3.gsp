@@ -651,7 +651,7 @@
                 animating = true;
                 now = new Date().getTime();
                 speed = 10;
-                startButton.textContent = 'Cancel Animation';
+                startButton.textContent = 'Beende Animation';
                 // hide geoMarker
                 for(i = 0; i< animationMarkers.length;i++){
                     animationMarkers[i].setStyle(null);
@@ -667,7 +667,7 @@
          */
         function stopAnimation(ended) {
             animating = false;
-            startButton.textContent = 'Start Animation';
+            startButton.textContent = 'Starte Animation';
 
             // if animation cancelled set the marker at the beginning
             for(i=0;i<allRoutesCoordsConsistent.length;i++){

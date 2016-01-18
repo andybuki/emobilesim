@@ -16,8 +16,6 @@
     <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
-    <g:javascript src="jquery.loading.js"/>
-
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 
     <link rel='stylesheet' href="${resource(dir: 'css', file: 'style.css')}" type='text/css' />
@@ -25,15 +23,27 @@
 
     <g:layoutHead/>
     <r:layoutResources />
+    <script>
+        function form_submit() {
+            var load = document.getElementById('loadbox');
+            document.form1.submit();
+            load.style.display = 'block';
+            load.src = '/emobilesim/images/loader.gif';
+        }
+
+    </script>
+
 </head>
 
 <body onload="${pageProperty(name:'body.onload')}">
+    <div id="loadbox" class="modalDialogNew">
+        <div>
+            <img id="loadbox2" src="/emobilesim/images/loader.gif"/>
+        </div>
+    </div>
 
 <div id="page">
-    <div id="spinner" class="spinner" style="display: none;">
-        <img src="${createLinkTo(dir:'images',   file:'spinner.gif')}"
-             alt="Spinner" />
-    </div>
+
     <g:render template="/layouts/topbarUncklick" />
 
     <div class="content">
