@@ -37,7 +37,6 @@
         <g:layoutBody />
     </div>
     <div class="beforeFooter"></div>
-
     <g:render template="/layouts/footer" />
 </div>
 </body>

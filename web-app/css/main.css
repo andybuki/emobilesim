@@ -2357,10 +2357,10 @@ fieldset {
 	max-width: 300px;
 	display: inline;
 	float:right;*/
-	min-width: 300px;
+	min-width: 600px;
 	vertical-align: top;
 	display: table-cell;
-	max-width: 300px;
+	max-width: 700px;
 }
 .layoutLeft {
 	min-width: 300px;
@@ -3851,7 +3851,7 @@ label.checkbox :disabled + span{
 
 .tableConfiguration {
 	border: 1px solid #bbb;
-	width: 670px;
+	width: 720px;
 	color:black;
 }
 
@@ -4706,24 +4706,30 @@ a {
 	left: 0;
 	background: rgba(0, 0, 0, 0.8);
 	z-index: 99999;
-	opacity:0.5;
-
+	opacity:0.9;
 }
+
 .modalDialogNew:target {
 	opacity:1;
 	pointer-events: auto;
 }
 .modalDialogNew > div {
-
 	position: relative;
-
-
 	background: #fff;
 	background: -moz-linear-gradient(#fff, #999);
 	background: -webkit-linear-gradient(#fff, #999);
 	background: -o-linear-gradient(#fff, #999);
 }
 
-#loadbox2 {
+.loadbox2 {
+	position: absolute;
+	left: 40%;
+	padding-top: 20%;
 
+}
+
+.buttonRemove {
+	position: relative;
+	top: 4px;
+	left: 10px;
 }

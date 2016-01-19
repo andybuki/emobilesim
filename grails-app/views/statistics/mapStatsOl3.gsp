@@ -566,18 +566,13 @@
         </g:each>
 
         <%--This part is for the animation--%>
-        var styles = {
+        var styles2 = {
             'route': new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     width: 6, color: [237, 212, 0, 0.8]
                 })
             }),
-            'icon': new ol.style.Style({
-                image: new ol.style.Icon({
-                    anchor: [0.5, 1],
-                    src: 'data/icon.png'
-                })
-            }),
+
             'geoMarker': new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 7,
@@ -588,6 +583,8 @@
                     })
                 })
             })
+
+
         };
         var allRoutesCoordsConsistent = allRouteCoords.slice(0);
         var animationMarkers = [];
@@ -632,7 +629,7 @@
                     else {
                         var currentPoint = new ol.geom.Point(routeCoords[index]);
                         var feature = new ol.Feature(currentPoint);
-                        vectorContext.drawFeature(feature, styles.geoMarker);
+                        vectorContext.drawFeature(feature, styles2.geoMarker);
                     }
                 }
                 if(! routeCoords){

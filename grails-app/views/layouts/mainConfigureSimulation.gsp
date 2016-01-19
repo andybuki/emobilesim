@@ -28,7 +28,7 @@
             var load = document.getElementById('loadbox');
             document.form1.submit();
             load.style.display = 'block';
-            load.src = '/emobilesim/images/loader.gif';
+            load.src = '/emobilesim/images/car.gif';
         }
 
     </script>
@@ -38,7 +38,7 @@
 <body onload="${pageProperty(name:'body.onload')}">
     <div id="loadbox" class="modalDialogNew">
         <div>
-            <img id="loadbox2" src="/emobilesim/images/loader.gif"/>
+            <img class="loadbox2" src="/emobilesim/images/car.gif"/>
         </div>
     </div>
 

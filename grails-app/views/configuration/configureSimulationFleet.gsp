@@ -87,7 +87,7 @@
             var load = document.getElementById('loadbox');
             document.form1.submit();
             load.style.display = 'block';
-            load.src = '/emobilesim/images/loader.gif';
+            load.src = '/emobilesim/images/car.gif';
         }
 
     </script>
@@ -326,7 +326,7 @@
                                                         <g:hiddenField name="fleetId" value="${addedFleet.id}"/>
                                                         <g:hiddenField name="carId" value="${car.id}"/>
 
-                                                        ${car.battery}%<span class="kW">(${(car.battery*car.carType.maxEnergyLoad)/100} kW)</span>
+                                                        ${car.battery}%<span class="kW">${Math.round((car.battery*car.carType.maxEnergyLoad)/100)} kW</span>
                                                         <g:submitToRemote class="addButton"
                                                                           url="[action: 'configureBatteryView']"
                                                                           update="updateMe"

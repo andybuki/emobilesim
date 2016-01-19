@@ -126,7 +126,7 @@
                             <g:form name="changeSelectionType" action="changeSelectionType">
                                 <g:hiddenField name="configurationStubId" value="$configurationStubId"/>
                                 <g:hiddenField name="manualSelection" value="${!manualSelection}"/>
-                                <g:submitButton name="changeToSavedStations" value="Create Stations On Map" />
+                                <g:submitButton name="changeToSavedStations" value="Ladestationen auf der Karte erstellen" />
                             </g:form>
                         </span>
 
@@ -135,7 +135,7 @@
                                 <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                 <g:select name="groupId" from="${availableFillingStationGroups}" optionKey="id"
                                           optionValue="${{"${g.message(code:'execution.playsimulation.electricstations')}: " +
-                                                  it.name+' ('+it.fillingStations?.size()+' Stations)'}}"
+                                                  it.name+' ('+it.fillingStations?.size()+' Stationen)'}}"
                                           onchange="addStations(this.value)"
                                           noSelection='["":"${g.message(code:'configuration.index.savedFillingStations')}"]'
                                 />
@@ -163,7 +163,7 @@
                                 <div class="leftCollectFleets">
                                     ${addedGroup.name} ( ${addedGroup.fillingStations.size()} <g:message code="configuration.executesim.fillingstations"/> )
                                 </div>
-                            <div>
+                            <div class="buttonRemove">
                                  <g:form controller="configuration" action="removeGroupFromConfiguration">
                                     <g:hiddenField name="configurationStubId" value="${configurationStubId}"/>
                                     <g:hiddenField name="groupId" value="${addedGroup.id}"/>
