@@ -87,7 +87,7 @@
             var load = document.getElementById('loadbox');
             document.form1.submit();
             load.style.display = 'block';
-            load.src = '/emobilesim/images/car.gif';
+            load.src = "${resource(dir: 'images', file: 'car.gif')}";
         }
 
     </script>
