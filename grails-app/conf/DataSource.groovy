@@ -20,8 +20,8 @@ environments {
             // dbCreate = "create-drop"
             driverClassName = "com.mysql.jdbc.Driver"
             url = "jdbc:mysql://localhost/emobilesim?autoReconnect=true"
-            username = "emobilesim"
-            password = "emobilesim"
+            username = "root"
+            password = "andy1979"
             pooled = true
             properties = {
                 maxActive = 200
@@ -31,6 +31,8 @@ environments {
                 minIdle = 5
                 maxIdle = 25
                 maxWait = 3153600000
+                interactive_timeout = 3153600000
+                wait_timeout = 3153600000
                 maxAge = 10 * 60000
                 testOnBorrow = true
                 testWhileIdle = true
@@ -176,6 +178,8 @@ environments {
                 timeBetweenEvictionRunsMillis = 1800000
                 numTestsPerEvictionRun = 3
                 minIdle = 5
+                interactive_timeout = 9999999
+                wait_timeout = 99999999
                 maxIdle = 25
                 maxWait = 3153600000
                 maxAge = 10 * 60000
@@ -184,7 +188,7 @@ environments {
                 testOnReturn = true
                 validationQuery = "SELECT 1"
                 testConnectionOnCheckout=true
-                //autoReconnect=true
+                autoReconnect=true
                 poolPreparedStatements=true
                 removeAbandoned=true
                 removeAbandonedTimeout=60

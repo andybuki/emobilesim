@@ -301,9 +301,18 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "postgres");
 
+            } /*
+            else {
+                params.put( "dbtype", "postgis");
+                params.put( "host", "localhost");
+                params.put( "port", 5433);
+                params.put( "schema", "public");
+                params.put( "database", "postgres");
+                params.put( "user", "postgres");
+                params.put( "passwd", "postgres");
             }
 
-            /*else {
+            else {
 
                 params.put( "dbtype", "postgis");
                 params.put( "host", "abomasus.de");
@@ -313,7 +322,8 @@ class RouteService {
                 params.put( "user", "postgres");
                 params.put( "passwd", "quirin154");
 
-            } */else {
+            }*/
+             else {
                 params.put( "dbtype", "postgis");
                 params.put( "host", "lns-2124.sb.dfki.de");
                 params.put( "port", 5432 );

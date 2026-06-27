@@ -618,6 +618,57 @@ class BootStrap {
         def norbertUser = helper.findOrCreatePersonInRole( company, "norbert.reithinger@dfki.de", "Norbert", "Reithinger", roleUser )
         helper.findOrCreatePersonInRole( company, "norbert.reithinger@dfki.de", "Norbert", "Reithinger", roleAdmin )
 
+        /*TEST USERS*/
+        def nutzer1 = helper.findOrCreatePersonInRole( company, "nutzer1@dfki.de", "Nutzer1", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer1@dfki.de", "Nutzer1", "DFKI", roleAdmin )
+
+        def nutzer2 = helper.findOrCreatePersonInRole( company, "nutzer2@dfki.de", "Nutzer2", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer2@dfki.de", "Nutzer2", "DFKI", roleAdmin )
+
+        def nutzer3 = helper.findOrCreatePersonInRole( company, "nutzer3@dfki.de", "Nutzer3", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer3@dfki.de", "Nutzer3", "DFKI", roleAdmin )
+
+        def nutzer4 = helper.findOrCreatePersonInRole( company, "nutzer4@dfki.de", "Nutzer4", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer4@dfki.de", "Nutzer4", "DFKI", roleAdmin )
+
+        def nutzer5 = helper.findOrCreatePersonInRole( company, "nutzer5@dfki.de", "Nutzer5", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer5@dfki.de", "Nutzer5", "DFKI", roleAdmin )
+
+        def nutzer6 = helper.findOrCreatePersonInRole( company, "nutzer6@dfki.de", "Nutzer6", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer6@dfki.de", "Nutzer6", "DFKI", roleAdmin )
+
+        def nutzer7 = helper.findOrCreatePersonInRole( company, "nutzer7@dfki.de", "Nutzer7", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer7@dfki.de", "Nutzer7", "DFKI", roleAdmin )
+
+        def nutzer8 = helper.findOrCreatePersonInRole( company, "nutzer8@dfki.de", "Nutzer8", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer8@dfki.de", "Nutzer8", "DFKI", roleAdmin )
+
+        def nutzer9 = helper.findOrCreatePersonInRole( company, "nutzer9@dfki.de", "Nutzer9", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer9@dfki.de", "Nutzer9", "DFKI", roleAdmin )
+
+        def nutzer10 = helper.findOrCreatePersonInRole( company, "nutzer10@dfki.de", "Nutzer10", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer10@dfki.de", "Nutzer10", "DFKI", roleAdmin )
+
+        def nutzer11 = helper.findOrCreatePersonInRole( company, "nutzer11@dfki.de", "Nutzer11", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer11@dfki.de", "Nutzer11", "DFKI", roleAdmin )
+
+        def nutzer12 = helper.findOrCreatePersonInRole( company, "nutzer12@dfki.de", "Nutzer12", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer12@dfki.de", "Nutzer12", "DFKI", roleAdmin )
+
+        def nutzer13 = helper.findOrCreatePersonInRole( company, "nutzer13@dfki.de", "Nutzer13", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer13@dfki.de", "Nutzer13", "DFKI", roleAdmin )
+
+        def nutzer14 = helper.findOrCreatePersonInRole( company, "nutzer14@dfki.de", "Nutzer14", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer14@dfki.de", "Nutzer14", "DFKI", roleAdmin )
+
+        def nutzer15 = helper.findOrCreatePersonInRole( company, "nutzer15@dfki.de", "Nutzer15", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer15@dfki.de", "Nutzer15", "DFKI", roleAdmin )
+
+        def nutzer16 = helper.findOrCreatePersonInRole( company, "nutzer16@dfki.de", "Nutzer16", "DFKI", roleUser )
+        helper.findOrCreatePersonInRole( company, "nutzer16@dfki.de", "Nutzer16", "DFKI", roleAdmin )
+
+        /*TEST USERS*/
+
         //helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleUser)
         //helper.findOrCreatePersonInRole( company, "glennsen@googlemail.com", "Glenn", "Schütze", roleAdmin)
 

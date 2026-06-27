@@ -56,9 +56,9 @@
 
 <div id="tab-container" class='tab-containerFirst'>
     <ul class='etabs1'>
-        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
-        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Autodaten</a></li>
-        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Ladestationen Daten</a></li>
+        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Data visualization</a></li>
+        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Auto data</a></li>
+        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Charging station data</a></li>
         <li class='tab' id="tabo4"><a  href="${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}"><g:message code="stats.stats.showonmap"/></a></li>
     </ul>
     <div class='panel-container'>
@@ -69,22 +69,22 @@
                             <div class="rowMiddleWithoutBorder22">
                                 <%--<g:message code= "stats.stats.statistics"/>  ${stats.simulationName}:--%>
 
-                                Ziele erreicht:  ${stats.successFullCars.size()} Autos
+                                Goals achieved:  ${stats.successFullCars.size()} cars
                                  <%--<g:message code="stats.stats.succsesfulcars"/>--%>,
 
                                 <span>
                                     <g:if test="${stats.wholeRoute.size()==0}"></g:if>
-                                    <g:if test="${stats.wholeRoute.size()!=0}">Distanz: ${Math.round(stats.wholeRoute.sum())?:0} km.
+                                    <g:if test="${stats.wholeRoute.size()!=0}">Distance: ${Math.round(stats.wholeRoute.sum())?:0} km.
                                         <span><%--<g:message code="stats.stats.wholeroute"/>--%>,</span>
                                     </g:if>
                                 </span>
 
-                                <span>Ladestationen: ${stats.fillingStations.size()} Stück </span>
+                                <span>Charging stations: ${stats.fillingStations.size()} </span>
                                 <span> <%--<g:message code="stats.stats.stations"/>--%>,</span>
 
                                 <span>
                                     <g:if test="${stats.wholePower.size()!=0}">
-                                        Energieverbrauch:
+                                        Power consumption:
                                         ${Math.round(stats.wholePower.sum())} kW.
                                         <span><%--<g:message code="stats.stats.energy"/>--%></span>
                                     </g:if>

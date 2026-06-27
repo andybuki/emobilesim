@@ -45,7 +45,6 @@ class CarAgent extends Agent {
     def ctx = ServletContextHolder.servletContext.getAttribute( GrailsApplicationAttributes.APPLICATION_CONTEXT )
     RouteService routeService = ctx.routeService
 
-
     private RoutingPlan routingPlan
 
     private ModelCar modelCar

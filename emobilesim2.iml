@@ -44,7 +44,7 @@
       <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Grails User Library (emobilesim2)">
@@ -58,7 +58,6 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.6.10.Final/hibernate-core-3.6.10.Final.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/antlr/antlr/2.7.7/antlr-2.7.7.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jdt/core/compiler/ecj/3.7.2/ecj-3.7.2.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/quartz-scheduler/quartz/2.2.1/quartz-2.2.1.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jfreechart/1.0.17/jfreechart-1.0.17.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.1/commons-collections-3.1.jar!/" />
@@ -74,8 +73,6 @@
           <root url="jar://$MAVEN_REPOSITORY$/com/miglayout/miglayout/3.7/miglayout-3.7-swing.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/javax/mail/javax.mail-api/1.5.1/javax.mail-api-1.5.1.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/3.2.3.RELEASE/spring-security-web-3.2.3.RELEASE.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/3.2.3.RELEASE/spring-security-core-3.2.3.RELEASE.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/javassist/javassist/3.17.1-GA/javassist-3.17.1-GA.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/com/vividsolutions/jts/1.13/jts-1.13.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/geotools/gt-api/12-SNAPSHOT/gt-api-12-SNAPSHOT.jar!/" />
@@ -118,7 +115,6 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/geotools/gt-graph/12-SNAPSHOT/gt-graph-12-SNAPSHOT.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/geotools/gt-main/12-SNAPSHOT/gt-main-12-SNAPSHOT.jar!/" />
-          <root url="file://$MODULE_DIR$/lib" />
           <root url="jar://$MAVEN_REPOSITORY$/net/sourceforge/jexcelapi/jxl/2.6.12/jxl-2.6.12.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/odftoolkit/odfdom-java/0.8.5/odfdom-java-0.8.5.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/com/lowagie/itext-rtf/2.1.7/itext-rtf-2.1.7.jar!/" />
@@ -135,12 +131,6 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/grails/grails-datastore-gorm-hibernate-core/3.1.4.RELEASE/grails-datastore-gorm-hibernate-core-3.1.4.RELEASE.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/grails/grails-datastore-gorm-hibernate/3.1.4.RELEASE/grails-datastore-gorm-hibernate-3.1.4.RELEASE.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/net/sf/ehcache/ehcache/2.9.0/ehcache-2.9.0.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/7.0.55/tomcat-embed-core-7.0.55.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-websocket/7.0.55/tomcat-embed-websocket-7.0.55.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-logging-log4j/7.0.55/tomcat-embed-logging-log4j-7.0.55.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-el/7.0.55/tomcat-embed-el-7.0.55.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-jasper/7.0.55/tomcat-embed-jasper-7.0.55.jar!/" />
-          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/tomcat-catalina-ant/7.0.55/tomcat-catalina-ant-7.0.55.jar!/" />
           <root url="jar://$USER_HOME$/lib/grails-2.4.3/lib/bouncycastle/bcprov-jdk14/jars/bcprov-jdk14-138.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/grails/grails-datastore-simple/3.1.4.RELEASE/grails-datastore-simple-3.1.4.RELEASE.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/grails/grails-datastore-gorm/3.1.4.RELEASE/grails-datastore-gorm-3.1.4.RELEASE.jar!/" />
@@ -177,6 +167,17 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/freemarker/freemarker/2.3.19/freemarker-2.3.19.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/optaplanner/optaplanner-benchmark/6.2.0.Final/optaplanner-benchmark-6.2.0.Final.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-web/3.2.7.RELEASE/spring-security-web-3.2.7.RELEASE.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/3.2.7.RELEASE/spring-security-core-3.2.7.RELEASE.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.0.22/tomcat-embed-core-8.0.22.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jdt/core/compiler/ecj/4.4.2/ecj-4.4.2.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-websocket/8.0.22/tomcat-embed-websocket-8.0.22.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-logging-juli/8.0.22/tomcat-embed-logging-juli-8.0.22.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-logging-log4j/8.0.22/tomcat-embed-logging-log4j-8.0.22.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-jasper/8.0.22/tomcat-embed-jasper-8.0.22.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-el/8.0.22/tomcat-embed-el-8.0.22.jar!/" />
+          <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>
         <JAVADOC>
           <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.21/jcommon-1.0.21-javadoc.jar!/" />
@@ -219,10 +220,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="emobilesim2-grailsPlugins" />
-    <orderEntry type="library" name="grails-2.4.3" level="application" />
-    <orderEntry type="library" name="grails-2.4.3" level="application" />
-    <orderEntry type="library" name="grails-2.4.3" level="application" />
-    <orderEntry type="library" name="grails-2.4.3" level="application" />
     <orderEntry type="library" name="grails-2.4.3" level="application" />
   </component>
   <component name="POM File Configuration" pomFile="" />

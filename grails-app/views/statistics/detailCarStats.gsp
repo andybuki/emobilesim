@@ -47,9 +47,9 @@
 
 <div id="tab-container" class='tab-container2'>
     <ul class='etabs1'>
-        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Datenvisualisierung</a></li>
-        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Statistische Fleet Daten</a></li>
-        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Statistische Ladestationen Daten</a></li>
+        <li class='tab' id="tabo1"><a  href="${createLink( controller: 'statistics', action: 'showStats', params: [ experimentRunResultId: experimentRunResultId ] )}">Data visualization</a></li>
+        <li class='tab' id="tabo2"><a  href="${createLink( controller: 'statistics', action: 'showFleetDetails', params: [ experimentRunResultId: experimentRunResultId ] )}">Auto data</a></li>
+        <li class='tab' id="tabo3"><a href="${createLink( controller: 'statistics', action: 'showGroupDetails', params: [ experimentRunResultId: experimentRunResultId ])}">Charging station data</a></li>
         <li class='tab' id="tabo4"><a  href="${createLink( controller: 'statistics', action: 'showStatisticsOnMap', params: [ experimentRunResultId: experimentRunResultId ] )}"><g:message code="stats.stats.showonmap"/></a></li>
     </ul>
     <div class='panel-container'>
@@ -60,21 +60,21 @@
                     <div class="rowUp2">
                         <div class="leftBoldBig1">
                             <div class="rowMiddleWithoutBorder22">
-                                Ziele erreicht: ${stats.successFullCars.size()} Autos
+                                Goals achieved: ${stats.successFullCars.size()} cars
                          <%--<g:message code="stats.stats.succsesfulcars"/>--%>,
-                        <span >Ziele nicht erreicht: ${stats.failedCars.size()} Autos   </span>
+                        <span >Goals not achieved: ${stats.failedCars.size()} Autos   </span>
                         <span> <%--<g:message code="stats.stats.failedcars"/>--%>,</span>
 
                         <g:if test="${stats.wholeRoute.size()==0}"></g:if>
                         <span><g:if test="${stats.wholeRoute.size()!=0}">
-                                Gesamte gefahrene Distanz:
+                                Total distance:
                                 ${Math.round(stats.wholeRoute.sum())} km.
                             <span><%--<g:message code="stats.stats.wholeroute"/>--%>,</span>
                         </g:if></span>
 
                         <span><g:if test="${stats.wholePower.size()==0}"></g:if>
                             <g:if test="${stats.wholePower.size()!=0}">
-                                Energieverbrauch:
+                                Power consumption:
                                 ${Math.round(stats.wholePower.sum())} kW.
                                 <span><%--<g:message code="stats.stats.energy"/>--%></span>
                             </g:if></span>
@@ -117,14 +117,15 @@
                                     <th class="statsTitle"><g:message code="stats.stats.detour"/></th>
                                     <th class="statsTitle"><g:message code="stats.stats.plannedtime"/></th>
                                     <th class="statsTitle"><g:message code="stats.stats.realdrivingtime"/></th>
-                                    <th class="statsTitle">Zeit für Umweg</th>
+                                    <th class="statsTitle">Time for detour</th>
                                     <th class="statsTitle"><g:message code="stats.stats.charge"/></th>
-                                    <th class="statsTitle"><g:message code="stats.stats.visitedstation"/></th>
-                                    <th class="statsTitle">Geladener Strom</th>
-                                    <th class="statsTitle">Verbrauchte Strom</th>
-                                    <th class="statsTitle">Visiten Ladestation</th>
-                                    <th class="statsTitle">Start&End Akkuzustand</th>
-                                    <th class="statsTitle">Gebliebene Distanz</th>
+
+                                    <%--<th class="statsTitle"><g:message code="stats.stats.visitedstation"/></th>--%>
+                                    <th class="statsTitle">Charged power</th>
+                                    <th class="statsTitle">Consumed power</th>
+                                    <%--<th class="statsTitle">Visited charging stations</th>--%>
+                                    <th class="statsTitle">Start&End battery status</th>
+                                    <th class="statsTitle">Remaining distance</th>
                                 </tr>
                                 </thead>
                                 <tbody class="statsUnten">
@@ -179,10 +180,10 @@
                                                 ${TimeCalculator.readableTime(carsNumber.timeForLoading)}
                                             </g:else>
                                         </td>
-                                        <td class="statsTitle1">-</td>
+                                        <%--<td class="statsTitle1">-</td>--%>
                                         <td class="statsTitle1">${Math.round(carsNumber.energyLoaded)}kW</td>
                                         <td class="statsTitle1">${Math.round(carsNumber.energyConsumed)}kW</td>
-                                        <td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>
+                                        <%--<td class="statsTitle1">${carsNumber.fillingStationsVisited}</td>--%>
                                         <td class="statsTitle1">${carsNumber.battery}% /${Math.round(carsNumber.endBattery*100)}% </td>
                                         <td class="statsTitle1">
                                             <g:if test="${carsNumber.carStatus =='MISSION_ACCOMBLISHED'}">-</g:if>
