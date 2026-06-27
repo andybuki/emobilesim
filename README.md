@@ -33,7 +33,7 @@ start the emobilesim aplication.
 
 ### 1.4 PostgreSQL database
 PostgreSQL database contains data about routes. It is possible to use local 
-database. In default mode the aplication uses PostgreSQL database on DFKI server.
+database. In default mode the aplication uses PostgreSQL database on server.
 To work with PostgreSQL install pgAdmin3 - (http://www.pgadmin.org/)
 Emobilesim can use different tables, for different regions. It is possible to add other regions
 using OpenStreetMaps.
@@ -49,8 +49,7 @@ plpgsql, postgis, postgis_tiger_geocoder, postgis_topology.
    (instructions in web site)
 
 -  import sql data to database. The table names should be berlin_2po_4pgr, wiesloch_2po_4pgr. Table names in PostgreSQL database and in programm need to be the same 
-- Go to ntw-b-120.dfki.net and get the registration or ask Jens Haupert.
-- Using Idea Intellij Pro click "Check out from version control" and than "GIT" The repository name is "git@ntw-b-120.dfki.net:USER_NAME/Emobilesim.git". After it save the repository local.
+-". After it save the repository local.
 In this case it is posible to work with repository to push/pull.
 - In RouteServe.groovy line 317 put your Postgres Data
 - Line 331 add your Postgress tables
@@ -64,11 +63,10 @@ After short registration it is possible to work local with Emobilesim
 
 ## 2 <a name="ch2"> Installation - server</a> 
 Installation on server contains some different steps compared to local installation.
-The server is available (http://emobilesim.dfki.de) or (http://lnv-89012.dfki.uni-sb.de:9090) 
-It is possible to get the sever under following command: ssh USER_NAME@lnv-89012.dfki.uni-sb.de
+
 The application is in tomcat.
 It is possible to stop and start tomcat with typical commands.
-I use probe to see the data in the frontend. (http://lnv-89012.dfki.uni-sb.de:9090/probe/). It is easy using frontend to add emobilesim to
+I use probe to see the data in the frontend. . It is easy using frontend to add emobilesim to
 web server.
 
 Using Idea Intellij Pro it is possible to create war. file with following command ```grails -Dgrails.env=lnv war```
